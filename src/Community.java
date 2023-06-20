@@ -22,6 +22,7 @@ public class Community{
             }
         }
         com_member = new ArrayList<>();
+        //ここでcom_calendersのコンストラクタを呼び出す
     }
     
     public void setOwner(String new_owner){
