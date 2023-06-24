@@ -7,6 +7,47 @@ public class Client {
 		
 	}
 	
+	//ログイン画面
+	void loginScreen() {
+		
+	}
+	
+	//新規登録画面
+	void registerScreen() {
+		
+	}
+	
+	//カレンダー画面
+	void calenderScreen() {
+		
+	}
+	
+	//日付画面
+	void dateScreen() {
+		
+	}
+	
+	//イベント画面
+	void eventScreen() {
+		
+	}
+	
+	//ユーザ画面
+	void userScreen() {
+		
+	}
+	
+	//パスワード変更画面
+	void passwordScreen() {
+		
+	}
+	
+	//コミュニティ管理画面
+	void communityScreen() {
+		
+	}
+	
+	
 	//月データ取得
 	int getMonthData(int yearmonth){
 		
@@ -103,7 +144,7 @@ public class Client {
 	}
 	
 	//コミュニティ管理
-	int administrationCommunity(String community_name) {
+	int managementCommunity(String community_name) {
 		
 		return 0;
 	}
