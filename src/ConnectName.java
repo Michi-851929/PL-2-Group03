@@ -1,4 +1,7 @@
 public class ConnectName{
-	static String name = "localhost";
-	static int port = 8000;
+	private ConnectName() {
+		
+	}
+	static final String name = "localhost";
+	static final int port = 8000;
 }
