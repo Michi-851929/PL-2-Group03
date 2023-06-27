@@ -64,7 +64,7 @@ class ConnectThread extends Thread{
 			String name = m.name;
 			String pass = m.pass;
 			String mac = (String) m.message;
-			ans.message = "test";//nullに関数
+			ans.message = "test";//testは関数に置き換え予定
 			ans.mode = 0;
 		}
 		oos.writeObject(ans);
