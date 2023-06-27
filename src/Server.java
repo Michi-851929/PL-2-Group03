@@ -23,6 +23,7 @@ public class Server extends JFrame implements ActionListener{
 	private JButton ui_jb_deban;
 	private JButton ui_jb_exit;
 	private TextArea ui_ta_log;
+	private JButton ui_jb_commit;
 	
 	public Server()
 	{
@@ -30,11 +31,14 @@ public class Server extends JFrame implements ActionListener{
 		setLayout(null);
 		
 		ui_panel_00 = new JPanel();
-		ui_panel_00.setBounds(0, 0, 600 - 15, 400 - 35);
 		ui_panel_00.setLayout(new BorderLayout());
+		ui_panel_00.setBounds(0, 0, 600 - 15, 400 - 35);
+		
 		ui_panel_01 = new JPanel();
-		ui_panel_01.setBounds(0, 0, 600 - 15, 400 - 35);
-		ui_panel_01.setLayout(new BorderLayout());
+		ui_panel_01.setLayout(null);
+		ui_panel_01.setBounds(50, 30, 500, 300);
+		ui_panel_01.setVisible(false);
+		ui_panel_00.add(ui_panel_01);
 		
 		JPanel ui_panel_02 = new JPanel();
 		ui_panel_02.setLayout(new GridLayout(4, 1, 0, 20));
@@ -54,7 +58,6 @@ public class Server extends JFrame implements ActionListener{
 		ui_panel_00.add(ui_panel_02, "West");
 		
 		JPanel ui_panel_03 = new JPanel();
-		//ui_panel_00.setSize(300, 400);
 		ui_panel_03.setLayout(new BorderLayout());
 		ui_ta_log = new TextArea("", 100, 100, TextArea.SCROLLBARS_VERTICAL_ONLY);
 		ui_panel_03.add(ui_ta_log);
@@ -63,11 +66,27 @@ public class Server extends JFrame implements ActionListener{
 		
 		
 		add(ui_panel_00);
-		add(ui_panel_01);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 400);
+		setResizable(false);
 		setVisible(true);
+	}
+	
+	public void newWindow(String text)
+	{
+		ui_jb_make.setEnabled(false);
+		ui_jb_ban.setEnabled(false);
+		ui_jb_deban.setEnabled(false);
+		ui_jb_exit.setEnabled(false);
+		ui_panel_01.removeAll();
+		
+		JPanel ui_panel_04 = new JPanel();
+		ui_panel_04.setLayout(new BorderLayout());
+		
+		ui_panel_01.add(ui_panel_04);
+		
+		ui_panel_01.setVisible(true);
 	}
 	
 	public void stdout(String text) {
@@ -131,6 +150,13 @@ public class Server extends JFrame implements ActionListener{
 	{
 		String s = ae.getActionCommand();
 		stdout(s);
+		switch(s) {
+		case "サーバ終了":
+			System.exit(0);
+		default:
+			newWindow(s);
+			break;
+		}
 	}
 	
 	public static void main(String[] args)
