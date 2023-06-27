@@ -5,7 +5,6 @@ public class ClientConnect{
 	String id = null;
 	String pass = null;
 	String message = null;
-	int status = 200;
 	
 	static String post(){
 		//送受信関数
