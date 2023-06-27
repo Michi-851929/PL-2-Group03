@@ -1,2 +1,5 @@
-public class ServerConect{
+public class ServerConnect{
+	ServerConnect(){
+		
+	}
 }
