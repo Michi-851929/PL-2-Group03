@@ -1,15 +1,41 @@
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.Calendar;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 
 
 public class ClientConnect{
 	String id = null;
 	String pass = null;
 	String message = null;
-	
-	static String post(){
-		//送受信関数
-		String get = null;
-		return get;
+	private static SSLContext sslc;
+	private static SSLSocketFactory sslf;
+	ClientConnect() throws Exception{
+		try {
+			sslc = SSLContext.getDefault();
+			sslf = sslc.getSocketFactory();
+		}catch(Exception e) {
+			throw e;
+		}
+	}
+	static Message post(int i,Object o) throws Exception{
+		try {
+			Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);
+			OutputStream os = s.getOutputStream();
+			InputStream is = s.getInputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(os);
+			ObjectInputStream ois = new ObjectInputStream(is);
+			oos.writeObject(o);
+			Message ans = (Message)ois.readObject();
+			return ans;
+		}catch(Exception e) {
+			throw e;
+		}
 	}
 	
 	int createAccount(String i,String p,String mac) {	
