@@ -23,7 +23,7 @@ public class ClientConnect{
 			throw e;
 		}
 	}
-	static Message post(int i,Object o) throws Exception{
+	static Message post(Object o) throws Exception{
 		try {
 			Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);
 			OutputStream os = s.getOutputStream();
@@ -39,10 +39,16 @@ public class ClientConnect{
 	}
 	
 	int createAccount(String i,String p,String mac) {	
-		//送受信
-		id = i;
-		pass = p;
-		return status;
+		Message tmp = new Message(i,p,0);
+		Message ans = null;
+		tmp.message = mac;
+		try {
+			ans = post(tmp);
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		return ans.mode;
 	}
 	
 	int login(String i,String p) {

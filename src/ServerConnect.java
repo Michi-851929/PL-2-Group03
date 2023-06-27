@@ -58,7 +58,7 @@ class ConnectThread extends Thread{
 		ObjectOutputStream oos = new ObjectOutputStream(os);
 		ObjectInputStream ois = new ObjectInputStream(is);
 		Message m = (Message) ois.readObject();
-		Message ans = new Message(m.name,m.pass,-1,null);
+		Message ans = new Message(m.name,m.pass,-1);
 		//ここから各自処理
 		if(m.mode == 0) {
 			String name = m.name;

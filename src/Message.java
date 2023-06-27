@@ -6,10 +6,9 @@ public class Message implements Serializable{
 	Object message;
 	String name;
 	String pass;
-	Message(String n,String p,int i,Object o){	
+	Message(String n,String p,int i){	
 		name = n;
 		pass = p;
 		mode = i;
-		message = o;
 	}
 }
