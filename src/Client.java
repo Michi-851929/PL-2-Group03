@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 public class Client extends JFrame {
 	private JTextField usernameField;
     private JPasswordField passwordField;
+    public JPanel contentPane;
 	
 	//コンストラクタ(ログイン画面)
 	public Client(){
@@ -31,7 +32,7 @@ public class Client extends JFrame {
         setSize(350, 400);
         setLocationRelativeTo(null);
         
-     // コンテンツパネルの設定
+        // コンテンツパネルの設定
         JPanel contentPane = new JPanel(new GridBagLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
