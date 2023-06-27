@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -31,8 +32,12 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	private JButton ui_jb_exit;
 	private TextArea ui_ta_log;
 	private JLabel ui_jl_command;
+	private JPanel ui_panel_07;
+	private CardLayout ui_clayout;
 	private JTextField ui_tf_text0;
 	private JTextField ui_tf_text1;
+	private JPasswordField ui_tf_text2;
+	private JLabel ui_jl_alert;
 	private JButton ui_jb_commit;
 	private JButton ui_jb_back;
 	
@@ -74,8 +79,6 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_panel_03.add(ui_ta_log);
 		ui_panel_00.add(ui_panel_03, "Center");
 		
-		
-		
 		add(ui_panel_00);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,26 +96,26 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_panel_01.removeAll();
 		
 		JPanel ui_panel_04 = new JPanel();
-		ui_panel_04.setLayout(new BorderLayout(64, 64));
+		ui_panel_04.setLayout(new BorderLayout(54, 54));
 		ui_jl_command = new JLabel(text, JLabel.CENTER);
 		ui_jl_command.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
 		ui_panel_04.add(ui_jl_command, "North");
 		JPanel ui_panel_05 = new JPanel();
-		ui_panel_05.setLayout(new GridLayout(2, 1));
+		ui_panel_05.setLayout(new GridLayout(3, 1));
 		ui_tf_text0 = new JTextField(24);
 		ui_tf_text0.setText("ユーザ名");
 		ui_tf_text0.setForeground(Color.LIGHT_GRAY);
 		ui_tf_text0.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent fe) {
-				String s0 = ui_tf_text0.getText();
-				if (s0.equals("ユーザ名")) {
+				String s = ui_tf_text0.getText();
+				if (s.equals("ユーザ名")) {
 					ui_tf_text0.setText("");
 					ui_tf_text0.setForeground(Color.BLACK);
 				}
 			}
 			public void focusLost(FocusEvent fe) {
-				String s0 = ui_tf_text0.getText();
-				if (s0.equals("")) {
+				String s = ui_tf_text0.getText();
+				if (s.equals("")) {
 					ui_tf_text0.setText("ユーザ名");
 					ui_tf_text0.setForeground(Color.LIGHT_GRAY);
 				}
@@ -121,43 +124,43 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_tf_text0.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
 		ui_panel_05.add(ui_tf_text0, "A");
 		if(text.equals("アカウント作成")) {
+			ui_panel_07 = new JPanel();
+			ui_clayout = new CardLayout();
+			ui_panel_07.setLayout(ui_clayout);
 			ui_tf_text1 = new JTextField(24);
 			ui_tf_text1.setText("パスワード");
 			ui_tf_text1.setForeground(Color.LIGHT_GRAY);
 			ui_tf_text1.addFocusListener(new FocusListener() {
 				public void focusGained(FocusEvent fe) {
-					String s1;
-					if(!(ui_tf_text1 instanceof JPasswordField)) {
-						s1 = ui_tf_text1.getText();
-						if (s1.equals("パスワード")) {
-							System.out.println("gained change");
-							JTextField ui_tf_x = ui_tf_text0;
-							ui_tf_text0 = ui_tf_x;
-							ui_panel_05.removeAll();
-							ui_panel_05.add(ui_tf_text0);
-							ui_tf_text1 = new JPasswordField(24);
-							ui_tf_text1.setText("");
-							ui_tf_text1.setForeground(Color.BLACK);
-							ui_tf_text1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
-							ui_panel_05.add(ui_tf_text1);
-							repaint();
-						}
-					}
+					ui_clayout.show(ui_panel_07, "text2");
+					ui_tf_text2.requestFocus();
 				}
 				public void focusLost(FocusEvent fe) {
-					System.out.println(ui_tf_text1 instanceof JPasswordField);
-					String s1 = new String(((JPasswordField)ui_tf_text1).getPassword());
-					System.out.println(s1);
-					if (s1.equals("")) {
-						System.out.println("lost change");
-						ui_tf_text1 = new JTextField("パスワド");
-						ui_tf_text1.setForeground(Color.LIGHT_GRAY);
-					}
+					
 				}
 			});
 			ui_tf_text1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
-			ui_panel_05.add(ui_tf_text1, "B");
+			ui_panel_07.add(ui_tf_text1, "text1");
+			ui_tf_text2 = new JPasswordField(24);
+			ui_tf_text2.addFocusListener(new FocusListener() {
+				public void focusGained(FocusEvent fe) {
+					
+				}
+				public void focusLost(FocusEvent fe) {
+					String s = new String(ui_tf_text2.getPassword());
+					if (s.equals("")) {
+						ui_clayout.show(ui_panel_07, "text1");
+					}
+				}
+			});
+			ui_tf_text2.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
+			ui_panel_07.add(ui_tf_text2, "text2");
+			ui_panel_05.add(ui_panel_07, "B");
 		}
+		ui_jl_alert = new JLabel("", JLabel.CENTER);
+		ui_jl_alert.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+		ui_jl_alert.setForeground(Color.RED);
+		ui_panel_05.add(ui_jl_alert, "C");
 		ui_panel_04.add(ui_panel_05, "Center");
 		JPanel ui_panel_06 = new JPanel();
 		ui_panel_06.setLayout(new GridLayout(2, 1, 10, 10));
@@ -238,26 +241,48 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		String s = ae.getActionCommand();
 		switch(s) {
 		case "作成":
-			createAccount(ui_tf_text0.getText(), new String(((JPasswordField)ui_tf_text1).getPassword()));
-			ui_jb_make.setEnabled(true);
-			ui_jb_ban.setEnabled(true);
-			ui_jb_deban.setEnabled(true);
-			ui_jb_exit.setEnabled(true);
-			ui_panel_01.setVisible(false);
+			String s0 = ui_tf_text0.getText();
+			String s1 = new String(ui_tf_text2.getPassword());
+			if(ui_tf_text0.getForeground() == Color.LIGHT_GRAY || s0.equals("") || s1.equals("")) {
+				ui_jl_alert.setText("ユーザ名とパスワードを入力してください");
+			}
+			else {
+				createAccount(s0, s1);
+				ui_jb_make.setEnabled(true);
+				ui_jb_ban.setEnabled(true);
+				ui_jb_deban.setEnabled(true);
+				ui_jb_exit.setEnabled(true);
+				ui_panel_01.setVisible(false);
+			}
+			break;
 		case "追放":
-			banAccount(ui_tf_text0.getText());
-			ui_jb_make.setEnabled(true);
-			ui_jb_ban.setEnabled(true);
-			ui_jb_deban.setEnabled(true);
-			ui_jb_exit.setEnabled(true);
-			ui_panel_01.setVisible(false);
+			String s2 = ui_tf_text0.getText();
+			if(ui_tf_text0.getForeground() == Color.LIGHT_GRAY || s2.equals("")) {
+				ui_jl_alert.setText("ユーザ名を入力してください");
+			}
+			else {
+				banAccount(s2);
+				ui_jb_make.setEnabled(true);
+				ui_jb_ban.setEnabled(true);
+				ui_jb_deban.setEnabled(true);
+				ui_jb_exit.setEnabled(true);
+				ui_panel_01.setVisible(false);
+			}
+			break;
 		case "復活":
-			debanAccount(ui_tf_text0.getText());
-			ui_jb_make.setEnabled(true);
-			ui_jb_ban.setEnabled(true);
-			ui_jb_deban.setEnabled(true);
-			ui_jb_exit.setEnabled(true);
-			ui_panel_01.setVisible(false);
+			String s3 = ui_tf_text0.getText();
+			if(ui_tf_text0.getForeground() == Color.LIGHT_GRAY || s3.equals("")) {
+				ui_jl_alert.setText("ユーザ名を入力してください");
+			}
+			else {
+				debanAccount(s3);
+				ui_jb_make.setEnabled(true);
+				ui_jb_ban.setEnabled(true);
+				ui_jb_deban.setEnabled(true);
+				ui_jb_exit.setEnabled(true);
+				ui_panel_01.setVisible(false);
+			}
+			break;
 		case "戻る":
 			ui_jb_make.setEnabled(true);
 			ui_jb_ban.setEnabled(true);
@@ -274,36 +299,11 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	}
 	
 	public void focusGained(FocusEvent fe) {
-		String s0 = ui_tf_text0.getText();
-		String s1;
-		if(ui_tf_text1 instanceof JPasswordField) {
-			s1 = new String(((JPasswordField)ui_tf_text1).getPassword());
-		}
-		else {
-			s1 = ui_tf_text1.getText();
-		}
-		if (s0.equals("ユーザ名")) {
-			ui_tf_text0.setText("");
-			ui_tf_text0.setForeground(Color.BLACK);
-		}
-		if (s1.equals("パスワード")) {
-			System.out.println("aaaaa");
-			ui_tf_text1 = new JPasswordField();
-			ui_tf_text1.setForeground(Color.BLACK);
-		}
+		
 	}
 
 	public void focusLost(FocusEvent fe) {
-		String s0 = ui_tf_text0.getText();
-		String s1 = new String(((JPasswordField)ui_tf_text1).getPassword());
-		if (s0.equals("")) {
-			ui_tf_text0.setText("ユーザ名");
-			ui_tf_text0.setForeground(Color.LIGHT_GRAY);
-		}
-		if (s1.equals("")) {
-			ui_tf_text1 = new JTextField("パスワード");
-			ui_tf_text1.setForeground(Color.LIGHT_GRAY);
-		}
+		
 	}
 	
 	public static void main(String[] args)
