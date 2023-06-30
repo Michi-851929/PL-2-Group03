@@ -86,6 +86,20 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		setSize(600, 400);
 		setResizable(false);
 		setVisible(true);
+		
+		/*
+		 * 
+		 * ↓この間にフィールドのリストを初期化する処理を入れる↓
+		 * 
+		 */
+		
+		
+		
+		/*
+		 * 
+		 * ↑この間にフィールドのリストを初期化する処理を入れる↑
+		 * 
+		 */
 	}
 	
 	public void newWindow(String text)
@@ -186,6 +200,12 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_ta_log.append("\n[" + calendar.getTime() + "] " + text);
 	}
 	
+	/*
+	 * 
+	 * ↓この間のメソッドを書いてね↓
+	 * 
+	 */
+	
 	public void banAccount(String user_name)
 	{
 		
@@ -213,7 +233,8 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	
 	public Community[] searchCommunity(String search_word)
 	{
-		Community[] result_list = new Community[10];
+		//↓は信用しないでね リストの使い方は参考にしてね
+		Community[] result_list = (Community[])(community_list.toArray());
 		return result_list;
 	}
 	
@@ -229,7 +250,8 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	
 	public ClientEvent[] searchEvent(String search_word)
 	{
-		ClientEvent[] result_list = new ClientEvent[10];
+		//↓は信用しないでね リストの使い方は参考にしてね
+		ClientEvent[] result_list = (ClientEvent[])(event_list.toArray());
 		return result_list;
 	}
 	
@@ -237,6 +259,12 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	{
 		
 	}
+	
+	/*
+	 * 
+	 * ↑この間のメソッドを書いてね↑
+	 * 
+	 */
 	
 	public void actionPerformed(ActionEvent ae)
 	{
@@ -312,6 +340,19 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	public static void main(String[] args)
 	{
 		new Server();
+		/*
+		 * 
+		 * ↓この間に通信を始める処理を書いてね↓
+		 * 
+		 */
+		
+		
+		
+		/*
+		 * 
+		 * ↑この間に通信を始める処理を書いてね↑
+		 * 
+		 */
 	}
 
 }
