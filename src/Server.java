@@ -52,7 +52,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		
 		ui_panel_01 = new JPanel();
 		ui_panel_01.setLayout(new FlowLayout());
-		ui_panel_01.setBounds(50, 30, 500, 300);
+		ui_panel_01.setBounds(25, 30, 550, 300);
 		ui_panel_01.setVisible(false);
 		ui_panel_00.add(ui_panel_01);
 		
@@ -75,6 +75,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		JPanel ui_panel_03 = new JPanel();
 		ui_panel_03.setLayout(new BorderLayout());
 		ui_ta_log = new TextArea("", 100, 100, TextArea.SCROLLBARS_VERTICAL_ONLY);
+		ui_ta_log.setText("Server Logs");
 		ui_ta_log.setEditable(false);
 		ui_panel_03.add(ui_ta_log);
 		ui_panel_00.add(ui_panel_03, "Center");
@@ -96,13 +97,14 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_panel_01.removeAll();
 		
 		JPanel ui_panel_04 = new JPanel();
-		ui_panel_04.setLayout(new BorderLayout(54, 54));
+		ui_panel_04.setLayout(new BorderLayout(32, 32));
+		ui_panel_04.setSize(500, 300);
 		ui_jl_command = new JLabel(text, JLabel.CENTER);
 		ui_jl_command.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
 		ui_panel_04.add(ui_jl_command, "North");
 		JPanel ui_panel_05 = new JPanel();
 		ui_panel_05.setLayout(new GridLayout(3, 1));
-		ui_tf_text0 = new JTextField(24);
+		ui_tf_text0 = new JTextField(16);
 		ui_tf_text0.setText("ユーザ名");
 		ui_tf_text0.setForeground(Color.LIGHT_GRAY);
 		ui_tf_text0.addFocusListener(new FocusListener() {
@@ -127,7 +129,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 			ui_panel_07 = new JPanel();
 			ui_clayout = new CardLayout();
 			ui_panel_07.setLayout(ui_clayout);
-			ui_tf_text1 = new JTextField(24);
+			ui_tf_text1 = new JTextField(16);
 			ui_tf_text1.setText("パスワード");
 			ui_tf_text1.setForeground(Color.LIGHT_GRAY);
 			ui_tf_text1.addFocusListener(new FocusListener() {
@@ -181,7 +183,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	
 	public void stdout(String text) {
 		Calendar calendar = Calendar.getInstance();
-		ui_ta_log.append("[" + calendar.getTime() + "] " + text + "\n");
+		ui_ta_log.append("\n[" + calendar.getTime() + "] " + text);
 	}
 	
 	public void banAccount(String user_name)
@@ -239,6 +241,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	public void actionPerformed(ActionEvent ae)
 	{
 		String s = ae.getActionCommand();
+		stdout(s);
 		switch(s) {
 		case "作成":
 			String s0 = ui_tf_text0.getText();
