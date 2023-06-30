@@ -52,7 +52,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		
 		ui_panel_01 = new JPanel();
 		ui_panel_01.setLayout(new FlowLayout());
-		ui_panel_01.setBounds(25, 30, 550, 300);
+		ui_panel_01.setBounds(50, 30, 500, 300);
 		ui_panel_01.setVisible(false);
 		ui_panel_00.add(ui_panel_01);
 		
@@ -104,7 +104,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_panel_04.add(ui_jl_command, "North");
 		JPanel ui_panel_05 = new JPanel();
 		ui_panel_05.setLayout(new GridLayout(3, 1));
-		ui_tf_text0 = new JTextField(16);
+		ui_tf_text0 = new JTextField(20);
 		ui_tf_text0.setText("ユーザ名");
 		ui_tf_text0.setForeground(Color.LIGHT_GRAY);
 		ui_tf_text0.addFocusListener(new FocusListener() {
@@ -129,7 +129,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 			ui_panel_07 = new JPanel();
 			ui_clayout = new CardLayout();
 			ui_panel_07.setLayout(ui_clayout);
-			ui_tf_text1 = new JTextField(16);
+			ui_tf_text1 = new JTextField(20);
 			ui_tf_text1.setText("パスワード");
 			ui_tf_text1.setForeground(Color.LIGHT_GRAY);
 			ui_tf_text1.addFocusListener(new FocusListener() {
@@ -143,7 +143,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 			});
 			ui_tf_text1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
 			ui_panel_07.add(ui_tf_text1, "text1");
-			ui_tf_text2 = new JPasswordField(24);
+			ui_tf_text2 = new JPasswordField(20);
 			ui_tf_text2.addFocusListener(new FocusListener() {
 				public void focusGained(FocusEvent fe) {
 					
