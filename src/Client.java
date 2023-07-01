@@ -1,12 +1,15 @@
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +26,8 @@ public class Client extends JFrame {
 	private JTextField usernameField;
     private JPasswordField passwordField;
     public JPanel contentPane;
+    
+    private JButton[] ui_jb_calendar = new JButton[7 * 5];
 	
 	//コンストラクタ(ログイン画面)
 	public Client(){
@@ -86,6 +91,7 @@ public class Client extends JFrame {
                 String password = new String(passwordField.getPassword());
                 // ログイン処理を行う
                 // ここではダミーの処理として、入力内容を表示するだけとします
+                calendarScreen();
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
@@ -112,8 +118,121 @@ public class Client extends JFrame {
 	}
 	
 	//カレンダー画面
-	void calenderScreen() {
+	void calendarScreen() {
+		//玖津見が書いています
 		
+		//全体
+		JPanel ui_panel_00 = new JPanel();
+		ui_panel_00.setLayout(new FlowLayout());
+		ui_panel_00.setSize(350, 400);
+		/*
+		//ヘッダ
+		JPanel ui_panel_01 = new JPanel();
+		ui_panel_01.setLayout(null);
+		ui_panel_01.setBounds(0, 0, 350, 50);
+		
+		ui_panel_00.add(ui_panel_01);
+		
+		//ボタン月ボタン
+		JPanel ui_panel_02 = new JPanel();
+		ui_panel_02.setLayout(new FlowLayout());
+		ui_panel_02.setBounds(0, 0, 350, 50);
+		
+		ui_panel_01.add(ui_panel_02);
+		*/
+		//カレンダー
+		JPanel ui_panel_03 = new JPanel();
+		ui_panel_03.setLayout(new GridLayout(5, 7, 4, 4));
+		ui_panel_03.setBounds(0, 0, 350, 400);
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 7; j++) {
+				ui_jb_calendar[5 * i + j] = new JButton();
+				ui_jb_calendar[5 * i + j].setText((5 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(5 * i + j + 1));
+				ui_jb_calendar[5 * i + j].setIcon(getDateIcon(true, 1 + 5 + i + j, j, 3, "成果報告会", true, "A会", false));
+				ui_jb_calendar[5 * i + j].setMargin(new Insets(-3, -3, -3, -20));
+				ui_jb_calendar[5 * i + j].setBorderPainted(false);
+				ui_jb_calendar[5 * i + j].addActionListener(null);
+				ui_panel_03.add(ui_jb_calendar[5 * i + j]);
+			}
+		}
+		
+		ui_panel_00.add(ui_panel_03);
+		/*
+		//カレンダー・ユーザ切り替え
+		JPanel ui_panel_04 = new JPanel();
+		ui_panel_04.setLayout(new GridLayout(1, 2));
+		ui_panel_00.setBounds(0, 350, 350, 50);
+		ui_panel_00.add(ui_panel_04);
+		*/
+		setContentPane(ui_panel_00);
+	}
+	
+	private ImageIcon getDateIcon(boolean this_month, int date, int weekday, int event_number, String event1_name, boolean event1_preferred, String event2_name, boolean event2_preferred)
+	{
+		//玖津見が書いています
+		int icon_width = 42;
+		int icon_height = 65;
+		int r = 8;
+		Calendar calendar = Calendar.getInstance();
+		Image img = createImage(icon_width, icon_height);
+		System.out.println(img);
+		Graphics g = img.getGraphics();
+		
+		if(Calendar.DATE == date) { //今月じゃない
+			g.setColor(new Color(217, 217, 217));
+		}
+		else if(icon_width == 3) { //今日
+			g.setColor(new Color(255, 192, 0));
+		}
+		else if(weekday == 0) { //日曜
+			g.setColor(new Color(255, 179, 210));
+		}
+		else if(weekday == 6) { //土曜
+			g.setColor(new Color(197, 226, 255));
+		}
+		else { //平日
+			g.setColor(new Color(255, 255, 255));
+		}
+		g.fillOval(0, 0, r, r);
+		g.fillOval(icon_width - r - 1, 0, r, r);
+		g.fillOval(0, icon_height - r - 1, r, r);
+		g.fillOval(icon_width - r - 1, icon_height - r - 1, r, r);
+		g.fillRect(0, r / 2, icon_width, icon_height - r);
+		g.fillRect(r / 2, 0, icon_width - r, icon_height);
+		
+		if(event1_preferred) { //いいね
+			g.setColor(new Color(0, 176, 240));
+		}
+		else{ //非いいね
+			g.setColor(new Color(242, 242, 242));
+		}
+		icon_width = icon_width - 6;
+		icon_height = icon_height / 3 - 4;
+		int offset = 22;
+		r = 4;
+		g.fillOval(3 + 0, offset + 0, r, r);
+		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
+		g.fillOval(3 + 0, offset + icon_height - r - 1, r, r);
+		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
+		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
+		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		
+		if(event2_preferred) { //いいね
+			g.setColor(new Color(0, 176, 240));
+		}
+		else{ //非いいね
+			g.setColor(new Color(242, 242, 242));
+		}
+		offset = 41;
+		g.fillOval(3 + 0, offset + 0, r, r);
+		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
+		g.fillOval(3 + 0, offset + icon_height - r - 1, r, r);
+		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
+		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
+		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		
+		ImageIcon icon = new ImageIcon(img);
+		return icon;
 	}
 	
 	//日付画面
@@ -258,6 +377,7 @@ public class Client extends JFrame {
 	
 	
 	public static void main(String[] args) {
+		System.out.println("aaaa");
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 Client loginUI = new Client();

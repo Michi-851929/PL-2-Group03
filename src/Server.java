@@ -241,10 +241,12 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		String new_text = String.format("%c%c", text.charAt(5), text.charAt(6));
 		ui_jb_commit = new JButton(new_text);
 		ui_jb_commit.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 16));
+		ui_jb_commit.setBackground(Color.WHITE);
 		ui_jb_commit.addActionListener(this);
 		ui_panel_06.add(ui_jb_commit);
 		ui_jb_back = new JButton("戻る");
 		ui_jb_back.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 16));
+		ui_jb_back.setBackground(Color.WHITE);
 		ui_jb_back.addActionListener(this);
 		ui_panel_06.add(ui_jb_back);
 		ui_panel_04.add(ui_panel_06, "South");
