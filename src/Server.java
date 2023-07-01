@@ -239,11 +239,6 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_ta_log.append("\n[" + calendar.getTime() + "] " + text);
 	}
 	
-	/*
-	 * 
-	 * ↓この間のメソッドを書いてね↓
-	 * 
-	 */
 	public int isCreatableAccount(String user_name, String mac_adress)
 	{
 		int is_creatable = DUPLICATE_NOT;
@@ -267,7 +262,6 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 				}
 			}
 		}
-		stdout(Integer.toString(is_creatable));
 		return is_creatable;
 	}
 	
@@ -317,6 +311,12 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		}
 		return is_successed;
 	}
+
+	/*
+	 * 
+	 * ↓この間のメソッドを書いてね↓
+	 * 
+	 */
 	
 	public void logIn(String user_name, String password)
 	{
@@ -463,11 +463,11 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	}
 	
 	public void focusGained(FocusEvent fe) {
-		
+		//いじらない
 	}
 
 	public void focusLost(FocusEvent fe) {
-		
+		//いじらない
 	}
 	
 	public static void main(String[] args)
