@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class Account {
 	private String name;
 	private String password;
+	private String mac_adress;
+	private boolean is_banned;
 	private ArrayList<Community> community_involved = new ArrayList<>();
 	private ArrayList<ClientEvent> event_going = new ArrayList<>();
 	private ArrayList<ClientEvent> event_preferred = new ArrayList<>();
@@ -12,16 +14,42 @@ public class Account {
 	public final static int PASS_FALSE = 0;
 	
 	//コンストラクタ
-	public Account(String name, String password)
+	public Account(String name, String password, String mac_adress)
 	{
 		this.name = name;
 		this.password = password;
+		this.mac_adress = mac_adress;
+		is_banned = false;
 	}
 	
 	//ユーザ名取得
 	public String getUserName()
 	{
 		return name;
+	}
+	
+	//MACアドレス取得
+	public String getMacAdress()
+	{
+		return mac_adress;
+	}
+	
+	//アカウント追放
+	public void banAccount()
+	{
+		is_banned = true;
+	}
+	
+	//アカウント復活
+	public void permitAccount()
+	{
+		is_banned = false;
+	}
+	
+	//BAN状態取得
+	public boolean isBanned()
+	{
+		return is_banned;
 	}
 	
 	//パスワードを認証

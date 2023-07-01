@@ -9,8 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +24,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 public class Server extends JFrame implements ActionListener, FocusListener{
 	private ArrayList<Account> account_list = new ArrayList<>();
@@ -43,6 +53,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	
 	public Server()
 	{
+		//ウィンドウの生成
 		super("Communi+I Server");
 		setLayout(null);
 		
@@ -87,19 +98,43 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		setResizable(false);
 		setVisible(true);
 		
-		/*
-		 * 
-		 * ↓この間にフィールドのリストを初期化する処理を入れる↓
-		 * 
-		 */
 		
+		//データベースの初期化
+		Gson gson = new Gson();
+		BufferedReader br0 = null;
+		BufferedReader br1 = null;
+		BufferedReader br2 = null;
+		String account_datastr = "";
+		String community_datastr = "";
+		String event_datastr = "";
+		java.lang.reflect.Type list_type0 = new TypeToken<List<Account>>(){}.getType();
+		java.lang.reflect.Type list_type1 = new TypeToken<List<Community>>(){}.getType();
+		java.lang.reflect.Type list_type2 = new TypeToken<List<ClientEvent>>(){}.getType();
+		try {
+			br0 = new BufferedReader(new FileReader("src/user_accounts_database.json"));
+			br1 = new BufferedReader(new FileReader("src/community_database.json"));
+			br2 = new BufferedReader(new FileReader("src/event_database.json"));
+			String s;
+			while((s = br0.readLine()) != null) {
+				account_datastr += s;
+			}
+			while((s = br1.readLine()) != null) {
+				community_datastr += s;
+			}
+			while((s = br2.readLine()) != null) {
+				event_datastr += s;
+			}
+		} 
+		catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		}
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		account_list = gson.fromJson(account_datastr, list_type0);
+		community_list = gson.fromJson(community_datastr, list_type1);
+		event_list = gson.fromJson(event_datastr, list_type2);
 		
-		
-		/*
-		 * 
-		 * ↑この間にフィールドのリストを初期化する処理を入れる↑
-		 * 
-		 */
 	}
 	
 	public void newWindow(String text)
@@ -206,19 +241,65 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	 * 
 	 */
 	
-	public void banAccount(String user_name)
+	public void createAccount(String user_name, String password, String mac_adress)
 	{
-		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter("src/user_accounts_database.json");
+			Account new_account = new Account(user_name, password, mac_adress);
+			account_list.add(new_account);
+			fw.write(gson.toJson(account_list));
+			stdout("createAccount: " + user_name);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	public void debanAccount(String user_name)
+	public boolean isBanned(String user_name)
 	{
-		
+		boolean is_banned = false;
+		for(Account account : account_list) {
+			if(account.isBanned()) {
+				is_banned = true;
+				break;
+			}
+		}
+		return is_banned;
 	}
 	
-	public void createAccount(String user_name, String password)
+	public boolean banAccount(String user_name)
 	{
-		
+		boolean is_successed = false;
+		for(Account account : account_list) {
+			if(account.getUserName().equals(user_name)) {
+				account.banAccount();
+				is_successed = true;
+				break;
+			}
+		}
+		return is_successed;
+	}
+	
+	public boolean permitAccount(String user_name)
+	{
+		boolean is_successed = false;
+		for(Account account : account_list) {
+			if(account.getUserName().equals(user_name)) {
+				account.permitAccount();
+				is_successed = true;
+				break;
+			}
+		}
+		return is_successed;
 	}
 	
 	public void logIn(String user_name, String password)
@@ -269,16 +350,27 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	public void actionPerformed(ActionEvent ae)
 	{
 		String s = ae.getActionCommand();
-		stdout(s);
 		switch(s) {
 		case "作成":
 			String s0 = ui_tf_text0.getText();
 			String s1 = new String(ui_tf_text2.getPassword());
 			if(ui_tf_text0.getForeground() == Color.LIGHT_GRAY || s0.equals("") || s1.equals("")) {
 				ui_jl_alert.setText("ユーザ名とパスワードを入力してください");
+				break;
+			}
+			boolean name_duplicated = false;
+			for(Account account : account_list) {
+				if(account.getUserName().equals(s0)) {
+					name_duplicated = true;
+					break;
+				}
+			}
+			if(name_duplicated) {
+				ui_jl_alert.setText("別のユーザ名を入力してください");
+				break;
 			}
 			else {
-				createAccount(s0, s1);
+				createAccount(s0, s1, "");
 				ui_jb_make.setEnabled(true);
 				ui_jb_ban.setEnabled(true);
 				ui_jb_deban.setEnabled(true);
@@ -291,13 +383,15 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 			if(ui_tf_text0.getForeground() == Color.LIGHT_GRAY || s2.equals("")) {
 				ui_jl_alert.setText("ユーザ名を入力してください");
 			}
-			else {
-				banAccount(s2);
+			if(banAccount(s2)) {
 				ui_jb_make.setEnabled(true);
 				ui_jb_ban.setEnabled(true);
 				ui_jb_deban.setEnabled(true);
 				ui_jb_exit.setEnabled(true);
 				ui_panel_01.setVisible(false);
+			}
+			else {
+				ui_jl_alert.setText("ユーザ名が正しくありません");
 			}
 			break;
 		case "復活":
@@ -305,13 +399,15 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 			if(ui_tf_text0.getForeground() == Color.LIGHT_GRAY || s3.equals("")) {
 				ui_jl_alert.setText("ユーザ名を入力してください");
 			}
-			else {
-				debanAccount(s3);
+			if(permitAccount(s3)) {
 				ui_jb_make.setEnabled(true);
 				ui_jb_ban.setEnabled(true);
 				ui_jb_deban.setEnabled(true);
 				ui_jb_exit.setEnabled(true);
 				ui_panel_01.setVisible(false);
+			}
+			else {
+				ui_jl_alert.setText("ユーザ名が正しくありません");
 			}
 			break;
 		case "戻る":
@@ -322,6 +418,30 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 			ui_panel_01.setVisible(false);
 			break;
 		case "サーバ終了":
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			FileWriter fw0 = null;
+			FileWriter fw1 = null;
+			FileWriter fw2 = null;
+			try {
+				fw0 = new FileWriter("src/user_accounts_database.json");
+				fw1 = new FileWriter("src/community_database.json");
+				fw2 = new FileWriter("src/event_database.json");
+				fw0.write(gson.toJson(account_list));
+				fw1.write(gson.toJson(community_list));
+				fw2.write(gson.toJson(event_list));
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					fw0.close();
+					fw1.close();
+					fw2.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			System.exit(0);
 		default:
 			newWindow(s);

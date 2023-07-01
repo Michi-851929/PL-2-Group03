@@ -1,0 +1,29 @@
+[
+  {
+    "name": "ADMIN",
+    "password": "meikyoushizen",
+    "mac_adress": "",
+    "is_banned": false,
+    "community_involved": [],
+    "event_going": [],
+    "event_preferred": []
+  },
+  {
+    "name": "a",
+    "password": "aa",
+    "mac_adress": "",
+    "is_banned": false,
+    "community_involved": [],
+    "event_going": [],
+    "event_preferred": []
+  },
+  {
+    "name": "aa",
+    "password": "aaa",
+    "mac_adress": "",
+    "is_banned": false,
+    "community_involved": [],
+    "event_going": [],
+    "event_preferred": []
+  }
+]
