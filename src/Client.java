@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -25,16 +26,17 @@ import javax.swing.SwingUtilities;
 public class Client extends JFrame {
 	private JTextField usernameField;
     private JPasswordField passwordField;
-    public JPanel contentPane;
+    public JPanel contentPane = new JPanel();
     
     private JButton[] ui_jb_calendar = new JButton[7 * 5];
 	
 	//コンストラクタ(ログイン画面)
 	public Client(){
 		// ウィンドウの設定
-        setTitle("ログイン");
+        super("ログイン");
+        contentPane = new JPanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(350, 400);
+        setSize(400, 500);
         setLocationRelativeTo(null);
         
         // コンテンツパネルの設定
@@ -103,7 +105,8 @@ public class Client extends JFrame {
             }
         });
 
-        setContentPane(contentPane);
+        this.contentPane = contentPane;
+		add(this.contentPane);
 		
 	}
 	
@@ -120,30 +123,34 @@ public class Client extends JFrame {
 	//カレンダー画面
 	void calendarScreen() {
 		//玖津見が書いています
-		
+		contentPane.removeAll();
+		contentPane.setLayout(new FlowLayout());
 		//全体
 		JPanel ui_panel_00 = new JPanel();
-		ui_panel_00.setLayout(new FlowLayout());
-		ui_panel_00.setSize(350, 400);
-		/*
+		ui_panel_00.setLayout(new BorderLayout());
+		ui_panel_00.setSize(400, 500);
+		
 		//ヘッダ
 		JPanel ui_panel_01 = new JPanel();
-		ui_panel_01.setLayout(null);
-		ui_panel_01.setBounds(0, 0, 350, 50);
+		ui_panel_01.setLayout(new FlowLayout());
+		ui_panel_01.setBounds(0, 0, 400, 50);
 		
-		ui_panel_00.add(ui_panel_01);
+		ui_panel_00.add(ui_panel_01, "North");
 		
 		//ボタン月ボタン
 		JPanel ui_panel_02 = new JPanel();
 		ui_panel_02.setLayout(new FlowLayout());
-		ui_panel_02.setBounds(0, 0, 350, 50);
+		ui_panel_02.setBounds(0, 0, 400, 50);
+		JLabel ui_jl_month = new JLabel("2023/07");
+		ui_jl_month.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
+		ui_panel_02.add(ui_jl_month);
 		
 		ui_panel_01.add(ui_panel_02);
-		*/
+		
 		//カレンダー
 		JPanel ui_panel_03 = new JPanel();
 		ui_panel_03.setLayout(new GridLayout(5, 7, 4, 4));
-		ui_panel_03.setBounds(0, 0, 350, 400);
+		ui_panel_03.setBounds(0, 50, 400, 450);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[5 * i + j] = new JButton();
@@ -156,7 +163,7 @@ public class Client extends JFrame {
 			}
 		}
 		
-		ui_panel_00.add(ui_panel_03);
+		ui_panel_00.add(ui_panel_03,"Center");
 		/*
 		//カレンダー・ユーザ切り替え
 		JPanel ui_panel_04 = new JPanel();
@@ -164,14 +171,16 @@ public class Client extends JFrame {
 		ui_panel_00.setBounds(0, 350, 350, 50);
 		ui_panel_00.add(ui_panel_04);
 		*/
-		setContentPane(ui_panel_00);
+		contentPane.add(ui_panel_00);
+		setVisible(true);
+		repaint();
 	}
 	
 	private ImageIcon getDateIcon(boolean this_month, int date, int weekday, int event_number, String event1_name, boolean event1_preferred, String event2_name, boolean event2_preferred)
 	{
 		//玖津見が書いています
-		int icon_width = 42;
-		int icon_height = 65;
+		int icon_width = 50;
+		int icon_height = 60;
 		int r = 8;
 		Calendar calendar = Calendar.getInstance();
 		Image img = createImage(icon_width, icon_height);
@@ -377,7 +386,6 @@ public class Client extends JFrame {
 	
 	
 	public static void main(String[] args) {
-		System.out.println("aaaa");
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 Client loginUI = new Client();
