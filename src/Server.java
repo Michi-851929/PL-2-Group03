@@ -51,9 +51,10 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	private JButton ui_jb_commit;
 	private JButton ui_jb_back;
 	
-	public final static int DUPLICATE_NOT = 0;
-	public final static int DUPLICATE_NAME = 1;
-	public final static int DUPLICATE_MAC = 2;
+	//アカウント作成可否を表す定数
+	public final static int DUPLICATE_NOT = 0; //被りなし(可)
+	public final static int DUPLICATE_NAME = 1; //名前被り
+	public final static int DUPLICATE_MAC = 2; //MACアドレス被り
 	
 	public Server()
 	{
@@ -67,6 +68,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		
 		ui_panel_01 = new JPanel();
 		ui_panel_01.setLayout(new FlowLayout());
+		ui_panel_01.setBackground(Color.WHITE);
 		ui_panel_01.setBounds(50, 30, 500, 300);
 		ui_panel_01.setVisible(false);
 		ui_panel_00.add(ui_panel_01);
@@ -74,15 +76,20 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		JPanel ui_panel_02 = new JPanel();
 		ui_panel_02.setLayout(new GridLayout(4, 1, 0, 20));
 		ui_jb_make = new JButton("アカウント作成");
+		ui_jb_make.setBackground(Color.cyan);
 		ui_jb_make.addActionListener(this);
 		ui_panel_02.add(ui_jb_make, "A");
 		ui_jb_ban = new JButton("アカウント追放");
+		ui_jb_ban.setBackground(Color.cyan);
 		ui_jb_ban.addActionListener(this);
 		ui_panel_02.add(ui_jb_ban, "B");
 		ui_jb_deban = new JButton("アカウント復活");
+		ui_jb_deban.setBackground(Color.cyan);
 		ui_jb_deban.addActionListener(this);
 		ui_panel_02.add(ui_jb_deban, "C");
 		ui_jb_exit = new JButton("サーバ終了");
+		ui_jb_exit.setForeground(Color.WHITE);
+		ui_jb_exit.setBackground(Color.RED);
 		ui_jb_exit.addActionListener(this);
 		ui_panel_02.add(ui_jb_exit, "D");
 		ui_panel_00.add(ui_panel_02, "West");
@@ -151,12 +158,14 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		
 		JPanel ui_panel_04 = new JPanel();
 		ui_panel_04.setLayout(new BorderLayout(32, 32));
+		ui_panel_04.setBackground(Color.WHITE);
 		ui_panel_04.setSize(500, 300);
 		ui_jl_command = new JLabel(text, JLabel.CENTER);
 		ui_jl_command.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
 		ui_panel_04.add(ui_jl_command, "North");
 		JPanel ui_panel_05 = new JPanel();
 		ui_panel_05.setLayout(new GridLayout(3, 1));
+		ui_panel_05.setBackground(Color.WHITE);
 		ui_tf_text0 = new JTextField(20);
 		ui_tf_text0.setText("ユーザ名");
 		ui_tf_text0.setForeground(Color.LIGHT_GRAY);
@@ -219,6 +228,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_panel_04.add(ui_panel_05, "Center");
 		JPanel ui_panel_06 = new JPanel();
 		ui_panel_06.setLayout(new GridLayout(2, 1, 10, 10));
+		ui_panel_06.setBackground(Color.WHITE);
 		String new_text = String.format("%c%c", text.charAt(5), text.charAt(6));
 		ui_jb_commit = new JButton(new_text);
 		ui_jb_commit.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 16));

@@ -10,8 +10,8 @@ public class Account {
 	private ArrayList<ClientEvent> event_preferred = new ArrayList<>();
 	
 	//パスワード認証の戻り値を表す定数
-	public final static int PASS_CORRECT = 1;
-	public final static int PASS_FALSE = 0;
+	public final static int PASS_CORRECT = 1; //正しい
+	public final static int PASS_FALSE = 0; //正しくない
 	
 	//コンストラクタ
 	public Account(String name, String password, String mac_adress)
