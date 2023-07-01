@@ -91,6 +91,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		ui_jb_exit.setForeground(Color.WHITE);
 		ui_jb_exit.setBackground(Color.RED);
 		ui_jb_exit.setOpaque(true);
+		ui_jb_exit.setBorderPainted(false);
 		ui_jb_exit.addActionListener(this);
 		ui_panel_02.add(ui_jb_exit, "D");
 		ui_panel_00.add(ui_panel_02, "West");
