@@ -199,6 +199,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 			ui_panel_07 = new JPanel();
 			ui_clayout = new CardLayout();
 			ui_panel_07.setLayout(ui_clayout);
+			ui_panel_07.setBackground(Color.WHITE);
 			ui_tf_text1 = new JTextField(20);
 			ui_tf_text1.setText("パスワード");
 			ui_tf_text1.setForeground(Color.LIGHT_GRAY);
