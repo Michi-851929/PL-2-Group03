@@ -291,42 +291,50 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		stdout("createAccount: " + user_name);
 	}
 	
-	public boolean isBanned(String user_name)
+	public Account getAccount(String user_name)
 	{
-		boolean is_banned = false;
-		for(Account account : account_list) {
-			if(account.isBanned()) {
-				is_banned = true;
+		Account account = null;
+		boolean is_successed = false;
+		for(Account ac : account_list) {
+			if(ac.getUserName().equals(user_name)) {
+				account = ac;
+				is_successed = true;
 				break;
 			}
 		}
-		return is_banned;
+		if(is_successed) {
+			return account;
+		}
+		else {
+			return new Account("", "", "");
+		}
+	}
+	
+	public boolean isBanned(String user_name)
+	{
+		return getAccount(user_name).isBanned();
 	}
 	
 	public boolean banAccount(String user_name)
 	{
+		Account account = getAccount(user_name);
 		boolean is_successed = false;
-		for(Account account : account_list) {
-			if(account.getUserName().equals(user_name)) {
-				account.banAccount();
-				stdout("banAccount: " + user_name);
-				is_successed = true;
-				break;
-			}
+		if(!account.getUserName().equals("")) {
+			account.banAccount();
+			stdout("banAccount: " + user_name);
+			is_successed = true;
 		}
 		return is_successed;
 	}
 	
 	public boolean permitAccount(String user_name)
 	{
+		Account account = getAccount(user_name);
 		boolean is_successed = false;
-		for(Account account : account_list) {
-			if(account.getUserName().equals(user_name)) {
-				account.permitAccount();
-				stdout("permitAccount: " + user_name);
-				is_successed = true;
-				break;
-			}
+		if(!account.getUserName().equals("")) {
+			account.permitAccount();
+			stdout("permitAccount: " + user_name);
+			is_successed = true;
 		}
 		return is_successed;
 	}
