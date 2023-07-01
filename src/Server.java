@@ -51,6 +51,10 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	private JButton ui_jb_commit;
 	private JButton ui_jb_back;
 	
+	public final static int DUPLICATE_NOT = 0;
+	public final static int DUPLICATE_NAME = 1;
+	public final static int DUPLICATE_MAC = 2;
+	
 	public Server()
 	{
 		//ウィンドウの生成
@@ -240,28 +244,38 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	 * ↓この間のメソッドを書いてね↓
 	 * 
 	 */
+	public int isCreatableAccount(String user_name, String mac_adress)
+	{
+		int is_creatable = DUPLICATE_NOT;
+		if(mac_adress.equals("")) {
+			for(Account account : account_list) {
+				if(account.getUserName().equals(user_name)) {
+					is_creatable = DUPLICATE_NAME;
+					break;
+				}
+			}
+		}
+		else {
+			for(Account account : account_list) {
+				if(account.getMacAdress().equals(mac_adress)) {
+					is_creatable = DUPLICATE_MAC;
+					break;
+				}
+				if(account.getUserName().equals(user_name)) {
+					is_creatable = DUPLICATE_NAME;
+					break;
+				}
+			}
+		}
+		stdout(Integer.toString(is_creatable));
+		return is_creatable;
+	}
 	
 	public void createAccount(String user_name, String password, String mac_adress)
 	{
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		FileWriter fw = null;
-		try {
-			fw = new FileWriter("src/user_accounts_database.json");
-			Account new_account = new Account(user_name, password, mac_adress);
-			account_list.add(new_account);
-			fw.write(gson.toJson(account_list));
-			stdout("createAccount: " + user_name);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		Account new_account = new Account(user_name, password, mac_adress);
+		account_list.add(new_account);
+		stdout("createAccount: " + user_name);
 	}
 	
 	public boolean isBanned(String user_name)
@@ -282,6 +296,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		for(Account account : account_list) {
 			if(account.getUserName().equals(user_name)) {
 				account.banAccount();
+				stdout("banAccount: " + user_name);
 				is_successed = true;
 				break;
 			}
@@ -295,6 +310,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 		for(Account account : account_list) {
 			if(account.getUserName().equals(user_name)) {
 				account.permitAccount();
+				stdout("permitAccount: " + user_name);
 				is_successed = true;
 				break;
 			}
@@ -358,24 +374,21 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 				ui_jl_alert.setText("ユーザ名とパスワードを入力してください");
 				break;
 			}
-			boolean name_duplicated = false;
-			for(Account account : account_list) {
-				if(account.getUserName().equals(s0)) {
-					name_duplicated = true;
+			int duplicate_num = isCreatableAccount(s0, "");
+			switch(duplicate_num) {
+				case DUPLICATE_NOT:
+					createAccount(s0, s1, "");
+					ui_jb_make.setEnabled(true);
+					ui_jb_ban.setEnabled(true);
+					ui_jb_deban.setEnabled(true);
+					ui_jb_exit.setEnabled(true);
+					ui_panel_01.setVisible(false);
 					break;
-				}
-			}
-			if(name_duplicated) {
-				ui_jl_alert.setText("別のユーザ名を入力してください");
-				break;
-			}
-			else {
-				createAccount(s0, s1, "");
-				ui_jb_make.setEnabled(true);
-				ui_jb_ban.setEnabled(true);
-				ui_jb_deban.setEnabled(true);
-				ui_jb_exit.setEnabled(true);
-				ui_panel_01.setVisible(false);
+				case DUPLICATE_NAME:
+					ui_jl_alert.setText("別のユーザ名を入力してください");
+					break;
+				default:
+					break;
 			}
 			break;
 		case "追放":

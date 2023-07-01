@@ -25,5 +25,14 @@
     "community_involved": [],
     "event_going": [],
     "event_preferred": []
+  },
+  {
+    "name": "aaa",
+    "password": "aaaa",
+    "mac_adress": "",
+    "is_banned": false,
+    "community_involved": [],
+    "event_going": [],
+    "event_preferred": []
   }
 ]
