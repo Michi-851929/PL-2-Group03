@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+
+
 public class Client extends JFrame {
 	private JTextField usernameField;
     private JPasswordField passwordField;
@@ -425,8 +427,92 @@ public class Client extends JFrame {
 	
 	//パスワード変更画面
 	void passwordScreen() {
+		setTitle("パスワード変更");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  
+        
+        setLayout(new BorderLayout());
+
+        // 背景画像を表示するためのパネルを作成
+        ImagePanel backgroundPanel = new ImagePanel();
+        setContentPane(backgroundPanel);
+        backgroundPanel.setLayout(null);
+
+        // 戻るボタン
+        JButton backButton = new JButton("戻る");
+        backButton.setBounds(10, 10, 60, 30);
+        ImageIcon icon = new ImageIcon("back.png");
+        backButton.setIcon(icon);
+        
+        // ボタンの余白を調整
+        backButton.setMargin(new Insets(0, 0, 0, 0));
+        
+        // ボタンの枠線を非表示にする
+        backButton.setBorderPainted(false);
+        
+        // ボタンの背景を透明にする
+        backButton.setContentAreaFilled(false);
+        backgroundPanel.add(backButton);
+
+        // タイトル
+        JLabel titleLabel = new JLabel("ユーザ名");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setBounds(150, 50, 200, 30);
+        backgroundPanel.add(titleLabel);
+
+        // 旧パスワード入力欄
+        JLabel oldPasswordLabel = new JLabel("旧パスワード:");
+        oldPasswordLabel.setBounds(150, 110, 100, 30);
+        backgroundPanel.add(oldPasswordLabel);
+        JPasswordField oldPasswordField = new JPasswordField();
+        oldPasswordField.setBounds(100, 140, 200, 30);
+        backgroundPanel.add(oldPasswordField);
+
+        // 新パスワード入力欄
+        JLabel newPasswordLabel = new JLabel("新パスワード:");
+        newPasswordLabel.setBounds(150, 180, 100, 30);
+        backgroundPanel.add(newPasswordLabel);
+        JPasswordField newPasswordField = new JPasswordField();
+        newPasswordField.setBounds(100, 210, 200, 30);
+        backgroundPanel.add(newPasswordField);
+
+        // パスワード確認入力欄
+        JLabel confirmPasswordLabel = new JLabel("パスワード確認:");
+        confirmPasswordLabel.setBounds(150, 250, 100, 30);
+        backgroundPanel.add(confirmPasswordLabel);
+        JPasswordField confirmPasswordField = new JPasswordField();
+        confirmPasswordField.setBounds(100, 290, 200, 30);
+        backgroundPanel.add(confirmPasswordField);
+
+        // 変更ボタン
+        JButton changeButton = new JButton("変更");
+        changeButton.setBounds(150, 350, 100, 30);
+        changeButton.setBackground(new Color(230, 255, 179));
+        backgroundPanel.add(changeButton);
+
+        setSize(400, 500);
+        setVisible(true);
+    }
+
+    // 背景画像を描画するカスタムパネルクラス
+    class ImagePanel extends JPanel {
+        private Image backgroundImage;
+
+        public ImagePanel() {
+            // 画像ファイルのパスを指定して背景画像を読み込む
+            String imagePath = "login.png";
+            backgroundImage = new ImageIcon(imagePath).getImage();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // 背景画像を描画
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+        }
+    }
 		
-	}
+	
 	
 	//コミュニティ管理画面
 	void communityScreen() {
