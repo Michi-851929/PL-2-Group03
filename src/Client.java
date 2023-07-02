@@ -319,13 +319,13 @@ public class Client extends JFrame {
 		ui_panel_03.setBounds(0, 50, 400, 450);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 7; j++) {
-				ui_jb_calendar[5 * i + j] = new JButton();
-				ui_jb_calendar[5 * i + j].setText((5 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(5 * i + j + 1));
-				ui_jb_calendar[5 * i + j].setIcon(getDateIcon(true, 1 + 5 + i + j, j, 3, "成果報告会", true, "A会", false));
-				ui_jb_calendar[5 * i + j].setMargin(new Insets(-3, -3, -3, -20));
-				ui_jb_calendar[5 * i + j].setBorderPainted(false);
-				ui_jb_calendar[5 * i + j].addActionListener(null);
-				ui_panel_03.add(ui_jb_calendar[5 * i + j]);
+				ui_jb_calendar[7 * i + j] = new JButton();
+				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
+				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会", true, "A会", false));
+				ui_jb_calendar[7 * i + j].setMargin(new Insets(-3, -3, -3, -20));
+				ui_jb_calendar[7 * i + j].setBorderPainted(false);
+				ui_jb_calendar[7 * i + j].addActionListener(null);
+				ui_panel_03.add(ui_jb_calendar[7 * i + j]);
 			}
 		}
 		
@@ -391,6 +391,15 @@ public class Client extends JFrame {
 		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
 		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
 		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		if(event1_preferred) { //いいね
+			g.setColor(Color.WHITE);
+		}
+		else{ //非いいね
+			g.setColor(Color.BLACK);
+		}
+		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 10));
+		g.drawString(event1_name, 6, 34);
+		g.setColor(new Color(0, 176, 240));
 		
 		if(event2_preferred) { //いいね
 			g.setColor(new Color(0, 176, 240));
@@ -405,6 +414,29 @@ public class Client extends JFrame {
 		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
 		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
 		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		if(event2_preferred) { //いいね
+			g.setColor(Color.WHITE);
+		}
+		else{ //非いいね
+			g.setColor(Color.BLACK);
+		}
+		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 10));
+		g.drawString(event2_name, 6, 53);
+		g.setColor(new Color(0, 176, 240));
+		
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
+		g.drawString(Integer.toString(date), 6, 17);
+		
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+		g.drawString(Integer.toString(event_number % 10), 32, 17);
+		if(event_number >= 10) {
+			g.drawString(Integer.toString(event_number / 10), 26, 17);
+		}
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+		g.drawString("件", 38, 16);
+		
+		
 		
 		ImageIcon icon = new ImageIcon(img);
 		return icon;
