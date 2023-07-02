@@ -101,7 +101,7 @@ public class Client extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // アカウント登録画面に遷移する処理を実装する
-                JOptionPane.showMessageDialog(Client.this, "アカウント登録画面に遷移します");
+                registerScreen();
             }
         });
 
@@ -112,12 +112,176 @@ public class Client extends JFrame {
 	
 	//ログイン画面
 	void loginScreen() {
-		
+	    contentPane.removeAll();
+	    // ウィンドウの設定
+	    setTitle("ログイン");
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    setSize(400, 500);
+	    setLocationRelativeTo(null);
+
+	    // コンテンツパネルの設定
+	    JPanel loginPanel = new JPanel(new GridBagLayout()) {
+	        @Override
+	        protected void paintComponent(Graphics g) {
+	            super.paintComponent(g);
+	            // 画像を読み込む
+	            Image backgroundImage = new ImageIcon("login.png").getImage();
+	            // 画像を描画する
+	            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+	        }
+	    };
+	    GridBagConstraints gbc = new GridBagConstraints();
+	    gbc.gridx = 0;
+	    gbc.gridy = GridBagConstraints.RELATIVE;
+	    gbc.anchor = GridBagConstraints.CENTER;
+	    gbc.insets = new Insets(10, 5, 5, 5);
+
+	    // タイトルラベル
+	    JLabel titleLabel = new JLabel("Communi+I", SwingConstants.CENTER);
+	    Font titleFont = new Font("Arial", Font.BOLD, 20);
+	    titleLabel.setFont(titleFont);
+	    loginPanel.add(titleLabel, gbc);
+
+	    // ユーザ名のラベルとフィールド
+	    JLabel usernameLabel = new JLabel("ユーザ名:");
+	    usernameField = new JTextField(20);
+	    loginPanel.add(usernameLabel, gbc);
+	    loginPanel.add(usernameField, gbc);
+
+	    // パスワードのラベルとフィールド
+	    JLabel passwordLabel = new JLabel("パスワード:");
+	    passwordField = new JPasswordField(20);
+	    loginPanel.add(passwordLabel, gbc);
+	    loginPanel.add(passwordField, gbc);
+
+	    // ログインボタン
+	    JButton loginButton = new JButton("ログイン");
+	    gbc.anchor = GridBagConstraints.CENTER;
+	    gbc.insets = new Insets(10, 0, 0, 0);
+	    loginButton.setBackground(new Color(230, 255, 179));
+	    loginPanel.add(loginButton, gbc);
+
+	    // アカウント登録ボタン
+	    JButton registerButton = new JButton("アカウント登録");
+	    registerButton.setBackground(new Color(230, 255, 179));
+	    loginPanel.add(registerButton, gbc);
+
+	    // ボタンのアクションリスナー
+	    loginButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            String username = usernameField.getText();
+	            String password = new String(passwordField.getPassword());
+	            // ログイン処理を行う
+	            // ここではダミーの処理として、入力内容を表示するだけとします
+	            calendarScreen();
+	        }
+	    });
+
+	    registerButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            // アカウント登録画面に遷移する処理を実装する
+	            registerScreen();
+	        }
+	    });
+
+	    contentPane = loginPanel;
+	    setContentPane(contentPane);
+	    setVisible(true);
+	    repaint();
 	}
+
 	
 	//新規登録画面
 	void registerScreen() {
-		
+		contentPane.removeAll();
+		// ウィンドウの設定
+        setTitle("新規登録");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 500);
+        setLocationRelativeTo(null);
+
+        // コンテンツパネルの設定
+        JPanel contentPane = new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // 画像を読み込む
+                Image backgroundImage = new ImageIcon("login.png").getImage();
+                // 画像を描画する
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 5, 5, 5);
+
+        // タイトルラベル
+        JLabel titleLabel = new JLabel("Communi+I", SwingConstants.CENTER);
+        Font titleFont = new Font("Arial", Font.BOLD, 20);
+        titleLabel.setFont(titleFont);
+        contentPane.add(titleLabel, gbc);
+
+        // ユーザ名のラベルとフィールド
+        JLabel usernameLabel = new JLabel("ユーザ名:");
+        usernameField = new JTextField(20);
+        contentPane.add(usernameLabel, gbc);
+        contentPane.add(usernameField, gbc);
+
+        // パスワードのラベルとフィールド
+        JLabel passwordLabel = new JLabel("パスワード:");
+        passwordField = new JPasswordField(20);
+        contentPane.add(passwordLabel, gbc);
+        contentPane.add(passwordField, gbc);
+
+        // パスワード確認のラベルとフィールド
+        JLabel confirmPasswordLabel = new JLabel("パスワード確認:");
+        JPasswordField confirmPasswordField = new JPasswordField(20);
+        contentPane.add(confirmPasswordLabel, gbc);
+        contentPane.add(confirmPasswordField, gbc);
+
+        // 登録ボタン
+        JButton registerButton = new JButton("登録");
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 0, 0, 0);
+        registerButton.setBackground(new Color(230, 255, 179));
+        contentPane.add(registerButton, gbc);
+        
+        // 戻るボタン
+        JButton backButton = new JButton("戻る");
+        gbc.insets = new Insets(10, 0, 0, 0); 
+        backButton.setBackground(new Color(230, 255, 179));
+        contentPane.add(backButton, gbc);
+
+        
+
+        // ボタンのアクションリスナー
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loginScreen();
+                
+            }
+        });
+
+        registerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+                String confirmPassword = new String(confirmPasswordField.getPassword());
+                
+                if (!password.equals(confirmPassword)) {
+                    JOptionPane.showMessageDialog(Client.this, "パスワードが一致しません。もう一度やり直してください。");
+                } else {
+                    JOptionPane.showMessageDialog(Client.this, "ユーザ登録が完了しました。");
+                    dispose();
+                }
+            }
+        });
+
+        setContentPane(contentPane);
+        setVisible(true);
+        repaint();
 	}
 	
 	//カレンダー画面
