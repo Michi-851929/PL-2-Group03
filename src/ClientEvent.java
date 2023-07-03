@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ClientEvent {
+public class ClientEvent implements Serializable{
         private String eve_id;
         private String eve_name;
         private String eve_start;
@@ -39,7 +40,7 @@ public class ClientEvent {
     }
 
     //イベント名変更//
-    public void editName(String new_name) {
+    public void editEventName(String new_name) {
         eve_name = new_name;
     }
     
@@ -49,7 +50,7 @@ public class ClientEvent {
     }
     
     //開始時刻変更//
-    public void editStart(String new_start) {
+    public void editEventStart(String new_start) {
         eve_start = new_start;
     }
     
@@ -59,7 +60,7 @@ public class ClientEvent {
     }
     
     //終了時刻変更//
-    public void editFinish(String new_finish) {
+    public void editEventFinish(String new_finish) {
         eve_finish = new_finish;
     }
     
@@ -69,7 +70,7 @@ public class ClientEvent {
     }
     
     //開催場所変更//
-    public void editPlace(String new_place) {
+    public void editEventPlace(String new_place) {
         eve_place = new_place;
     }
     
@@ -79,7 +80,7 @@ public class ClientEvent {
     }
     
     //主催者名変更//
-    public void editOwner(String new_owner) {
+    public void editEventOwner(String new_owner) {
         eve_owner = new_owner;
     }
     
@@ -89,7 +90,7 @@ public class ClientEvent {
     }
     
     //イベント概要変更//
-    public void editOutline(String new_outline) {
+    public void editEventOutline(String new_outline) {
         eve_outline = new_outline;
     }
     
@@ -99,7 +100,7 @@ public class ClientEvent {
     }
     
     //イベント詳細変更//
-    public void editDetail(String new_detail) {
+    public void editEventDetail(String new_detail) {
         eve_detail = new_detail;
     }
     
@@ -109,7 +110,7 @@ public class ClientEvent {
     }
     
     //所属コミュニティ名変更//
-    public void editCommunity(Community new_com) {
+    public void editEventCommunity(Community new_com) {
         eve_com_name = new_com.getName();
     }
     
@@ -119,7 +120,7 @@ public class ClientEvent {
     }
     
     //主催者メッセージ設定//
-    public void sendMessage(String message) {
+    public void sendOwnerMessage(String message) {
         eve_own_message = message;
     }
     
@@ -153,10 +154,5 @@ public class ClientEvent {
     //参加者数取得//
     public int getJoin() {
         return eve_join;
-    }
-
-    @Override
-    public String toString() {
-        return "";
     }
 }
