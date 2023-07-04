@@ -1,13 +1,16 @@
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -28,7 +31,12 @@ import javax.swing.SwingUtilities;
 public class Client extends JFrame {
 	private JTextField usernameField;
     private JPasswordField passwordField;
-    public JPanel contentPane;
+    private JPanel contentPane0;
+    private JPanel contentPane1;
+    private JPanel contentPane2;
+    private JButton ui_jb_calendarwindow;
+    private JButton ui_jb_userwindow;
+    private CardLayout ui_clayout;
     
     private JButton[] ui_jb_calendar = new JButton[7 * 5];
     
@@ -47,9 +55,31 @@ public class Client extends JFrame {
 	    setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	    setLocationRelativeTo(null);
 	    
-        contentPane = new JPanel();
-        contentPane.setLayout(null);
-        add(contentPane);
+        contentPane0 = new JPanel();
+        ui_clayout = new CardLayout();
+        contentPane0.setLayout(ui_clayout);
+        contentPane1 = new JPanel();
+        contentPane1.setLayout(null);
+        contentPane2 = new JPanel();
+        contentPane2.setLayout(null);
+        contentPane0.add(contentPane1, "カレンダー画面");
+        contentPane0.add(contentPane2, "ユーザ画面");
+        ui_jb_calendarwindow = new JButton("カレンダー");
+        ui_jb_calendarwindow.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ae)
+        	{
+        		calendarScreen();
+        	}
+        });
+		ui_jb_userwindow = new JButton("ユーザ");
+		ui_jb_userwindow.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ae)
+        	{
+        		userScreen();
+        	}
+        });
+		
+        add(contentPane0);
         
         loginScreen();
 		
@@ -57,7 +87,7 @@ public class Client extends JFrame {
 	
 	//ログイン画面
 	void loginScreen() {
-	    contentPane.removeAll();
+	    contentPane1.removeAll();
 	    // ウィンドウの設定
 	    setTitle("ログイン");
 
@@ -129,7 +159,7 @@ public class Client extends JFrame {
             }
         });
 
-	    contentPane.add(ui_panel_00);
+	    contentPane1.add(ui_panel_00);
 	    setVisible(true);
 	    repaint();
 	}
@@ -137,7 +167,7 @@ public class Client extends JFrame {
 	
 	//新規登録画面
 	void registerScreen() {
-		contentPane.removeAll();
+		contentPane1.removeAll();
 		// ウィンドウの設定
         setTitle("新規登録");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -231,8 +261,8 @@ public class Client extends JFrame {
 	//カレンダー画面
 	void calendarScreen() {
 		//玖津見が書いています
-		contentPane.removeAll();
-		contentPane.setLayout(null);
+		contentPane1.removeAll();
+		contentPane1.setLayout(null);
 		//全体
 		JPanel ui_panel_00 = new JPanel();
 		ui_panel_00.setLayout(null);
@@ -265,7 +295,7 @@ public class Client extends JFrame {
 		ui_panel_06.setBackground(THEME_COLOR);
 		JPanel ui_panel_05 = new JPanel();
 		ui_panel_05.setLayout(new BorderLayout());
-		ui_panel_05.setSize(WINDOW_WIDTH - 16, WINDOW_HEIGHT -12);
+		ui_panel_05.setSize(WINDOW_WIDTH - 16, 600 - 12);
 		ui_panel_05.setBackground(THEME_COLOR);
 		JPanel ui_panel_03 = new JPanel();
 		ui_panel_03.setLayout(new GridLayout(5, 7, 5, 5));
@@ -274,7 +304,7 @@ public class Client extends JFrame {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[7 * i + j] = new JButton();
 				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "Aaaaaaaaaaaaaaa", false));
+				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 3, "成果報告会があります", true, "A会", false));
 				ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -17));
 				ui_jb_calendar[7 * i + j].setBorderPainted(false);
 				ui_jb_calendar[7 * i + j].setBackground(THEME_COLOR);
@@ -286,16 +316,26 @@ public class Client extends JFrame {
 		ui_panel_05.add(ui_panel_03, "Center");
 		ui_panel_06.add(ui_panel_05);
 		ui_panel_00.add(ui_panel_06);
-		/*
+
+		//カレンダー・ユーザ切り替え
+		setFooter(ui_panel_00);
+		
+		contentPane1.add(ui_panel_00);
+		ui_clayout.show(contentPane0, "カレンダー画面");
+		setVisible(true);
+		repaint();
+	}
+	
+	public void setFooter(JPanel panel)
+	{
 		//カレンダー・ユーザ切り替え
 		JPanel ui_panel_04 = new JPanel();
 		ui_panel_04.setLayout(new GridLayout(1, 2));
-		ui_panel_00.setBounds(0, 350, 350, 50);
-		ui_panel_00.add(ui_panel_04);
-		*/
-		contentPane.add(ui_panel_00);
-		setVisible(true);
-		repaint();
+		ui_panel_04.setBounds(0, 675, WINDOW_WIDTH, 125);
+		ui_panel_04.add(ui_jb_calendarwindow);
+		ui_panel_04.add(ui_jb_userwindow);
+		panel.add(ui_panel_04);
+
 	}
 	
 	private ImageIcon getDateIcon(boolean this_month, int date, int weekday, int event_number, String event1_name, boolean event1_preferred, String event2_name, boolean event2_preferred)
@@ -345,9 +385,9 @@ public class Client extends JFrame {
 			g.setColor(Color.BLACK);
 		}
 		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-		g.drawString(event1_name.substring(0, 5), 10, 48);
+		g.drawString(event1_name.substring(0, event1_name.length() >= 5 ? 5 : event1_name.length()), 10, 48);
 		if(event1_name.length() >= 5) {
-			g.drawString(event1_name.substring(5, (event1_name.length() >= 9 ? 9 : event1_name.length() + 1)), 10, 60);
+			g.drawString(event1_name.substring(5, (event1_name.length() >= 9 ? 9 : event1_name.length())), 10, 60);
 		}
 		if(event1_name.length() >= 10) {
 			g.drawString("　　　　…", 10, 60);
@@ -369,8 +409,10 @@ public class Client extends JFrame {
 			g.setColor(Color.BLACK);
 		}
 		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-		g.drawString(event2_name.substring(0, 5), 10, 80);
-		g.drawString(event2_name.substring(5, 9), 10, 92);
+		g.drawString(event2_name.substring(0, event2_name.length() >= 5 ? 5 : event2_name.length()), 10, 80);
+		if(event2_name.length() >= 5) {
+			g.drawString(event2_name.substring(5, (event2_name.length() >= 9 ? 9 : event2_name.length())), 10, 92);
+		}
 		if(event2_name.length() >= 10) {
 			g.drawString("　　　　…", 10, 92);
 		}
@@ -431,13 +473,11 @@ public class Client extends JFrame {
     void userScreen() {
         int button_width = 250;
         int button_height = 40;
-        int r = 8;
+        int r = 18;
         
-        Image img = createImage(button_width, button_height);
-        Graphics g = img.getGraphics();
-        Client.kadomaruRect(g, 0, 0, button_width, button_height, r);
 
-        contentPane.removeAll();
+
+        contentPane2.removeAll();
         JPanel userScreen = new JPanel(new GridBagLayout()) {
             private static final long serialVersionUID = 1L;
 
@@ -451,6 +491,7 @@ public class Client extends JFrame {
             }
         };
         userScreen.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        userScreen.setBackground(THEME_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -462,30 +503,61 @@ public class Client extends JFrame {
         userScreen.add(usernameLabel, gbc);
 
         // パスワード変更ボタン
-        JButton changePasswordButton = new JButton("パスワード変更");
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(10, 0, 0, 0);
+        Image img1 = createImage(button_width, button_height);
+        Graphics g1 = img1.getGraphics();
+        g1.setColor(Color.WHITE);
+        Client.kadomaruRect(g1, 0, 0, button_width, button_height, r);
+        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        g1.setColor(Color.BLACK);
+        g1.drawString("パスワード変更", 25, 25);
+        JButton changePasswordButton = new JButton("1");
+        //gbc.anchor = GridBagConstraints.CENTER;
+        //gbc.insets = new Insets(10, 0, 0, 0);
         
-        changePasswordButton.setBackground(new Color(255, 255, 255));
-        changePasswordButton.setIcon(new ImageIcon(img));
+        changePasswordButton.setBackground(THEME_COLOR);
+        changePasswordButton.setOpaque(true);
+        changePasswordButton.setMargin(new Insets(-3, -3, -3, -13));
+        changePasswordButton.setBorderPainted(false);
+        changePasswordButton.setIcon(new ImageIcon(img1));
         userScreen.add(changePasswordButton, gbc);
 
         // コミュニティ管理ボタン
-        JButton communityManageButton = new JButton("コミュニティ管理");
-        communityManageButton.setBackground(new Color(255, 255, 255));
-        userScreen.add(communityManageButton, gbc);
+        Image img2 = createImage(button_width, button_height);
+        Graphics g2 = img2.getGraphics();
+        g2.setColor(Color.WHITE);
+        Client.kadomaruRect(g2, 0, 0, button_width, button_height, r);
+        g2.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        g2.setColor(Color.BLACK);
+        g2.drawString("コミュニティ管理", 25, 25);
+        JButton communityManageButton = new JButton("2");
         
-        communityManageButton.setIcon(new ImageIcon(img));
+        communityManageButton.setBackground(THEME_COLOR);
+        communityManageButton.setOpaque(true);
+        communityManageButton.setMargin(new Insets(-3, -3, -3, -15));
+        communityManageButton.setBorderPainted(false);
+        communityManageButton.setIcon(new ImageIcon(img2));
+        userScreen.add(communityManageButton, gbc);
 
         // ログアウトボタン
-        JButton logOutButton = new JButton("ログアウト");
-        logOutButton.setBackground(new Color(255, 255, 255));
+        Image img3 = createImage(button_width, button_height);
+        Graphics g3 = img3.getGraphics();
+        g3.setColor(Color.WHITE);
+        Client.kadomaruRect(g3, 0, 0, button_width, button_height, r);
+        g3.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        g3.setColor(Color.BLACK);
+        g3.drawString("ログアウト", 25, 25);
+        JButton logOutButton = new JButton("3");
+        logOutButton.setBackground(THEME_COLOR);
+        logOutButton.setOpaque(false);
+        logOutButton.setBorderPainted(false);
+        logOutButton.setMargin(new Insets(-3, -3, -3, -15));
+        logOutButton.setIcon(new ImageIcon(img3));
         userScreen.add(logOutButton, gbc);
-        
-        logOutButton.setIcon(new ImageIcon(img));
 
-        contentPane.add(userScreen);
+contentPane2.add(userScreen);
+        ui_clayout.show(contentPane0, "ユーザ画面");
         setVisible(true);
+        
         repaint();
     }
 	
