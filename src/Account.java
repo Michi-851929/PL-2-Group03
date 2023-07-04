@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Account {
+public class Account implements Serializable{
 	private String name;
 	private String password;
 	private String mac_adress;
@@ -89,9 +90,9 @@ public class Account {
 	}
 	
 	//所属コミュニティを取得
-	public Community[] getCommunity()
+	public String[] getCommunity()
 	{
-		return (Community[])community_involved.toArray();
+		return (String[])community_involved.toArray();
 	}
 	
 	//参加イベントを追加
@@ -107,9 +108,9 @@ public class Account {
 	}
 	
 	//参加イベントを取得
-	public ClientEvent[] getEventGoing()
+	public String[] getEventGoing()
 	{
-		return (ClientEvent[])event_going.toArray();
+		return (String[])event_going.toArray();
 	}
 	
 	//いいねしたイベントを追加
@@ -125,8 +126,8 @@ public class Account {
 	}
 	
 	//いいねしたイベントを取得
-	public ClientEvent[] getEventPreferred()
+	public String[] getEventPreferred()
 	{
-		return (ClientEvent[])event_preferred.toArray();
+		return (String[])event_preferred.toArray();
 	}
 }
