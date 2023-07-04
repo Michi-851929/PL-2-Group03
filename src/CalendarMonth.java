@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarMonth implements Serializable{
+    private static final long serialVersionUID = 1L;
     private int cm_year;
     private int cm_month;
     //private ArrayList<ClientEvent>[] cm_events = new ArrayList<ClientEvent>[31];
