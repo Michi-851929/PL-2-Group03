@@ -3,6 +3,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ClientEvent implements Serializable{
+        private static final long serialVersionUID = 1L;
         private String eve_id;
         private String eve_name;
         private String eve_start;
