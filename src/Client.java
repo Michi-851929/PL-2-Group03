@@ -452,10 +452,50 @@ public class Client extends JFrame {
 		
 	}
 	
-	//ユーザ画面
-	void userScreen() {
-		
-	}
+    //ユーザ画面
+    void userScreen() {
+        contentPane.removeAll();
+        JPanel userScreen = new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // 画像を読み込む
+                Image backgroundImage = new ImageIcon("login.png").getImage();
+                // 画像を描画する
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 5, 5, 5);
+
+        // ユーザ名のラベルとフィールド
+        JLabel usernameLabel = new JLabel("ユーザ名: "+username);
+        userScreen.add(usernameLabel, gbc);
+
+        // パスワード変更ボタン
+        JButton changePasswordButton = new JButton("パスワード変更");
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 0, 0, 0);
+        changePasswordButton.setBackground(new Color(255, 255, 255));
+        userScreen.add(changePasswordButton, gbc);
+
+        // コミュニティ管理ボタン
+        JButton communityManageButton = new JButton("コミュニティ管理");
+        communityManageButton.setBackground(new Color(255, 255, 255));
+        userScreen.add(communityManageButton, gbc);
+
+        // ログアウトボタン
+        JButton logOutButton = new JButton("ログアウト");
+        logOutButton.setBackground(new Color(255, 255, 255));
+        userScreen.add(logOutButton, gbc);
+
+        contentPane.add(userScreen);
+        setVisible(true);
+        repaint();
+    }
 	
 	//パスワード変更画面
 	void passwordScreen() {
