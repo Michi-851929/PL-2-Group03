@@ -469,7 +469,6 @@ public class Client extends JFrame {
 	
     //ユーザ画面
     void userScreen() {
-<<<<<<< Updated upstream
         int button_width = 250;
         int button_height = 40;
         int r = 8;
@@ -478,10 +477,7 @@ public class Client extends JFrame {
         Graphics g = img.getGraphics();
         Client.kadomaruRect(g, 0, 0, button_width, button_height, r);
 
-        contentPane.removeAll();
-=======
         contentPane2.removeAll();
->>>>>>> Stashed changes
         JPanel userScreen = new JPanel(new GridBagLayout()) {
             private static final long serialVersionUID = 1L;
 
