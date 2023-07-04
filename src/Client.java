@@ -31,17 +31,33 @@ public class Client extends JFrame {
     public JPanel contentPane;
     
     private JButton[] ui_jb_calendar = new JButton[7 * 5];
+    
+    public final static int WINDOW_WIDTH = 400;
+    public final static int WINDOW_HEIGHT = 500;
 	
 	//コンストラクタ(ログイン画面)
 	public Client(){
 		// ウィンドウの設定
         super("ログイン");
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	    setLocationRelativeTo(null);
+	    
         contentPane = new JPanel();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 500);
-        setLocationRelativeTo(null);
+        contentPane.setLayout(null);
+        add(contentPane);
         
-        // コンテンツパネルの設定
+        loginScreen();
+		
+	}
+	
+	//ログイン画面
+	void loginScreen() {
+	    contentPane.removeAll();
+	    // ウィンドウの設定
+	    setTitle("ログイン");
+
+	 // コンテンツパネルの設定
         JPanel ui_panel_00 = new JPanel(new GridBagLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -52,6 +68,7 @@ public class Client extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+        ui_panel_00.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -107,87 +124,7 @@ public class Client extends JFrame {
             }
         });
 
-        contentPane = ui_panel_00;
-		add(contentPane);
-		
-	}
-	
-	//ログイン画面
-	void loginScreen() {
-	    contentPane.removeAll();
-	    // ウィンドウの設定
-	    setTitle("ログイン");
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setSize(400, 500);
-	    setLocationRelativeTo(null);
-
-	    // コンテンツパネルの設定
-	    JPanel loginPanel = new JPanel(new GridBagLayout()) {
-	        @Override
-	        protected void paintComponent(Graphics g) {
-	            super.paintComponent(g);
-	            // 画像を読み込む
-	            Image backgroundImage = new ImageIcon("login.png").getImage();
-	            // 画像を描画する
-	            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-	        }
-	    };
-	    GridBagConstraints gbc = new GridBagConstraints();
-	    gbc.gridx = 0;
-	    gbc.gridy = GridBagConstraints.RELATIVE;
-	    gbc.anchor = GridBagConstraints.CENTER;
-	    gbc.insets = new Insets(10, 5, 5, 5);
-
-	    // タイトルラベル
-	    JLabel titleLabel = new JLabel("Communi+I", SwingConstants.CENTER);
-	    Font titleFont = new Font("Arial", Font.BOLD, 20);
-	    titleLabel.setFont(titleFont);
-	    loginPanel.add(titleLabel, gbc);
-
-	    // ユーザ名のラベルとフィールド
-	    JLabel usernameLabel = new JLabel("ユーザ名:");
-	    usernameField = new JTextField(20);
-	    loginPanel.add(usernameLabel, gbc);
-	    loginPanel.add(usernameField, gbc);
-
-	    // パスワードのラベルとフィールド
-	    JLabel passwordLabel = new JLabel("パスワード:");
-	    passwordField = new JPasswordField(20);
-	    loginPanel.add(passwordLabel, gbc);
-	    loginPanel.add(passwordField, gbc);
-
-	    // ログインボタン
-	    JButton loginButton = new JButton("ログイン");
-	    gbc.anchor = GridBagConstraints.CENTER;
-	    gbc.insets = new Insets(10, 0, 0, 0);
-	    loginButton.setBackground(new Color(230, 255, 179));
-	    loginPanel.add(loginButton, gbc);
-
-	    // アカウント登録ボタン
-	    JButton registerButton = new JButton("アカウント登録");
-	    registerButton.setBackground(new Color(230, 255, 179));
-	    loginPanel.add(registerButton, gbc);
-
-	    // ボタンのアクションリスナー
-	    loginButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            String username = usernameField.getText();
-	            String password = new String(passwordField.getPassword());
-	            // ログイン処理を行う
-	            // ここではダミーの処理として、入力内容を表示するだけとします
-	            calendarScreen();
-	        }
-	    });
-
-	    registerButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            // アカウント登録画面に遷移する処理を実装する
-	            registerScreen();
-	        }
-	    });
-
-	    contentPane = loginPanel;
-	    setContentPane(contentPane);
+	    contentPane.add(ui_panel_00);
 	    setVisible(true);
 	    repaint();
 	}
