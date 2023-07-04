@@ -274,7 +274,7 @@ public class Client extends JFrame {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[7 * i + j] = new JButton();
 				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "A会", false));
+				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "Aaaaaaaaaaaaaaa", false));
 				ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -17));
 				ui_jb_calendar[7 * i + j].setBorderPainted(false);
 				ui_jb_calendar[7 * i + j].setBackground(THEME_COLOR);
@@ -346,7 +346,9 @@ public class Client extends JFrame {
 		}
 		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
 		g.drawString(event1_name.substring(0, 5), 10, 48);
-		g.drawString(event1_name.substring(5, 9), 10, 60);
+		if(event1_name.length() >= 5) {
+			g.drawString(event1_name.substring(5, (event1_name.length() >= 9 ? 9 : event1_name.length() + 1)), 10, 60);
+		}
 		if(event1_name.length() >= 10) {
 			g.drawString("　　　　…", 10, 60);
 		}
@@ -367,7 +369,11 @@ public class Client extends JFrame {
 			g.setColor(Color.BLACK);
 		}
 		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-		g.drawString(event2_name, 10, 80);
+		g.drawString(event2_name.substring(0, 5), 10, 80);
+		g.drawString(event2_name.substring(5, 9), 10, 92);
+		if(event2_name.length() >= 10) {
+			g.drawString("　　　　…", 10, 92);
+		}
 		g.setColor(new Color(0, 176, 240));
 		
 		g.setColor(Color.BLACK);
