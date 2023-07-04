@@ -115,8 +115,8 @@ public class Client extends JFrame {
                 String password = new String(passwordField.getPassword());
                 // ログイン処理を行う
                 // ここではダミーの処理として、入力内容を表示するだけとします
-                calendarScreen();
-                //userScreen();
+                //calendarScreen();
+                userScreen();
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
@@ -394,6 +394,14 @@ public class Client extends JFrame {
 	
     //ユーザ画面
     void userScreen() {
+        int button_width = 250;
+        int button_height = 40;
+        int r = 8;
+        
+        Image img = createImage(button_width, button_height);
+        Graphics g = img.getGraphics();
+        Client.kadomaruRect(g, 0, 0, button_width, button_height, r);
+
         contentPane.removeAll();
         JPanel userScreen = new JPanel(new GridBagLayout()) {
             private static final long serialVersionUID = 1L;
@@ -407,6 +415,7 @@ public class Client extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+        userScreen.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -421,18 +430,24 @@ public class Client extends JFrame {
         JButton changePasswordButton = new JButton("パスワード変更");
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 0, 0, 0);
+        
         changePasswordButton.setBackground(new Color(255, 255, 255));
+        changePasswordButton.setIcon(new ImageIcon(img));
         userScreen.add(changePasswordButton, gbc);
 
         // コミュニティ管理ボタン
         JButton communityManageButton = new JButton("コミュニティ管理");
         communityManageButton.setBackground(new Color(255, 255, 255));
         userScreen.add(communityManageButton, gbc);
+        
+        communityManageButton.setIcon(new ImageIcon(img));
 
         // ログアウトボタン
         JButton logOutButton = new JButton("ログアウト");
         logOutButton.setBackground(new Color(255, 255, 255));
         userScreen.add(logOutButton, gbc);
+        
+        logOutButton.setIcon(new ImageIcon(img));
 
         contentPane.add(userScreen);
         setVisible(true);
