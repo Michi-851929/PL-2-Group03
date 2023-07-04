@@ -28,7 +28,7 @@ import javax.swing.SwingUtilities;
 public class Client extends JFrame {
 	private JTextField usernameField;
     private JPasswordField passwordField;
-    public JPanel contentPane = new JPanel();
+    public JPanel contentPane;
     
     private JButton[] ui_jb_calendar = new JButton[7 * 5];
 	
@@ -42,7 +42,7 @@ public class Client extends JFrame {
         setLocationRelativeTo(null);
         
         // コンテンツパネルの設定
-        JPanel contentPane = new JPanel(new GridBagLayout()) {
+        JPanel ui_panel_00 = new JPanel(new GridBagLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -62,31 +62,31 @@ public class Client extends JFrame {
         JLabel titleLabel = new JLabel("Communi+I", SwingConstants.CENTER);
         Font titleFont = new Font("Arial", Font.BOLD, 20);
         titleLabel.setFont(titleFont);
-        contentPane.add(titleLabel, gbc);
+        ui_panel_00.add(titleLabel, gbc);
 
         // ユーザ名のラベルとフィールド
         JLabel usernameLabel = new JLabel("ユーザ名:");
         usernameField = new JTextField(20);
-        contentPane.add(usernameLabel, gbc);
-        contentPane.add(usernameField, gbc);
+        ui_panel_00.add(usernameLabel, gbc);
+        ui_panel_00.add(usernameField, gbc);
 
         // パスワードのラベルとフィールド
         JLabel passwordLabel = new JLabel("パスワード:");
         passwordField = new JPasswordField(20);
-        contentPane.add(passwordLabel, gbc);
-        contentPane.add(passwordField, gbc);
+        ui_panel_00.add(passwordLabel, gbc);
+        ui_panel_00.add(passwordField, gbc);
 
         // ログインボタン
         JButton loginButton = new JButton("ログイン");
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 0, 0, 0);
         loginButton.setBackground(new Color(230, 255, 179));
-        contentPane.add(loginButton, gbc);
+        ui_panel_00.add(loginButton, gbc);
 
         // アカウント登録ボタン
         JButton registerButton = new JButton("アカウント登録");
         registerButton.setBackground(new Color(230, 255, 179));
-        contentPane.add(registerButton, gbc);
+        ui_panel_00.add(registerButton, gbc);
 
         // ボタンのアクションリスナー
         loginButton.addActionListener(new ActionListener() {
@@ -107,8 +107,8 @@ public class Client extends JFrame {
             }
         });
 
-        this.contentPane = contentPane;
-		add(this.contentPane);
+        contentPane = ui_panel_00;
+		add(contentPane);
 		
 	}
 	
