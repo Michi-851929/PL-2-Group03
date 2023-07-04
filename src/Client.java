@@ -34,6 +34,7 @@ public class Client extends JFrame {
     
     public final static int WINDOW_WIDTH = 600;
     public final static int WINDOW_HEIGHT = 800;
+    public final static Color THEME_COLOR = new Color(230, 255, 179);
     
     private String username;
     private String password;
@@ -231,23 +232,26 @@ public class Client extends JFrame {
 	void calendarScreen() {
 		//玖津見が書いています
 		contentPane.removeAll();
-		contentPane.setLayout(new FlowLayout());
+		contentPane.setLayout(null);
 		//全体
 		JPanel ui_panel_00 = new JPanel();
-		ui_panel_00.setLayout(new BorderLayout());
-		ui_panel_00.setSize(400, 500);
+		ui_panel_00.setLayout(null);
+		ui_panel_00.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		ui_panel_00.setBackground(THEME_COLOR);
 		
 		//ヘッダ
 		JPanel ui_panel_01 = new JPanel();
 		ui_panel_01.setLayout(new FlowLayout());
-		ui_panel_01.setBounds(0, 0, 400, 50);
+		ui_panel_01.setBounds(0, 0, WINDOW_WIDTH, 75);
+		ui_panel_01.setBackground(THEME_COLOR);
 		
-		ui_panel_00.add(ui_panel_01, "North");
+		ui_panel_00.add(ui_panel_01);
 		
 		//ボタン月ボタン
 		JPanel ui_panel_02 = new JPanel();
 		ui_panel_02.setLayout(new FlowLayout());
-		ui_panel_02.setBounds(0, 0, 400, 50);
+		ui_panel_02.setBounds(0, 0, WINDOW_WIDTH, 75);
+		ui_panel_02.setBackground(THEME_COLOR);
 		JLabel ui_jl_month = new JLabel("2023/07");
 		ui_jl_month.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
 		ui_panel_02.add(ui_jl_month);
@@ -255,22 +259,33 @@ public class Client extends JFrame {
 		ui_panel_01.add(ui_panel_02);
 		
 		//カレンダー
+		JPanel ui_panel_06 = new JPanel();
+		ui_panel_06.setLayout(new FlowLayout());
+		ui_panel_06.setBounds(-5, 75, WINDOW_WIDTH, 600);
+		ui_panel_06.setBackground(THEME_COLOR);
+		JPanel ui_panel_05 = new JPanel();
+		ui_panel_05.setLayout(new BorderLayout());
+		ui_panel_05.setSize(WINDOW_WIDTH - 16, WINDOW_HEIGHT -12);
+		ui_panel_05.setBackground(THEME_COLOR);
 		JPanel ui_panel_03 = new JPanel();
-		ui_panel_03.setLayout(new GridLayout(5, 7, 4, 4));
-		ui_panel_03.setBounds(0, 50, 400, 450);
+		ui_panel_03.setLayout(new GridLayout(5, 7, 5, 5));
+		ui_panel_03.setBackground(THEME_COLOR);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[7 * i + j] = new JButton();
 				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "A会", false));
-				ui_jb_calendar[7 * i + j].setMargin(new Insets(-3, -3, -3, -20));
+				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "Aaaaaaaaaaaaaaa", false));
+				ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -17));
 				ui_jb_calendar[7 * i + j].setBorderPainted(false);
+				ui_jb_calendar[7 * i + j].setBackground(THEME_COLOR);
+				ui_jb_calendar[7 * i + j].setOpaque(true);
 				ui_jb_calendar[7 * i + j].addActionListener(null);
 				ui_panel_03.add(ui_jb_calendar[7 * i + j]);
 			}
 		}
-		
-		ui_panel_00.add(ui_panel_03,"Center");
+		ui_panel_05.add(ui_panel_03, "Center");
+		ui_panel_06.add(ui_panel_05);
+		ui_panel_00.add(ui_panel_06);
 		/*
 		//カレンダー・ユーザ切り替え
 		JPanel ui_panel_04 = new JPanel();
@@ -288,28 +303,29 @@ public class Client extends JFrame {
 		//玖津見が書いています
 		int icon_width = 70;
 		int icon_height = 100;
-		int r = 8;
+		int r = 12;
 		Calendar calendar = Calendar.getInstance();
 		Image img = createImage(icon_width, icon_height);
 		System.out.println(img);
 		Graphics g = img.getGraphics();
+		Color c;
 		
 		if(Calendar.DATE == date) { //今月じゃない
-			g.setColor(new Color(217, 217, 217));
+			c = new Color(217, 217, 217);
 		}
 		else if(icon_width == 3) { //今日
-			g.setColor(new Color(255, 192, 0));
+			c = new Color(255, 192, 0);
 		}
 		else if(weekday == 0) { //日曜
-			g.setColor(new Color(255, 179, 210));
+			c = new Color(255, 179, 210);
 		}
 		else if(weekday == 6) { //土曜
-			g.setColor(new Color(197, 226, 255));
+			c = new Color(197, 226, 255);
 		}
 		else { //平日
-			g.setColor(new Color(255, 255, 255));
+			c = new Color(255, 255, 255);
 		}
-		Client.kadomaruRect(g, 0, 0, icon_width, icon_height, r);
+		Client.kadomaruRect(g, 0, 0, icon_width, icon_height, r, c, THEME_COLOR);
 		
 		if(event1_preferred) { //いいね
 			g.setColor(new Color(0, 176, 240));
@@ -320,7 +336,7 @@ public class Client extends JFrame {
 		icon_width = icon_width - 6;
 		icon_height = icon_height / 3 - 4;
 		int offset = 36;
-		r = 4;
+		r = 10;
 		Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
 		if(event1_preferred) { //いいね
 			g.setColor(Color.WHITE);
@@ -330,7 +346,9 @@ public class Client extends JFrame {
 		}
 		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
 		g.drawString(event1_name.substring(0, 5), 10, 48);
-		g.drawString(event1_name.substring(5, 9), 10, 60);
+		if(event1_name.length() >= 5) {
+			g.drawString(event1_name.substring(5, (event1_name.length() >= 9 ? 9 : event1_name.length() + 1)), 10, 60);
+		}
 		if(event1_name.length() >= 10) {
 			g.drawString("　　　　…", 10, 60);
 		}
@@ -351,7 +369,11 @@ public class Client extends JFrame {
 			g.setColor(Color.BLACK);
 		}
 		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-		g.drawString(event2_name, 10, 80);
+		g.drawString(event2_name.substring(0, 5), 10, 80);
+		g.drawString(event2_name.substring(5, 9), 10, 92);
+		if(event2_name.length() >= 10) {
+			g.drawString("　　　　…", 10, 92);
+		}
 		g.setColor(new Color(0, 176, 240));
 		
 		g.setColor(Color.BLACK);
@@ -374,6 +396,19 @@ public class Client extends JFrame {
 	
 	public static void kadomaruRect(Graphics g, int x, int y, int width, int height, int r)
 	{
+		g.fillOval(x, y, r, r);
+		g.fillOval(x + width - r - 1, y, r, r);
+		g.fillOval(x, y + height - r - 1, r, r);
+		g.fillOval(x + width - r - 1, y + height - r - 1, r, r);
+		g.fillRect(x, y + r / 2, width, height - r);
+		g.fillRect(x + r / 2, y, width - r, height);
+	}
+	
+	public static void kadomaruRect(Graphics g, int x, int y, int width, int height, int r, Color maincolor, Color background)
+	{
+		g.setColor(background);
+		g.fillRect(0, 0, width, height);
+		g.setColor(maincolor);
 		g.fillOval(x, y, r, r);
 		g.fillOval(x + width - r - 1, y, r, r);
 		g.fillOval(x, y + height - r - 1, r, r);
