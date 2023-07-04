@@ -14,7 +14,8 @@ import javax.net.ssl.SSLServerSocketFactory;
 public class ServerConnect{
 	int mode = 0;
 	SSLServerSocketFactory sf;
-	ServerConnect() throws Exception{
+	Server se;
+	ServerConnect(Server server) throws Exception{
 		try (FileInputStream fis = new FileInputStream(Certificate.name);){
 			KeyStore ks;
 			KeyManagerFactory kmf;
@@ -25,6 +26,7 @@ public class ServerConnect{
 			SSLContext tls  = SSLContext.getInstance("TLSv1.3");
 			tls.init(kmf.getKeyManagers(),null,null);
 			sf = tls.getServerSocketFactory();
+			se = server;
 	}catch(Exception e) {
 			throw e;
 		}
@@ -36,7 +38,7 @@ public class ServerConnect{
 		try {
 			while(this.mode == 1) {
 				Socket s = ssss.accept();
-				new ConnectThread(s).start();
+				new ConnectThread(s,se).start();
 			}
 		}catch(Exception e) {
 			throw e;
@@ -49,7 +51,8 @@ public class ServerConnect{
 
 class ConnectThread extends Thread{
 	private Socket s;
-	public ConnectThread(Socket socket) {
+	Server se;
+	public ConnectThread(Socket socket,Server server) {
 		this.s = socket;
 	}
 	
@@ -60,14 +63,34 @@ class ConnectThread extends Thread{
 		ObjectOutputStream oos = new ObjectOutputStream(os);
 		ObjectInputStream ois = new ObjectInputStream(is);
 		Message m = (Message) ois.readObject();
-		Message ans = new Message(m.name,m.pass,-1);
+		Message ans = new Message(m.name,m.pass,0);
 		//ここから各自処理
 		if(m.mode == 0) {
 			String name = m.name;
 			String pass = m.pass;
 			String mac = (String) m.message;
-			ans.message = "test";//testは関数に置き換え予定
-			ans.mode = 0;
+			if(se.isCreatableAccount(name,mac) == 1) {
+				ans.message = 4;
+			}else if(se.isCreatableAccount(name,mac) == 2) {
+				ans.message = 5;
+			}else {
+				se.createAccount(name, pass, mac);
+			}
+		}else if(m.mode == 1) {
+			ans.message = se.logIn(m.name,m.pass);
+		}else {
+			Account tmp = se.getAccount(m.name);
+			if(tmp == new Account("", "", "")) {
+				ans.mode = 1;
+			}else if(tmp.isBanned()==true) {
+				ans.mode = 2;
+			}else if(tmp.verifyPassword(m.pass)==0) {
+				ans.mode = 3;
+			}else {
+				if(m.mode == 2) {
+					
+				}
+			}
 		}
 		oos.writeObject(ans);
 		//ここまで各自処理

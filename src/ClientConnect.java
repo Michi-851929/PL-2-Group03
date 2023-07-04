@@ -39,6 +39,8 @@ public class ClientConnect{
 			}else if(ans.mode == 2) {
 				throw  new Exception("Banned user");
 			}else if(ans.mode == 3) {
+				throw  new Exception("Auth falled");
+			}else if(ans.mode == 4) {
 				throw  new Exception("Request falled");
 			}
 			return ans;
