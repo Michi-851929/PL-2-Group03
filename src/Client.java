@@ -3,11 +3,13 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -431,11 +433,9 @@ public class Client extends JFrame {
     void userScreen() {
         int button_width = 250;
         int button_height = 40;
-        int r = 8;
+        int r = 18;
         
-        Image img = createImage(button_width, button_height);
-        Graphics g = img.getGraphics();
-        Client.kadomaruRect(g, 0, 0, button_width, button_height, r);
+
 
         contentPane.removeAll();
         JPanel userScreen = new JPanel(new GridBagLayout()) {
@@ -451,6 +451,7 @@ public class Client extends JFrame {
             }
         };
         userScreen.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        userScreen.setBackground(THEME_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -462,30 +463,61 @@ public class Client extends JFrame {
         userScreen.add(usernameLabel, gbc);
 
         // パスワード変更ボタン
-        JButton changePasswordButton = new JButton("パスワード変更");
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(10, 0, 0, 0);
+        Image img1 = createImage(button_width, button_height);
+        Graphics g1 = img1.getGraphics();
+        g1.setColor(Color.WHITE);
+        Client.kadomaruRect(g1, 0, 0, button_width, button_height, r);
+        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        g1.setColor(Color.BLACK);
+        g1.drawString("パスワード変更", 25, 25);
+        JButton changePasswordButton = new JButton("1");
+        //gbc.anchor = GridBagConstraints.CENTER;
+        //gbc.insets = new Insets(10, 0, 0, 0);
         
-        changePasswordButton.setBackground(new Color(255, 255, 255));
-        changePasswordButton.setIcon(new ImageIcon(img));
+        changePasswordButton.setBackground(THEME_COLOR);
+        changePasswordButton.setOpaque(true);
+        changePasswordButton.setMargin(new Insets(-3, -3, -3, -13));
+        changePasswordButton.setBorderPainted(false);
+        changePasswordButton.setIcon(new ImageIcon(img1));
         userScreen.add(changePasswordButton, gbc);
 
         // コミュニティ管理ボタン
-        JButton communityManageButton = new JButton("コミュニティ管理");
-        communityManageButton.setBackground(new Color(255, 255, 255));
-        userScreen.add(communityManageButton, gbc);
+        Image img2 = createImage(button_width, button_height);
+        Graphics g2 = img2.getGraphics();
+        g2.setColor(Color.WHITE);
+        Client.kadomaruRect(g2, 0, 0, button_width, button_height, r);
+        g2.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        g2.setColor(Color.BLACK);
+        g2.drawString("コミュニティ管理", 25, 25);
+        JButton communityManageButton = new JButton("2");
         
-        communityManageButton.setIcon(new ImageIcon(img));
+        communityManageButton.setBackground(THEME_COLOR);
+        communityManageButton.setOpaque(true);
+        communityManageButton.setMargin(new Insets(-3, -3, -3, -15));
+        communityManageButton.setBorderPainted(false);
+        communityManageButton.setIcon(new ImageIcon(img2));
+        userScreen.add(communityManageButton, gbc);
 
         // ログアウトボタン
-        JButton logOutButton = new JButton("ログアウト");
-        logOutButton.setBackground(new Color(255, 255, 255));
+        Image img3 = createImage(button_width, button_height);
+        Graphics g3 = img3.getGraphics();
+        g3.setColor(Color.WHITE);
+        Client.kadomaruRect(g3, 0, 0, button_width, button_height, r);
+        g3.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        g3.setColor(Color.BLACK);
+        g3.drawString("ログアウト", 25, 25);
+        JButton logOutButton = new JButton("3");
+        logOutButton.setBackground(THEME_COLOR);
+        logOutButton.setOpaque(false);
+        logOutButton.setBorderPainted(false);
+        logOutButton.setMargin(new Insets(-3, -3, -3, -15));
+        logOutButton.setIcon(new ImageIcon(img3));
         userScreen.add(logOutButton, gbc);
-        
-        logOutButton.setIcon(new ImageIcon(img));
 
+    
         contentPane.add(userScreen);
         setVisible(true);
+        
         repaint();
     }
 	
