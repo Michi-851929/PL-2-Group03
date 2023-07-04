@@ -52,7 +52,7 @@ public class CalendarMonth implements Serializable{
 	    for(int i = 0; i<31;i++) {
 	        ArrayList<ClientEvent> tmp_eventlist=  cm_events.get(1);
 	        for(int j = 0; j < tmp_eventlist.size(); j++) {
-	            if(tmp_eventlist.get(j).eve_id.equals(rem_event_id)){ //ClientEventクラスのeve_idの取得メソッドができたら書き換える
+	            if(tmp_eventlist.get(j).getEventId().equals(rem_event_id)){ //ClientEventクラスのeve_idの取得メソッドができたら書き換える
 	                tmp_eventlist.remove(j);
 	            }
 	        }

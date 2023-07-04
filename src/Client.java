@@ -34,6 +34,9 @@ public class Client extends JFrame {
     
     public final static int WINDOW_WIDTH = 400;
     public final static int WINDOW_HEIGHT = 500;
+    
+    private String username;
+    private String password;
 	
 	//コンストラクタ(ログイン画面)
 	public Client(){
@@ -108,11 +111,12 @@ public class Client extends JFrame {
         // ボタンのアクションリスナー
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
+                username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
                 // ログイン処理を行う
                 // ここではダミーの処理として、入力内容を表示するだけとします
                 calendarScreen();
+                //userScreen();
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
@@ -205,8 +209,8 @@ public class Client extends JFrame {
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
+                username = usernameField.getText();
+                password = new String(passwordField.getPassword());
                 String confirmPassword = new String(confirmPasswordField.getPassword());
                 
                 if (!password.equals(confirmPassword)) {
@@ -393,6 +397,8 @@ public class Client extends JFrame {
     void userScreen() {
         contentPane.removeAll();
         JPanel userScreen = new JPanel(new GridBagLayout()) {
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
