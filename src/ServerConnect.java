@@ -40,8 +40,10 @@ public class ServerConnect{
 			}
 		}catch(Exception e) {
 			throw e;
-		}
-		
+		}	
+	}
+	void stop() {
+		this.mode = 0;
 	}
 }
 

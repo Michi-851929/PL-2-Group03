@@ -4,6 +4,7 @@ public class Message implements Serializable{
 	//サーバー,クライアント共に使用
 	int mode;
 	Object message;
+	Object message2;
 	String name;
 	String pass;
 	Message(String n,String p,int i){	
