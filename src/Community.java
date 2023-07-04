@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Community{
+public class Community implements Serializable{
+    private static final long serialVersionUID = 1L;
     public final int TAG_MAXNUM = 5; //タグを何個まで設定できるか
     public final int RETURN_OK = 0; //正常に処理できた時の返り値
     public final int RETURN_ERROR = -1;//エラーがあった時の返り値

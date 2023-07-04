@@ -28,21 +28,41 @@ import javax.swing.SwingUtilities;
 public class Client extends JFrame {
 	private JTextField usernameField;
     private JPasswordField passwordField;
-    public JPanel contentPane = new JPanel();
+    public JPanel contentPane;
     
     private JButton[] ui_jb_calendar = new JButton[7 * 5];
+    
+    public final static int WINDOW_WIDTH = 600;
+    public final static int WINDOW_HEIGHT = 800;
+    public final static Color THEME_COLOR = new Color(230, 255, 179);
+    
+    private String username;
+    private String password;
 	
 	//コンストラクタ(ログイン画面)
 	public Client(){
 		// ウィンドウの設定
         super("ログイン");
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	    setLocationRelativeTo(null);
+	    
         contentPane = new JPanel();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 500);
-        setLocationRelativeTo(null);
+        contentPane.setLayout(null);
+        add(contentPane);
         
-        // コンテンツパネルの設定
-        JPanel contentPane = new JPanel(new GridBagLayout()) {
+        loginScreen();
+		
+	}
+	
+	//ログイン画面
+	void loginScreen() {
+	    contentPane.removeAll();
+	    // ウィンドウの設定
+	    setTitle("ログイン");
+
+	 // コンテンツパネルの設定
+        JPanel ui_panel_00 = new JPanel(new GridBagLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -52,6 +72,7 @@ public class Client extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+        ui_panel_00.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -62,40 +83,41 @@ public class Client extends JFrame {
         JLabel titleLabel = new JLabel("Communi+I", SwingConstants.CENTER);
         Font titleFont = new Font("Arial", Font.BOLD, 20);
         titleLabel.setFont(titleFont);
-        contentPane.add(titleLabel, gbc);
+        ui_panel_00.add(titleLabel, gbc);
 
         // ユーザ名のラベルとフィールド
         JLabel usernameLabel = new JLabel("ユーザ名:");
         usernameField = new JTextField(20);
-        contentPane.add(usernameLabel, gbc);
-        contentPane.add(usernameField, gbc);
+        ui_panel_00.add(usernameLabel, gbc);
+        ui_panel_00.add(usernameField, gbc);
 
         // パスワードのラベルとフィールド
         JLabel passwordLabel = new JLabel("パスワード:");
         passwordField = new JPasswordField(20);
-        contentPane.add(passwordLabel, gbc);
-        contentPane.add(passwordField, gbc);
+        ui_panel_00.add(passwordLabel, gbc);
+        ui_panel_00.add(passwordField, gbc);
 
         // ログインボタン
         JButton loginButton = new JButton("ログイン");
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 0, 0, 0);
         loginButton.setBackground(new Color(230, 255, 179));
-        contentPane.add(loginButton, gbc);
+        ui_panel_00.add(loginButton, gbc);
 
         // アカウント登録ボタン
         JButton registerButton = new JButton("アカウント登録");
         registerButton.setBackground(new Color(230, 255, 179));
-        contentPane.add(registerButton, gbc);
+        ui_panel_00.add(registerButton, gbc);
 
         // ボタンのアクションリスナー
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
+                username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
                 // ログイン処理を行う
                 // ここではダミーの処理として、入力内容を表示するだけとします
-                calendarScreen();
+                //calendarScreen();
+                userScreen();
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
@@ -107,87 +129,7 @@ public class Client extends JFrame {
             }
         });
 
-        this.contentPane = contentPane;
-		add(this.contentPane);
-		
-	}
-	
-	//ログイン画面
-	void loginScreen() {
-	    contentPane.removeAll();
-	    // ウィンドウの設定
-	    setTitle("ログイン");
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setSize(400, 500);
-	    setLocationRelativeTo(null);
-
-	    // コンテンツパネルの設定
-	    JPanel loginPanel = new JPanel(new GridBagLayout()) {
-	        @Override
-	        protected void paintComponent(Graphics g) {
-	            super.paintComponent(g);
-	            // 画像を読み込む
-	            Image backgroundImage = new ImageIcon("login.png").getImage();
-	            // 画像を描画する
-	            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-	        }
-	    };
-	    GridBagConstraints gbc = new GridBagConstraints();
-	    gbc.gridx = 0;
-	    gbc.gridy = GridBagConstraints.RELATIVE;
-	    gbc.anchor = GridBagConstraints.CENTER;
-	    gbc.insets = new Insets(10, 5, 5, 5);
-
-	    // タイトルラベル
-	    JLabel titleLabel = new JLabel("Communi+I", SwingConstants.CENTER);
-	    Font titleFont = new Font("Arial", Font.BOLD, 20);
-	    titleLabel.setFont(titleFont);
-	    loginPanel.add(titleLabel, gbc);
-
-	    // ユーザ名のラベルとフィールド
-	    JLabel usernameLabel = new JLabel("ユーザ名:");
-	    usernameField = new JTextField(20);
-	    loginPanel.add(usernameLabel, gbc);
-	    loginPanel.add(usernameField, gbc);
-
-	    // パスワードのラベルとフィールド
-	    JLabel passwordLabel = new JLabel("パスワード:");
-	    passwordField = new JPasswordField(20);
-	    loginPanel.add(passwordLabel, gbc);
-	    loginPanel.add(passwordField, gbc);
-
-	    // ログインボタン
-	    JButton loginButton = new JButton("ログイン");
-	    gbc.anchor = GridBagConstraints.CENTER;
-	    gbc.insets = new Insets(10, 0, 0, 0);
-	    loginButton.setBackground(new Color(230, 255, 179));
-	    loginPanel.add(loginButton, gbc);
-
-	    // アカウント登録ボタン
-	    JButton registerButton = new JButton("アカウント登録");
-	    registerButton.setBackground(new Color(230, 255, 179));
-	    loginPanel.add(registerButton, gbc);
-
-	    // ボタンのアクションリスナー
-	    loginButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            String username = usernameField.getText();
-	            String password = new String(passwordField.getPassword());
-	            // ログイン処理を行う
-	            // ここではダミーの処理として、入力内容を表示するだけとします
-	            calendarScreen();
-	        }
-	    });
-
-	    registerButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            // アカウント登録画面に遷移する処理を実装する
-	            registerScreen();
-	        }
-	    });
-
-	    contentPane = loginPanel;
-	    setContentPane(contentPane);
+	    contentPane.add(ui_panel_00);
 	    setVisible(true);
 	    repaint();
 	}
@@ -268,8 +210,8 @@ public class Client extends JFrame {
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
+                username = usernameField.getText();
+                password = new String(passwordField.getPassword());
                 String confirmPassword = new String(confirmPasswordField.getPassword());
                 
                 if (!password.equals(confirmPassword)) {
@@ -290,23 +232,26 @@ public class Client extends JFrame {
 	void calendarScreen() {
 		//玖津見が書いています
 		contentPane.removeAll();
-		contentPane.setLayout(new FlowLayout());
+		contentPane.setLayout(null);
 		//全体
 		JPanel ui_panel_00 = new JPanel();
-		ui_panel_00.setLayout(new BorderLayout());
-		ui_panel_00.setSize(400, 500);
+		ui_panel_00.setLayout(null);
+		ui_panel_00.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		ui_panel_00.setBackground(THEME_COLOR);
 		
 		//ヘッダ
 		JPanel ui_panel_01 = new JPanel();
 		ui_panel_01.setLayout(new FlowLayout());
-		ui_panel_01.setBounds(0, 0, 400, 50);
+		ui_panel_01.setBounds(0, 0, WINDOW_WIDTH, 75);
+		ui_panel_01.setBackground(THEME_COLOR);
 		
-		ui_panel_00.add(ui_panel_01, "North");
+		ui_panel_00.add(ui_panel_01);
 		
 		//ボタン月ボタン
 		JPanel ui_panel_02 = new JPanel();
 		ui_panel_02.setLayout(new FlowLayout());
-		ui_panel_02.setBounds(0, 0, 400, 50);
+		ui_panel_02.setBounds(0, 0, WINDOW_WIDTH, 75);
+		ui_panel_02.setBackground(THEME_COLOR);
 		JLabel ui_jl_month = new JLabel("2023/07");
 		ui_jl_month.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
 		ui_panel_02.add(ui_jl_month);
@@ -314,22 +259,33 @@ public class Client extends JFrame {
 		ui_panel_01.add(ui_panel_02);
 		
 		//カレンダー
+		JPanel ui_panel_06 = new JPanel();
+		ui_panel_06.setLayout(new FlowLayout());
+		ui_panel_06.setBounds(-5, 75, WINDOW_WIDTH, 600);
+		ui_panel_06.setBackground(THEME_COLOR);
+		JPanel ui_panel_05 = new JPanel();
+		ui_panel_05.setLayout(new BorderLayout());
+		ui_panel_05.setSize(WINDOW_WIDTH - 16, WINDOW_HEIGHT -12);
+		ui_panel_05.setBackground(THEME_COLOR);
 		JPanel ui_panel_03 = new JPanel();
-		ui_panel_03.setLayout(new GridLayout(5, 7, 4, 4));
-		ui_panel_03.setBounds(0, 50, 400, 450);
+		ui_panel_03.setLayout(new GridLayout(5, 7, 5, 5));
+		ui_panel_03.setBackground(THEME_COLOR);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[7 * i + j] = new JButton();
 				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会", true, "A会", false));
-				ui_jb_calendar[7 * i + j].setMargin(new Insets(-3, -3, -3, -20));
+				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "Aaaaaaaaaaaaaaa", false));
+				ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -17));
 				ui_jb_calendar[7 * i + j].setBorderPainted(false);
+				ui_jb_calendar[7 * i + j].setBackground(THEME_COLOR);
+				ui_jb_calendar[7 * i + j].setOpaque(true);
 				ui_jb_calendar[7 * i + j].addActionListener(null);
 				ui_panel_03.add(ui_jb_calendar[7 * i + j]);
 			}
 		}
-		
-		ui_panel_00.add(ui_panel_03,"Center");
+		ui_panel_05.add(ui_panel_03, "Center");
+		ui_panel_06.add(ui_panel_05);
+		ui_panel_00.add(ui_panel_06);
 		/*
 		//カレンダー・ユーザ切り替え
 		JPanel ui_panel_04 = new JPanel();
@@ -345,35 +301,31 @@ public class Client extends JFrame {
 	private ImageIcon getDateIcon(boolean this_month, int date, int weekday, int event_number, String event1_name, boolean event1_preferred, String event2_name, boolean event2_preferred)
 	{
 		//玖津見が書いています
-		int icon_width = 50;
-		int icon_height = 60;
-		int r = 8;
+		int icon_width = 70;
+		int icon_height = 100;
+		int r = 12;
 		Calendar calendar = Calendar.getInstance();
 		Image img = createImage(icon_width, icon_height);
 		System.out.println(img);
 		Graphics g = img.getGraphics();
+		Color c;
 		
 		if(Calendar.DATE == date) { //今月じゃない
-			g.setColor(new Color(217, 217, 217));
+			c = new Color(217, 217, 217);
 		}
 		else if(icon_width == 3) { //今日
-			g.setColor(new Color(255, 192, 0));
+			c = new Color(255, 192, 0);
 		}
 		else if(weekday == 0) { //日曜
-			g.setColor(new Color(255, 179, 210));
+			c = new Color(255, 179, 210);
 		}
 		else if(weekday == 6) { //土曜
-			g.setColor(new Color(197, 226, 255));
+			c = new Color(197, 226, 255);
 		}
 		else { //平日
-			g.setColor(new Color(255, 255, 255));
+			c = new Color(255, 255, 255);
 		}
-		g.fillOval(0, 0, r, r);
-		g.fillOval(icon_width - r - 1, 0, r, r);
-		g.fillOval(0, icon_height - r - 1, r, r);
-		g.fillOval(icon_width - r - 1, icon_height - r - 1, r, r);
-		g.fillRect(0, r / 2, icon_width, icon_height - r);
-		g.fillRect(r / 2, 0, icon_width - r, icon_height);
+		Client.kadomaruRect(g, 0, 0, icon_width, icon_height, r, c, THEME_COLOR);
 		
 		if(event1_preferred) { //いいね
 			g.setColor(new Color(0, 176, 240));
@@ -383,22 +335,23 @@ public class Client extends JFrame {
 		}
 		icon_width = icon_width - 6;
 		icon_height = icon_height / 3 - 4;
-		int offset = 22;
-		r = 4;
-		g.fillOval(3 + 0, offset + 0, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
-		g.fillOval(3 + 0, offset + icon_height - r - 1, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
-		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
-		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		int offset = 36;
+		r = 10;
+		Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
 		if(event1_preferred) { //いいね
 			g.setColor(Color.WHITE);
 		}
 		else{ //非いいね
 			g.setColor(Color.BLACK);
 		}
-		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 10));
-		g.drawString(event1_name, 6, 34);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+		g.drawString(event1_name.substring(0, 5), 10, 48);
+		if(event1_name.length() >= 5) {
+			g.drawString(event1_name.substring(5, (event1_name.length() >= 9 ? 9 : event1_name.length() + 1)), 10, 60);
+		}
+		if(event1_name.length() >= 10) {
+			g.drawString("　　　　…", 10, 60);
+		}
 		g.setColor(new Color(0, 176, 240));
 		
 		if(event2_preferred) { //いいね
@@ -407,39 +360,61 @@ public class Client extends JFrame {
 		else{ //非いいね
 			g.setColor(new Color(242, 242, 242));
 		}
-		offset = 41;
-		g.fillOval(3 + 0, offset + 0, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
-		g.fillOval(3 + 0, offset + icon_height - r - 1, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
-		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
-		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		offset = 68;
+		Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
 		if(event2_preferred) { //いいね
 			g.setColor(Color.WHITE);
 		}
 		else{ //非いいね
 			g.setColor(Color.BLACK);
 		}
-		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 10));
-		g.drawString(event2_name, 6, 53);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+		g.drawString(event2_name.substring(0, 5), 10, 80);
+		g.drawString(event2_name.substring(5, 9), 10, 92);
+		if(event2_name.length() >= 10) {
+			g.drawString("　　　　…", 10, 92);
+		}
 		g.setColor(new Color(0, 176, 240));
 		
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
-		g.drawString(Integer.toString(date), 6, 17);
+		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+		g.drawString(Integer.toString(date), 8, 24);
 		
-		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
-		g.drawString(Integer.toString(event_number % 10), 32, 17);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
+		g.drawString(Integer.toString(event_number % 10), 47, 24);
 		if(event_number >= 10) {
-			g.drawString(Integer.toString(event_number / 10), 26, 17);
+			g.drawString(Integer.toString(event_number / 10), 39, 24);
 		}
-		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-		g.drawString("件", 38, 16);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+		g.drawString("件", 53, 23);
 		
 		
 		
 		ImageIcon icon = new ImageIcon(img);
 		return icon;
+	}
+	
+	public static void kadomaruRect(Graphics g, int x, int y, int width, int height, int r)
+	{
+		g.fillOval(x, y, r, r);
+		g.fillOval(x + width - r - 1, y, r, r);
+		g.fillOval(x, y + height - r - 1, r, r);
+		g.fillOval(x + width - r - 1, y + height - r - 1, r, r);
+		g.fillRect(x, y + r / 2, width, height - r);
+		g.fillRect(x + r / 2, y, width - r, height);
+	}
+	
+	public static void kadomaruRect(Graphics g, int x, int y, int width, int height, int r, Color maincolor, Color background)
+	{
+		g.setColor(background);
+		g.fillRect(0, 0, width, height);
+		g.setColor(maincolor);
+		g.fillOval(x, y, r, r);
+		g.fillOval(x + width - r - 1, y, r, r);
+		g.fillOval(x, y + height - r - 1, r, r);
+		g.fillOval(x + width - r - 1, y + height - r - 1, r, r);
+		g.fillRect(x, y + r / 2, width, height - r);
+		g.fillRect(x + r / 2, y, width - r, height);
 	}
 	
 	//日付画面
@@ -452,10 +427,67 @@ public class Client extends JFrame {
 		
 	}
 	
-	//ユーザ画面
-	void userScreen() {
-		
-	}
+    //ユーザ画面
+    void userScreen() {
+        int button_width = 250;
+        int button_height = 40;
+        int r = 8;
+        
+        Image img = createImage(button_width, button_height);
+        Graphics g = img.getGraphics();
+        Client.kadomaruRect(g, 0, 0, button_width, button_height, r);
+
+        contentPane.removeAll();
+        JPanel userScreen = new JPanel(new GridBagLayout()) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // 画像を読み込む
+                Image backgroundImage = new ImageIcon("login.png").getImage();
+                // 画像を描画する
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        userScreen.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 5, 5, 5);
+
+        // ユーザ名のラベルとフィールド
+        JLabel usernameLabel = new JLabel("ユーザ名: "+username);
+        userScreen.add(usernameLabel, gbc);
+
+        // パスワード変更ボタン
+        JButton changePasswordButton = new JButton("パスワード変更");
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 0, 0, 0);
+        
+        changePasswordButton.setBackground(new Color(255, 255, 255));
+        changePasswordButton.setIcon(new ImageIcon(img));
+        userScreen.add(changePasswordButton, gbc);
+
+        // コミュニティ管理ボタン
+        JButton communityManageButton = new JButton("コミュニティ管理");
+        communityManageButton.setBackground(new Color(255, 255, 255));
+        userScreen.add(communityManageButton, gbc);
+        
+        communityManageButton.setIcon(new ImageIcon(img));
+
+        // ログアウトボタン
+        JButton logOutButton = new JButton("ログアウト");
+        logOutButton.setBackground(new Color(255, 255, 255));
+        userScreen.add(logOutButton, gbc);
+        
+        logOutButton.setIcon(new ImageIcon(img));
+
+        contentPane.add(userScreen);
+        setVisible(true);
+        repaint();
+    }
 	
 	//パスワード変更画面
 	void passwordScreen() {
