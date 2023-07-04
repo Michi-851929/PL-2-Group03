@@ -308,15 +308,9 @@ public class Client extends JFrame {
 		}
 		else { //平日
 			g.setColor(new Color(255, 255, 255));
-		}/*
-		g.fillOval(0, 0, r, r);
-		g.fillOval(icon_width - r - 1, 0, r, r);
-		g.fillOval(0, icon_height - r - 1, r, r);
-		g.fillOval(icon_width - r - 1, icon_height - r - 1, r, r);
-		g.fillRect(0, r / 2, icon_width, icon_height - r);
-		g.fillRect(r / 2, 0, icon_width - r, icon_height);
-		*/
+		}
 		Client.kadomaruRect(g, 0, 0, icon_width, icon_height, r);
+		
 		if(event1_preferred) { //いいね
 			g.setColor(new Color(0, 176, 240));
 		}
@@ -327,12 +321,7 @@ public class Client extends JFrame {
 		icon_height = icon_height / 3 - 4;
 		int offset = 36;
 		r = 4;
-		g.fillOval(3 + 0, offset + 0, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
-		g.fillOval(3 + 0, offset + icon_height - r - 1, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
-		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
-		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
 		if(event1_preferred) { //いいね
 			g.setColor(Color.WHITE);
 		}
@@ -354,12 +343,7 @@ public class Client extends JFrame {
 			g.setColor(new Color(242, 242, 242));
 		}
 		offset = 68;
-		g.fillOval(3 + 0, offset + 0, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
-		g.fillOval(3 + 0, offset + icon_height - r - 1, r, r);
-		g.fillOval(3 + icon_width - r - 1, offset + icon_height - r - 1, r, r);
-		g.fillRect(3 + 0, offset + r / 2, icon_width, icon_height - r);
-		g.fillRect(3 + r / 2, offset + 0, icon_width - r, icon_height);
+		Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
 		if(event2_preferred) { //いいね
 			g.setColor(Color.WHITE);
 		}
