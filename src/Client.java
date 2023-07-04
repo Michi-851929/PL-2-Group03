@@ -32,8 +32,8 @@ public class Client extends JFrame {
     
     private JButton[] ui_jb_calendar = new JButton[7 * 5];
     
-    public final static int WINDOW_WIDTH = 400;
-    public final static int WINDOW_HEIGHT = 500;
+    public final static int WINDOW_WIDTH = 600;
+    public final static int WINDOW_HEIGHT = 800;
 	
 	//コンストラクタ(ログイン画面)
 	public Client(){
@@ -258,7 +258,7 @@ public class Client extends JFrame {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[7 * i + j] = new JButton();
 				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会", true, "A会", false));
+				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "A会", false));
 				ui_jb_calendar[7 * i + j].setMargin(new Insets(-3, -3, -3, -20));
 				ui_jb_calendar[7 * i + j].setBorderPainted(false);
 				ui_jb_calendar[7 * i + j].addActionListener(null);
@@ -282,8 +282,8 @@ public class Client extends JFrame {
 	private ImageIcon getDateIcon(boolean this_month, int date, int weekday, int event_number, String event1_name, boolean event1_preferred, String event2_name, boolean event2_preferred)
 	{
 		//玖津見が書いています
-		int icon_width = 50;
-		int icon_height = 60;
+		int icon_width = 70;
+		int icon_height = 100;
 		int r = 8;
 		Calendar calendar = Calendar.getInstance();
 		Image img = createImage(icon_width, icon_height);
@@ -304,14 +304,15 @@ public class Client extends JFrame {
 		}
 		else { //平日
 			g.setColor(new Color(255, 255, 255));
-		}
+		}/*
 		g.fillOval(0, 0, r, r);
 		g.fillOval(icon_width - r - 1, 0, r, r);
 		g.fillOval(0, icon_height - r - 1, r, r);
 		g.fillOval(icon_width - r - 1, icon_height - r - 1, r, r);
 		g.fillRect(0, r / 2, icon_width, icon_height - r);
 		g.fillRect(r / 2, 0, icon_width - r, icon_height);
-		
+		*/
+		Client.kadomaruRect(g, 0, 0, icon_width, icon_height, r);
 		if(event1_preferred) { //いいね
 			g.setColor(new Color(0, 176, 240));
 		}
@@ -320,7 +321,7 @@ public class Client extends JFrame {
 		}
 		icon_width = icon_width - 6;
 		icon_height = icon_height / 3 - 4;
-		int offset = 22;
+		int offset = 36;
 		r = 4;
 		g.fillOval(3 + 0, offset + 0, r, r);
 		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
@@ -334,8 +335,12 @@ public class Client extends JFrame {
 		else{ //非いいね
 			g.setColor(Color.BLACK);
 		}
-		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 10));
-		g.drawString(event1_name, 6, 34);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+		g.drawString(event1_name.substring(0, 5), 10, 48);
+		g.drawString(event1_name.substring(5, 9), 10, 60);
+		if(event1_name.length() >= 10) {
+			g.drawString("　　　　…", 10, 60);
+		}
 		g.setColor(new Color(0, 176, 240));
 		
 		if(event2_preferred) { //いいね
@@ -344,7 +349,7 @@ public class Client extends JFrame {
 		else{ //非いいね
 			g.setColor(new Color(242, 242, 242));
 		}
-		offset = 41;
+		offset = 68;
 		g.fillOval(3 + 0, offset + 0, r, r);
 		g.fillOval(3 + icon_width - r - 1, offset + 0, r, r);
 		g.fillOval(3 + 0, offset + icon_height - r - 1, r, r);
@@ -357,26 +362,36 @@ public class Client extends JFrame {
 		else{ //非いいね
 			g.setColor(Color.BLACK);
 		}
-		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 10));
-		g.drawString(event2_name, 6, 53);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+		g.drawString(event2_name, 10, 80);
 		g.setColor(new Color(0, 176, 240));
 		
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
-		g.drawString(Integer.toString(date), 6, 17);
+		g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+		g.drawString(Integer.toString(date), 8, 24);
 		
-		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
-		g.drawString(Integer.toString(event_number % 10), 32, 17);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
+		g.drawString(Integer.toString(event_number % 10), 47, 24);
 		if(event_number >= 10) {
-			g.drawString(Integer.toString(event_number / 10), 26, 17);
+			g.drawString(Integer.toString(event_number / 10), 39, 24);
 		}
-		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-		g.drawString("件", 38, 16);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+		g.drawString("件", 53, 23);
 		
 		
 		
 		ImageIcon icon = new ImageIcon(img);
 		return icon;
+	}
+	
+	public static void kadomaruRect(Graphics g, int x, int y, int width, int height, int r)
+	{
+		g.fillOval(x, y, r, r);
+		g.fillOval(x + width - r - 1, y, r, r);
+		g.fillOval(x, y + height - r - 1, r, r);
+		g.fillOval(x + width - r - 1, y + height - r - 1, r, r);
+		g.fillRect(x, y + r / 2, width, height - r);
+		g.fillRect(x + r / 2, y, width - r, height);
 	}
 	
 	//日付画面
