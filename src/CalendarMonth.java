@@ -47,13 +47,6 @@ public class CalendarMonth implements Serializable{
         }
     }
 
-  //イベントを追加する
-    public void addEvent(String new_event, int day) {
-        ArrayList<String> tmp_eventlist=  cm_events.get(day-1);
-        tmp_eventlist.add(new_event);
-        cm_events.set(day-1, tmp_eventlist);
-    }
-
     //イベントを削除する
     public void removeEvent(String rem_event_id) {
         for(int i = 0; i<31;i++) {

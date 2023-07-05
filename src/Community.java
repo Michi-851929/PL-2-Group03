@@ -8,7 +8,7 @@ public class Community implements Serializable{
     public final static int RETURN_ERROR = -1;//エラーがあった時の返り値
     public final static int RETURN_TAG_DUPULICATE = 1; //addTagメソッドで追加しようとしたタグが、既にタグリストに存在していたとき返り値
     public final static int RETURN_TAG_FULL = 2; //addTagメソッドでタグを追加しようとしたものの、既にタグが5個設定されていて追加できなかったときの返り値
-    public final static int CALENDAR_YEARS = 10; //何年分のカレンダーを生成するか
+    public final static int CALENDAR_YEARS = 5; //何年分のカレンダーを生成するか
 
     private String com_name;
     private String com_owner;
