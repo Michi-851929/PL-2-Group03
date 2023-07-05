@@ -19,7 +19,7 @@ public class ClientEvent implements Serializable{
         private Date eve_cancel_time = new Date();
         private String eve_cancel_message = null;
         
-        public ClientEvent(String name, String start, String finish, String place, String owner, String outline, String detail, Community com){
+        public ClientEvent(String name, String start, String finish, String place, String owner, String outline, String detail, String com){
         eve_name = name;
         eve_start = start;
         eve_finish = finish;
@@ -27,7 +27,7 @@ public class ClientEvent implements Serializable{
         eve_owner = owner;
         eve_outline = outline;
         eve_detail = detail;
-        eve_com_name = com.getName();
+        eve_com_name = com;
     }
     
     //イベントID設定//
