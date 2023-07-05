@@ -297,7 +297,7 @@ public class Client extends JFrame {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[7 * i + j] = new JButton();
 				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 3, "成果報告会があります", true, "A会", false));
+				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 43, "成果報告会があります", true, "A会", false));
 				ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -20));
 				ui_jb_calendar[7 * i + j].setBorderPainted(false);
 				ui_jb_calendar[7 * i + j].setBackground(THEME_COLOR);
@@ -439,12 +439,12 @@ public class Client extends JFrame {
 		g.drawString(Integer.toString(date), 8, 24);
 		
 		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
-		g.drawString(Integer.toString(event_number % 10), 47, 24);
+		g.drawString(Integer.toString(event_number % 10), 46, 24);
 		if(event_number >= 10) {
-			g.drawString(Integer.toString(event_number / 10), 39, 24);
+			g.drawString(Integer.toString(event_number / 10), 38, 24);
 		}
-		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
-		g.drawString("件", 53, 23);
+		g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+		g.drawString("件", 55, 23);
 		
 		
 		
