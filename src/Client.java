@@ -326,6 +326,8 @@ public class Client extends JFrame {
         		ui_clayout.show(contentPane0, "カレンダー画面");
         	}
         });
+        ui_jb_calendarwindow.setBorderPainted(false);
+        ui_jb_calendarwindow.setOpaque(true);
 		ui_jb_userwindow = new JButton("ユーザ");
 		ui_jb_userwindow.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent ae)
@@ -333,6 +335,16 @@ public class Client extends JFrame {
         		ui_clayout.show(contentPane0, "ユーザ画面");
         	}
         });
+		ui_jb_userwindow.setBorderPainted(false);
+		ui_jb_userwindow.setOpaque(true);
+		if(panel == contentPane1) {
+	        ui_jb_calendarwindow.setBackground(Color.WHITE);
+			ui_jb_userwindow.setBackground(new Color(192, 192, 192));
+		}
+		else if(panel == contentPane2) {
+	        ui_jb_calendarwindow.setBackground(new Color(192, 192, 192));
+			ui_jb_userwindow.setBackground(Color.WHITE);
+		}
 		footer = new JPanel();
 		footer.setLayout(new GridLayout(1, 2));
 		footer.setBounds(0, 675, WINDOW_WIDTH, 100);
