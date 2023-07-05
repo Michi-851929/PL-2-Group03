@@ -138,7 +138,7 @@ public class Client extends JFrame {
                 // ここではダミーの処理として、入力内容を表示するだけとします
                 userScreen();
                 calendarScreen();
-                ui_clayout.show(contentPane0, "ユーザ画面");
+                ui_clayout.show(contentPane0, "カレンダー画面");
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
