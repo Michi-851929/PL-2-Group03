@@ -347,6 +347,18 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	 * 
 	 */
 	
+	public int isCreatableAccount(String community_name)
+	{
+		int is_creatable = DUPLICATE_NOT;
+		for(Community community : community_list) {
+			if(community.getName().equals(community_name)) {
+				is_creatable = DUPLICATE_NAME;
+				break;
+			}
+		}
+		return is_creatable;
+	}
+
 	public void logIn(String user_name, String password)
 	{
 		
@@ -356,34 +368,92 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 	{
 		
 	}
+
+	public Community getCommunity(String community_name)
+	{
+		Community community = null;
+		boolean is_successed = false;
+		for(Community co : community_list) {
+			if(co.getName().equals(community_name)) {
+				community = co;
+				is_successed = true;
+				break;
+			}
+		}
+		if(is_successed) {
+			return community;
+		}
+		else {
+			return new Community("", "", "", null);
+		}
+	}
 	
 	public Community[] searchCommunity(String search_word)
 	{
-		//↓は信用しないでね リストの使い方は参考にしてね
-		Community[] result_list = (Community[])(community_list.toArray());
-		return result_list;
+		ArrayList<Community> result_list = new ArrayList<>();
+		for(Community community : community_list) {
+			String[] word_list = search_word.split(" ");
+			limit:
+			for(String word : word_list) {
+				if(community.getName().contains(word)) {
+					result_list.add(community);
+					break;
+				}
+				String[] tags = community.getTag();
+				for(int i = 0; i < tags.length; i++) {
+					if(tags[i].contains(word)) {
+						result_list.add(community);
+						break limit;
+					}
+				}
+			}
+		}
+		
+		Community[] result_array = (Community[])(result_list.toArray());
+		return result_array;
 	}
 	
 	public void createCommunity(Community community)
 	{
-		
+		community_list.add(community);
+		getAccount(community.getOwner()).addCommunity(community.getName());
+		stdout("createCommunity: " + community.getName() + " by " + community.getOwner());
 	}
 	
-	public void removeCommunity(Community community)
+	public void removeCommunity(String community_name)
 	{
-		
+		community_list.remove(getCommunity(community_name));
+		stdout("removeCommunity: " + community_name);
 	}
 	
-	public ClientEvent[] searchEvent(String search_word)
+	public ClientEvent getEvent(String event_id)
 	{
-		//↓は信用しないでね リストの使い方は参考にしてね
-		ClientEvent[] result_list = (ClientEvent[])(event_list.toArray());
-		return result_list;
+		ClientEvent event = null;
+		boolean is_successed = false;
+		for(ClientEvent ce : event_list) {
+			if(ce.getEventId().equals(event_id)) {
+				event = ce;
+				is_successed = true;
+				break;
+			}
+		}
+		if(is_successed) {
+			return event;
+		}
+		else {
+			return new ClientEvent("", "", "", "", "", "", "", "");
+		}
 	}
 	
-	public void manageEvent(ClientEvent event)
+	public void createEvent(ClientEvent event)
 	{
-		
+		event_list.add(event);
+		stdout("createEvent: " + event.getEventName() + " in " + event.getEventCommunityName());
+	}
+	
+	public void manageEvent(String event_id)
+	{
+		ClientEvent event = getEvent(event_id);
 	}
 	
 	/*
