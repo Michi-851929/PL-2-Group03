@@ -14,6 +14,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
@@ -314,18 +316,24 @@ public class Client extends JFrame {
         //カレンダー
         JPanel ui_panel_06 = new JPanel();
         ui_panel_06.setLayout(null);
-        ui_panel_06.setBounds(5, 75, WINDOW_WIDTH, 600 - 12);
+        ui_panel_06.setBounds(10, 75, WINDOW_WIDTH, 600 - 12);
         ui_panel_06.setBackground(THEME_COLOR);
         JPanel ui_panel_05 = new JPanel();
         ui_panel_05.setLayout(new BorderLayout());
-        ui_panel_05.setSize(WINDOW_WIDTH - 24, 1000 - 12);
+        ui_panel_05.setSize(WINDOW_WIDTH - 24, 600 - 12);
         ui_panel_05.setBackground(THEME_COLOR);
         JScrollPane ui_panel_07 = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        ui_panel_07.setSize(WINDOW_WIDTH, 1000);
+        ui_panel_07.setSize(WINDOW_WIDTH, 600);
+        ui_panel_07.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 2));
         ui_panel_07.setBackground(THEME_COLOR);
+        JScrollBar ui_sb_00 = ui_panel_07.getVerticalScrollBar();
+        ui_sb_00.setOpaque(true);
+        ui_sb_00.setBackground(THEME_COLOR);
+        ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+        ui_sb_00.setVisible(false);
         int over = (getCalendarMatrics(35).getMonthValue() == ui_ld_firstofmonth.getMonthValue() ? 1 : 0);
         JPanel ui_panel_03 = new JPanel();
-        ui_panel_03.setLayout(new GridLayout(5 + over, 7, 2, 2));
+        ui_panel_03.setLayout(new GridLayout(5 + over, 7, 2, 13));
         ui_panel_03.setSize(WINDOW_WIDTH, 600 - 12);
         ui_panel_03.setBackground(THEME_COLOR);
         LocalDate date;
@@ -338,7 +346,7 @@ public class Client extends JFrame {
                 ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, "成果報告会があります", true, "A会", false));
                 ui_jb_calendar[7 * i + j].setDisabledIcon(getDateIcon(date, 0, "", false, "", false));
                 ui_jb_calendar[7 * i + j].setEnabled(date.getMonthValue() == ui_ld_firstofmonth.getMonthValue());
-                ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -25));
+                ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -20));
                 ui_jb_calendar[7 * i + j].setBorderPainted(false);
                 ui_jb_calendar[7 * i + j].setBackground(THEME_COLOR);
                 ui_jb_calendar[7 * i + j].setOpaque(true);
@@ -351,7 +359,7 @@ public class Client extends JFrame {
                 ui_panel_03.add(ui_jb_calendar[7 * i + j]);
             }
         }
-        ui_panel_07.add(ui_panel_03);
+        ui_panel_07.setViewportView(ui_panel_03);
         ui_panel_05.add(ui_panel_07, "Center");
         ui_panel_06.add(ui_panel_05);
         ui_panel_00.add(ui_panel_06);
