@@ -78,6 +78,7 @@ public class Client extends JFrame {
         		userScreen();
         	}
         });
+		ui_clayout.show(contentPane0, "カレンダー画面");
 		
         add(contentPane0);
         
@@ -147,7 +148,7 @@ public class Client extends JFrame {
                 // ログイン処理を行う
                 // ここではダミーの処理として、入力内容を表示するだけとします
                 //calendarScreen();
-                userScreen();
+                //userScreen();
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
@@ -171,8 +172,7 @@ public class Client extends JFrame {
 		// ウィンドウの設定
         setTitle("新規登録");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 500);
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
 
         // コンテンツパネルの設定
         JPanel contentPane = new JPanel(new GridBagLayout()) {
