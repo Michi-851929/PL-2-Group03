@@ -3,8 +3,10 @@
     "name": "ADMIN",
     "password": "meikyoushizen",
     "mac_adress": "",
-    "is_banned": false,
-    "community_involved": [],
+    "is_banned": true,
+    "community_involved": [
+      "PL-2-Group03"
+    ],
     "event_going": [],
     "event_preferred": []
   },

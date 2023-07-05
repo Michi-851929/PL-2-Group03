@@ -22,13 +22,8 @@ public class Community implements Serializable{
         com_name = name;
         com_owner = owner;
         com_info = info;
-        for(int i = 0; i<TAG_MAXNUM;i++) {
-            if(tag[i].isEmpty()) {
-                com_tag[i] = null;
-            }
-            else {
-                com_tag[i] = tag[i];
-            }
+        for(int i = 0; i<tag.length;i++) {
+            com_tag[i] = tag[i];
         }
         com_member = new ArrayList<>();
         com_calendar = new ArrayList<>();

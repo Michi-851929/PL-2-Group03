@@ -14,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -347,18 +350,6 @@ public class Server extends JFrame implements ActionListener, FocusListener{
      *
      */
 
-    public int isCreatableAccount(String community_name)
-    {
-        int is_creatable = DUPLICATE_NOT;
-        for(Community community : community_list) {
-            if(community.getName().equals(community_name)) {
-                is_creatable = DUPLICATE_NAME;
-                break;
-            }
-        }
-        return is_creatable;
-    }
-
     public void logIn(String user_name, String password)
     {
 
@@ -413,6 +404,18 @@ public class Server extends JFrame implements ActionListener, FocusListener{
         return result_array;
     }
 
+    public int isCreatableCommunity(String community_name)
+    {
+        int is_creatable = DUPLICATE_NOT;
+        for(Community community : community_list) {
+            if(community.getName().equals(community_name)) {
+                is_creatable = DUPLICATE_NAME;
+                break;
+            }
+        }
+        return is_creatable;
+    }
+
     public void createCommunity(Community community)
     {
         community_list.add(community);
@@ -447,6 +450,15 @@ public class Server extends JFrame implements ActionListener, FocusListener{
 
     public void createEvent(ClientEvent event)
     {
+        MessageDigest sha256 = null;
+        Calendar calendar = Calendar.getInstance();
+        try {
+            sha256 = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((calendar.getTime() + event.getEventName()).getBytes()))));
         event_list.add(event);
 
         stdout("createEvent: " + event.getEventName() + " in " + event.getEventCommunityName());
