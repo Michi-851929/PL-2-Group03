@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -9,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.DayOfWeek;
@@ -23,7 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -313,19 +313,20 @@ public class Client extends JFrame {
 
         //カレンダー
         JPanel ui_panel_06 = new JPanel();
-        ui_panel_06.setLayout(new FlowLayout());
-        ui_panel_06.setBounds(-5, 75, WINDOW_WIDTH, 600);
+        ui_panel_06.setLayout(null);
+        ui_panel_06.setBounds(5, 75, WINDOW_WIDTH, 600 - 12);
         ui_panel_06.setBackground(THEME_COLOR);
         JPanel ui_panel_05 = new JPanel();
         ui_panel_05.setLayout(new BorderLayout());
-        ui_panel_05.setSize(WINDOW_WIDTH - 16, 600 - 12);
+        ui_panel_05.setSize(WINDOW_WIDTH - 24, 1000 - 12);
         ui_panel_05.setBackground(THEME_COLOR);
-        ScrollPane ui_panel_07 = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
-        ui_panel_07.setSize(WINDOW_WIDTH - 16, 600 - 12);
+        JScrollPane ui_panel_07 = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        ui_panel_07.setSize(WINDOW_WIDTH, 1000);
         ui_panel_07.setBackground(THEME_COLOR);
         int over = (getCalendarMatrics(35).getMonthValue() == ui_ld_firstofmonth.getMonthValue() ? 1 : 0);
         JPanel ui_panel_03 = new JPanel();
         ui_panel_03.setLayout(new GridLayout(5 + over, 7, 2, 2));
+        ui_panel_03.setSize(WINDOW_WIDTH, 600 - 12);
         ui_panel_03.setBackground(THEME_COLOR);
         LocalDate date;
 
