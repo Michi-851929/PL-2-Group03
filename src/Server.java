@@ -350,9 +350,9 @@ public class Server extends JFrame implements ActionListener, FocusListener{
      *
      */
 
-    public void logIn(String user_name, String password)
+    public int logIn(String user_name, String password)
     {
-
+        return 0;
     }
 
     public void logOut(String user_name)
