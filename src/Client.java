@@ -291,14 +291,14 @@ public class Client extends JFrame {
 		ui_panel_05.setSize(WINDOW_WIDTH - 16, 600 - 12);
 		ui_panel_05.setBackground(THEME_COLOR);
 		JPanel ui_panel_03 = new JPanel();
-		ui_panel_03.setLayout(new GridLayout(5, 7, 5, 5));
+		ui_panel_03.setLayout(new GridLayout(5, 7, 2, 2));
 		ui_panel_03.setBackground(THEME_COLOR);
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 7; j++) {
 				ui_jb_calendar[7 * i + j] = new JButton();
 				ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
 				ui_jb_calendar[7 * i + j].setIcon(getDateIcon(true, 1 + 7 * i + j, j, 3, "成果報告会があります", true, "A会", false));
-				ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -17));
+				ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -20));
 				ui_jb_calendar[7 * i + j].setBorderPainted(false);
 				ui_jb_calendar[7 * i + j].setBackground(THEME_COLOR);
 				ui_jb_calendar[7 * i + j].setOpaque(true);
@@ -335,7 +335,7 @@ public class Client extends JFrame {
         });
 		footer = new JPanel();
 		footer.setLayout(new GridLayout(1, 2));
-		footer.setBounds(0, 675, WINDOW_WIDTH, 125);
+		footer.setBounds(0, 675, WINDOW_WIDTH, 100);
 		footer.add(ui_jb_calendarwindow);
 		footer.add(ui_jb_userwindow);
 		panel.add(footer);
