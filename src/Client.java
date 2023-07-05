@@ -4,13 +4,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -34,6 +32,7 @@ public class Client extends JFrame {
     private JPanel contentPane0;
     private JPanel contentPane1;
     private JPanel contentPane2;
+    private JPanel footer;
     private JButton ui_jb_calendarwindow;
     private JButton ui_jb_userwindow;
     private CardLayout ui_clayout;
@@ -58,27 +57,17 @@ public class Client extends JFrame {
         contentPane0 = new JPanel();
         ui_clayout = new CardLayout();
         contentPane0.setLayout(ui_clayout);
+        
         contentPane1 = new JPanel();
         contentPane1.setLayout(null);
+        
         contentPane2 = new JPanel();
         contentPane2.setLayout(null);
+        
         contentPane0.add(contentPane1, "カレンダー画面");
         contentPane0.add(contentPane2, "ユーザ画面");
-        ui_jb_calendarwindow = new JButton("カレンダー");
-        ui_jb_calendarwindow.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent ae)
-        	{
-        		calendarScreen();
-        	}
-        });
-		ui_jb_userwindow = new JButton("ユーザ");
-		ui_jb_userwindow.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent ae)
-        	{
-        		userScreen();
-        	}
-        });
-		ui_clayout.show(contentPane0, "カレンダー画面");
+        
+		
 		
         add(contentPane0);
         
@@ -147,8 +136,9 @@ public class Client extends JFrame {
                 String password = new String(passwordField.getPassword());
                 // ログイン処理を行う
                 // ここではダミーの処理として、入力内容を表示するだけとします
-                //calendarScreen();
-                //userScreen();
+                userScreen();
+                calendarScreen();
+                ui_clayout.show(contentPane0, "ユーザ画面");
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
@@ -161,6 +151,7 @@ public class Client extends JFrame {
         });
 
 	    contentPane1.add(ui_panel_00);
+		ui_clayout.show(contentPane0, "カレンダー画面");
 	    setVisible(true);
 	    repaint();
 	}
@@ -185,6 +176,7 @@ public class Client extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+        contentPane.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -253,7 +245,7 @@ public class Client extends JFrame {
             }
         });
 
-        setContentPane(contentPane);
+        contentPane1.add(contentPane);
         setVisible(true);
         repaint();
 	}
@@ -263,6 +255,7 @@ public class Client extends JFrame {
 		//玖津見が書いています
 		contentPane1.removeAll();
 		contentPane1.setLayout(null);
+        setFooter(contentPane1);
 		//全体
 		JPanel ui_panel_00 = new JPanel();
 		ui_panel_00.setLayout(null);
@@ -316,9 +309,6 @@ public class Client extends JFrame {
 		ui_panel_05.add(ui_panel_03, "Center");
 		ui_panel_06.add(ui_panel_05);
 		ui_panel_00.add(ui_panel_06);
-
-		//カレンダー・ユーザ切り替え
-		setFooter(ui_panel_00);
 		
 		contentPane1.add(ui_panel_00);
 		ui_clayout.show(contentPane0, "カレンダー画面");
@@ -329,12 +319,26 @@ public class Client extends JFrame {
 	public void setFooter(JPanel panel)
 	{
 		//カレンダー・ユーザ切り替え
-		JPanel ui_panel_04 = new JPanel();
-		ui_panel_04.setLayout(new GridLayout(1, 2));
-		ui_panel_04.setBounds(0, 675, WINDOW_WIDTH, 125);
-		ui_panel_04.add(ui_jb_calendarwindow);
-		ui_panel_04.add(ui_jb_userwindow);
-		panel.add(ui_panel_04);
+        ui_jb_calendarwindow = new JButton("カレンダー");
+        ui_jb_calendarwindow.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ae)
+        	{
+        		ui_clayout.show(contentPane0, "カレンダー画面");
+        	}
+        });
+		ui_jb_userwindow = new JButton("ユーザ");
+		ui_jb_userwindow.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ae)
+        	{
+        		ui_clayout.show(contentPane0, "ユーザ画面");
+        	}
+        });
+		footer = new JPanel();
+		footer.setLayout(new GridLayout(1, 2));
+		footer.setBounds(0, 675, WINDOW_WIDTH, 125);
+		footer.add(ui_jb_calendarwindow);
+		footer.add(ui_jb_userwindow);
+		panel.add(footer);
 
 	}
 	
@@ -474,7 +478,7 @@ public class Client extends JFrame {
         int button_width = 250;
         int button_height = 40;
         int r = 18;
-        
+
 
 
         contentPane2.removeAll();
@@ -552,9 +556,16 @@ public class Client extends JFrame {
         logOutButton.setBorderPainted(false);
         logOutButton.setMargin(new Insets(-3, -3, -3, -15));
         logOutButton.setIcon(new ImageIcon(img3));
+        logOutButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ae)
+        	{
+        		logout();
+        	}
+        });
         userScreen.add(logOutButton, gbc);
+        setFooter(contentPane2);
 
-contentPane2.add(userScreen);
+        contentPane2.add(userScreen);
         ui_clayout.show(contentPane0, "ユーザ画面");
         setVisible(true);
         
@@ -764,7 +775,8 @@ contentPane2.add(userScreen);
 	}
 	
 	//ログアウト
-	int logout(String name) {
+	int logout() {
+		loginScreen();
 		
 		return 0;
 	}
