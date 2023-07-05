@@ -264,7 +264,7 @@ public class Client extends JFrame {
 		
 		//ヘッダ
 		JPanel ui_panel_01 = new JPanel();
-		ui_panel_01.setLayout(new FlowLayout());
+		ui_panel_01.setLayout(null);
 		ui_panel_01.setBounds(0, 0, WINDOW_WIDTH, 75);
 		ui_panel_01.setBackground(THEME_COLOR);
 		
@@ -272,12 +272,34 @@ public class Client extends JFrame {
 		
 		//ボタン月ボタン
 		JPanel ui_panel_02 = new JPanel();
-		ui_panel_02.setLayout(new FlowLayout());
-		ui_panel_02.setBounds(0, 0, WINDOW_WIDTH, 75);
+		ui_panel_02.setLayout(new BorderLayout());
+		ui_panel_02.setBounds(WINDOW_WIDTH / 4 - 1, 0, WINDOW_WIDTH / 2, 75);
 		ui_panel_02.setBackground(THEME_COLOR);
-		JLabel ui_jl_month = new JLabel("2023/07");
+		JLabel ui_jl_month = new JLabel("2023/07", JLabel.CENTER);
 		ui_jl_month.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
-		ui_panel_02.add(ui_jl_month);
+		ui_panel_02.add(ui_jl_month, "Center");
+		JButton ui_jb_lastmonth = new JButton("<");
+		ui_jb_lastmonth.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
+		ui_jb_lastmonth.setBorderPainted(false);
+		ui_jb_lastmonth.setBackground(THEME_COLOR);
+		ui_jb_lastmonth.setOpaque(true);
+		ui_jb_lastmonth.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				calendarScreen();
+			}
+		});
+		ui_panel_02.add(ui_jb_lastmonth, "West");
+		JButton ui_jb_nextmonth = new JButton(">");
+		ui_jb_nextmonth.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
+		ui_jb_nextmonth.setBorderPainted(false);
+		ui_jb_nextmonth.setBackground(THEME_COLOR);
+		ui_jb_nextmonth.setOpaque(true);
+		ui_jb_nextmonth.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				calendarScreen();
+			}
+		});
+		ui_panel_02.add(ui_jb_nextmonth, "East");
 		
 		ui_panel_01.add(ui_panel_02);
 		
