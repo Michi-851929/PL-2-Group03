@@ -57,7 +57,7 @@ public class ClientEvent implements Serializable{
     
     //開始時刻取得//
     public String getEventStart() {
-        return eve_start;
+    	return eve_start;
     }
     
     //終了時刻変更//
@@ -67,7 +67,7 @@ public class ClientEvent implements Serializable{
     
     //終了時刻取得//
     public String getEventFinish() {
-        return eve_finish;
+    	return eve_finish;
     }
     
     //開催場所変更//
@@ -77,7 +77,7 @@ public class ClientEvent implements Serializable{
     
     //開催場所取得//
     public String getEventPlace() {
-        return eve_place;
+    	return eve_place;
     }
     
     //主催者名変更//
@@ -87,7 +87,7 @@ public class ClientEvent implements Serializable{
     
     //主催者名取得//
     public String getEventOwner() {
-        return eve_owner;
+    	return eve_owner;
     }
     
     //イベント概要変更//
@@ -97,7 +97,7 @@ public class ClientEvent implements Serializable{
     
     //イベント概要取得//
     public String getEventOutline() {
-        return eve_outline;
+    	return eve_outline;
     }
     
     //イベント詳細変更//
@@ -107,7 +107,7 @@ public class ClientEvent implements Serializable{
     
     //イベント詳細取得//
     public String getEventDetail() {
-        return eve_detail;
+    	return eve_detail;
     }
     
     //所属コミュニティ名変更//
@@ -117,7 +117,7 @@ public class ClientEvent implements Serializable{
     
     //所属コミュニティ名取得//
     public String getEventCommunityName() {
-        return eve_com_name;
+    	return eve_com_name;
     }
     
     //主催者メッセージ設定//

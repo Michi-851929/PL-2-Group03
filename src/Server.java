@@ -599,5 +599,4 @@ public class Server extends JFrame implements ActionListener, FocusListener{
          *
          */
     }
-
 }
