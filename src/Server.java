@@ -458,7 +458,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((calendar.getTime() + event.getEventName()).getBytes()))));
+        event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((event.getEventOwner() + calendar.getTime() + event.getEventName()).getBytes()))));
         event_list.add(event);
         getCommunity(event.getEventCommunityName()).getCalendarMonth(year, month).addEvent(event.getEventId(), day_start, day_end);
         stdout("createEvent: " + event.getEventName() + " in " + event.getEventCommunityName());
