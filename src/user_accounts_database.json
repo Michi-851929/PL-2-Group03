@@ -3,7 +3,7 @@
     "name": "ADMIN",
     "password": "meikyoushizen",
     "mac_adress": "",
-    "is_banned": true,
+    "is_banned": false,
     "community_involved": [
       "PL-2-Group03",
       "PL-2-Group03",

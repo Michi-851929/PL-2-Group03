@@ -262,6 +262,7 @@ public class Client extends JFrame {
         //玖津見が書いています
         contentPane1.removeAll();
         contentPane1.setLayout(null);
+        setTitle("Communi+I");
         setFooter(contentPane1);
         //全体
         JPanel ui_panel_00 = new JPanel();
@@ -403,6 +404,7 @@ public class Client extends JFrame {
     {
         //カレンダー・ユーザ切り替え
         ui_jb_calendarwindow = new JButton("カレンダー");
+        ui_jb_calendarwindow.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 36));
         ui_jb_calendarwindow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
@@ -412,6 +414,7 @@ public class Client extends JFrame {
         ui_jb_calendarwindow.setBorderPainted(false);
         ui_jb_calendarwindow.setOpaque(true);
         ui_jb_userwindow = new JButton("ユーザ");
+        ui_jb_userwindow.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 36));
         ui_jb_userwindow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
@@ -430,7 +433,7 @@ public class Client extends JFrame {
         }
         footer = new JPanel();
         footer.setLayout(new GridLayout(1, 2));
-        footer.setBounds(0, 675, WINDOW_WIDTH, 100);
+        footer.setBounds(0, 675, WINDOW_WIDTH, 90);
         footer.add(ui_jb_calendarwindow);
         footer.add(ui_jb_userwindow);
         panel.add(footer);
@@ -571,9 +574,9 @@ public class Client extends JFrame {
 
     //ユーザ画面
     void userScreen() {
-        int button_width = 250;
-        int button_height = 40;
-        int r = 18;
+        int button_width = 450;
+        int button_height = 150;
+        int r = 30;
 
 
 
@@ -590,64 +593,82 @@ public class Client extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+        userScreen.setLayout(null);
         userScreen.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         userScreen.setBackground(THEME_COLOR);
+        /*
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 5, 5, 5);
-
+*/
         // ユーザ名のラベルとフィールド
-        JLabel usernameLabel = new JLabel("ユーザ名: "+username);
-        userScreen.add(usernameLabel, gbc);
+        JPanel ui_panel_label = new JPanel();
+        ui_panel_label.setLayout(new BorderLayout());
+        ui_panel_label.setBounds(0, 0, WINDOW_WIDTH, 75);
+        ui_panel_label.setBackground(THEME_COLOR);
+        JLabel usernameLabel = new JLabel("ユーザ名: "+ username, JLabel.CENTER);
+        usernameLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
+        ui_panel_label.add(usernameLabel);
+        userScreen.add(ui_panel_label);
+        //userScreen.add(usernameLabel, gbc);
 
         // パスワード変更ボタン
         Image img1 = createImage(button_width, button_height);
         Graphics g1 = img1.getGraphics();
         g1.setColor(Color.WHITE);
-        Client.kadomaruRect(g1, 0, 0, button_width, button_height, r);
-        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
+        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 42));
         g1.setColor(Color.BLACK);
-        g1.drawString("パスワード変更", 25, 25);
+        g1.drawString("パスワード変更", 75, 94);
         JButton changePasswordButton = new JButton("1");
         //gbc.anchor = GridBagConstraints.CENTER;
         //gbc.insets = new Insets(10, 0, 0, 0);
 
         changePasswordButton.setBackground(THEME_COLOR);
+        changePasswordButton.setForeground(THEME_COLOR);
         changePasswordButton.setOpaque(true);
         changePasswordButton.setMargin(new Insets(-3, -3, -3, -13));
         changePasswordButton.setBorderPainted(false);
         changePasswordButton.setIcon(new ImageIcon(img1));
-        userScreen.add(changePasswordButton, gbc);
+        changePasswordButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae)
+            {
+                passwordScreen();
+            }
+        });
+        //userScreen.add(changePasswordButton, gbc);
 
         // コミュニティ管理ボタン
         Image img2 = createImage(button_width, button_height);
         Graphics g2 = img2.getGraphics();
         g2.setColor(Color.WHITE);
-        Client.kadomaruRect(g2, 0, 0, button_width, button_height, r);
-        g2.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        Client.kadomaruRect(g2, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
+        g2.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 42));
         g2.setColor(Color.BLACK);
-        g2.drawString("コミュニティ管理", 25, 25);
+        g2.drawString("コミュニティ管理", 55, 94);
         JButton communityManageButton = new JButton("2");
 
         communityManageButton.setBackground(THEME_COLOR);
+        communityManageButton.setForeground(THEME_COLOR);
         communityManageButton.setOpaque(true);
         communityManageButton.setMargin(new Insets(-3, -3, -3, -15));
         communityManageButton.setBorderPainted(false);
         communityManageButton.setIcon(new ImageIcon(img2));
-        userScreen.add(communityManageButton, gbc);
+        //userScreen.add(communityManageButton, gbc);
 
         // ログアウトボタン
         Image img3 = createImage(button_width, button_height);
         Graphics g3 = img3.getGraphics();
         g3.setColor(Color.WHITE);
-        Client.kadomaruRect(g3, 0, 0, button_width, button_height, r);
-        g3.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+        Client.kadomaruRect(g3, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
+        g3.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 42));
         g3.setColor(Color.BLACK);
-        g3.drawString("ログアウト", 25, 25);
+        g3.drawString("ログアウト", 120, 94);
         JButton logOutButton = new JButton("3");
         logOutButton.setBackground(THEME_COLOR);
+        logOutButton.setForeground(THEME_COLOR);
         logOutButton.setOpaque(false);
         logOutButton.setBorderPainted(false);
         logOutButton.setMargin(new Insets(-3, -3, -3, -15));
@@ -658,7 +679,17 @@ public class Client extends JFrame {
                 logout();
             }
         });
-        userScreen.add(logOutButton, gbc);
+        //userScreen.add(logOutButton, gbc);
+
+        JPanel ui_panel_button = new JPanel();
+        ui_panel_button.setLayout(new GridLayout(3, 1, 20, 20));
+        ui_panel_button.setBounds(0, 75, WINDOW_WIDTH, 600 - 20);
+        ui_panel_button.setBackground(THEME_COLOR);
+        ui_panel_button.add(changePasswordButton);
+        ui_panel_button.add(communityManageButton);
+        ui_panel_button.add(logOutButton);
+        userScreen.add(ui_panel_button);
+
         setFooter(contentPane2);
 
         contentPane2.add(userScreen);
@@ -671,19 +702,27 @@ public class Client extends JFrame {
     //パスワード変更画面
     void passwordScreen() {
         setTitle("パスワード変更");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        contentPane2.removeAll();
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        setLayout(new BorderLayout());
+        //setLayout(new BorderLayout());
 
         // 背景画像を表示するためのパネルを作成
         ImagePanel backgroundPanel = new ImagePanel();
-        setContentPane(backgroundPanel);
+        //setContentPane(backgroundPanel);
         backgroundPanel.setLayout(null);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, 675);
 
         // 戻るボタン
         JButton backButton = new JButton("戻る");
         backButton.setBounds(10, 10, 60, 30);
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae)
+            {
+                userScreen();
+            }
+        });
         ImageIcon icon = new ImageIcon("back.png");
         backButton.setIcon(icon);
 
@@ -733,8 +772,12 @@ public class Client extends JFrame {
         changeButton.setBackground(new Color(230, 255, 179));
         backgroundPanel.add(changeButton);
 
-        setSize(400, 500);
+
+        setFooter(contentPane2);
+        contentPane2.add(backgroundPanel);
+        //setSize(400, 500);
         setVisible(true);
+        repaint();
     }
 
     // 背景画像を描画するカスタムパネルクラス
