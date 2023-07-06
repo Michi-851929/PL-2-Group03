@@ -709,6 +709,12 @@ public class Client extends JFrame {
         //setLayout(new BorderLayout());
 
         // 背景画像を表示するためのパネルを作成
+        Image img0 = createImage(WINDOW_WIDTH, 675);
+        Graphics g0 = img0.getGraphics();
+        g0.setColor(THEME_COLOR);
+        g0.fillRect(0, 0, WINDOW_WIDTH, 675);
+        g0.setColor(Color.WHITE);
+        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, 675 - 100, 75);
         ImagePanel backgroundPanel = new ImagePanel();
         //setContentPane(backgroundPanel);
         backgroundPanel.setLayout(null);
@@ -771,6 +777,11 @@ public class Client extends JFrame {
         changeButton.setBounds(150, 350, 100, 30);
         changeButton.setBackground(new Color(230, 255, 179));
         backgroundPanel.add(changeButton);
+
+        JLabel ui_jl_back = new JLabel("");
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
+        ui_jl_back.setIcon(new ImageIcon(img0));
+        backgroundPanel.add(ui_jl_back);
 
 
         setFooter(contentPane2);
