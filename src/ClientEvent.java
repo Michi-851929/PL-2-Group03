@@ -1,6 +1,6 @@
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class ClientEvent implements Serializable{
         private static final long serialVersionUID = 1L;
@@ -16,8 +16,9 @@ public class ClientEvent implements Serializable{
         private int eve_join = 0;
         private String eve_com_name;
         private String eve_own_message = null;
-        private Date eve_cancel_time = new Date();
-        private String eve_cancel_message = null;
+        private ArrayList<String> eve_cancel_name = new ArrayList<>();
+        private ArrayList<LocalDateTime> eve_cancel_time = new ArrayList<>();
+        private ArrayList<String> eve_cancel_message = new ArrayList<>();
 
         public ClientEvent(String name, String start, String finish, String place, String owner, String outline, String detail, String com){
         eve_name = name;
@@ -131,20 +132,27 @@ public class ClientEvent implements Serializable{
     }
 
     //キャンセル理由設定//
-    public void sendCancel(String message) {
-        Calendar calendar = Calendar.getInstance();
-        eve_cancel_time = calendar.getTime(); //時間取得
-        eve_cancel_message = message;
+    public void sendCancel(String user_name, String message) {
+        //Calendar calendar = Calendar.getInstance();
+        LocalDateTime time = LocalDateTime.now();
+        eve_cancel_name.add(user_name);
+        eve_cancel_time.add(time); //時間取得
+        eve_cancel_message.add(message);
+    }
+
+    //キャンセル者取得//
+    public String[] getCancelName() {
+        return (String[])eve_cancel_name.toArray();
     }
 
     //キャンセル理由取得//
-    public String getCancelMessage() {
-        return eve_cancel_message;
+    public String[] getCancelMessage() {
+        return (String[])eve_cancel_message.toArray();
     }
 
     //キャンセル送信時間取得//
-    public Date getCancelTime() {
-        return eve_cancel_time;
+    public LocalDateTime[] getCancelTime() {
+        return (LocalDateTime[])eve_cancel_time.toArray();
     }
 
     //いいね数取得//
