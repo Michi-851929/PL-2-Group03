@@ -8,8 +8,14 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -27,7 +33,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 
 
@@ -43,6 +48,8 @@ public class Client extends JFrame {
     private CardLayout ui_clayout;
     private LocalDate ui_ld_firstofmonth;
     private LocalDate ui_ld_looking;
+    private TrayIcon ui_ticon;
+    private WindowListener ui_wlistener;
 
     private JButton[] ui_jb_calendar = new JButton[7 * 6];
 
@@ -57,9 +64,62 @@ public class Client extends JFrame {
     public Client(){
         // ウィンドウの設定
         super("ログイン");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setLocationRelativeTo(null);
+        ui_wlistener = new WindowListener() {
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            public void windowClosing(WindowEvent e) {
+                PopupMenu popup = new PopupMenu();
+                Image img = createImage(20, 20);
+                Graphics g = img.getGraphics();
+                g.setColor(THEME_COLOR);
+                g.fillRect(0, 0, 20, 20);
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 10, 20, 10);
+                ui_ticon = new TrayIcon(img, "Communi+I", popup);
+                MenuItem ui_mi_open = new MenuItem("開く");
+                ui_mi_open.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae)
+                    {
+                        calendarScreen();
+                        SystemTray.getSystemTray().remove(ui_ticon);
+                    }
+                });
+                popup.add(ui_mi_open);
+
+                try {
+                    SystemTray.getSystemTray().add(ui_ticon);
+                }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+
+        };
 
         contentPane0 = new JPanel();
         ui_clayout = new CardLayout();
@@ -146,6 +206,7 @@ public class Client extends JFrame {
                 userScreen();
                 calendarScreen();
                 ui_clayout.show(contentPane0, "カレンダー画面");
+                addWindowListener(ui_wlistener);
                 JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
             }
         });
@@ -927,20 +988,22 @@ public class Client extends JFrame {
     //ログアウト
     int logout() {
         loginScreen();
-
+        removeWindowListener(ui_wlistener);
         return 0;
     }
 
 
 
     public static void main(String[] args) {
+        new Client();
+        /*
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 Client loginUI = new Client();
                 loginUI.setVisible(true);
             }
         });
-
+        */
     }
 
 }
