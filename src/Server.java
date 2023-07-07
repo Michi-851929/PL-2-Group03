@@ -32,7 +32,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-public class Server extends JFrame implements ActionListener, FocusListener{
+public class Server extends JFrame implements ActionListener{
+    private ServerConnect thread = null;
+
     private ArrayList<Account> account_list = new ArrayList<>();
     private ArrayList<Community> community_list = new ArrayList<>();
     private ArrayList<ClientEvent> event_list = new ArrayList<>();
@@ -58,6 +60,10 @@ public class Server extends JFrame implements ActionListener, FocusListener{
     public final static int DUPLICATE_NOT = 0; //被りなし(可)
     public final static int DUPLICATE_NAME = 1; //名前被り
     public final static int DUPLICATE_MAC = 2; //MACアドレス被り
+
+    //ログインエラーの返り値
+    public final static int LOGIN_NOTEXIST = 3;
+    public final static int LOGIN_BANNED = 4;
 
     public Server()
     {
@@ -344,20 +350,18 @@ public class Server extends JFrame implements ActionListener, FocusListener{
         return is_successed;
     }
 
-    /*
-     *
-     * ↓この間のメソッドを書いてね↓
-     *
-     */
-
     public int logIn(String user_name, String password)
     {
-        return 0;
-    }
-
-    public void logOut(String user_name)
-    {
-
+        Account account = getAccount(user_name);
+        if(account.getUserName().equals("")) {
+            return LOGIN_NOTEXIST;
+        }
+        else if(account.isBanned()) {
+            return LOGIN_BANNED;
+        }
+        else {
+            return account.verifyPassword(password);
+        }
     }
 
     public Community getCommunity(String community_name)
@@ -469,12 +473,6 @@ public class Server extends JFrame implements ActionListener, FocusListener{
         ClientEvent event = getEvent(event_id);
     }
 
-    /*
-     *
-     * ↑この間のメソッドを書いてね↑
-     *
-     */
-
     public void actionPerformed(ActionEvent ae)
     {
         String s = ae.getActionCommand();
@@ -543,6 +541,7 @@ public class Server extends JFrame implements ActionListener, FocusListener{
             ui_panel_01.setVisible(false);
             break;
         case "サーバ終了":
+            thread.stop();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             FileWriter fw0 = null;
             FileWriter fw1 = null;
@@ -574,29 +573,15 @@ public class Server extends JFrame implements ActionListener, FocusListener{
         }
     }
 
-    public void focusGained(FocusEvent fe) {
-        //いじらない
-    }
-
-    public void focusLost(FocusEvent fe) {
-        //いじらない
-    }
-
     public static void main(String[] args)
     {
-        new Server();
-        /*
-         *
-         * ↓この間に通信を始める処理を書いてね↓
-         *
-         */
+        Server server = new Server();
+        try {
+            server.thread = new ServerConnect(server);
+        }
+        catch (Exception e) {
+            server.stdout(e.getMessage());
+        }
 
-
-
-        /*
-         *
-         * ↑この間に通信を始める処理を書いてね↑
-         *
-         */
     }
 }
