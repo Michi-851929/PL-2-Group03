@@ -364,6 +364,11 @@ public class Server extends JFrame implements ActionListener{
         }
     }
 
+    public int changePassword(String user_name, String old_password, String new_password)
+    {
+        return getAccount(user_name).setPassword(old_password, new_password);
+    }
+
     public Community getCommunity(String community_name)
     {
         Community community = null;
@@ -433,6 +438,18 @@ public class Server extends JFrame implements ActionListener{
         stdout("removeCommunity: " + community_name);
     }
 
+    public void joinCommunity(String community_name, String user_name)
+    {
+        getAccount(user_name).addCommunity(community_name);
+        getCommunity(community_name).addMember(user_name);
+    }
+
+    public void quitCommunity(String community_name, String user_name)
+    {
+        getAccount(user_name).removeCommunity(community_name);
+        getCommunity(community_name).remMember(user_name);
+    }
+
     public ClientEvent getEvent(String event_id)
     {
         ClientEvent event = null;
@@ -468,9 +485,57 @@ public class Server extends JFrame implements ActionListener{
         stdout("createEvent: " + event.getEventName() + " in " + event.getEventCommunityName());
     }
 
-    public void manageEvent(String event_id)
+    public void deleteEvent(String event_id, int year, int month)
     {
         ClientEvent event = getEvent(event_id);
+        getCommunity(event.getEventCommunityName()).getCalendarMonth(year, month).removeEvent(event_id);
+        event_list.remove(getEvent(event_id));
+    }
+
+    public void manageEvent(ClientEvent event)
+    {
+        ClientEvent server_event = getEvent(event.getEventId());
+        server_event.setEventName(event.getEventName());
+        server_event.setEventStart(event.getEventStart());
+        server_event.setEventFinish(event.getEventFinish());
+        server_event.setEventPlace(event.getEventPlace());
+        server_event.setEventOutline(event.getEventOutline());
+        server_event.setEventDetail(event.getEventDetail());
+    }
+
+    public int setPreferredEvent(String user_name, String event_id)
+    {
+        getAccount(user_name).addEventPreferred(event_id);
+        return getEvent(event_id).increaseGood();
+    }
+
+    public int setDispreferEvent(String user_name, String event_id)
+    {
+        getAccount(user_name).removeEventPreferred(event_id);
+        return getEvent(event_id).decreaseGood();
+    }
+
+
+    public int setPresentEvent(String user_name, String event_id)
+    {
+        getAccount(user_name).addEventGoing(event_id);
+        return getEvent(event_id).increaseJoin();
+    }
+
+    public int setAbsentEvent(String user_name, String event_id)
+    {
+        getAccount(user_name).removeEventGoing(event_id);
+        return getEvent(event_id).decreaseJoin();
+    }
+
+    public void reportEvent()
+    {
+
+    }
+
+    public void addHostMessage()
+    {
+
     }
 
     public void actionPerformed(ActionEvent ae)
@@ -541,7 +606,12 @@ public class Server extends JFrame implements ActionListener{
             ui_panel_01.setVisible(false);
             break;
         case "サーバ終了":
-            thread.stop();
+            try {
+                thread.stop();
+            }
+            catch(Exception e) {
+                //e.printStackTrace();
+            }
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             FileWriter fw0 = null;
             FileWriter fw1 = null;

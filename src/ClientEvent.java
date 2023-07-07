@@ -18,7 +18,7 @@ public class ClientEvent implements Serializable{
         private String eve_own_message = null;
         private Date eve_cancel_time = new Date();
         private String eve_cancel_message = null;
-        
+
         public ClientEvent(String name, String start, String finish, String place, String owner, String outline, String detail, String com){
         eve_name = name;
         eve_start = start;
@@ -29,7 +29,7 @@ public class ClientEvent implements Serializable{
         eve_detail = detail;
         eve_com_name = com;
     }
-    
+
     //イベントID設定//
     public void setEventId(String id) {
         eve_id = id;
@@ -41,107 +41,107 @@ public class ClientEvent implements Serializable{
     }
 
     //イベント名変更//
-    public void editEventName(String new_name) {
+    public void setEventName(String new_name) {
         eve_name = new_name;
     }
-    
+
     //イベント名取得//
     public String getEventName() {
         return eve_name;
     }
-    
+
     //開始時刻変更//
-    public void editEventStart(String new_start) {
+    public void setEventStart(String new_start) {
         eve_start = new_start;
     }
-    
+
     //開始時刻取得//
     public String getEventStart() {
-    	return eve_start;
+        return eve_start;
     }
-    
+
     //終了時刻変更//
-    public void editEventFinish(String new_finish) {
+    public void setEventFinish(String new_finish) {
         eve_finish = new_finish;
     }
-    
+
     //終了時刻取得//
     public String getEventFinish() {
-    	return eve_finish;
+        return eve_finish;
     }
-    
+
     //開催場所変更//
-    public void editEventPlace(String new_place) {
+    public void setEventPlace(String new_place) {
         eve_place = new_place;
     }
-    
+
     //開催場所取得//
     public String getEventPlace() {
-    	return eve_place;
+        return eve_place;
     }
-    
+    /*
     //主催者名変更//
     public void editEventOwner(String new_owner) {
         eve_owner = new_owner;
     }
-    
+    */
     //主催者名取得//
     public String getEventOwner() {
-    	return eve_owner;
+        return eve_owner;
     }
-    
+
     //イベント概要変更//
-    public void editEventOutline(String new_outline) {
+    public void setEventOutline(String new_outline) {
         eve_outline = new_outline;
     }
-    
+
     //イベント概要取得//
     public String getEventOutline() {
-    	return eve_outline;
+        return eve_outline;
     }
-    
+
     //イベント詳細変更//
-    public void editEventDetail(String new_detail) {
+    public void setEventDetail(String new_detail) {
         eve_detail = new_detail;
     }
-    
+
     //イベント詳細取得//
     public String getEventDetail() {
-    	return eve_detail;
+        return eve_detail;
     }
-    
+/*
     //所属コミュニティ名変更//
-    public void editEventCommunity(Community new_com) {
+    public void setEventCommunity(Community new_com) {
         eve_com_name = new_com.getName();
     }
-    
+*/
     //所属コミュニティ名取得//
     public String getEventCommunityName() {
-    	return eve_com_name;
+        return eve_com_name;
     }
-    
+
     //主催者メッセージ設定//
-    public void sendOwnerMessage(String message) {
+    public void setOwnerMessage(String message) {
         eve_own_message = message;
     }
-    
+
     //主催者メッセージ取得//
     public String getOwnerMessage() {
         return eve_own_message;
     }
-    
+
     //キャンセル理由設定//
     public void sendCancel(String message) {
         Calendar calendar = Calendar.getInstance();
         eve_cancel_time = calendar.getTime(); //時間取得
         eve_cancel_message = message;
     }
-    
+
     //キャンセル理由取得//
     public String getCancelMessage() {
         return eve_cancel_message;
     }
-    
+
     //キャンセル送信時間取得//
     public Date getCancelTime() {
         return eve_cancel_time;
@@ -152,8 +152,31 @@ public class ClientEvent implements Serializable{
         return eve_good;
     }
 
+    //いいね数増加//
+    public int increaseGood() {
+        eve_good++;
+        return eve_good;
+    }
+
+    //いいね数現象//
+    public int decreaseGood() {
+        eve_good--;
+        return eve_good;
+    }
     //参加者数取得//
     public int getJoin() {
+        return eve_join;
+    }
+
+    //参加者数取得//
+    public int increaseJoin() {
+        eve_join++;
+        return eve_join;
+    }
+
+    //参加者数取得//
+    public int decreaseJoin() {
+        eve_join--;
         return eve_join;
     }
 }
