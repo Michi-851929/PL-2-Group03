@@ -133,6 +133,11 @@ public class ClientEvent implements Serializable{
         return (String[])eve_own_message.toArray();
     }
 
+    public LocalDateTime getLastUpdateTime()
+    {
+        return eve_own_messagetime.get(eve_own_messagetime.size() - 1);
+    }
+
     //キャンセル理由設定//
     public void sendCancel(String user_name, String message) {
         //Calendar calendar = Calendar.getInstance();
