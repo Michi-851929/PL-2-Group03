@@ -15,7 +15,8 @@ public class ClientEvent implements Serializable{
         private int eve_good = 0;
         private int eve_join = 0;
         private String eve_com_name;
-        private String eve_own_message = null;
+        private ArrayList<String> eve_own_message = new ArrayList<>();
+        private ArrayList<LocalDateTime> eve_own_messagetime = new ArrayList<>();
         private ArrayList<String> eve_cancel_name = new ArrayList<>();
         private ArrayList<LocalDateTime> eve_cancel_time = new ArrayList<>();
         private ArrayList<String> eve_cancel_message = new ArrayList<>();
@@ -123,20 +124,20 @@ public class ClientEvent implements Serializable{
 
     //主催者メッセージ設定//
     public void setOwnerMessage(String message) {
-        eve_own_message = message;
+        eve_own_messagetime.add(LocalDateTime.now());
+        eve_own_message.add(message);
     }
 
     //主催者メッセージ取得//
-    public String getOwnerMessage() {
-        return eve_own_message;
+    public String[] getOwnerMessage() {
+        return (String[])eve_own_message.toArray();
     }
 
     //キャンセル理由設定//
     public void sendCancel(String user_name, String message) {
         //Calendar calendar = Calendar.getInstance();
-        LocalDateTime time = LocalDateTime.now();
         eve_cancel_name.add(user_name);
-        eve_cancel_time.add(time); //時間取得
+        eve_cancel_time.add(LocalDateTime.now()); //時間取得
         eve_cancel_message.add(message);
     }
 
