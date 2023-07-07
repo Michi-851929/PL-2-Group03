@@ -533,9 +533,9 @@ public class Server extends JFrame implements ActionListener{
 
     }
 
-    public void addHostMessage()
+    public void addHostMessage(String event_id, String message)
     {
-
+        getEvent(event_id).setOwnerMessage(message);
     }
 
     public void actionPerformed(ActionEvent ae)
