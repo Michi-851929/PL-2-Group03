@@ -69,9 +69,9 @@ class ConnectThread extends Thread{
 			String name = m.name;
 			String pass = m.pass;
 			String mac = (String) m.message;
-			if(se.isCreatableAccount(name,mac) == 1) {
+			if(se.isCreatableAccount(name,mac) == Server.DUPLICATE_NAME) {
 				ans.message = 4;
-			}else if(se.isCreatableAccount(name,mac) == 2) {
+			}else if(se.isCreatableAccount(name,mac) == Server.DUPLICATE_MAC) {
 				ans.message = 5;
 			}else {
 				se.createAccount(name, pass, mac);
@@ -80,7 +80,7 @@ class ConnectThread extends Thread{
 			ans.message = se.logIn(m.name,m.pass);
 		}else {
 			Account tmp = se.getAccount(m.name);
-			if(tmp == new Account("", "", "")) {
+			if(tmp.equals(new Account("", "", "")) ) {
 				ans.mode = 1;
 			}else if(tmp.isBanned()==true) {
 				ans.mode = 2;

@@ -217,8 +217,7 @@ public class ClientConnect{
         return status;
     }
 
-
-    int quitCommunity(String name) throws Exception { //コミュニティ脱退
+    int joinCommunity(String name) throws Exception { //コミュニティ加入
         Message tmp = new Message(this.id,this.pass,13);
         tmp.message = name;
         Message ans = null;
@@ -230,8 +229,20 @@ public class ClientConnect{
         return (int) ans.message;
     }
 
-    int changePassword(String new_password) throws Exception { //パスワード変更
+    int quitCommunity(String name) throws Exception { //コミュニティ脱退
         Message tmp = new Message(this.id,this.pass,14);
+        tmp.message = name;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (int) ans.message;
+    }
+
+    int changePassword(String new_password) throws Exception { //パスワード変更
+        Message tmp = new Message(this.id,this.pass,15);
         tmp.message = new_password;
         Message ans = null;
         try {
@@ -246,7 +257,7 @@ public class ClientConnect{
     }
 
     String[] inquire() throws Exception { //メッセージ問い合わせ
-        Message tmp = new Message(this.id,this.pass,15);
+        Message tmp = new Message(this.id,this.pass,16);
         Message ans = null;
         try {
             ans = post(tmp);
