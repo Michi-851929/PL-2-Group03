@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -59,6 +60,7 @@ public class Client extends JFrame {
 
     private String username;
     private String password;
+    private int login_flag;
 
     //コンストラクタ(ログイン画面)
     public Client(){
@@ -144,85 +146,121 @@ public class Client extends JFrame {
 
     //ログイン画面
     void loginScreen() {
+    	int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
+        setTitle("ログイン画面");
         contentPane1.removeAll();
-        // ウィンドウの設定
-        setTitle("ログイン");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-     // コンテンツパネルの設定
-        JPanel ui_panel_00 = new JPanel(new GridBagLayout()) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // 画像を読み込む
-                Image backgroundImage = new ImageIcon("login.png").getImage();
-                // 画像を描画する
-                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        ui_panel_00.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = GridBagConstraints.RELATIVE;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(10, 5, 5, 5);
+
+        //setLayout(new BorderLayout());
+
+        // 背景画像を表示するためのパネルを作成
+        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT1);
+
+        Graphics g0 = img0.getGraphics();
+        g0.setColor(THEME_COLOR);
+        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        g0.setColor(Color.WHITE);
+        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT1 - 100, 75);
+        JPanel backgroundPanel = new JPanel();
+        //setContentPane(backgroundPanel);
+        backgroundPanel.setLayout(null);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
 
         // タイトルラベル
-        JLabel titleLabel = new JLabel("Communi+I", SwingConstants.CENTER);
-        Font titleFont = new Font("Arial", Font.BOLD, 20);
-        titleLabel.setFont(titleFont);
-        ui_panel_00.add(titleLabel, gbc);
+        JLabel titleLabel = new JLabel("Communi+I", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
+        titleLabel.setBounds(100, 100, 400, 50);
+        backgroundPanel.add(titleLabel);
 
         // ユーザ名のラベルとフィールド
-        JLabel usernameLabel = new JLabel("ユーザ名:");
+        JLabel usernameLabel = new JLabel("ユーザ名");
+        usernameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 24));
         usernameField = new JTextField(20);
-        ui_panel_00.add(usernameLabel, gbc);
-        ui_panel_00.add(usernameField, gbc);
+        usernameLabel.setBounds(100, 200, 400, 30);
+        usernameField.setBounds(100, 250, 400, 30);
+        backgroundPanel.add(usernameLabel);
+        backgroundPanel.add(usernameField);
 
         // パスワードのラベルとフィールド
-        JLabel passwordLabel = new JLabel("パスワード:");
+        JLabel passwordLabel = new JLabel("パスワード");
+        passwordLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 24));
         passwordField = new JPasswordField(20);
-        ui_panel_00.add(passwordLabel, gbc);
-        ui_panel_00.add(passwordField, gbc);
+        passwordLabel.setBounds(100, 300, 400, 30);
+        passwordField.setBounds(100, 350, 400, 30);
+        backgroundPanel.add(passwordLabel);
+        backgroundPanel.add(passwordField);
 
         // ログインボタン
         JButton loginButton = new JButton("ログイン");
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(10, 0, 0, 0);
         loginButton.setBackground(new Color(230, 255, 179));
-        ui_panel_00.add(loginButton, gbc);
+        loginButton.setBounds(200, 450, 200, 30);
+        backgroundPanel.add(loginButton);
+        
+        // ログインボタンのアクションリスナー
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                username = usernameField.getText();
+                char[] passwordchars = passwordField.getPassword();
+                password = new String(passwordchars);
+                System.out.println("username:"+username);
+                System.out.println("password:"+password);
+                // ログイン処理を行う
+                
+                login_flag=0;
+                
+                if(login_flag==0) {
+                	JOptionPane.showMessageDialog(Client.this, "ログイン成功");
+                	ui_clayout.show(contentPane0, "カレンダー画面");
+                	calendarScreen();
+                }else {
+                	JOptionPane.showMessageDialog(Client.this, "ログインに失敗しました。もう一度お試しください。" );
+                }
+                
+                
+            }
+        });
 
         // アカウント登録ボタン
         JButton registerButton = new JButton("アカウント登録");
         registerButton.setBackground(new Color(230, 255, 179));
-        ui_panel_00.add(registerButton, gbc);
+        registerButton.setBounds(200, 530, 200, 30);
+        backgroundPanel.add(registerButton);
 
-        // ボタンのアクションリスナー
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
-                // ログイン処理を行う
-                // ここではダミーの処理として、入力内容を表示するだけとします
-                userScreen();
-                calendarScreen();
-                ui_clayout.show(contentPane0, "カレンダー画面");
-                addWindowListener(ui_wlistener);
-                JOptionPane.showMessageDialog(Client.this, "ユーザ名: " + username + "\nパスワード: " + password);
-            }
-        });
-
+        // アカウント登録ボタンのアクションリスナー
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // アカウント登録画面に遷移する処理を実装する
                 registerScreen();
             }
         });
+        
+        JLabel ui_jl_back = new JLabel("");
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        ui_jl_back.setIcon(new ImageIcon(img0));
+        backgroundPanel.add(ui_jl_back);
 
-        contentPane1.add(ui_panel_00);
-        ui_clayout.show(contentPane0, "カレンダー画面");
+        contentPane1.add(backgroundPanel);
         setVisible(true);
         repaint();
     }
+    
+    // 背景画像を作成するメソッド
+    private BufferedImage createBackgroundImage(int width, int height) {
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        // Graphicsオブジェクトを取得して描画するための準備をする
+        Graphics graphics = image.getGraphics();
+
+        // 背景を描画する
+        graphics.setColor(THEME_COLOR);
+        graphics.fillRect(0, 0, width, height);
+
+        // Graphicsオブジェクトを解放する
+        graphics.dispose();
+
+        return image;
+    }
+    
 
 
     //新規登録画面
