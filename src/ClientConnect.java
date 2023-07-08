@@ -42,6 +42,12 @@ public class ClientConnect{
                 throw  new Exception("Auth falled");
             }else if(ans.mode == 4) {
                 throw  new Exception("Request falled");
+            }else if(ans.mode == 5) {
+            	throw  new Exception("Not Found(Request)");
+            }else if(ans.mode == 6) {
+            	throw  new Exception("Duplication(user)");
+            }else if(ans.mode == 7) {
+            	throw  new Exception("Dupilicaion(mac)");
             }
             return ans;
         }catch(Exception e) {
@@ -114,22 +120,20 @@ public class ClientConnect{
         return (ClientEvent)ans.message;
     }
 
-    void nice(String event_id) throws Exception { //いいね
+    void nice(String event_id) throws Exception { //いいね切り替え
         Message tmp = new Message(this.id,this.pass,5);
         tmp.message = event_id;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
     }
-    void joinEvent(String event_id) throws Exception { //イベント参加
+    void joinEvent(String event_id) throws Exception { //イベント参加切り替え
         Message tmp = new Message(this.id,this.pass,6);
         tmp.message = event_id;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
@@ -200,24 +204,18 @@ public class ClientConnect{
         return status;
     }
     */
-    int makeCommunity(String name) throws Exception { //コミュニティ作成
+    void makeCommunity(Community comm) throws Exception { //コミュニティ作成
         Message tmp = new Message(this.id,this.pass,12);
-        tmp.message = name;
+        tmp.message = comm;
         Message ans = null;
         try {
             ans = post(tmp);
         } catch (Exception e) {
             throw e;
         }
-        return (int) ans.message;
     }
-
-    int searchCommunity(String search) { //コミュニティ検索
-        //送受信 検索語を入れるとCommunity[]を返すメソッドsearchCommunity(String)がサーバにあります 玖津見
-        return status;
-    }
-
-    int joinCommunity(String name) throws Exception { //コミュニティ加入
+    
+    Boolean checkCommunity(String name) throws Exception { //コミュニティ確認
         Message tmp = new Message(this.id,this.pass,13);
         tmp.message = name;
         Message ans = null;
@@ -226,11 +224,16 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (int) ans.message;
+        return (Boolean)ans.message;//作れるならtrue,無理ならfalse
+    }
+    
+    int searchCommunity(String search) { //コミュニティ検索
+        //送受信 検索語を入れるとCommunity[]を返すメソッドsearchCommunity(String)がサーバにあります 玖津見
+        return status;
     }
 
-    int quitCommunity(String name) throws Exception { //コミュニティ脱退
-        Message tmp = new Message(this.id,this.pass,14);
+    void joinCommunity(String name) throws Exception { //コミュニティ加入
+        Message tmp = new Message(this.id,this.pass,15);
         tmp.message = name;
         Message ans = null;
         try {
@@ -238,11 +241,21 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (int) ans.message;
     }
 
-    int changePassword(String new_password) throws Exception { //パスワード変更
-        Message tmp = new Message(this.id,this.pass,15);
+    void quitCommunity(String name) throws Exception { //コミュニティ脱退
+        Message tmp = new Message(this.id,this.pass,16);
+        tmp.message = name;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    void changePassword(String new_password) throws Exception { //パスワード変更
+        Message tmp = new Message(this.id,this.pass,17);
         tmp.message = new_password;
         Message ans = null;
         try {
@@ -253,11 +266,10 @@ public class ClientConnect{
         if((int)ans.message == 0) {
             this.pass = new_password;
         }
-        return (int) ans.message;
     }
 
     String[] inquire() throws Exception { //メッセージ問い合わせ
-        Message tmp = new Message(this.id,this.pass,16);
+        Message tmp = new Message(this.id,this.pass,18);
         Message ans = null;
         try {
             ans = post(tmp);

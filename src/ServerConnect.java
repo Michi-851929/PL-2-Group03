@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
+import java.util.Arrays;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -64,15 +65,17 @@ class ConnectThread extends Thread{
 		ObjectInputStream ois = new ObjectInputStream(is);
 		Message m = (Message) ois.readObject();
 		Message ans = new Message(m.name,m.pass,0);
+		ans.message = null;
+		ans.message2 = null;
 		//ここから各自処理
 		if(m.mode == 0) {
 			String name = m.name;
 			String pass = m.pass;
 			String mac = (String) m.message;
 			if(se.isCreatableAccount(name,mac) == Server.DUPLICATE_NAME) {
-				ans.message = 4;
+				ans.mode = 6;
 			}else if(se.isCreatableAccount(name,mac) == Server.DUPLICATE_MAC) {
-				ans.message = 5;
+				ans.mode = 7;
 			}else {
 				se.createAccount(name, pass, mac);
 			}
@@ -89,6 +92,102 @@ class ConnectThread extends Thread{
 			}else {
 				if(m.mode == 2) {
 					
+				}else if(m.mode == 3) {
+					
+				}else if(m.mode == 4) {
+					ClientEvent te=se.getEvent((String) m.message);
+					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))) {
+						ans.mode = 4;
+					}else{
+						ans.message = te;
+					}
+				}else if(m.mode == 5) {
+					ClientEvent te=se.getEvent((String) m.message);
+					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))) {
+						ans.mode = 4;
+					}else{
+						if(Arrays.asList(tmp.getEventPreferred()).contains((String)m.message)) {
+							se.setDispreferEvent(m.name, (String)m.message);
+						}else {
+							se.setPreferredEvent(m.name, (String)m.message);
+						}
+					}
+				}else if(m.mode == 6) {
+					ClientEvent te=se.getEvent((String) m.message);
+					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))) {
+						ans.mode = 4;
+					}else{
+						if(Arrays.asList(tmp.getEventGoing()).contains((String)m.message)) {
+							se.setPresentEvent(m.name, (String)m.message);
+						}else {
+							se.setAbsentEvent(m.name, (String)m.message);
+						}
+					}
+				}else if(m.mode == 7) {
+					ClientEvent te=se.getEvent((String) m.message);
+					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))) {
+						ans.mode = 4;
+					}else{
+						se.reportEvent();
+					}
+				}else if(m.mode == 8) {
+					ClientEvent te=se.getEvent((String) m.message);
+					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))||te.getEventOwner()!=m.name) {
+						ans.mode = 4;
+					}else{
+						se.addHostMessage((String)m.message,(String) m.message2);
+					}
+				}else if(m.mode == 9) {
+					ClientEvent te = (ClientEvent)m.message;
+					se.createEvent(te, te.get, NORM_PRIORITY, te.getEventStart(), te.getEventFinish());
+				}else if(m.mode == 10) {
+					ClientEvent te = (ClientEvent)m.message;
+					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))||te.getEventOwner()!=m.name) {
+						ans.mode = 4;
+					}else{
+						se.manageEvent(te);
+					}
+				}else if(m.mode == 11) {
+					ClientEvent te = (ClientEvent)m.message;
+					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))||te.getEventOwner()!=m.name) {
+						ans.mode = 4;
+					}else{
+						se.deleteEvent(te.getEventId(),0,0);//保留中
+					}
+				}else if(m.mode == 12) {
+					Community tc = (Community)m.message;
+					if(se.isCreatableCommunity(tc.getName())==Server.DUPLICATE_NAME) {
+						ans.mode = 4;
+					}else {
+						se.createCommunity(tc);
+					}
+				}else if(m.mode == 13) {
+					if(se.isCreatableCommunity((String)m.message) == Server.DUPLICATE_NAME) {
+						ans.message = false;
+					}else {
+						ans.message = true;
+					}
+				}else if(m.mode == 14) {
+					//クライアント側と調整してから実装
+				}else if(m.mode == 15) {
+					if(se.isCreatableCommunity((String)m.message) != Server.DUPLICATE_NAME||Arrays.asList(tmp.getCommunity()).contains((String)m.message)) {
+						ans.mode = 4;
+					}else {
+						se.joinCommunity((String)m.message, m.name);
+					}
+				}else if(m.mode == 16) {
+					if(se.isCreatableCommunity((String)m.message) != Server.DUPLICATE_NAME||!Arrays.asList(tmp.getCommunity()).contains((String)m.message)){
+						ans.mode = 4;
+					}else {
+						se.quitCommunity((String)m.message, m.name);
+					}
+				}else if(m.mode == 17) {
+					se.changePassword(m.name, m.pass, (String)m.message);
+				}else if(m.mode == 18) {
+					//サーバ待ち
+				}
+				else {
+					ans.mode = 5;
 				}
 			}
 		}
