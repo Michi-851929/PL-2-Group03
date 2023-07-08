@@ -147,6 +147,9 @@ public class Client extends JFrame {
     //ログイン画面
     void loginScreen() {
     	int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
+    	int button_width = 200;
+    	int button_height = 30;
+    	int r = 8;
         setTitle("ログイン画面");
         contentPane1.removeAll();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -192,9 +195,22 @@ public class Client extends JFrame {
         backgroundPanel.add(passwordField);
 
         // ログインボタン
-        JButton loginButton = new JButton("ログイン");
-        loginButton.setBackground(new Color(230, 255, 179));
+        BufferedImage img1 = createBackgroundImage(button_width, button_height);
+        Graphics g1 = img1.getGraphics();
+        Color c1 = new Color(230, 255, 179);
+        g1.setColor(c1);
+        Client.kadomaruRect(g1, 200,450 , button_width, button_height, r, Color.white, c1);
+        g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        g1.setColor(Color.BLACK);
+        g1.drawString("ログイン", 55, 22);
+        JButton loginButton = new JButton("");
+        loginButton.setBackground(Color.white);
+        loginButton.setForeground(Color.black);
+        loginButton.setOpaque(true);
+        loginButton.setMargin(new Insets(-3, -3, -3, -13));
+        loginButton.setBorderPainted(false);
         loginButton.setBounds(200, 450, 200, 30);
+        loginButton.setIcon(new ImageIcon(img1));
         backgroundPanel.add(loginButton);
         
         // ログインボタンのアクションリスナー
@@ -222,9 +238,22 @@ public class Client extends JFrame {
         });
 
         // アカウント登録ボタン
-        JButton registerButton = new JButton("アカウント登録");
-        registerButton.setBackground(new Color(230, 255, 179));
+        BufferedImage img2 = createBackgroundImage(button_width, button_height);
+        Graphics g2 = img2.getGraphics();
+        Color c2 = new Color(230, 255, 179);
+        g2.setColor(c2);
+        Client.kadomaruRect(g2, 200,450 , button_width, button_height, r, Color.white, c2);
+        g2.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        g2.setColor(Color.BLACK);
+        g2.drawString("アカウント登録", 25, 22);
+        JButton registerButton = new JButton("");
+        registerButton.setBackground(Color.white);
+        registerButton.setForeground(Color.black);
+        registerButton.setOpaque(true);
+        registerButton.setMargin(new Insets(-3, -3, -3, -13));
+        registerButton.setBorderPainted(false);
         registerButton.setBounds(200, 530, 200, 30);
+        registerButton.setIcon(new ImageIcon(img2));
         backgroundPanel.add(registerButton);
 
         // アカウント登録ボタンのアクションリスナー
