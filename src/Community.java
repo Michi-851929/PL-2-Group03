@@ -9,6 +9,7 @@ public class Community implements Serializable{
     public final static int RETURN_TAG_DUPULICATE = 1; //addTagメソッドで追加しようとしたタグが、既にタグリストに存在していたとき返り値
     public final static int RETURN_TAG_FULL = 2; //addTagメソッドでタグを追加しようとしたものの、既にタグが5個設定されていて追加できなかったときの返り値
     public final static int CALENDAR_YEARS = 5; //何年分のカレンダーを生成するか
+    public final static int FIRST_YEAR = 2023; //何年のカレンダーから設定するか
 
     private String com_name;
     private String com_owner;
@@ -16,7 +17,6 @@ public class Community implements Serializable{
     private String[] com_tag = new String[TAG_MAXNUM];
     private ArrayList<String> com_member;
     private ArrayList<CalendarMonth> com_calendar;
-    private int first_year = 2023; //何年のカレンダーから設定するか
 
     Community(String name, String owner, String info, String tag[]){ //引数は コミュニティ名. オーナー名, コミュニティ概要, タグ配列
         com_name = name;
@@ -29,7 +29,7 @@ public class Community implements Serializable{
         com_calendar = new ArrayList<>();
         //CALENDAR_YEARS年分のCalendarMonthを生成
         for(int i = 0; i<12*CALENDAR_YEARS;i++) {
-            com_calendar.add(new CalendarMonth(first_year+(i/12), i%12));
+            com_calendar.add(new CalendarMonth(FIRST_YEAR+(i/12), i%12));
         }
     }
 
@@ -125,6 +125,6 @@ public class Community implements Serializable{
 
     public CalendarMonth getCalendarMonth(int year, int month)
     {
-        return com_calendar.get((year - first_year) * 12 + month - 1);
+        return com_calendar.get((year - FIRST_YEAR) * 12 + month - 1);
     }
 }
