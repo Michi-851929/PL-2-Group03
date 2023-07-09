@@ -7,7 +7,7 @@ public class Account implements Serializable{
     private String password;
     private String mac_adress;
     private boolean is_banned;
-    private LocalDateTime lastcheck;
+    private int lastcheck[] = new int[7];
     private ArrayList<String> community_involved = new ArrayList<>();
     private ArrayList<String> event_going = new ArrayList<>();
     private ArrayList<String> event_preferred = new ArrayList<>();
@@ -23,7 +23,13 @@ public class Account implements Serializable{
         this.password = password;
         this.mac_adress = mac_adress;
         is_banned = false;
-        lastcheck = LocalDateTime.now();
+        lastcheck[0] = LocalDateTime.now().getYear();
+        lastcheck[1] = LocalDateTime.now().getMonthValue();
+        lastcheck[2] = LocalDateTime.now().getDayOfMonth();
+        lastcheck[3] = LocalDateTime.now().getHour();
+        lastcheck[4] = LocalDateTime.now().getMinute();
+        lastcheck[5] = LocalDateTime.now().getSecond();
+        lastcheck[6] = LocalDateTime.now().getNano();
     }
 
     //ユーザ名取得
@@ -58,12 +64,20 @@ public class Account implements Serializable{
 
     public LocalDateTime getLastCheckTime()
     {
-        return lastcheck;
+        LocalDateTime time = LocalDateTime.of(lastcheck[0], lastcheck[1], lastcheck[2], lastcheck[3], lastcheck[4], lastcheck[5], lastcheck[6]);
+
+        return time;
     }
 
-    public void setLastCheckTime(LocalDateTime time)
+    public void setLastCheckTime()
     {
-        lastcheck = time;
+        lastcheck[0] = LocalDateTime.now().getYear();
+        lastcheck[1] = LocalDateTime.now().getMonthValue();
+        lastcheck[2] = LocalDateTime.now().getDayOfMonth();
+        lastcheck[3] = LocalDateTime.now().getHour();
+        lastcheck[4] = LocalDateTime.now().getMinute();
+        lastcheck[5] = LocalDateTime.now().getSecond();
+        lastcheck[6] = LocalDateTime.now().getNano();
     }
 
     //パスワードを認証
