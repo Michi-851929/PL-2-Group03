@@ -64,6 +64,7 @@ public class Client extends JFrame {
     private String username;
     private String password;
     private String macaddress;
+    private ClientConnect cc;
     private Account account;
     private ArrayList<Community> community_list = new ArrayList<>();
     private ArrayList<ClientEvent> event_list = new ArrayList<>();
@@ -75,6 +76,12 @@ public class Client extends JFrame {
     public Client(){
         // ウィンドウの設定
         super("ログイン");
+        try {
+            cc = new ClientConnect();
+        } catch (Exception e) {
+            cc = null;
+            e.printStackTrace();
+        }
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setLocationRelativeTo(null);
@@ -237,10 +244,7 @@ public class Client extends JFrame {
 
                 if(login_flag==0) {
                     JOptionPane.showMessageDialog(Client.this, "ログイン成功");
-                    ui_clayout.show(contentPane0, "カレンダー画面");
-                    userScreen();
-                    calendarScreen();
-                    addWindowListener(ui_wlistener);
+                    login();
                 }else {
                     JOptionPane.showMessageDialog(Client.this, "ログインに失敗しました。もう一度お試しください。" );
                 }
@@ -405,8 +409,7 @@ public class Client extends JFrame {
 
                 if(register_flag==0) {
                     JOptionPane.showMessageDialog(Client.this, "アカウント登録成功");
-                    ui_clayout.show(contentPane0, "カレンダー画面");
-                    calendarScreen();
+                    login();
                 }else {
                     JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
                 }
@@ -1137,6 +1140,20 @@ public class Client extends JFrame {
     int changePassword(String prev_pass,String new_pass) {
 
         return 0;
+    }
+
+    void login()
+    {
+        //Accountオブジェクト取得
+
+        //Communityオブジェクト取得
+
+        //ClientEventオブジェクト取得
+
+        ui_clayout.show(contentPane0, "カレンダー画面");
+        userScreen();
+        calendarScreen();
+        addWindowListener(ui_wlistener);
     }
 
     //ログアウト
