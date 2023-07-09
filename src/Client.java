@@ -239,22 +239,25 @@ public class Client extends JFrame {
                 username = usernameField.getText();
                 char[] passwordchars = passwordField.getPassword();
                 password = new String(passwordchars);
-                System.out.println("username:"+username);
-                System.out.println("password:"+password);
-                // ログイン処理を行う
+                System.out.println("username:" + username);
+                System.out.println("password:" + password);
+                
+                if (username.isEmpty() || password.isEmpty()) {
+                    JOptionPane.showMessageDialog(Client.this, "名前とパスワードを入力してください");
+                } else {
+                    // ログイン処理を行う
+                    login_flag = 0;
 
-                login_flag=0;
-
-                if(login_flag==0) {
-                    JOptionPane.showMessageDialog(Client.this, "ログイン成功");
-                    login();
-                }else {
-                    JOptionPane.showMessageDialog(Client.this, "ログインに失敗しました。もう一度お試しください。" );
+                    if (login_flag == 0) {
+                        JOptionPane.showMessageDialog(Client.this, "ログイン成功");
+                        login();
+                    } else {
+                        JOptionPane.showMessageDialog(Client.this, "ログインに失敗しました。もう一度お試しください。");
+                    }
                 }
-
-
             }
         });
+
 
         // アカウント登録ボタン
         BufferedImage img2 = createBackgroundImage(button_width, button_height);
@@ -397,6 +400,9 @@ public class Client extends JFrame {
                 username = usernameField.getText();
                 char[] passwordchars = passwordField.getPassword();
                 password = new String(passwordchars);
+                char[] confirmPasswordChars = confirmPasswordField.getPassword();
+                String confirmPassword = new String(confirmPasswordChars);
+
                 try {
                     macaddress = getMacAddress();
                 } catch (UnknownHostException e1) {
@@ -409,15 +415,22 @@ public class Client extends JFrame {
                 System.out.println("macaddress:"+macaddress);
 
                 register_flag=0;
-
-                if(register_flag==0) {
-                    JOptionPane.showMessageDialog(Client.this, "アカウント登録成功");
-                    login();
-                }else {
-                    JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                	JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
+                }else if (!password.equals(confirmPassword)) {
+                    JOptionPane.showMessageDialog(Client.this, "パスワードとパスワード確認が一致しません");
+                } else {
+                	  // アカウント登録処理を行う
+                    if(register_flag==0) {
+                        JOptionPane.showMessageDialog(Client.this, "アカウント登録成功");
+                        login();
+                    }else {
+                        JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                    }
                 }
 
             }
+
         });
 
         // 戻るボタン
