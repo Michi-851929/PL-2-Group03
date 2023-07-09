@@ -33,19 +33,19 @@ public class ClientConnect{
             oos.writeObject(o);
             Message ans = (Message)ois.readObject();
             if(ans.mode == 1) {
-                throw  new Exception("Not Found(user)");
+                throw  new Exception("Not Found(user)");//該当ユーザーがいない
             }else if(ans.mode == 2) {
-                throw  new Exception("Banned user");
+                throw  new Exception("Banned user");//BANされてるユーザー
             }else if(ans.mode == 3) {
-                throw  new Exception("Auth falled");
+                throw  new Exception("Auth falled");//ユーザーはいるけどパスワードが違う
             }else if(ans.mode == 4) {
-                throw  new Exception("Request falled");
+                throw  new Exception("Request falled");//リクエスト失敗(普通のエラー)
             }else if(ans.mode == 5) {
-            	throw  new Exception("Not Found(Request)");
+            	throw  new Exception("Not Found(Request)");//該当するリクエストがないとき(呼ばれることはないはず)
             }else if(ans.mode == 6) {
-            	throw  new Exception("Duplication(user)");
+            	throw  new Exception("Duplication(user)");//アカウント作成時のみ投げます(user重複))
             }else if(ans.mode == 7) {
-            	throw  new Exception("Dupilicaion(mac)");
+            	throw  new Exception("Dupilicaion(mac)");//アカウント作成時のみ投げます(mac重複)
             }
             return ans;
         }catch(Exception e) {
