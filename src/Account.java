@@ -135,9 +135,9 @@ public class Account implements Serializable{
     }
 
     //参加イベントを取得
-    public String[] getEventGoing()
+    public ArrayList<String> getEventGoing()
     {
-        return (String[])event_going.toArray();
+        return event_going;
     }
 
     //いいねしたイベントを追加
@@ -153,8 +153,8 @@ public class Account implements Serializable{
     }
 
     //いいねしたイベントを取得
-    public String[] getEventPreferred()
+    public ArrayList<String> getEventPreferred()
     {
-        return (String[])event_preferred.toArray();
+        return event_preferred;
     }
 }

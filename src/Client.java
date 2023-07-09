@@ -581,8 +581,8 @@ public class Client extends JFrame {
                 date = getCalendarMatrics(7 * i + j);
                 ui_jb_calendar[7 * i + j] = new JButton();
                 ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-                ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, "成果報告会があります", true, "A会", false));
-                ui_jb_calendar[7 * i + j].setDisabledIcon(getDateIcon(date, 0, "", false, "", false));
+                ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, event_list.get(0), event_list.get(0)));
+                ui_jb_calendar[7 * i + j].setDisabledIcon(getDateIcon(date, 0, event_list.get(0), event_list.get(0)));
                 ui_jb_calendar[7 * i + j].setEnabled(date.getMonthValue() == ui_ld_firstofmonth.getMonthValue());
                 ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -20));
                 ui_jb_calendar[7 * i + j].setBorderPainted(false);
@@ -677,7 +677,7 @@ public class Client extends JFrame {
 
     }
 
-    private ImageIcon getDateIcon(LocalDate date, int event_number, String event1_name, boolean event1_preferred, String event2_name, boolean event2_preferred)
+    private ImageIcon getDateIcon(LocalDate date, int event_number, ClientEvent event1, ClientEvent event2)
     {
         //玖津見が書いています
         int icon_width = 70;
@@ -706,8 +706,9 @@ public class Client extends JFrame {
         }
         Client.kadomaruRect(g, 0, 0, icon_width, icon_height, r, c, THEME_COLOR);
 
+        String event1_name = event1.getEventName();
         if(!event1_name.equals("")) {
-            if(event1_preferred) { //いいね
+            if(account.getEventPreferred().contains(event1.getEventId())) { //いいね
                 g.setColor(new Color(0, 176, 240));
             }
             else{ //非いいね
@@ -718,7 +719,7 @@ public class Client extends JFrame {
             offset = 36;
             r = 10;
             Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
-            if(event1_preferred) { //いいね
+            if(account.getEventPreferred().contains(event1.getEventId())) { //いいね
                 g.setColor(Color.WHITE);
             }
             else{ //非いいね
@@ -733,8 +734,9 @@ public class Client extends JFrame {
                 g.drawString("　　　　…", 10, 60);
             }
         }
+        String event2_name = event2.getEventName();
         if(!event2_name.equals("")) {
-            if(event2_preferred) { //いいね
+            if(account.getEventPreferred().contains(event2.getEventId())) { //いいね
                 g.setColor(new Color(0, 176, 240));
             }
             else{ //非いいね
@@ -742,7 +744,7 @@ public class Client extends JFrame {
             }
             offset = 68;
             Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
-            if(event2_preferred) { //いいね
+            if(account.getEventPreferred().contains(event2.getEventId())) { //いいね
                 g.setColor(Color.WHITE);
             }
             else{ //非いいね
@@ -1461,7 +1463,12 @@ public class Client extends JFrame {
         return 0;
     }
 
-
+    void addTestData(Account account, Community community, ClientEvent event)
+    {
+        this.account = account;
+        community_list.add(community);
+        event_list.add(event);
+    }
 
     public static void main(String[] args) {
         new Client();
