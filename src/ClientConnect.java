@@ -265,15 +265,4 @@ public class ClientConnect{
             this.pass = new_password;
         }
     }
-
-    String[] inquire() throws Exception { //メッセージ問い合わせ
-        Message tmp = new Message(this.id,this.pass,18);
-        Message ans = null;
-        try {
-            ans = post(tmp);
-        } catch (Exception e) {
-            throw e;
-        }
-        return (String[]) ans.message;
-    }
 }

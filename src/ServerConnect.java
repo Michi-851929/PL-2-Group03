@@ -187,8 +187,6 @@ class ConnectThread extends Thread{
 					}
 				}else if(m.mode == 17) {
 					se.changePassword(m.name, m.pass, (String)m.message);
-				}else if(m.mode == 18) {
-					//サーバ待ち
 				}
 				else {
 					ans.mode = 5;
