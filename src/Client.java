@@ -37,8 +37,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
 
@@ -928,11 +931,11 @@ public class Client extends JFrame {
         
         JPanel ui_panel_06 = new JPanel();
         ui_panel_06.setLayout(null);
-        ui_panel_06.setBounds(13, 75, WINDOW_WIDTH, 600 - 12);
+        ui_panel_06.setBounds(13, 75, WINDOW_WIDTH, 550 - 12);
         ui_panel_06.setBackground(THEME_COLOR);
         JPanel ui_panel_05 = new JPanel();
         ui_panel_05.setLayout(new BorderLayout());
-        ui_panel_05.setSize(WINDOW_WIDTH - 24, 600 - 12);
+        ui_panel_05.setSize(WINDOW_WIDTH - 24, 550 - 12);
         ui_panel_05.setBackground(THEME_COLOR);
         
         // イベント一覧
@@ -1004,6 +1007,36 @@ public class Client extends JFrame {
         ui_panel_05.add(scrollPane, "Center");
         ui_panel_06.add(ui_panel_05);
         ui_panel_00.add(ui_panel_06);
+        
+        JPanel ui_panel_07 = new JPanel();
+        ui_panel_07.setLayout(new BorderLayout());
+        ui_panel_07.setBounds(100, 613, WINDOW_WIDTH-200 , 62);
+        ui_panel_07.setBackground(THEME_COLOR);
+        
+        int minValue = 0;   // スライダーの最小値
+        int maxValue = 1000; // スライダーの最大値
+        int initialValue = 1000; // スライダーの初期値
+        
+        
+        
+        JSlider slider = new JSlider(minValue, maxValue, initialValue);
+        slider.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 2));
+        slider.setBackground(THEME_COLOR);
+        slider.setBounds(100, 630, 450, 40);
+        slider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                int value = slider.getValue();
+                // スライダーの値が変更されたときの処理を記述
+            }
+        });
+
+        ui_panel_07.add(slider);
+        
+        ui_panel_00.add(ui_panel_07);
+        
+        
+        
+        
 
 
         contentPane1.add(ui_panel_00);
