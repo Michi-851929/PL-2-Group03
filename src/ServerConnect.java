@@ -172,7 +172,7 @@ class ConnectThread extends Thread{
 						ans.message = true;
 					}
 				}else if(m.mode == 14) {
-					//クライアント側と調整してから実装
+					ans.message=se.searchCommunity((String)m.message);
 				}else if(m.mode == 15) {
 					if(se.isCreatableCommunity((String)m.message) != Server.DUPLICATE_NAME||Arrays.asList(tmp.getCommunity()).contains((String)m.message)) {
 						ans.mode = 4;

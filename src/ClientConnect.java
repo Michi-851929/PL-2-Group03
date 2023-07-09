@@ -153,9 +153,8 @@ public class ClientConnect{
         Message tmp = new Message(this.id,this.pass,8);
         tmp.message = event_id;
         tmp.message2 = message;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
@@ -205,9 +204,8 @@ public class ClientConnect{
     void makeCommunity(Community comm) throws Exception { //コミュニティ作成
         Message tmp = new Message(this.id,this.pass,12);
         tmp.message = comm;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
@@ -225,17 +223,24 @@ public class ClientConnect{
         return (Boolean)ans.message;//作れるならtrue,無理ならfalse
     }
     
-    int searchCommunity(String search) { //コミュニティ検索
+    Community[] searchCommunity(String search) throws Exception { //コミュニティ検索
         //送受信 検索語を入れるとCommunity[]を返すメソッドsearchCommunity(String)がサーバにあります 玖津見
-        return status;
+    	Message tmp = new Message(this.id,this.pass,13);
+        tmp.message = search;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (Community[])ans.message;
     }
 
     void joinCommunity(String name) throws Exception { //コミュニティ加入
         Message tmp = new Message(this.id,this.pass,15);
         tmp.message = name;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
@@ -244,9 +249,8 @@ public class ClientConnect{
     void quitCommunity(String name) throws Exception { //コミュニティ脱退
         Message tmp = new Message(this.id,this.pass,16);
         tmp.message = name;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
@@ -257,7 +261,7 @@ public class ClientConnect{
         tmp.message = new_password;
         Message ans = null;
         try {
-            ans = post(tmp);
+            ans=post(tmp);
         } catch (Exception e) {
             throw e;
         }
