@@ -1058,46 +1058,76 @@ public class Client extends JFrame {
     }
 
     //イベントデータ取得
-    int getEventData(int event_id) {
-
-        return 0;
+    ClientEvent getEventData(String event_id) throws Exception{
+    	ClientEvent event = null;
+        try {
+            event = cc.getEvent(event_id);
+        }
+        catch(Exception e) {
+            throw e;
+        }
+        return event;
     }
 
     //イベントデータ表示
-    void displayEventData(int event_id) {
-
+    void displayEventData(String event_id) throws Exception{
     }
 
     //イベント検索
-    String[] serchEvent(String serch_word) {
-
-        String[] event_list = null;
-
-        return event_list;
+    ClientEvent[] searchEvent(String search_word) {
+        ArrayList<ClientEvent> result_list = new ArrayList<>();
+        for(ClientEvent event : event_list) {
+            String[] word_list = search_word.split(" ");
+            for(String word : word_list) {
+                if(event.getEventName().contains(word)) {
+                    result_list.add(event);
+                    break;
+                }
+            }
+        }
+        ClientEvent[] result_array = (ClientEvent[])(result_list.toArray());
+        return result_array;
     }
 
-    //参加
-    int joinEvent(int event_id) {
 
-        return 0;
+    //参加
+    void joinEvent(String event_id) throws Exception{
+        try {
+        	cc.joinEvent(event_id);
+        }
+        catch(Exception e) {
+        	throw e;
+        }
     }
 
     //いいね
-    int goodEvent(int event_id) {
-
-        return 0;
+    void goodEvent(String event_id) throws Exception{
+        try {
+            cc.nice(event_id);
+        }
+        catch(Exception e) {
+            throw e;
+        }
     }
 
     //通報
-    int reportEvent(int event_id) {
-
-        return 0;
+    void reportEvent(String event_id) throws Exception{
+        try {
+            cc.report(event_id);
+        }
+        catch(Exception e) {
+            throw e;
+        }
     }
 
     //メッセージ送信
-    int sendMessage(int event_id,String message) {
-
-        return 0;
+    void sendMessage(String event_id,String message) throws Exception{
+        try {
+        	cc.sendMessage(event_id, message);
+        }
+        catch(Exception e) {
+        	throw e;
+        }
     }
 
     //更新
