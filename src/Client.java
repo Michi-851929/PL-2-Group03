@@ -23,6 +23,7 @@ import java.net.UnknownHostException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -63,6 +64,9 @@ public class Client extends JFrame {
     private String username;
     private String password;
     private String macaddress;
+    private Account account;
+    private ArrayList<Community> community_list = new ArrayList<>();
+    private ArrayList<ClientEvent> event_list = new ArrayList<>();
 
     private int login_flag;
     private int register_flag;
@@ -389,10 +393,8 @@ public class Client extends JFrame {
                 try {
                     macaddress = getMacAddress();
                 } catch (UnknownHostException e1) {
-                    // TODO 自動生成された catch ブロック
                     e1.printStackTrace();
                 } catch (SocketException e1) {
-                    // TODO 自動生成された catch ブロック
                     e1.printStackTrace();
                 }
                 System.out.println("username:"+username);
