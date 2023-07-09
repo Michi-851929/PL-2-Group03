@@ -4,19 +4,13 @@
     "password": "meikyoushizen",
     "mac_adress": "",
     "is_banned": false,
-    "community_involved": [
-      "PL-2-Group03",
-      "PL-2-Group03",
-      "PL-2-Group03"
-    ],
-    "event_going": [],
-    "event_preferred": []
-  },
-  {
-    "name": "a",
-    "password": "aa",
-    "mac_adress": "",
-    "is_banned": false,
+    "lastcheck_year": 2023,
+    "lastcheck_month": 7,
+    "lastcheck_day": 9,
+    "lastcheck_hour": 17,
+    "lastcheck_minute": 20,
+    "lastcheck_second": 17,
+    "lastcheck_nano": 717073300,
     "community_involved": [],
     "event_going": [],
     "event_preferred": []
