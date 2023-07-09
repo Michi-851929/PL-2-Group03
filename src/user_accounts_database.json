@@ -4,20 +4,18 @@
     "password": "meikyoushizen",
     "mac_adress": "",
     "is_banned": false,
+    "lastcheck": [
+      2023,
+      7,
+      9,
+      17,
+      31,
+      1,
+      154141700
+    ],
     "community_involved": [
-      "PL-2-Group03",
-      "PL-2-Group03",
       "PL-2-Group03"
     ],
-    "event_going": [],
-    "event_preferred": []
-  },
-  {
-    "name": "a",
-    "password": "aa",
-    "mac_adress": "",
-    "is_banned": false,
-    "community_involved": [],
     "event_going": [],
     "event_preferred": []
   }

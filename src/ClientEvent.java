@@ -16,9 +16,9 @@ public class ClientEvent implements Serializable{
         private int eve_join = 0;
         private String eve_com_name;
         private ArrayList<String> eve_own_message = new ArrayList<>();
-        private ArrayList<LocalDateTime> eve_own_messagetime = new ArrayList<>();
+        private ArrayList<int[]> eve_own_messagetime = new ArrayList<>();
         private ArrayList<String> eve_cancel_name = new ArrayList<>();
-        private ArrayList<LocalDateTime> eve_cancel_time = new ArrayList<>();
+        private ArrayList<int[]> eve_cancel_time = new ArrayList<>();
         private ArrayList<String> eve_cancel_message = new ArrayList<>();
 
         public ClientEvent(String name, String start, String finish, String place, String owner, String outline, String detail, String com){
@@ -124,7 +124,9 @@ public class ClientEvent implements Serializable{
 
     //主催者メッセージ設定//
     public void setOwnerMessage(String message) {
-        eve_own_messagetime.add(LocalDateTime.now());
+        LocalDateTime ldt = LocalDateTime.now();
+        int[] time = {ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond(), ldt.getNano()};
+        eve_own_messagetime.add(time);
         eve_own_message.add(message);
     }
 
@@ -135,14 +137,17 @@ public class ClientEvent implements Serializable{
 
     public LocalDateTime getLastUpdateTime()
     {
-        return eve_own_messagetime.get(eve_own_messagetime.size() - 1);
+        int[] time = eve_own_messagetime.get(eve_own_messagetime.size() - 1);
+        return LocalDateTime.of(time[0], time[1], time[2], time[3], time[4], time[5], time[6]);
     }
 
     //キャンセル理由設定//
     public void sendCancel(String user_name, String message) {
         //Calendar calendar = Calendar.getInstance();
+        LocalDateTime ldt = LocalDateTime.now();
+        int[] time = {ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond(), ldt.getNano()};
         eve_cancel_name.add(user_name);
-        eve_cancel_time.add(LocalDateTime.now()); //時間取得
+        eve_cancel_time.add(time); //時間取得
         eve_cancel_message.add(message);
     }
 

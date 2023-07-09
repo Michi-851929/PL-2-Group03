@@ -17,16 +17,13 @@
         "cm_month": 0,
         "cm_events": [
           [
-            "ffe92030f3de536f43ad4fa27eb61ace0bee507060cc3f8b64a6a986369ed72e",
-            "5d4cad27bec0554bbfce25ffee154b90ee48ac88fea7c5f0ea666ce0c90a0711"
+            "75a98fa9371844b8c1f7810e085ba4cfdbedd16f8693abe778088f90a526b4ff"
           ],
           [
-            "ffe92030f3de536f43ad4fa27eb61ace0bee507060cc3f8b64a6a986369ed72e",
-            "5d4cad27bec0554bbfce25ffee154b90ee48ac88fea7c5f0ea666ce0c90a0711"
+            "75a98fa9371844b8c1f7810e085ba4cfdbedd16f8693abe778088f90a526b4ff"
           ],
           [
-            "ffe92030f3de536f43ad4fa27eb61ace0bee507060cc3f8b64a6a986369ed72e",
-            "5d4cad27bec0554bbfce25ffee154b90ee48ac88fea7c5f0ea666ce0c90a0711"
+            "75a98fa9371844b8c1f7810e085ba4cfdbedd16f8693abe778088f90a526b4ff"
           ],
           [],
           [],
@@ -2241,7 +2238,6 @@
           []
         ]
       }
-    ],
-    "first_year": 2023
+    ]
   }
 ]
