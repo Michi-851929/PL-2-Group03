@@ -3,8 +3,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.net.ssl.SSLContext;
@@ -84,19 +82,19 @@ public class ClientConnect{
         }
     }
 
-    CalendarMonth getMonth(Calendar month) throws Exception { //月データ取得
+    Community getCommunity(String name) throws Exception { //コミュニティ取得
         Message tmp = new Message(this.id,this.pass,2);
-        tmp.message = month;
+        tmp.message = name;
         Message ans = null;
         try {
             ans = post(tmp);
         } catch (Exception e) {
             throw e;
         }
-        return (CalendarMonth)ans.message;
+        return (Community)ans.message;
     }
 
-    ArrayList<ClientEvent> getDate(Calendar date) throws Exception { //日データ取得
+   Account getAccount(Calendar date) throws Exception { //アカウント取得
         Message tmp = new Message(this.id,this.pass,3);
         tmp.message = date;
         Message ans = null;
@@ -105,10 +103,10 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (ArrayList<ClientEvent>) Arrays.asList((ClientEvent[])ans.message);
+        return (Account)ans.message;
     }
 
-    ClientEvent getEvent(ClientEvent event) throws Exception { //イベント(1個)取得
+    ClientEvent getEvent(String event) throws Exception { //イベント(1個)取得
         Message tmp = new Message(this.id,this.pass,4);
         tmp.message = event;
         Message ans = null;

@@ -91,9 +91,13 @@ class ConnectThread extends Thread{
 				ans.mode = 3;
 			}else {
 				if(m.mode == 2) {
-					
+					if(se.isCreatableCommunity((String)m.message) != Server.DUPLICATE_NAME) {
+						ans.mode = 4;
+					}else {
+						ans.message=se.getCommunity((String)m.message);
+					}
 				}else if(m.mode == 3) {
-					
+					ans.message = tmp;
 				}else if(m.mode == 4) {
 					ClientEvent te=se.getEvent((String) m.message);
 					if(te.equals(new ClientEvent("", "", "", "", "", "", "", ""))) {
