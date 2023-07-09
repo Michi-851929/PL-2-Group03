@@ -1010,27 +1010,34 @@ public class Client extends JFrame {
         
         JPanel ui_panel_07 = new JPanel();
         ui_panel_07.setLayout(new BorderLayout());
-        ui_panel_07.setBounds(100, 613, WINDOW_WIDTH-200 , 62);
+        ui_panel_07.setBounds(100, 613, WINDOW_WIDTH - 200, 62);
         ui_panel_07.setBackground(THEME_COLOR);
-        
+
         int minValue = 0;   // スライダーの最小値
         int maxValue = 1000; // スライダーの最大値
         int initialValue = 1000; // スライダーの初期値
-        
-        
-        
+
         JSlider slider = new JSlider(minValue, maxValue, initialValue);
         slider.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 2));
         slider.setBackground(THEME_COLOR);
-        slider.setBounds(100, 630, 450, 40);
+        slider.setOpaque(false);
+
+        JLabel valueLabel = new JLabel("いいねの数:"+String.valueOf(initialValue), JLabel.CENTER);
+        valueLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
+
+        ui_panel_07.add(slider, BorderLayout.CENTER);
+        ui_panel_07.add(valueLabel, BorderLayout.SOUTH);
+
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 int value = slider.getValue();
+                valueLabel.setText("いいねの数:"+String.valueOf(value));
                 // スライダーの値が変更されたときの処理を記述
             }
         });
 
-        ui_panel_07.add(slider);
+
+       
         
         ui_panel_00.add(ui_panel_07);
         
