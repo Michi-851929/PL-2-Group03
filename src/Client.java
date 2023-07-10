@@ -1066,8 +1066,6 @@ public class Client extends JFrame {
         int button_height = 150;
         int r = 30;
 
-
-
         contentPane2.removeAll();
         JPanel userScreen = new JPanel(new GridBagLayout()) {
             private static final long serialVersionUID = 1L;
@@ -1231,40 +1229,67 @@ public class Client extends JFrame {
         backgroundPanel.add(backButton);
 
         // タイトル
-        JLabel titleLabel = new JLabel("ユーザ名");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titleLabel.setBounds(150, 50, 200, 30);
+        JLabel titleLabel = new JLabel("パスワード変更");
+        titleLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        titleLabel.setBounds(100, 100, 400, 50);
         backgroundPanel.add(titleLabel);
 
         // 旧パスワード入力欄
         JLabel oldPasswordLabel = new JLabel("旧パスワード:");
-        oldPasswordLabel.setBounds(150, 110, 100, 30);
         backgroundPanel.add(oldPasswordLabel);
         JPasswordField oldPasswordField = new JPasswordField();
-        oldPasswordField.setBounds(100, 140, 200, 30);
+        oldPasswordLabel.setBounds(100, 170, 400, 30);
+        oldPasswordField.setBounds(100, 205, 400, 30);
         backgroundPanel.add(oldPasswordField);
 
         // 新パスワード入力欄
         JLabel newPasswordLabel = new JLabel("新パスワード:");
-        newPasswordLabel.setBounds(150, 180, 100, 30);
         backgroundPanel.add(newPasswordLabel);
         JPasswordField newPasswordField = new JPasswordField();
-        newPasswordField.setBounds(100, 210, 200, 30);
+        newPasswordLabel.setBounds(100, 270, 400, 30);
+        newPasswordField.setBounds(100, 305, 400, 30);
         backgroundPanel.add(newPasswordField);
 
         // パスワード確認入力欄
         JLabel confirmPasswordLabel = new JLabel("パスワード確認:");
-        confirmPasswordLabel.setBounds(150, 250, 100, 30);
         backgroundPanel.add(confirmPasswordLabel);
         JPasswordField confirmPasswordField = new JPasswordField();
-        confirmPasswordField.setBounds(100, 290, 200, 30);
+        confirmPasswordLabel.setBounds(100, 370, 400, 30);
+        confirmPasswordField.setBounds(100, 405, 400, 30);
         backgroundPanel.add(confirmPasswordField);
 
         // 変更ボタン
         JButton changeButton = new JButton("変更");
-        changeButton.setBounds(150, 350, 100, 30);
+        changeButton.setBounds(200, 480, 200, 30);
         changeButton.setBackground(new Color(230, 255, 179));
         backgroundPanel.add(changeButton);
+        changeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae)
+            {
+                String oldPass = new String(oldPasswordField.getPassword());
+                String newPass = new String(newPasswordField.getPassword());
+                String confPass = new String(confirmPasswordField.getPassword());
+                
+                if(oldPass.isEmpty()|newPass.isEmpty()|confPass.isEmpty()) {
+                    JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください。");
+                }
+                else {
+                    if(oldPass.equals(password)) {
+                        if(newPass.equals(confPass)) {
+                            changePassword(newPass, confPass);
+                            JOptionPane.showMessageDialog(Client.this, "パスワードを変更しました。");
+                            userScreen();
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(Client.this, "新パスワードとパスワード確認欄に入力したパスワードが一致しません。");
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(Client.this, "旧パスワードが間違っています。");
+                    }
+                }
+            }
+        });
 
         JLabel ui_jl_back = new JLabel("");
         ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
