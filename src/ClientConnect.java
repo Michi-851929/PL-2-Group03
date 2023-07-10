@@ -169,40 +169,34 @@ public class ClientConnect{
         }
     }
 
-    int makeEvent(ClientEvent event) throws Exception { //イベント作成
+    void makeEvent(ClientEvent event) throws Exception { //イベント作成
         Message tmp = new Message(this.id,this.pass,9);
         tmp.message = event;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
-        return (int) ans.message;
     }
 
-    int editEvent(ClientEvent event) throws Exception { //イベント編集
+    void editEvent(ClientEvent event) throws Exception { //イベント編集
         Message tmp = new Message(this.id,this.pass,10);
         tmp.message = event;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
-        return (int) ans.message;
     }
 
-    int deleteEvent(ClientEvent event) throws Exception { //イベント削除
+    void deleteEvent(ClientEvent event) throws Exception { //イベント削除
         Message tmp = new Message(this.id,this.pass,11);
         tmp.message = event;
-        Message ans = null;
         try {
-            ans = post(tmp);
+            post(tmp);
         } catch (Exception e) {
             throw e;
         }
-        return (int) ans.message;
     }
     /*イベント検索はクライアントの持つデータの中からの検索なので要りません 玖津見
     int searchEvent(String search) { //イベント検索
