@@ -55,6 +55,7 @@ class ConnectThread extends Thread{
 	Server se;
 	public ConnectThread(Socket socket,Server server) {
 		this.s = socket;
+		this.se = server; 
 	}
 	
 	public void run() {

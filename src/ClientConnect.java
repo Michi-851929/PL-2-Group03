@@ -85,7 +85,7 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        if((int)ans.mode == 0) {
+        if(ans.mode == 0) {
             this.id = i;
             this.pass = p;
         }
