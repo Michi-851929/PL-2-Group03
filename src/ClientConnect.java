@@ -43,7 +43,7 @@ public class ClientConnect{
             }else if(ans.mode == 5) {
             	throw  new Exception("Not Found(Request)");//該当するリクエストがないとき(呼ばれることはないはず)
             }else if(ans.mode == 6) {
-            	throw  new Exception("Duplication(user)");//アカウント作成時のみ投げます(user重複))
+            	throw  new Exception("Duplication(user)");//アカウント作成時のみ投げます(user重複)
             }else if(ans.mode == 7) {
             	throw  new Exception("Dupilicaion(mac)");//アカウント作成時のみ投げます(mac重複)
             }
@@ -225,7 +225,7 @@ public class ClientConnect{
     
     Community[] searchCommunity(String search) throws Exception { //コミュニティ検索
         //送受信 検索語を入れるとCommunity[]を返すメソッドsearchCommunity(String)がサーバにあります 玖津見
-    	Message tmp = new Message(this.id,this.pass,13);
+    	Message tmp = new Message(this.id,this.pass,14);
         tmp.message = search;
         Message ans = null;
         try {
