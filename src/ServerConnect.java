@@ -80,7 +80,12 @@ class ConnectThread extends Thread{
 				se.createAccount(name, pass, mac);
 			}
 		}else if(m.mode == 1) {
-			ans.message = se.logIn(m.name,m.pass);
+			int tmp = se.logIn(m.name,m.pass);
+			if(tmp == Server. LOGIN_NOTEXIST) {
+				ans.mode = 2;
+			}else if(tmp == Server.LOGIN_BANNED){
+				ans.mode = 3;
+			}
 		}else {
 			Account tmp = se.getAccount(m.name);
 			if(tmp.equals(new Account("", "", "")) ) {
