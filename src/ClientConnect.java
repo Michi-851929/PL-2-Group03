@@ -15,6 +15,16 @@ public class ClientConnect{
     String message = null;
     private static SSLContext sslc;
     private static SSLSocketFactory sslf;
+    
+    public final static String NOT_FOUND = "Not Found(user)";//該当ユーザーがいない
+    public final static String BANNED = "Banned user";//BANされてるユーザー
+    public final static String AUTH = "Auth falled";//ユーザーはいるけどパスワードが違う
+    public final static String ERROR = "Request falled";//リクエスト失敗(普通のエラー)
+    public final static String REQ_FAILED = "Not Found(Request)";//該当するリクエストがないとき(呼ばれることはないはず)
+    public final static String USER = "Duplication(user)";//アカウント作成時のみ投げます(user重複)
+    public final static String MAC = "Dupilicaion(mac)";//アカウント作成時のみ投げます(mac重複)
+    
+    
     ClientConnect() throws Exception{
         try {
             sslc = SSLContext.getDefault();
@@ -33,19 +43,19 @@ public class ClientConnect{
             oos.writeObject(o);
             Message ans = (Message)ois.readObject();
             if(ans.mode == 1) {
-                throw  new Exception("Not Found(user)");//該当ユーザーがいない
+                throw  new Exception(NOT_FOUND);//該当ユーザーがいない
             }else if(ans.mode == 2) {
-                throw  new Exception("Banned user");//BANされてるユーザー
+                throw  new Exception(BANNED);//BANされてるユーザー
             }else if(ans.mode == 3) {
-                throw  new Exception("Auth falled");//ユーザーはいるけどパスワードが違う
+                throw  new Exception(AUTH);//ユーザーはいるけどパスワードが違う
             }else if(ans.mode == 4) {
-                throw  new Exception("Request falled");//リクエスト失敗(普通のエラー)
+                throw  new Exception(ERROR);//リクエスト失敗(普通のエラー)
             }else if(ans.mode == 5) {
-            	throw  new Exception("Not Found(Request)");//該当するリクエストがないとき(呼ばれることはないはず)
+            	throw  new Exception(REQ_FAILED);//該当するリクエストがないとき(呼ばれることはないはず)
             }else if(ans.mode == 6) {
-            	throw  new Exception("Duplication(user)");//アカウント作成時のみ投げます(user重複)
+            	throw  new Exception(USER);//アカウント作成時のみ投げます(user重複)
             }else if(ans.mode == 7) {
-            	throw  new Exception("Dupilicaion(mac)");//アカウント作成時のみ投げます(mac重複)
+            	throw  new Exception(MAC);//アカウント作成時のみ投げます(mac重複)
             }
             return ans;
         }catch(Exception e) {
