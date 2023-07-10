@@ -82,9 +82,9 @@ class ConnectThread extends Thread{
 		}else if(m.mode == 1) {
 			int tmp = se.logIn(m.name,m.pass);
 			if(tmp == Server. LOGIN_NOTEXIST) {
-				ans.mode = 2;
+				ans.mode = 1;
 			}else if(tmp == Server.LOGIN_BANNED){
-				ans.mode = 3;
+				ans.mode = 2;
 			}
 		}else {
 			Account tmp = se.getAccount(m.name);
