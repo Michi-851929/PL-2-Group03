@@ -1055,9 +1055,99 @@ public class Client extends JFrame {
 
     }
 
-    //イベント画面
-    void eventScreen() {
+    //イベント画面 month, dayは表示のため
+    void eventScreen(ClientEvent ce, int month, int day) {
+        setTitle("イベントの詳細");
+        contentPane2.removeAll();
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+        //setLayout(new BorderLayout());
+
+        // 背景画像を表示するためのパネルを作成
+        Image img0 = createImage(WINDOW_WIDTH, 675);
+        Graphics g0 = img0.getGraphics();
+        g0.setColor(THEME_COLOR);
+        g0.fillRect(0, 0, WINDOW_WIDTH, 675);
+        g0.setColor(Color.WHITE);
+        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, 675 - 100, 75);
+        ImagePanel backgroundPanel = new ImagePanel();
+        //setContentPane(backgroundPanel);
+        backgroundPanel.setLayout(null);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, 675);
+
+        // 戻るボタン
+        JButton backButton = new JButton("戻る");
+        backButton.setBounds(10, 10, 60, 30);
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae)
+            {
+                userScreen();
+            }
+        });
+        ImageIcon icon = new ImageIcon("back.png");
+        backButton.setIcon(icon);
+
+        // ボタンの余白を調整
+        backButton.setMargin(new Insets(0, 0, 0, 0));
+
+        // ボタンの枠線を非表示にする
+        backButton.setBorderPainted(false);
+
+        // ボタンの背景を透明にする
+        backButton.setContentAreaFilled(false);
+        backgroundPanel.add(backButton);
+
+        // タイトル
+        JLabel titleLabel = new JLabel(month +" / "+day);
+        titleLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setBounds(WINDOW_WIDTH/2-100, 10, 200, 50);
+        backgroundPanel.add(titleLabel);
+
+        // イベント名
+        JLabel eventNameLabel = new JLabel(ce.getEventName());
+        eventNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
+        eventNameLabel.setBounds(70, 70, 400, 50);
+        backgroundPanel.add(eventNameLabel);
+        
+        // イベントコミュニティ名
+        JLabel eventCommunityNameLabel = new JLabel(ce.getEventCommunityName());
+        eventCommunityNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
+        eventCommunityNameLabel.setHorizontalAlignment(JLabel.RIGHT);
+        eventCommunityNameLabel.setBounds(WINDOW_WIDTH/2, 100, WINDOW_WIDTH/2-70, 50);
+        backgroundPanel.add(eventCommunityNameLabel);
+        
+        // イベント名
+        JLabel eventTimePlaceLabel = new JLabel(ce.getEventStart()+"-"+ce.getEventFinish()+" "+ce.getEventPlace() );
+        eventTimePlaceLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
+        eventTimePlaceLabel.setBounds(70, 120, 400, 50);
+        backgroundPanel.add(eventTimePlaceLabel);
+        
+        // イベント名
+        JLabel eventOutlineLabel = new JLabel(ce.getEventOutline());
+        eventOutlineLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        eventOutlineLabel.setBounds(70, 150, 400, 60);
+        backgroundPanel.add(eventOutlineLabel);
+        
+        // イベントオーナー名
+        JLabel eventOwnerLabel = new JLabel(ce.getEventOwner());
+        eventOwnerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
+        eventOwnerLabel.setHorizontalAlignment(JLabel.RIGHT);
+        eventOwnerLabel.setBounds(WINDOW_WIDTH/2, 220, WINDOW_WIDTH/2-70, 50);
+        backgroundPanel.add(eventOwnerLabel);
+        
+        JLabel ui_jl_back = new JLabel("");
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
+        ui_jl_back.setIcon(new ImageIcon(img0));
+        backgroundPanel.add(ui_jl_back);
+        
+        // フッターなど
+        setFooter(contentPane2);
+        contentPane2.add(backgroundPanel);
+        //setSize(400, 500);
+        setVisible(true);
+        repaint();
     }
 
     //ユーザ画面
@@ -1142,6 +1232,12 @@ public class Client extends JFrame {
         communityManageButton.setMargin(new Insets(-3, -3, -3, -15));
         communityManageButton.setBorderPainted(false);
         communityManageButton.setIcon(new ImageIcon(img2));
+        communityManageButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae)
+            {
+                eventScreen(new ClientEvent("イベント1", "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 7, 11);
+            }
+        });
         //userScreen.add(communityManageButton, gbc);
 
         // ログアウトボタン
