@@ -986,7 +986,7 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     eve_id = id;
                     System.out.println(id);
-                    eventScreen();
+                    eventScreen(event1, event1.getYear(), event1.getMonthValue());
                 }
             });
 
@@ -1114,38 +1114,38 @@ public class Client extends JFrame {
         eventNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
         eventNameLabel.setBounds(70, 70, 400, 50);
         backgroundPanel.add(eventNameLabel);
-        
+
         // イベントコミュニティ名
         JLabel eventCommunityNameLabel = new JLabel(ce.getEventCommunityName());
         eventCommunityNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventCommunityNameLabel.setHorizontalAlignment(JLabel.RIGHT);
         eventCommunityNameLabel.setBounds(WINDOW_WIDTH/2, 100, WINDOW_WIDTH/2-70, 50);
         backgroundPanel.add(eventCommunityNameLabel);
-        
+
         // イベント名
         JLabel eventTimePlaceLabel = new JLabel(ce.getEventStart()+"-"+ce.getEventFinish()+" "+ce.getEventPlace() );
         eventTimePlaceLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventTimePlaceLabel.setBounds(70, 120, 400, 50);
         backgroundPanel.add(eventTimePlaceLabel);
-        
+
         // イベント名
         JLabel eventOutlineLabel = new JLabel(ce.getEventOutline());
         eventOutlineLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         eventOutlineLabel.setBounds(70, 150, 400, 60);
         backgroundPanel.add(eventOutlineLabel);
-        
+
         // イベントオーナー名
         JLabel eventOwnerLabel = new JLabel(ce.getEventOwner());
         eventOwnerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventOwnerLabel.setHorizontalAlignment(JLabel.RIGHT);
         eventOwnerLabel.setBounds(WINDOW_WIDTH/2, 220, WINDOW_WIDTH/2-70, 50);
         backgroundPanel.add(eventOwnerLabel);
-        
+
         JLabel ui_jl_back = new JLabel("");
         ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
         ui_jl_back.setIcon(new ImageIcon(img0));
         backgroundPanel.add(ui_jl_back);
-        
+
         // フッターなど
         setFooter(contentPane2);
         contentPane2.add(backgroundPanel);
@@ -1239,7 +1239,7 @@ public class Client extends JFrame {
         communityManageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
-                eventScreen(new ClientEvent("イベント1", "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 7, 11);
+                eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 7, 11);
             }
         });
         //userScreen.add(communityManageButton, gbc);
