@@ -204,14 +204,14 @@ class ConnectThread extends Thread{
         oos.writeObject(ans);
         //ここまで各自処理
         }catch(Exception e) {
-
+        	e.printStackTrace();
         }finally {
             try {
                 if(s != null) {
                     s.close();
                 }
             }catch(Exception e) {
-
+            		e.printStackTrace();
             }
         }
     }
