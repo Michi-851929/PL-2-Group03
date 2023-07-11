@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -90,6 +92,7 @@ public class Client extends JFrame {
         }
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setResizable(false);
         setLocationRelativeTo(null);
         ui_wlistener = new WindowListener() {
             public void windowOpened(WindowEvent e) {
@@ -168,7 +171,7 @@ public class Client extends JFrame {
 
     //ログイン画面
     void loginScreen() {
-        int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
+        //int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
         int button_width = 200;
         int button_height = 30;
         int r = 8;
@@ -180,17 +183,17 @@ public class Client extends JFrame {
         //setLayout(new BorderLayout());
 
         // 背景画像を表示するためのパネルを作成
-        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT1);
+        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         Graphics g0 = img0.getGraphics();
         g0.setColor(THEME_COLOR);
-        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g0.setColor(Color.WHITE);
-        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT1 - 100, 75);
+        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 150, 75);
         JPanel backgroundPanel = new JPanel();
         //setContentPane(backgroundPanel);
         backgroundPanel.setLayout(null);
-        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         backgroundPanel.setBackground(THEME_COLOR);
 
         // タイトルラベル
@@ -232,7 +235,7 @@ public class Client extends JFrame {
         loginButton.setOpaque(true);
         //loginButton.setMargin(new Insets(-3, -3, -3, -13));
         loginButton.setBorderPainted(false);
-        loginButton.setBounds(200, 450, 200, 30);
+        loginButton.setBounds(200, 520, 200, 30);
         loginButton.setIcon(new ImageIcon(img1));
         backgroundPanel.add(loginButton);
 
@@ -277,7 +280,7 @@ public class Client extends JFrame {
         registerButton.setOpaque(true);
         //registerButton.setMargin(new Insets(-3, -3, -3, -13));
         registerButton.setBorderPainted(false);
-        registerButton.setBounds(200, 530, 200, 30);
+        registerButton.setBounds(200, 600, 200, 30);
         registerButton.setIcon(new ImageIcon(img2));
         backgroundPanel.add(registerButton);
 
@@ -289,7 +292,7 @@ public class Client extends JFrame {
         });
 
         JLabel ui_jl_back = new JLabel("");
-        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         ui_jl_back.setIcon(new ImageIcon(img0));
         backgroundPanel.add(ui_jl_back);
 
@@ -320,7 +323,7 @@ public class Client extends JFrame {
 
     //新規登録画面
     void registerScreen() {
-        int WINDOW_HEIGHT1 = 700;
+        //int WINDOW_HEIGHT1 = 700;
         int button_width = 200;
         int button_height = 30;
         int r = 8;
@@ -332,17 +335,17 @@ public class Client extends JFrame {
         //setLayout(new BorderLayout());
 
         // 背景画像を表示するためのパネルを作成
-        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT1);
+        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         Graphics g0 = img0.getGraphics();
         g0.setColor(THEME_COLOR);
-        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g0.setColor(Color.WHITE);
-        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT1 - 100, 75);
+        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 150, 75);
         JPanel backgroundPanel = new JPanel();
         //setContentPane(backgroundPanel);
         backgroundPanel.setLayout(null);
-        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // タイトルラベル
         JLabel titleLabel = new JLabel("Communi+I", JLabel.CENTER);
@@ -392,7 +395,7 @@ public class Client extends JFrame {
         registerButton.setOpaque(true);
         //registerButton.setMargin(new Insets(-3, -3, -3, -13));
         registerButton.setBorderPainted(false);
-        registerButton.setBounds(200, 480, 200, 30);
+        registerButton.setBounds(200, 520, 200, 30);
         registerButton.setIcon(new ImageIcon(img1));
         backgroundPanel.add(registerButton);
 
@@ -417,7 +420,14 @@ public class Client extends JFrame {
                 System.out.println("password:"+password);
                 System.out.println("macaddress:"+macaddress);
 
-                register_flag=0;
+                try {
+                    cc.createAccount(username, password, macaddress);
+                    register_flag = 0;
+                }
+                catch(Exception ex) {
+                    register_flag = 1;
+                }
+
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
                 }else if (!password.equals(confirmPassword)) {
@@ -451,7 +461,7 @@ public class Client extends JFrame {
         backButton.setOpaque(true);
         //backButton.setMargin(new Insets(-3, -3, -3, -13));
         backButton.setBorderPainted(false);
-        backButton.setBounds(200, 550, 200, 30);
+        backButton.setBounds(200, 600, 200, 30);
         backButton.setIcon(new ImageIcon(img2));
         backgroundPanel.add(backButton);
 
@@ -469,7 +479,7 @@ public class Client extends JFrame {
 
 
         JLabel ui_jl_back = new JLabel("");
-        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         ui_jl_back.setIcon(new ImageIcon(img0));
         backgroundPanel.add(ui_jl_back);
 
@@ -986,7 +996,7 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     eve_id = id;
                     System.out.println(id);
-                    eventScreen(event1, event1.getYear(), event1.getMonthValue());
+                    eventScreen(event1, 16);
                 }
             });
 
@@ -1060,9 +1070,9 @@ public class Client extends JFrame {
     }
 
     //イベント画面 month, dayは表示のため
-    void eventScreen(ClientEvent ce, int month, int day) {
+    void eventScreen(ClientEvent ce, int day) {
         setTitle("イベントの詳細");
-        contentPane2.removeAll();
+        contentPane1.removeAll();
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
@@ -1079,6 +1089,7 @@ public class Client extends JFrame {
         //setContentPane(backgroundPanel);
         backgroundPanel.setLayout(null);
         backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, 675);
+
 
         // 戻るボタン
         JButton backButton = new JButton("戻る");
@@ -1102,8 +1113,11 @@ public class Client extends JFrame {
         backButton.setContentAreaFilled(false);
         backgroundPanel.add(backButton);
 
+        //イベント情報を置くパネル
+        JPanel eventPanel = new JPanel();
+
         // タイトル
-        JLabel titleLabel = new JLabel(month +" / "+day);
+        JLabel titleLabel = new JLabel(ce.getMonthValue() +" / "+day);
         titleLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setBounds(WINDOW_WIDTH/2-100, 10, 200, 50);
@@ -1147,8 +1161,8 @@ public class Client extends JFrame {
         backgroundPanel.add(ui_jl_back);
 
         // フッターなど
-        setFooter(contentPane2);
-        contentPane2.add(backgroundPanel);
+        setFooter(contentPane1);
+        contentPane1.add(backgroundPanel);
         //setSize(400, 500);
         setVisible(true);
         repaint();
@@ -1239,7 +1253,7 @@ public class Client extends JFrame {
         communityManageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
-                eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 7, 11);
+                eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 11);
             }
         });
         //userScreen.add(communityManageButton, gbc);
@@ -1450,6 +1464,56 @@ public class Client extends JFrame {
     //日付データ表示
     void displayDateData(int date) {
 
+    }
+    
+    //ある日のイベント配列取得(作成中)
+    ClientEvent[] getADayEvents(LocalDate day) {
+        ClientEvent[] events = null;
+        return events;
+    }
+    
+    //イベント配列のソート
+    ClientEvent[] sortEvent(ClientEvent[] events) throws Exception{   
+        ArrayList<ClientEvent> preferred = new ArrayList<>();
+        ArrayList<ClientEvent> dispreferred = new ArrayList<>();
+        
+        for(ClientEvent event : events) {
+            if(account.getAEventPreferrd(event.getEventId())) {
+               preferred.add(event);
+            }
+            else {
+                dispreferred.add(event);
+            }
+        }
+        
+        Collections.sort(preferred, new Comparator<ClientEvent>() {
+            @Override
+            public int compare(ClientEvent event1, ClientEvent event2) {
+                return event2.getGood() - event1.getGood();
+            }
+        });
+        
+        Collections.sort(dispreferred, new Comparator<ClientEvent>() {
+            @Override
+            public int compare(ClientEvent event1, ClientEvent event2) {
+                return event2.getGood() - event1.getGood();
+            }
+        });
+        
+        preferred.addAll(dispreferred);
+        ClientEvent[] sorted_events = (ClientEvent[])(preferred.toArray());
+        
+        return sorted_events;
+    }
+    
+    //?番目のイベントを返す
+    ClientEvent getNumberEvent(ClientEvent[] events, int num) {
+        if(num < events.length) {
+            return events[num];
+        }
+        else {
+         return null;   
+        }
     }
 
     //イベントデータ取得
