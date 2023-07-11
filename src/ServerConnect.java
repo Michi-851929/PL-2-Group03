@@ -164,7 +164,7 @@ class ConnectThread extends Thread{
                         ans.mode = 4;
                     }else{
                     	int[] it = (int[])m.message2; 
-                        se.deleteEvent(te.getEventId(),it[0],it[1]);//保留中
+                        se.deleteEvent(te.getEventId(),it[0],it[1]);
                     }
                 }else if(m.mode == 12) {
                     Community tc = (Community)m.message;
