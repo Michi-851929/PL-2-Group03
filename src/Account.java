@@ -183,13 +183,10 @@ public class Account implements Serializable{
     public void addEventMade(String event) {
     	event_made.add(event);
     }
-    
-    //作成したイベントのいいねの総数を取得
-    public int getTotalGood() {
-    	for(int i=0;i<event_made.size();i++) {
-    		total_good+=event_made.get(i).getJoin();
-    	}
-    	return total_good;
+    //作成したイベントを取得
+    public ArrayList<String> getEventMade()
+    {
+        return event_made;
     }
     
     //作成したイベントの総数を取得
