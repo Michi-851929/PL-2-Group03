@@ -418,7 +418,14 @@ public class Client extends JFrame {
                 System.out.println("password:"+password);
                 System.out.println("macaddress:"+macaddress);
 
-                register_flag=0;
+                try {
+                    cc.createAccount(username, password, macaddress);
+                    register_flag = 0;
+                }
+                catch(Exception ex) {
+                    register_flag = 1;
+                }
+
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
                 }else if (!password.equals(confirmPassword)) {
