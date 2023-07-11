@@ -987,7 +987,7 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     eve_id = id;
                     System.out.println(id);
-                    eventScreen(event1, event1.getMonthValue(), 16);
+                    eventScreen(event1, 16);
                 }
             });
 
@@ -1081,7 +1081,7 @@ public class Client extends JFrame {
         backgroundPanel.setLayout(null);
         backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, 675);
 
-        
+
         // 戻るボタン
         JButton backButton = new JButton("戻る");
         backButton.setBounds(10, 10, 60, 30);
@@ -1103,7 +1103,7 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         backButton.setContentAreaFilled(false);
         backgroundPanel.add(backButton);
-        
+
         //イベント情報を置くパネル
         JPanel eventPanel = new JPanel();
 
@@ -1244,7 +1244,7 @@ public class Client extends JFrame {
         communityManageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
-                eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 7, 11);
+                eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 11);
             }
         });
         //userScreen.add(communityManageButton, gbc);
