@@ -1,7 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -38,6 +40,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
@@ -1063,8 +1066,8 @@ public class Client extends JFrame {
     void eventScreen(ClientEvent ce, int day) {
         setTitle("イベントの詳細");
         contentPane1.removeAll();
+        contentPane1.setLayout(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
         //setLayout(new BorderLayout());
 
@@ -1105,57 +1108,171 @@ public class Client extends JFrame {
         
         //イベント情報を置くパネル
         JPanel eventPanel = new JPanel();
+        eventPanel.setLayout(null);
+        eventPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        
 
         // タイトル
         JLabel titleLabel = new JLabel(ce.getMonthValue() +" / "+day);
         titleLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setBounds(WINDOW_WIDTH/2-100, 10, 200, 50);
-        backgroundPanel.add(titleLabel);
+        eventPanel.add(titleLabel);
 
         // イベント名
         JLabel eventNameLabel = new JLabel(ce.getEventName());
         eventNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
         eventNameLabel.setBounds(70, 70, 400, 50);
-        backgroundPanel.add(eventNameLabel);
+        eventPanel.add(eventNameLabel);
 
         // イベントコミュニティ名
         JLabel eventCommunityNameLabel = new JLabel(ce.getEventCommunityName());
         eventCommunityNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventCommunityNameLabel.setHorizontalAlignment(JLabel.RIGHT);
         eventCommunityNameLabel.setBounds(WINDOW_WIDTH/2, 100, WINDOW_WIDTH/2-70, 50);
-        backgroundPanel.add(eventCommunityNameLabel);
+        eventPanel.add(eventCommunityNameLabel);
 
         // イベント名
         JLabel eventTimePlaceLabel = new JLabel(ce.getEventStart()+"-"+ce.getEventFinish()+" "+ce.getEventPlace() );
         eventTimePlaceLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventTimePlaceLabel.setBounds(70, 120, 400, 50);
-        backgroundPanel.add(eventTimePlaceLabel);
+        eventPanel.add(eventTimePlaceLabel);
 
-        // イベント名
-        JLabel eventOutlineLabel = new JLabel(ce.getEventOutline());
+        // イベント概要
+        JTextArea eventOutlineLabel = new JTextArea(ce.getEventOutline(),20,1);
         eventOutlineLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
-        eventOutlineLabel.setBounds(70, 150, 400, 60);
-        backgroundPanel.add(eventOutlineLabel);
+        eventOutlineLabel.setLineWrap(true);
+        eventOutlineLabel.setEditable(false);
+        eventOutlineLabel.setBackground(THEME_COLOR);
+        eventOutlineLabel.setRows(calculateLineCount(eventOutlineLabel, WINDOW_WIDTH-140));
+        Dimension d = eventOutlineLabel.getPreferredSize();
+        eventOutlineLabel.setBounds(70, 170, WINDOW_WIDTH-140, d.height);
+        eventPanel.add(eventOutlineLabel);
 
         // イベントオーナー名
         JLabel eventOwnerLabel = new JLabel(ce.getEventOwner());
         eventOwnerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventOwnerLabel.setHorizontalAlignment(JLabel.RIGHT);
-        eventOwnerLabel.setBounds(WINDOW_WIDTH/2, 220, WINDOW_WIDTH/2-70, 50);
-        backgroundPanel.add(eventOwnerLabel);
+        eventOwnerLabel.setBounds(WINDOW_WIDTH/2, 170+d.height, WINDOW_WIDTH/2-70, 50);
+        eventPanel.add(eventOwnerLabel);
+        
+        //イベント詳細
+        JTextArea eventDetailLabel = new JTextArea(ce.getEventDetail(),18,1);
+
+        eventDetailLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        eventDetailLabel.setLineWrap(true);
+        eventDetailLabel.setEditable(false);
+        eventDetailLabel.setBackground(THEME_COLOR);
+        eventDetailLabel.setRows(calculateLineCount(eventDetailLabel, WINDOW_WIDTH-130));
+        Dimension d2 = eventDetailLabel.getPreferredSize();
+        eventDetailLabel.setBounds(75, 270+d.height, WINDOW_WIDTH-150, d2.height);
+        eventPanel.add(eventDetailLabel);
+        if(account.getEventPreferred().contains(ce.getEventId())) {
+            eventDetailLabel.setVisible(true);
+        }
+        else {
+            eventDetailLabel.setVisible(false);
+        }
 
         JLabel ui_jl_back = new JLabel("");
         ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
         ui_jl_back.setIcon(new ImageIcon(img0));
-        backgroundPanel.add(ui_jl_back);
+        
+        // いいねボタン
+        JButton goodButton = new JButton("いいね");
+        goodButton.setBounds(WINDOW_WIDTH/2-100, 210+d.height, 80, 30);
+        goodButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae)
+            {
+                try {
+                    if(account.getEventPreferred().contains(ce.getEventId())) {
+                        eventDetailLabel.setVisible(false);
+                        //TODO not nice をここに
+                        System.out.println("いいね解除しました");
 
+                    }
+                    else {
+                        cc.nice(ce.getEventId());
+                        eventDetailLabel.setVisible(true);
+                        System.out.println("いいねしました");
+                    }
+                } catch (Exception e) {
+                    // TODO 自動生成された catch ブロック
+                    e.printStackTrace();
+                }
+            }
+        });
+        eventPanel.add(goodButton);
+        
+        // 参加ボタン
+        JButton joinButton = new JButton("参加");
+        joinButton.setBounds(WINDOW_WIDTH/2+20, 210+d.height, 80, 30);
+        joinButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae)
+            {
+                try {
+                    if(account.getEventGoing().contains(ce.getEventId())) {
+                        cc.joinEvent(ce.getEventId());
+                        
+                    }
+                    else {
+                        //TODO cancel をここに
+                    }
+                } catch (Exception e) {
+                    // TODO 自動生成された catch ブロック
+                    e.printStackTrace();
+                }
+            }
+        });
+        eventPanel.add(joinButton);
+        
+
+
+        //スクロール
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setSize(WINDOW_WIDTH, 675);
+        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 2));
+        scrollPane.setBackground(THEME_COLOR);
+        
+        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
+        ui_sb_00.setOpaque(true);
+        ui_sb_00.setBackground(THEME_COLOR);
+        ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+        ui_sb_00.setVisible(true);
+        
+        scrollPane.setViewportView(eventPanel);
+        
+        contentPane1.add(backgroundPanel);
+        backgroundPanel.add(scrollPane);
+
+        eventPanel.add(ui_jl_back);
         // フッターなど
         setFooter(contentPane1);
-        contentPane1.add(backgroundPanel);
         //setSize(400, 500);
         setVisible(true);
         repaint();
+    }
+    
+    static int calculateLineCount(JTextArea textArea, int width) {
+        // テキスト全体を取得
+        String text = textArea.getText();
+        // フォントとコンポーネントの幅を取得
+        FontMetrics fontMetrics = textArea.getFontMetrics(textArea.getFont());
+        int componentWidth = width;
+        // 折り返しの数を計算
+        int lineCount = 1;
+        int textWidth = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            int charWidth = fontMetrics.charWidth(c);
+            textWidth += charWidth;
+            if (textWidth > componentWidth) {
+                lineCount++;
+                textWidth = charWidth;
+            }
+        }
+        System.out.println(lineCount);
+        return lineCount;
     }
 
     //ユーザ画面
@@ -1243,7 +1360,8 @@ public class Client extends JFrame {
         communityManageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
-                eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 7, 11);
+                //debug
+                eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会ですあああああああ", "ためになります", "PL-2-Group03"), 11);
             }
         });
         //userScreen.add(communityManageButton, gbc);
