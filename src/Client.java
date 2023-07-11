@@ -1061,9 +1061,9 @@ public class Client extends JFrame {
     }
 
     //イベント画面 month, dayは表示のため
-    void eventScreen(ClientEvent ce, int month, int day) {
+    void eventScreen(ClientEvent ce, int day) {
         setTitle("イベントの詳細");
-        contentPane2.removeAll();
+        contentPane1.removeAll();
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
@@ -1081,6 +1081,7 @@ public class Client extends JFrame {
         backgroundPanel.setLayout(null);
         backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, 675);
 
+        
         // 戻るボタン
         JButton backButton = new JButton("戻る");
         backButton.setBounds(10, 10, 60, 30);
@@ -1102,9 +1103,12 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         backButton.setContentAreaFilled(false);
         backgroundPanel.add(backButton);
+        
+        //イベント情報を置くパネル
+        JPanel eventPanel = new JPanel();
 
         // タイトル
-        JLabel titleLabel = new JLabel(month +" / "+day);
+        JLabel titleLabel = new JLabel(ce.getMonthValue() +" / "+day);
         titleLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setBounds(WINDOW_WIDTH/2-100, 10, 200, 50);
@@ -1148,8 +1152,8 @@ public class Client extends JFrame {
         backgroundPanel.add(ui_jl_back);
 
         // フッターなど
-        setFooter(contentPane2);
-        contentPane2.add(backgroundPanel);
+        setFooter(contentPane1);
+        contentPane1.add(backgroundPanel);
         //setSize(400, 500);
         setVisible(true);
         repaint();
