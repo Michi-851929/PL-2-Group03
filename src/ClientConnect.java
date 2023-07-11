@@ -169,9 +169,11 @@ public class ClientConnect{
         }
     }
 
-    void makeEvent(ClientEvent event) throws Exception { //イベント作成
+    void makeEvent(ClientEvent event,int day,int month,int start, int end) throws Exception { //イベント作成
         Message tmp = new Message(this.id,this.pass,9);
         tmp.message = event;
+        int[] it = {day,month,start,end};
+        tmp.message2 = it;
         try {
             post(tmp);
         } catch (Exception e) {
