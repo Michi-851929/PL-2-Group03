@@ -149,7 +149,8 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 9) {
                     ClientEvent te = (ClientEvent)m.message;
-                    se.createEvent(te, te.getYear(), te.getMonthValue(), te.getEventStart(), te.getEventFinish());
+                    int[] it= (int[])m.message2;
+                    se.createEvent(te,it[0],it[1],it[2],it[3] );
                 }else if(m.mode == 10) {
                     ClientEvent te = (ClientEvent)m.message;
                     if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))||te.getEventOwner()!=m.name) {
