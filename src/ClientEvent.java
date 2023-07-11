@@ -16,6 +16,7 @@ public class ClientEvent implements Serializable{
         private String eve_detail;
         private int eve_good = 0;
         private int eve_join = 0;
+        private int eve_rep = 0 ;
         private String eve_com_name;
         private ArrayList<String> eve_own_message = new ArrayList<>();
         private ArrayList<int[]> eve_own_messagetime = new ArrayList<>();
@@ -211,5 +212,11 @@ public class ClientEvent implements Serializable{
     public int decreaseJoin() {
         eve_join--;
         return eve_join;
+    }
+
+    //通報数増加//
+    public int increaseReport() {
+    	eve_rep++;
+    	return eve_rep;
     }
 }
