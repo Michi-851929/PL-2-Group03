@@ -11,6 +11,7 @@ public class Account implements Serializable{
     private ArrayList<String> community_involved = new ArrayList<>();
     private ArrayList<String> event_going = new ArrayList<>();
     private ArrayList<String> event_preferred = new ArrayList<>();
+    private ArrayList<String> event_made = new ArrayList<>();
 
     //パスワード認証の戻り値を表す定数
     public final static int PASS_CORRECT = 1; //正しい
@@ -176,5 +177,20 @@ public class Account implements Serializable{
     		}
     	}
     	return false;
+    }
+    
+    //作成したイベントを追加
+    public void addEventMade(String event) {
+    	event_made.add(event);
+    }
+    //作成したイベントを取得
+    public ArrayList<String> getEventMade()
+    {
+        return event_made;
+    }
+    
+    //作成したイベントの総数を取得
+    public int getTotalEventMade() {
+    	return event_made.size();
     }
 }

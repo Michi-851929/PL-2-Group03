@@ -469,7 +469,7 @@ public class Server extends JFrame implements ActionListener{
         }
     }
 
-    public void createEvent(ClientEvent event, int year, int month, int day_start, int day_end)
+    public boolean createEvent(ClientEvent event, int year, int month, int day_start, int day_end)
     {
         MessageDigest sha256 = null;
         Calendar calendar = Calendar.getInstance();
@@ -479,10 +479,16 @@ public class Server extends JFrame implements ActionListener{
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((event.getEventOwner() + calendar.getTime() + event.getEventName()).getBytes()))));
-        event_list.add(event);
-        getCommunity(event.getEventCommunityName()).getCalendarMonth(year, month).addEvent(event.getEventId(), day_start, day_end);
-        stdout("createEvent: " + event.getEventName() + " in " + event.getEventCommunityName());
+        Account owner=this.getAccount(event.getEventOwner());
+        if(this.getEventMakeSig(owner)) {
+        	event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((event.getEventOwner() + calendar.getTime() + event.getEventName()).getBytes()))));
+            event_list.add(event);
+            getCommunity(event.getEventCommunityName()).getCalendarMonth(year, month).addEvent(event.getEventId(), day_start, day_end);
+            stdout("createEvent: " + event.getEventName() + " in " + event.getEventCommunityName());
+            return true;
+        }else {
+        	return false;
+        }
     }
 
     public void deleteEvent(String event_id, int year, int month)
@@ -531,11 +537,34 @@ public class Server extends JFrame implements ActionListener{
     public void reportEvent(String event_id,int year,int month)
     {
     	ClientEvent report_event=getEvent(event_id);
+    	if(report_event.increaseReport()>10) {
+    		this.deleteEvent(event_id, year, month);
+    	}
+    	
     }
 
     public void addHostMessage(String event_id, String message)
     {
         getEvent(event_id).setOwnerMessage(message);
+    }
+    
+    public boolean getEventMakeSig(Account account) 
+    {
+    	int total_good=0;
+    	int limit_eventnum;
+    	for(String event_id : account.getEventMade()) {
+    		total_good+=this.getEvent(event_id).getJoin();
+    	}
+    	if(total_good<10) {
+    		limit_eventnum=10;
+    	}else {
+    		limit_eventnum=total_good;
+    	}
+    	if(account.getTotalEventMade()<limit_eventnum) {
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
 
     public void actionPerformed(ActionEvent ae)
