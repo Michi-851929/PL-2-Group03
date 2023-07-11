@@ -528,9 +528,9 @@ public class Server extends JFrame implements ActionListener{
         return getEvent(event_id).decreaseJoin();
     }
 
-    public void reportEvent()
+    public void reportEvent(String event_id,int year,int month)
     {
-
+    	ClientEvent report_event=getEvent(event_id);
     }
 
     public void addHostMessage(String event_id, String message)

@@ -106,17 +106,17 @@ class ConnectThread extends Thread{
                     ans.message = tmp;
                 }else if(m.mode == 4) {
                     ClientEvent te=se.getEvent((String) m.message);
-                    if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))) {
+                    if(te.getEventName().equals("")) {
                         ans.mode = 4;
                     }else{
                         ans.message = te;
                     }
                 }else if(m.mode == 5) {
                     ClientEvent te=se.getEvent((String) m.message);
-                    if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))) {
+                    if(te.getEventName().equals("")) {
                         ans.mode = 4;
                     }else{
-                        if(Arrays.asList(tmp.getEventPreferred()).contains((String)m.message)) {
+                        if(tmp.getAEventPreferrd((String)m.message)) {
                             se.setDispreferEvent(m.name, (String)m.message);
                         }else {
                             se.setPreferredEvent(m.name, (String)m.message);
@@ -124,10 +124,10 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 6) {
                     ClientEvent te=se.getEvent((String) m.message);
-                    if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))) {
+                    if(te.getEventName().equals("")) {
                         ans.mode = 4;
                     }else{
-                        if(Arrays.asList(tmp.getEventGoing()).contains((String)m.message)) {
+                        if(tmp.getAEventGoing((String)m.message)) {
                             se.setPresentEvent(m.name, (String)m.message);
                         }else {
                             se.setAbsentEvent(m.name, (String)m.message);
@@ -135,14 +135,14 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 7) {
                     ClientEvent te=se.getEvent((String) m.message);
-                    if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))) {
+                    if(te.getEventName().equals("")) {
                         ans.mode = 4;
                     }else{
                         se.reportEvent();
                     }
                 }else if(m.mode == 8) {
                     ClientEvent te=se.getEvent((String) m.message);
-                    if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
                         ans.mode = 4;
                     }else{
                         se.addHostMessage((String)m.message,(String) m.message2);
@@ -153,17 +153,18 @@ class ConnectThread extends Thread{
                     se.createEvent(te,it[0],it[1],it[2],it[3] );
                 }else if(m.mode == 10) {
                     ClientEvent te = (ClientEvent)m.message;
-                    if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
                         ans.mode = 4;
                     }else{
                         se.manageEvent(te);
                     }
                 }else if(m.mode == 11) {
                     ClientEvent te = (ClientEvent)m.message;
-                    if(te.equals(new ClientEvent("", 0, 0, "", "", "", "", "", "", ""))||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
                         ans.mode = 4;
                     }else{
-                        se.deleteEvent(te.getEventId(),0,0);//保留中
+                    	int[] it = (int[])m.message2; 
+                        se.deleteEvent(te.getEventId(),it[0],it[1]);
                     }
                 }else if(m.mode == 12) {
                     Community tc = (Community)m.message;
@@ -203,14 +204,14 @@ class ConnectThread extends Thread{
         oos.writeObject(ans);
         //ここまで各自処理
         }catch(Exception e) {
-
+        	e.printStackTrace();
         }finally {
             try {
                 if(s != null) {
                     s.close();
                 }
             }catch(Exception e) {
-
+            		e.printStackTrace();
             }
         }
     }

@@ -191,9 +191,11 @@ public class ClientConnect{
         }
     }
 
-    void deleteEvent(ClientEvent event) throws Exception { //イベント削除
+    void deleteEvent(ClientEvent event,int year,int month) throws Exception { //イベント削除
         Message tmp = new Message(this.id,this.pass,11);
         tmp.message = event;
+        int[] it = {year,month};
+        tmp.message2 = it;
         try {
             post(tmp);
         } catch (Exception e) {
