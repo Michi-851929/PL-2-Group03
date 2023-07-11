@@ -677,6 +677,7 @@ public class Server extends JFrame implements ActionListener{
         Server server = new Server();
         try {
             server.thread = new ServerConnect(server);
+            server.thread.run();
         }
         catch (Exception e) {
             server.stdout(e.getMessage());

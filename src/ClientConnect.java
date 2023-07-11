@@ -146,7 +146,7 @@ public class ClientConnect{
         }
     }
 
-    int report(String event_id) throws Exception { //イベント通報
+    int report(String event_id,int year,int month) throws Exception { //イベント通報
         Message tmp = new Message(this.id,this.pass,7);
         tmp.message = event_id;
         Message ans = null;
@@ -169,16 +169,18 @@ public class ClientConnect{
         }
     }
 
-    void makeEvent(ClientEvent event,int day,int month,int start, int end) throws Exception { //イベント作成
+    Boolean makeEvent(ClientEvent event,int day,int month,int start, int end) throws Exception { //イベント作成(返り値変更)
         Message tmp = new Message(this.id,this.pass,9);
         tmp.message = event;
         int[] it = {day,month,start,end};
         tmp.message2 = it;
+        Message ans= null;
         try {
-            post(tmp);
+        	ans= post(tmp);
         } catch (Exception e) {
             throw e;
         }
+        return (Boolean)ans.message;
     }
 
     void editEvent(ClientEvent event) throws Exception { //イベント編集
