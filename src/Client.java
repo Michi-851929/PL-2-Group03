@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -1455,6 +1457,56 @@ public class Client extends JFrame {
     //日付データ表示
     void displayDateData(int date) {
 
+    }
+    
+    //ある日のイベント配列取得(作成中)
+    ClientEvent[] getADayEvents(LocalDate day) {
+        ClientEvent[] events = null;
+        return events;
+    }
+    
+    //イベント配列のソート
+    ClientEvent[] sortEvent(ClientEvent[] events) throws Exception{   
+        ArrayList<ClientEvent> preferred = new ArrayList<>();
+        ArrayList<ClientEvent> dispreferred = new ArrayList<>();
+        
+        for(ClientEvent event : events) {
+            if(account.getAEventPreferrd(event.getEventId())) {
+               preferred.add(event);
+            }
+            else {
+                dispreferred.add(event);
+            }
+        }
+        
+        Collections.sort(preferred, new Comparator<ClientEvent>() {
+            @Override
+            public int compare(ClientEvent event1, ClientEvent event2) {
+                return event2.getGood() - event1.getGood();
+            }
+        });
+        
+        Collections.sort(dispreferred, new Comparator<ClientEvent>() {
+            @Override
+            public int compare(ClientEvent event1, ClientEvent event2) {
+                return event2.getGood() - event1.getGood();
+            }
+        });
+        
+        preferred.addAll(dispreferred);
+        ClientEvent[] sorted_events = (ClientEvent[])(preferred.toArray());
+        
+        return sorted_events;
+    }
+    
+    //?番目のイベントを返す
+    ClientEvent getNumberEvent(ClientEvent[] events, int num) {
+        if(num < events.length) {
+            return events[num];
+        }
+        else {
+         return null;   
+        }
     }
 
     //イベントデータ取得
