@@ -8,7 +8,7 @@ public class ServerDriver {
         if(server.isCreatableCommunity(community.getName()) == Server.DUPLICATE_NOT) {
             server.createCommunity(community);
         }
-        ClientEvent event = new ClientEvent("A会", "9:00", "19:00", "会館", "ADMIN", "学会です", "ためになります", "PL-2-Group03");
+        ClientEvent event = new ClientEvent("A会", 2023, 07, "9:00", "19:00", "会館", "ADMIN", "学会です", "ためになります", "PL-2-Group03");
         server.createEvent(event, 2023, 1, 1, 3);
     }
 

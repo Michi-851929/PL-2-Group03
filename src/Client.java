@@ -244,7 +244,7 @@ public class Client extends JFrame {
                 password = new String(passwordchars);
                 System.out.println("username:" + username);
                 System.out.println("password:" + password);
-                
+
                 if (username.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "名前とパスワードを入力してください");
                 } else {
@@ -419,11 +419,11 @@ public class Client extends JFrame {
 
                 register_flag=0;
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                	JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
+                    JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
                 }else if (!password.equals(confirmPassword)) {
                     JOptionPane.showMessageDialog(Client.this, "パスワードとパスワード確認が一致しません");
                 } else {
-                	  // アカウント登録処理を行う
+                      // アカウント登録処理を行う
                     if(register_flag==0) {
                         JOptionPane.showMessageDialog(Client.this, "アカウント登録成功");
                         login();
@@ -582,7 +582,7 @@ public class Client extends JFrame {
                 ui_jb_calendar[7 * i + j] = new JButton();
                 ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
                 ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, event_list.get(0), event_list.get(0)));
-                ui_jb_calendar[7 * i + j].setDisabledIcon(getDateIcon(date, 0, event_list.get(0), event_list.get(0)));
+                ui_jb_calendar[7 * i + j].setDisabledIcon(getDateIcon(date, 0, null, null));
                 ui_jb_calendar[7 * i + j].setEnabled(date.getMonthValue() == ui_ld_firstofmonth.getMonthValue());
                 ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -20));
                 ui_jb_calendar[7 * i + j].setBorderPainted(false);
@@ -706,57 +706,61 @@ public class Client extends JFrame {
         }
         Client.kadomaruRect(g, 0, 0, icon_width, icon_height, r, c, THEME_COLOR);
 
-        String event1_name = event1.getEventName();
-        if(!event1_name.equals("")) {
-            if(account.getEventPreferred().contains(event1.getEventId())) { //いいね
-                g.setColor(new Color(0, 176, 240));
-            }
-            else{ //非いいね
-                g.setColor(new Color(242, 242, 242));
-            }
-            icon_width = icon_width - 6;
-            icon_height = icon_height / 3 - 4;
-            offset = 36;
-            r = 10;
-            Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
-            if(account.getEventPreferred().contains(event1.getEventId())) { //いいね
-                g.setColor(Color.WHITE);
-            }
-            else{ //非いいね
-                g.setColor(Color.BLACK);
-            }
-            g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-            g.drawString(event1_name.substring(0, event1_name.length() >= 5 ? 5 : event1_name.length()), 10, 48);
-            if(event1_name.length() >= 5) {
-                g.drawString(event1_name.substring(5, (event1_name.length() >= 9 ? 9 : event1_name.length())), 10, 60);
-            }
-            if(event1_name.length() >= 10) {
-                g.drawString("　　　　…", 10, 60);
+        if(event1 != null) {
+            String event1_name = event1.getEventName();
+            if(!event1_name.equals("")) {
+                if(account.getEventPreferred().contains(event1.getEventId())) { //いいね
+                    g.setColor(new Color(0, 176, 240));
+                }
+                else{ //非いいね
+                    g.setColor(new Color(242, 242, 242));
+                }
+                icon_width = icon_width - 6;
+                icon_height = icon_height / 3 - 4;
+                offset = 36;
+                r = 10;
+                Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
+                if(account.getEventPreferred().contains(event1.getEventId())) { //いいね
+                    g.setColor(Color.WHITE);
+                }
+                else{ //非いいね
+                    g.setColor(Color.BLACK);
+                }
+                g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+                g.drawString(event1_name.substring(0, event1_name.length() >= 5 ? 5 : event1_name.length()), 10, 48);
+                if(event1_name.length() >= 5) {
+                    g.drawString(event1_name.substring(5, (event1_name.length() >= 9 ? 9 : event1_name.length())), 10, 60);
+                }
+                if(event1_name.length() >= 10) {
+                    g.drawString("　　　　…", 10, 60);
+                }
             }
         }
-        String event2_name = event2.getEventName();
-        if(!event2_name.equals("")) {
-            if(account.getEventPreferred().contains(event2.getEventId())) { //いいね
-                g.setColor(new Color(0, 176, 240));
-            }
-            else{ //非いいね
-                g.setColor(new Color(242, 242, 242));
-            }
-            offset = 68;
-            Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
-            if(account.getEventPreferred().contains(event2.getEventId())) { //いいね
-                g.setColor(Color.WHITE);
-            }
-            else{ //非いいね
-                g.setColor(Color.BLACK);
-            }
-            g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
-            g.drawString(event2_name.substring(0, event2_name.length() >= 5 ? 5 : event2_name.length()), 10, 80);
-            if(event2_name.length() >= 5) {
-                g.drawString(event2_name.substring(5, (event2_name.length() >= 9 ? 9 : event2_name.length())), 10, 92);
-            }
-            if(event2_name.length() >= 10) {
-                g.drawString("　　　　…", 10, 92);
+        if(event2 != null) {
+            String event2_name = event2.getEventName();
+            if(!event2_name.equals("")) {
+                if(account.getEventPreferred().contains(event2.getEventId())) { //いいね
+                    g.setColor(new Color(0, 176, 240));
+                }
+                else{ //非いいね
+                    g.setColor(new Color(242, 242, 242));
+                }
+                offset = 68;
+                Client.kadomaruRect(g, 3, offset, icon_width, icon_height, r);
+                if(account.getEventPreferred().contains(event2.getEventId())) { //いいね
+                    g.setColor(Color.WHITE);
+                }
+                else{ //非いいね
+                    g.setColor(Color.BLACK);
+                }
+                g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 10));
+                g.drawString(event2_name.substring(0, event2_name.length() >= 5 ? 5 : event2_name.length()), 10, 80);
+                if(event2_name.length() >= 5) {
+                    g.drawString(event2_name.substring(5, (event2_name.length() >= 9 ? 9 : event2_name.length())), 10, 92);
+                }
+                if(event2_name.length() >= 10) {
+                    g.drawString("　　　　…", 10, 92);
+                }
             }
         }
 
@@ -803,14 +807,14 @@ public class Client extends JFrame {
 
   //日付画面
     void dateScreen() {
-    	
-    	int WINDOW_HEIGHT = 700;
-    	
+
+        int WINDOW_HEIGHT = 700;
+
         contentPane1.removeAll();
         contentPane1.setLayout(null);
         setTitle("Communi+I");
         setFooter(contentPane1);
- 
+
 
         // 全体
         JPanel ui_panel_00 = new JPanel();
@@ -825,7 +829,7 @@ public class Client extends JFrame {
         ui_panel_01.setBackground(THEME_COLOR);
 
         ui_panel_00.add(ui_panel_01);
-        
+
         // 戻るボタン
         JButton backButton = new JButton("");
         backButton.setBounds(15, 13, 60, 50);
@@ -847,15 +851,15 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         backButton.setContentAreaFilled(false);
         ui_panel_01.add(backButton);
-        
+
         //ボタン月ボタン
         JPanel ui_panel_02 = new JPanel();
         ui_panel_02.setLayout(new BorderLayout());
         ui_panel_02.setBounds(WINDOW_WIDTH / 4 - 1, 0, WINDOW_WIDTH / 2, 75);
         ui_panel_02.setBackground(THEME_COLOR);
-        
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
-        String formattedDate = ui_ld_looking.format(formatter); 
+        String formattedDate = ui_ld_looking.format(formatter);
         JLabel ui_jl_month = new JLabel("", JLabel.CENTER);
         ui_jl_month.setText(formattedDate);
         ui_jl_month.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
@@ -867,7 +871,7 @@ public class Client extends JFrame {
         ui_jb_lastmonth.setOpaque(true);
         ui_jb_lastmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-            	ui_ld_looking = ui_ld_looking.minusDays(1);
+                ui_ld_looking = ui_ld_looking.minusDays(1);
                 dateScreen();
             }
         });
@@ -879,7 +883,7 @@ public class Client extends JFrame {
         ui_jb_nextmonth.setOpaque(true);
         ui_jb_nextmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-            	ui_ld_looking = ui_ld_looking.plusDays(1);
+                ui_ld_looking = ui_ld_looking.plusDays(1);
                 dateScreen();
             }
         });
@@ -892,19 +896,19 @@ public class Client extends JFrame {
          * イベントの取得
          * ここではダミーデータで対応します。
          */
-        
+
         List<ClientEvent> eventList  = new ArrayList<>();
-        ClientEvent event1 = new ClientEvent("イベント1", "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03");
-        ClientEvent event2 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event3 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event4 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event5 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event6 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event7 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event8 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event9 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event10 = new ClientEvent("イベント2", "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        
+        ClientEvent event1 = new ClientEvent("イベント1", 2023, 07, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03");
+        ClientEvent event2 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event3 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event4 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event5 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event6 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event7 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event8 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event9 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+        ClientEvent event10 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
+
 
         // ダミーデータの追加
         eventList.add(event1);
@@ -918,19 +922,19 @@ public class Client extends JFrame {
         eventList.add(event9);
         eventList.add(event10);
 
-        
-        
+
+
         for (ClientEvent event : eventList) {
             System.out.println(event.getEventName());
         }
-        
+
         int events_num = eventList.size();
-        
+
         int button_width = 600;
         int button_height = 100;
         int r = 20;
-        
-        
+
+
         JPanel ui_panel_06 = new JPanel();
         ui_panel_06.setLayout(null);
         ui_panel_06.setBounds(13, 75, WINDOW_WIDTH, 550 - 12);
@@ -939,14 +943,14 @@ public class Client extends JFrame {
         ui_panel_05.setLayout(new BorderLayout());
         ui_panel_05.setSize(WINDOW_WIDTH - 24, 550 - 12);
         ui_panel_05.setBackground(THEME_COLOR);
-        
+
         // イベント一覧
         JPanel ui_panel_03 = new JPanel();
         ui_panel_03.setLayout(new GridLayout(events_num, 1, 4, 4));
         ui_panel_03.setBackground(THEME_COLOR); // ボタン間の隙間をTHEME_COLORで塗りつぶす
 
         for (int i = 0; i < events_num; i++) {
-        	
+
             Image img1 = createImage(button_width, button_height);
             Graphics g1 = img1.getGraphics();
             g1.setColor(Color.WHITE);
@@ -961,15 +965,15 @@ public class Client extends JFrame {
             String com_name = eventList.get(i).getEventCommunityName();
             int good_num = eventList.get(i).getGood();
             String id = eventList.get(i).getEventId();
-            
+
             g1.drawString(name, 10, 30);
             g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
             g1.drawString(s_time+"-"+f_time, 10, 90);
             g1.drawString(place, 170, 90);
             g1.drawString(com_name, 400, 30);
             g1.drawString(Integer.toString(good_num), 400, 90);
-            
-            
+
+
             JButton eventButton = new JButton(name);
             eventButton.setBackground(THEME_COLOR);
             eventButton.setForeground(THEME_COLOR);
@@ -977,19 +981,19 @@ public class Client extends JFrame {
             eventButton.setMargin(new Insets(0,0,0,0));
             eventButton.setBorderPainted(false);
             eventButton.setIcon(new ImageIcon(img1));
-            
+
             eventButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                	eve_id = id;
-                	System.out.println(id);
-                	eventScreen();
+                    eve_id = id;
+                    System.out.println(id);
+                    eventScreen();
                 }
             });
-            
-            
+
+
             ui_panel_03.add(eventButton);
-            
-           
+
+
         }
 
 
@@ -998,18 +1002,18 @@ public class Client extends JFrame {
         scrollPane.setSize(WINDOW_WIDTH, 600);
         scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 2));
         scrollPane.setBackground(THEME_COLOR);
-        
+
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
         ui_sb_00.setOpaque(true);
         ui_sb_00.setBackground(THEME_COLOR);
         ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
         ui_sb_00.setVisible(false);
-        
+
         scrollPane.setViewportView(ui_panel_03);
         ui_panel_05.add(scrollPane, "Center");
         ui_panel_06.add(ui_panel_05);
         ui_panel_00.add(ui_panel_06);
-        
+
         JPanel ui_panel_07 = new JPanel();
         ui_panel_07.setLayout(new BorderLayout());
         ui_panel_07.setBounds(100, 613, WINDOW_WIDTH - 200, 62);
@@ -1039,13 +1043,13 @@ public class Client extends JFrame {
         });
 
 
-       
-        
+
+
         ui_panel_00.add(ui_panel_07);
-        
-        
-        
-        
+
+
+
+
 
 
         contentPane1.add(ui_panel_00);
@@ -1365,7 +1369,7 @@ public class Client extends JFrame {
                 String oldPass = new String(oldPasswordField.getPassword());
                 String newPass = new String(newPasswordField.getPassword());
                 String confPass = new String(confirmPasswordField.getPassword());
-                
+
                 if(oldPass.isEmpty()|newPass.isEmpty()|confPass.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください。");
                 }
@@ -1450,7 +1454,7 @@ public class Client extends JFrame {
 
     //イベントデータ取得
     ClientEvent getEventData(String event_id) throws Exception{
-    	ClientEvent event = null;
+        ClientEvent event = null;
         try {
             event = cc.getEvent(event_id);
         }
@@ -1484,10 +1488,10 @@ public class Client extends JFrame {
     //参加
     void joinEvent(String event_id) throws Exception{
         try {
-        	cc.joinEvent(event_id);
+            cc.joinEvent(event_id);
         }
         catch(Exception e) {
-        	throw e;
+            throw e;
         }
     }
 
@@ -1514,10 +1518,10 @@ public class Client extends JFrame {
     //メッセージ送信
     void sendMessage(String event_id,String message) throws Exception{
         try {
-        	cc.sendMessage(event_id, message);
+            cc.sendMessage(event_id, message);
         }
         catch(Exception e) {
-        	throw e;
+            throw e;
         }
     }
 
