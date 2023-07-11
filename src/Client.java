@@ -1466,9 +1466,24 @@ public class Client extends JFrame {
 
     }
     
-    //ある日のイベント配列取得(作成中)
-    ClientEvent[] getADayEvents(LocalDate day) {
-        ClientEvent[] events = null;
+    //ある日のイベント配列取得
+    ClientEvent[] getADayEvents(LocalDate date) throws Exception{
+        ArrayList<ClientEvent> list = new ArrayList<>();
+        
+        for(Community community : community_list) {
+            CalendarMonth calendar = community.getCalendarMonth(date.getYear(), date.getMonthValue());
+            ArrayList<String> id_list = calendar.getDayEvent(date.getDayOfMonth());
+            for(String id : id_list) {
+                try {
+                    list.add(getEventData(id));
+                }
+                catch(Exception e) {
+                    throw e;
+                }
+            }
+        }
+        
+        ClientEvent[] events = (ClientEvent[])(list.toArray());
         return events;
     }
     
