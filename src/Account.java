@@ -157,4 +157,24 @@ public class Account implements Serializable{
     {
         return event_preferred;
     }
+    
+    //あるイベントに参加しているか
+    public boolean getAEventGoing(String s) {
+    	for(String str: event_going) {
+    		if(str.equals(s)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    //あるイベントにいいねしているか
+    public boolean getAEventPreferrd(String s) {
+    	for(String str: event_preferred) {
+    		if(str.equals(s)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 }
