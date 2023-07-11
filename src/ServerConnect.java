@@ -163,7 +163,8 @@ class ConnectThread extends Thread{
                     if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
                         ans.mode = 4;
                     }else{
-                        se.deleteEvent(te.getEventId(),0,0);//保留中
+                    	int[] it = (int[])m.message2; 
+                        se.deleteEvent(te.getEventId(),it[0],it[1]);//保留中
                     }
                 }else if(m.mode == 12) {
                     Community tc = (Community)m.message;
