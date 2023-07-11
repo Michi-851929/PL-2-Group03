@@ -90,6 +90,7 @@ public class Client extends JFrame {
         }
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setResizable(false);
         setLocationRelativeTo(null);
         ui_wlistener = new WindowListener() {
             public void windowOpened(WindowEvent e) {
@@ -168,7 +169,7 @@ public class Client extends JFrame {
 
     //ログイン画面
     void loginScreen() {
-        int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
+        //int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
         int button_width = 200;
         int button_height = 30;
         int r = 8;
@@ -180,17 +181,17 @@ public class Client extends JFrame {
         //setLayout(new BorderLayout());
 
         // 背景画像を表示するためのパネルを作成
-        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT1);
+        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         Graphics g0 = img0.getGraphics();
         g0.setColor(THEME_COLOR);
-        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g0.setColor(Color.WHITE);
-        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT1 - 100, 75);
+        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 150, 75);
         JPanel backgroundPanel = new JPanel();
         //setContentPane(backgroundPanel);
         backgroundPanel.setLayout(null);
-        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         backgroundPanel.setBackground(THEME_COLOR);
 
         // タイトルラベル
@@ -232,7 +233,7 @@ public class Client extends JFrame {
         loginButton.setOpaque(true);
         //loginButton.setMargin(new Insets(-3, -3, -3, -13));
         loginButton.setBorderPainted(false);
-        loginButton.setBounds(200, 450, 200, 30);
+        loginButton.setBounds(200, 520, 200, 30);
         loginButton.setIcon(new ImageIcon(img1));
         backgroundPanel.add(loginButton);
 
@@ -277,7 +278,7 @@ public class Client extends JFrame {
         registerButton.setOpaque(true);
         //registerButton.setMargin(new Insets(-3, -3, -3, -13));
         registerButton.setBorderPainted(false);
-        registerButton.setBounds(200, 530, 200, 30);
+        registerButton.setBounds(200, 600, 200, 30);
         registerButton.setIcon(new ImageIcon(img2));
         backgroundPanel.add(registerButton);
 
@@ -289,7 +290,7 @@ public class Client extends JFrame {
         });
 
         JLabel ui_jl_back = new JLabel("");
-        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         ui_jl_back.setIcon(new ImageIcon(img0));
         backgroundPanel.add(ui_jl_back);
 
@@ -320,7 +321,7 @@ public class Client extends JFrame {
 
     //新規登録画面
     void registerScreen() {
-        int WINDOW_HEIGHT1 = 700;
+        //int WINDOW_HEIGHT1 = 700;
         int button_width = 200;
         int button_height = 30;
         int r = 8;
@@ -332,17 +333,17 @@ public class Client extends JFrame {
         //setLayout(new BorderLayout());
 
         // 背景画像を表示するためのパネルを作成
-        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT1);
+        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         Graphics g0 = img0.getGraphics();
         g0.setColor(THEME_COLOR);
-        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g0.setColor(Color.WHITE);
-        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT1 - 100, 75);
+        kadomaruRect(g0, 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 150, 75);
         JPanel backgroundPanel = new JPanel();
         //setContentPane(backgroundPanel);
         backgroundPanel.setLayout(null);
-        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // タイトルラベル
         JLabel titleLabel = new JLabel("Communi+I", JLabel.CENTER);
@@ -392,7 +393,7 @@ public class Client extends JFrame {
         registerButton.setOpaque(true);
         //registerButton.setMargin(new Insets(-3, -3, -3, -13));
         registerButton.setBorderPainted(false);
-        registerButton.setBounds(200, 480, 200, 30);
+        registerButton.setBounds(200, 520, 200, 30);
         registerButton.setIcon(new ImageIcon(img1));
         backgroundPanel.add(registerButton);
 
@@ -451,7 +452,7 @@ public class Client extends JFrame {
         backButton.setOpaque(true);
         //backButton.setMargin(new Insets(-3, -3, -3, -13));
         backButton.setBorderPainted(false);
-        backButton.setBounds(200, 550, 200, 30);
+        backButton.setBounds(200, 600, 200, 30);
         backButton.setIcon(new ImageIcon(img2));
         backgroundPanel.add(backButton);
 
@@ -469,7 +470,7 @@ public class Client extends JFrame {
 
 
         JLabel ui_jl_back = new JLabel("");
-        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT1);
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         ui_jl_back.setIcon(new ImageIcon(img0));
         backgroundPanel.add(ui_jl_back);
 
