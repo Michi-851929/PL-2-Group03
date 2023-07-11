@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class ClientEvent implements Serializable{
         private static final long serialVersionUID = 1L;
         private String eve_id;
+        private int eve_year;
+        private int eve_month;
         private String eve_name;
         private String eve_start;
         private String eve_finish;
@@ -21,8 +23,10 @@ public class ClientEvent implements Serializable{
         private ArrayList<int[]> eve_cancel_time = new ArrayList<>();
         private ArrayList<String> eve_cancel_message = new ArrayList<>();
 
-        public ClientEvent(String name, String start, String finish, String place, String owner, String outline, String detail, String com){
+        public ClientEvent(String name, int year, int month, String start, String finish, String place, String owner, String outline, String detail, String com){
         eve_name = name;
+        eve_year = year;
+        eve_month = month;
         eve_start = start;
         eve_finish = finish;
         eve_place = place;
@@ -50,6 +54,16 @@ public class ClientEvent implements Serializable{
     //イベント名取得//
     public String getEventName() {
         return eve_name;
+    }
+
+    public int getYear()
+    {
+        return eve_year;
+    }
+
+    public int getMonthValue()
+    {
+        return eve_month;
     }
 
     //開始時刻変更//

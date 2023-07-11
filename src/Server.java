@@ -465,7 +465,7 @@ public class Server extends JFrame implements ActionListener{
             return event;
         }
         else {
-            return new ClientEvent("", "", "", "", "", "", "", "");
+            return new ClientEvent("", 0, 0, "", "", "", "", "", "", "");
         }
     }
 
