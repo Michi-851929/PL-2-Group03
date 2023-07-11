@@ -986,7 +986,7 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     eve_id = id;
                     System.out.println(id);
-                    eventScreen(event1, event1.getYear(), event1.getMonthValue());
+                    eventScreen(event1, event1.getMonthValue(), 16);
                 }
             });
 
