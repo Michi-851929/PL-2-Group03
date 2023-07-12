@@ -141,14 +141,16 @@ public class ClientConnect{
         }
         return (Boolean)ans.message;
     }
-    void joinEvent(String event_id) throws Exception { //イベント参加切り替え
+    Boolean joinEvent(String event_id) throws Exception { //イベント参加切り替え
         Message tmp = new Message(this.id,this.pass,6);
         tmp.message = event_id;
+        Message ans =null;
         try {
-            post(tmp);
+            ans =post(tmp);
         } catch (Exception e) {
             throw e;
         }
+        return (Boolean)ans.message;
     }
 
     int report(String event_id,int year,int month) throws Exception { //イベント通報

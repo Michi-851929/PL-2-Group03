@@ -1541,7 +1541,7 @@ public class Client extends JFrame {
                     //更新を呼ぶ
                 } catch (Exception e) {
                     if(e.getMessage()==ClientConnect.ERROR) {
-                    	System.out.println("存在しないイベントにいいねされました");
+                    	System.out.println("存在しないイベントです");
                     }
                     e.printStackTrace();
                 }
@@ -1601,27 +1601,29 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
+                	Boolean tmp = cc.joinEvent(ce.getEventId());
                     if(account.getAEventGoing(ce.getEventId())) {
-                        joinButton.setForeground(JOIN_COLOR);
-                        joinButton_bg_false.setVisible(true);
-                        joinButton_bg_true.setVisible(false);
-                        
-                        //TODO not nice をここに
-                        System.out.println("参加解除しました");
-
+                    	if(tmp ==false) {
+                    		joinButton.setForeground(JOIN_COLOR);
+                        	joinButton_bg_false.setVisible(true);
+                        	joinButton_bg_true.setVisible(false);
+                        	System.out.println("参加解除しました");
+                    	}
                     }
                     else {
+                    	if(tmp == true) {
                         joinButton.setForeground(Color.WHITE);
                         joinButton_bg_false.setVisible(false);
                         joinButton_bg_true.setVisible(true);
-
                         System.out.println("参加しました");
-                        cc.joinEvent(ce.getEventId());
+                    	}
                     }
 
                 } catch (Exception e) {
-                    // TODO 自動生成された catch ブロック
-                    e.printStackTrace();
+                	 if(e.getMessage()==ClientConnect.ERROR) {
+                     	System.out.println("存在しないイベントです");
+                     }
+                     e.printStackTrace();
                 }
             }
         });
@@ -2108,9 +2110,9 @@ public class Client extends JFrame {
     }
 
     //通報
-    void reportEvent(String event_id) throws Exception{
+    void reportEvent(String event_id,int year,int month) throws Exception{
         try {
-            cc.report(event_id);
+            cc.report(event_id,year,month);
         }
         catch(Exception e) {
             throw e;
