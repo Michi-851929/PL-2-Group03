@@ -118,8 +118,10 @@ class ConnectThread extends Thread{
                     }else{
                         if(tmp.getAEventPreferrd((String)m.message)) {
                             se.setDispreferEvent(m.name, (String)m.message);
+                            ans.message = true;
                         }else {
                             se.setPreferredEvent(m.name, (String)m.message);
+                            ans.message = false;
                         }
                     }
                 }else if(m.mode == 6) {

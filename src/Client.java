@@ -1372,18 +1372,19 @@ public class Client extends JFrame {
             {
                 try {
                     if(account.getEventPreferred().contains(ce.getEventId())) {
+                    	cc.nice(ce.getEventId());
                         eventDetailLabel.setVisible(false);
-                        //TODO not nice をここに
                         System.out.println("いいね解除しました");
-
                     }
                     else {
+                    	cc.nice(ce.getEventId());
                         eventDetailLabel.setVisible(true);
                         System.out.println("いいねしました");
-                        cc.nice(ce.getEventId());
                     }
                 } catch (Exception e) {
-                    // TODO 自動生成された catch ブロック
+                    if(e.getMessage()==ClientConnect.ERROR) {
+                    	//存在しないイベントであると表示
+                    }
                     e.printStackTrace();
                 }
             }

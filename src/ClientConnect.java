@@ -127,14 +127,16 @@ public class ClientConnect{
         return (ClientEvent)ans.message;
     }
 
-    void nice(String event_id) throws Exception { //いいね切り替え
+    Boolean nice(String event_id) throws Exception { //いいね切り替え
         Message tmp = new Message(this.id,this.pass,5);
         tmp.message = event_id;
+        Message ans =null;
         try {
             post(tmp);
         } catch (Exception e) {
             throw e;
         }
+        return (Boolean)ans.message;
     }
     void joinEvent(String event_id) throws Exception { //イベント参加切り替え
         Message tmp = new Message(this.id,this.pass,6);
