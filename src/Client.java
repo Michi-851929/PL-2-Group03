@@ -868,8 +868,12 @@ public class Client extends JFrame {
         ui_panel_01.add(backButton);
         
         // ボタン追加：右上に追加するボタン
-        JButton addButton = new JButton("追加");
-        addButton.setBounds(WINDOW_WIDTH - 90, 13, 75, 50);
+        JButton addButton = new JButton("+");
+        addButton.setBounds(WINDOW_WIDTH - 100, 13, 75, 50);
+        addButton.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
+        addButton.setBorderPainted(false);
+        addButton.setBackground(THEME_COLOR);
+        addButton.setOpaque(true);
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
             	System.out.println("イベントを追加します");
@@ -967,8 +971,21 @@ public class Client extends JFrame {
                 communityField.setBounds(120, 360, 250, 30);
                 eventPanel.add(communityField);
                 
-                JButton addButton = new JButton("作成");
+                BufferedImage img = createBackgroundImage(60, 40);
+                Graphics g = img.getGraphics();
+                g.setColor(Color.WHITE);
+                Client.kadomaruRect(g, 0, 0, 60, 40, 8, Color.WHITE, THEME_COLOR);
+                g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+                g.setColor(Color.BLACK);
+                g.drawString("作成", 9, 27);
+                JButton addButton = new JButton("");
+                addButton.setBackground(THEME_COLOR);
+                addButton.setForeground(Color.black);
+                addButton.setOpaque(true);
+                addButton.setBorderPainted(false);
                 addButton.setBounds(170,400,60,40);
+                addButton.setIcon(new ImageIcon(img));
+                
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         String eventName = nameField.getText();
@@ -1002,6 +1019,7 @@ public class Client extends JFrame {
                         if (result == JOptionPane.OK_OPTION) {
                             // OKボタンが押された場合の処理を記述
                             // ここでイベントを作成する処理を実行
+                        	
                         }
                     }
                 });
