@@ -34,6 +34,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -45,6 +46,7 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -864,6 +866,158 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         backButton.setContentAreaFilled(false);
         ui_panel_01.add(backButton);
+        
+        // ボタン追加：右上に追加するボタン
+        JButton addButton = new JButton("追加");
+        addButton.setBounds(WINDOW_WIDTH - 90, 13, 75, 50);
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+            	System.out.println("イベントを追加します");
+            	// イベント作成画面のダイアログを作成
+                JDialog eventDialog = new JDialog();
+                eventDialog.setTitle("イベント作成");
+                eventDialog.setModal(true); // モーダルダイアログとして設定
+                eventDialog.setSize(400, 500);
+                eventDialog.setLocationRelativeTo(null); // 中央に配置
+
+                // イベント作成画面のコンポーネントを追加
+                // TODO: イベント作成画面のコンポーネントを追加する処理を記述
+                // イベント作成画面のコンポーネントを追加
+                JPanel eventPanel = new JPanel();
+                eventPanel.setLayout(null);
+                eventPanel.setBackground(THEME_COLOR);
+
+                // イベント名入力フィールド
+                JLabel nameLabel = new JLabel("イベント名:");
+                nameLabel.setBounds(20, 20, 100, 30);
+                eventPanel.add(nameLabel);
+
+                JTextField nameField = new JTextField();
+                nameField.setBounds(120, 20, 250, 30);
+                eventPanel.add(nameField);
+
+                // 開始時間入力フィールド
+                JLabel startTimeLabel = new JLabel("開始時間:");
+                startTimeLabel.setBounds(20, 60, 100, 30);
+                eventPanel.add(startTimeLabel);
+
+                JTextField startTimeField = new JTextField();
+                startTimeField.setBounds(120, 60, 250, 30);
+                eventPanel.add(startTimeField);
+
+                // 終了時間入力フィールド
+                JLabel endTimeLabel = new JLabel("終了時間:");
+                endTimeLabel.setBounds(20, 100, 100, 30);
+                eventPanel.add(endTimeLabel);
+
+                JTextField endTimeField = new JTextField();
+                endTimeField.setBounds(120, 100, 250, 30);
+                eventPanel.add(endTimeField);
+
+                // 場所入力フィールド
+                JLabel placeLabel = new JLabel("場所:");
+                placeLabel.setBounds(20, 140, 100, 30);
+                eventPanel.add(placeLabel);
+
+                JTextField placeField = new JTextField();
+                placeField.setBounds(120, 140, 250, 30);
+                eventPanel.add(placeField);
+
+                // 概要入力フィールド
+                JLabel summaryLabel = new JLabel("概要:");
+                summaryLabel.setBounds(20, 180, 100, 30);
+                eventPanel.add(summaryLabel);
+
+                JTextArea summaryArea = new JTextArea();
+                summaryArea.setBounds(120, 180, 250, 80);
+                summaryArea.setLineWrap(true);
+                summaryArea.setWrapStyleWord(true);
+                summaryArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                JScrollPane summaryScrollPane = new JScrollPane(summaryArea);
+                summaryScrollPane.setBounds(120, 180, 250, 80);
+                summaryScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                summaryScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                eventPanel.add(summaryScrollPane);
+
+                // 詳細入力フィールド
+                JLabel detailsLabel = new JLabel("詳細:");
+                detailsLabel.setBounds(20, 270, 100, 30);
+                eventPanel.add(detailsLabel);
+
+                JTextArea detailsArea = new JTextArea();
+                detailsArea.setBounds(120, 270, 250, 80);
+                detailsArea.setLineWrap(true);
+                detailsArea.setWrapStyleWord(true);
+                detailsArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                JScrollPane detailsScrollPane = new JScrollPane(detailsArea);
+                detailsScrollPane.setBounds(120, 270, 250, 80);
+                detailsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                detailsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                detailsScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                eventPanel.add(detailsScrollPane);
+
+
+                // コミュニティ名入力フィールド
+                JLabel communityLabel = new JLabel("コミュニティ名:");
+                communityLabel.setBounds(20, 360, 100, 30);
+                eventPanel.add(communityLabel);
+
+                JTextField communityField = new JTextField();
+                communityField.setBounds(120, 360, 250, 30);
+                eventPanel.add(communityField);
+                
+                JButton addButton = new JButton("作成");
+                addButton.setBounds(170,400,60,40);
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        String eventName = nameField.getText();
+                        String startTime = startTimeField.getText();
+                        String endTime = endTimeField.getText();
+                        String place = placeField.getText();
+                        String summary = summaryArea.getText();
+                        String details = detailsArea.getText();
+                        String communityName = communityField.getText();
+                        
+                        // 入力欄が空の場合、エラーメッセージを表示して進めないようにする
+                        if (eventName.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || place.isEmpty() ||
+                            summary.isEmpty() || details.isEmpty() || communityName.isEmpty()) {
+                            JOptionPane.showMessageDialog(eventDialog, "すべての項目を入力してください。", "エラー", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        
+                        // 確認ダイアログを表示
+                        int result = JOptionPane.showConfirmDialog(eventDialog,
+                                "以下の情報でイベントを作成しますか？\n\n"
+                                + "イベント名: " + eventName + "\n"
+                                + "開始時間: " + startTime + "\n"
+                                + "終了時間: " + endTime + "\n"
+                                + "場所: " + place + "\n"
+                                + "概要: " + summary + "\n"
+                                + "詳細: " + details + "\n"
+                                + "コミュニティ名: " + communityName,
+                                "イベント作成の確認",
+                                JOptionPane.OK_CANCEL_OPTION);
+                        
+                        if (result == JOptionPane.OK_OPTION) {
+                            // OKボタンが押された場合の処理を記述
+                            // ここでイベントを作成する処理を実行
+                        }
+                    }
+                });
+
+                eventPanel.add(addButton);
+
+                // イベント作成ダイアログにパネルを追加
+                eventDialog.add(eventPanel);
+
+
+                eventDialog.setVisible(true);
+            	
+            }
+        });
+        ui_panel_01.add(addButton);
+        
 
         //ボタン月ボタン
         JPanel ui_panel_02 = new JPanel();
@@ -901,8 +1055,12 @@ public class Client extends JFrame {
             }
         });
         ui_panel_02.add(ui_jb_nextmonth, "East");
-
+        
+        
         ui_panel_01.add(ui_panel_02);
+
+
+
 
 
         /*
