@@ -1329,7 +1329,7 @@ public class Client extends JFrame {
         eventOutlineLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         eventOutlineLabel.setLineWrap(true);
         eventOutlineLabel.setEditable(false);
-        eventOutlineLabel.setBackground(THEME_COLOR);
+        eventOutlineLabel.setBackground(Color.WHITE);
         eventOutlineLabel.setRows(calculateLineCount(eventOutlineLabel, WINDOW_WIDTH-140));
         Dimension d = eventOutlineLabel.getPreferredSize();
         eventOutlineLabel.setBounds(70, 170, WINDOW_WIDTH-140, d.height);
@@ -1348,7 +1348,7 @@ public class Client extends JFrame {
         eventDetailLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         eventDetailLabel.setLineWrap(true);
         eventDetailLabel.setEditable(false);
-        eventDetailLabel.setBackground(THEME_COLOR);
+        eventDetailLabel.setBackground(Color.WHITE);
         eventDetailLabel.setRows(calculateLineCount(eventDetailLabel, WINDOW_WIDTH-130));
         Dimension d2 = eventDetailLabel.getPreferredSize();
         eventDetailLabel.setBounds(75, 270+d.height, WINDOW_WIDTH-150, d2.height);
@@ -1378,9 +1378,9 @@ public class Client extends JFrame {
 
                     }
                     else {
-                        cc.nice(ce.getEventId());
                         eventDetailLabel.setVisible(true);
                         System.out.println("いいねしました");
+                        cc.nice(ce.getEventId());
                     }
                 } catch (Exception e) {
                     // TODO 自動生成された catch ブロック
