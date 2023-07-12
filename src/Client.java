@@ -1995,7 +1995,7 @@ public class Client extends JFrame {
     			go_message.add(tmp);
     		}
     	});
-    	//go_messageの各要素を表示してください
+    	
     }
 
     public static void main(String[] args) {
