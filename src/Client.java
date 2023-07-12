@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -1908,7 +1909,27 @@ public class Client extends JFrame {
 
     //更新
     int update() {
-    	
+    	try {
+			this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	ArrayList<String> ct = new ArrayList<>();
+    	community_list.forEach(e->{
+    		e.getCalendarArray().forEach(f->{
+    			f.getEventList().forEach(g->{
+    				g.forEach(h->{
+    					ct.add(h);
+    				});
+    			});
+    		});
+    	});
+    	try {
+			this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
+		} catch (Exception e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
         return 0;
     }
 

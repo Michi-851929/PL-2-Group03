@@ -127,4 +127,9 @@ public class Community implements Serializable{
     {
         return com_calendar.get((year - FIRST_YEAR) * 12 + month - 1);
     }
+    
+    public ArrayList<CalendarMonth> getCalendarArray()
+    {
+        return com_calendar;
+    }
 }
