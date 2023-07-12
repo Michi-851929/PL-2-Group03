@@ -1371,19 +1371,27 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
+                	Boolean tmp = cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
-                    	cc.nice(ce.getEventId());
+                    	if(tmp == true) {
                         eventDetailLabel.setVisible(false);
                         System.out.println("いいね解除しました");
+                    	}else {
+                    		System.out.println("同期ずれのため修正しました(現在はいいねされています)");
+                    	}
                     }
                     else {
-                    	cc.nice(ce.getEventId());
+                    	if(tmp == true) {
                         eventDetailLabel.setVisible(true);
                         System.out.println("いいねしました");
+                    	}else {
+                    		System.out.println("同期ずれのため修正しました(現在はいいねされていません)");
+                    	}
                     }
+                    //更新を呼ぶ
                 } catch (Exception e) {
                     if(e.getMessage()==ClientConnect.ERROR) {
-                    	//存在しないイベントであると表示
+                    	System.out.println("存在しないイベントにいいねされました");
                     }
                     e.printStackTrace();
                 }
