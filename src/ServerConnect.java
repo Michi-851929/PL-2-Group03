@@ -216,6 +216,23 @@ class ConnectThread extends Thread{
                     }else {
                     	ans.message = (ClientEvent[])at.toArray();
                     }
+                }else if(m.mode == 19) {
+                    String[] st=(String[]) m.message;
+                    ArrayList<Community> at= new ArrayList<>();
+                    Community te;
+                    int flag = 0;
+                    for(int i = 0;i< st.length;i++) {
+                    	te = se.getCommunity(st[i]);
+                    	if(!te.getName().equals("")) {
+                            flag = 1;
+                            at.add(te);
+                        }
+                    }
+                    if(flag == 0) {
+                    	ans.mode = 4; 
+                    }else {
+                    	ans.message = (Community[])at.toArray();
+                    }
                 }else {
                     ans.mode = 5;
                 }

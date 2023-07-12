@@ -1908,7 +1908,7 @@ public class Client extends JFrame {
 
     //更新
     int update() {
-
+    	
         return 0;
     }
 
@@ -1977,25 +1977,15 @@ public class Client extends JFrame {
     }
     
     void getNewMessage() {
-    	//更新してから実行
     	ArrayList<String> go = this.account.getEventGoing();
-    	ArrayList<ClientEvent> go_event= new ArrayList<>();
-    	ArrayList<String[]> go_message = new ArrayList<>();
-    	go.forEach(e->{
-    		this.event_list.forEach(f->{
-    			if(f.getEventName().contains(e)) {
-    				go_event.add(f);
-    			}
-    		});
-    	});
-    	
-    	go_event.forEach(e->{
-    		if(e.getLastUpdateTime().isAfter( account.getLastCheckTime())) {
-    			String[] tmp = {e.getEventCommunityName(),e.getEventName(),e.getNewOwnerMessage(account.getLastCheckInt())};
-    			go_message.add(tmp);
-    		}
-    	});
-    	
+    	ClientEvent[] go_event = null;
+    	try {
+			go_event = cc.getEvents((String[])go.toArray());
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+    	//go_eventの各要素でgetNewOwnerMessageのmessage2が0でないものを表示してください
     }
 
     public static void main(String[] args) {

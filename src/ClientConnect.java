@@ -292,4 +292,16 @@ public class ClientConnect{
         }
         return (ClientEvent[])ans.message;
     }
+    
+    Community[] getCommunitys(String[] name) throws Exception { //コミュニティ取得
+        Message tmp = new Message(this.id,this.pass,19);
+        tmp.message = name;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (Community[])ans.message;
+    }
 }
