@@ -219,7 +219,8 @@ public class ClientEvent implements Serializable{
     	eve_rep++;
     	return eve_rep;
     }
-    
+   
+    //ある時刻以降のメッセージの配列を返す
     public String[] getNewOwnerMessage(int[] time) {
     	ArrayList<String> st = new ArrayList<String>();
     	for(int i = 0;i < eve_own_messagetime.size(); i++) {
