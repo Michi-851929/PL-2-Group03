@@ -1518,7 +1518,7 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
-                	//Boolean tmp = cc.nice(ce.getEventId());
+                	Boolean tmp = cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
                     	if(tmp ==false) {
                     		goodButton.setForeground(Color.black);
