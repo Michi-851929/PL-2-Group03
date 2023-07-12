@@ -219,4 +219,15 @@ public class ClientEvent implements Serializable{
     	eve_rep++;
     	return eve_rep;
     }
+    
+    public String[] getNewOwnerMessage(int[] time) {
+    	ArrayList<String> st = new ArrayList<String>();
+    	for(int i = 0;i < eve_own_messagetime.size(); i++) {
+    		int[] it= eve_own_messagetime.get(i);
+    		if(it[0]>=time[0]&&it[1]>=time[1]&&it[2]>=time[2]&&it[3]>=time[3]&&it[4]>=time[4]&&it[5]>time[5]) {
+    			st.add(eve_own_message.get(i));
+    		}
+    	}
+    	return (String[]) st.toArray();
+    }
 }
