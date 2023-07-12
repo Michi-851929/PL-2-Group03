@@ -89,7 +89,7 @@ public class Client extends JFrame {
     private ArrayList<Community> community_list = new ArrayList<>();
     private ArrayList<ClientEvent> event_list = new ArrayList<>();
 
-    private int login_flag;
+    private  int login_flag;
     private int register_flag;
     private String eve_id;
 
@@ -1901,8 +1901,21 @@ public class Client extends JFrame {
                             try {
 								cc.changePassword(newPass);
 							} catch (Exception e) {
-								e.printStackTrace();
+								String error = e.getMessage(); 
+								if(error.equals(ClientConnect.NOT_FOUND)) {
+						    		JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+						    		login_flag = 0;
+						    	}else if(error.equals(ClientConnect.BANNED)) {
+						    		JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+						    		login_flag = 0;
+						    	}else if(error.equals(ClientConnect.AUTH)) {
+						    		JOptionPane.showMessageDialog(Client.this, "パスワードが変更されました。再ログインをお願いします。");
+						    		login_flag = 0;
+						    	}else {
+						    		JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+						    	}	
 							}
+                            password = newPass;
                             JOptionPane.showMessageDialog(Client.this, "パスワードを変更しました。");
                             userScreen();
                         }
@@ -2229,6 +2242,8 @@ public class Client extends JFrame {
     	//go_eventの各要素でgetNewOwnerMessageのmessage2が0でないものを表示してください
     }
 
+
+    
     public static void main(String[] args) {
         new Client();
         /*
