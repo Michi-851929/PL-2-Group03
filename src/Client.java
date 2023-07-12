@@ -14,6 +14,7 @@ import java.awt.Insets;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
+import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -1369,16 +1370,23 @@ public class Client extends JFrame {
         ui_jl_back.setIcon(new ImageIcon(img0));
         
         // いいねボタン
+        ImageIcon iine;
+        ImageIcon blueIine = new ImageIcon("blueiine.png");
+        ImageIcon whiteIine = new ImageIcon("whiteiine.png");
+        Image blueIineImg = Toolkit.getDefaultToolkit().getImage("blueiine.png");
         JButton goodButton = new JButton("いいね");
         goodButton.setContentAreaFilled(false);
         goodButton.setBorderPainted(false);
-        goodButton.setBounds(WINDOW_WIDTH/2-140, 215+d.height, 120, 30);
         if(account.getEventPreferred().contains(ce.getEventId())) {
             goodButton.setForeground(Color.white);
+            iine = new ImageIcon(whiteIine.getImage());
         }
         else {
-            goodButton.setForeground(Color.black);
+            goodButton.setForeground(GOOD_COLOR);
+            iine = new ImageIcon(blueIine.getImage());
         }
+        goodButton.setIcon(iine);
+        goodButton.setBounds(WINDOW_WIDTH/2-140, 215+d.height, 120, 30);
         eventPanel.add(goodButton);
 
         //いいねボタン背景(非いいね時)
@@ -1389,7 +1397,8 @@ public class Client extends JFrame {
         g1.fillRoundRect(5, 5, 120, 30, 10, 10);
         g1.setColor(GOOD_COLOR);
         g1.setStroke(new BasicStroke(3));
-        g1.drawRoundRect(5, 5, 120, 30, 10, 10);
+        //g1.drawRoundRect(5, 5, 120, 30, 10, 10);
+        g1.drawImage(blueIineImg, 5, 5, 30, 30, goodButton);
         JLabel goodButton_bg_false = new JLabel(new ImageIcon(img1));
         goodButton_bg_false.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
         eventPanel.add(goodButton_bg_false);
@@ -1403,6 +1412,7 @@ public class Client extends JFrame {
         g2.fillRoundRect(5, 5, 120, 30, 10, 10);
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(5, 5, 120, 30, 10, 10);
+        g2.drawImage(whiteIine.getImage(), 5, 5, 30, 30, goodButton);
         JLabel goodButton_bg_true = new JLabel(new ImageIcon(img2));
         goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
         eventPanel.add(goodButton_bg_true);
@@ -1420,22 +1430,23 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
-                	Boolean tmp = cc.nice(ce.getEventId());
+                	//Boolean tmp = cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
-                        goodButton.setForeground(Color.black);
+                        goodButton.setForeground(GOOD_COLOR);
                         goodButton_bg_false.setVisible(true);
                         goodButton_bg_true.setVisible(false);
                         eventDetailLabel.setVisible(false);
+                        iine.setImage(blueIine.getImage());
                         
                         //TODO not nice をここに
                         System.out.println("いいね解除しました");
                     	
                     }
                     else {
-                        goodButton.setForeground(Color.WHITE);
+                        goodButton.setForeground(Color.white);
                         goodButton_bg_false.setVisible(false);
                         goodButton_bg_true.setVisible(true);
-
+                        iine.setImage(whiteIine.getImage());
                         eventDetailLabel.setVisible(true);
 
                         System.out.println("いいねしました");
@@ -1453,6 +1464,7 @@ public class Client extends JFrame {
         });
 
         // 参加ボタン
+
         JButton joinButton = new JButton("参加  "+ce.getJoin());
         joinButton.setContentAreaFilled(false);
         joinButton.setBorderPainted(false);
@@ -1461,67 +1473,65 @@ public class Client extends JFrame {
             joinButton.setForeground(Color.white);
         }
         else {
-            joinButton.setForeground(Color.black);
+            joinButton.setForeground(JOIN_COLOR);
         }
-        eventPanel.add(goodButton);
+        eventPanel.add(joinButton);
 
-        //いいねボタン背景(非いいね時)
-        BufferedImage img1 = createBackgroundImage(130, 40);
-        Graphics2D g1 = (Graphics2D)img1.getGraphics();
-        g1.setColor(Color.white);
-        g1.fillRect(0, 0, 130, 40);
-        g1.fillRoundRect(5, 5, 120, 30, 10, 10);
-        g1.setColor(GOOD_COLOR);
-        g1.setStroke(new BasicStroke(3));
-        g1.drawRoundRect(5, 5, 120, 30, 10, 10);
-        JLabel goodButton_bg_false = new JLabel(new ImageIcon(img1));
-        goodButton_bg_false.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
-        eventPanel.add(goodButton_bg_false);
+        //参加ボタン背景(非参加時)
+        BufferedImage img3 = createBackgroundImage(130, 40);
+        Graphics2D g3 = (Graphics2D)img3.getGraphics();
+        g3.setColor(Color.white);
+        g3.fillRect(0, 0, 130, 40);
+        g3.fillRoundRect(5, 5, 120, 30, 10, 10);
+        g3.setColor(JOIN_COLOR);
+        g3.setStroke(new BasicStroke(3));
+        g3.drawRoundRect(5, 5, 120, 30, 10, 10);
+        JLabel joinButton_bg_false = new JLabel(new ImageIcon(img3));
+        joinButton_bg_false.setBounds(WINDOW_WIDTH/2+15, 210+d.height, 130, 40);
+        eventPanel.add(joinButton_bg_false);
         
-        //いいねボタン背景(いいね時)
-        BufferedImage img2 = createBackgroundImage(130, 40);
-        Graphics2D g2 = (Graphics2D)img2.getGraphics();
-        g2.setColor(Color.white);
-        g2.fillRect(0, 0, 130, 40);
-        g2.setColor(GOOD_COLOR);
-        g2.fillRoundRect(5, 5, 120, 30, 10, 10);
-        g2.setStroke(new BasicStroke(3));
-        g2.drawRoundRect(5, 5, 120, 30, 10, 10);
-        JLabel goodButton_bg_true = new JLabel(new ImageIcon(img2));
-        goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
-        eventPanel.add(goodButton_bg_true);
+        //参加ボタン背景(参加時)
+        BufferedImage img4 = createBackgroundImage(130, 40);
+        Graphics2D g4 = (Graphics2D)img4.getGraphics();
+        g4.setColor(Color.white);
+        g4.fillRect(0, 0, 130, 40);
+        g4.setColor(JOIN_COLOR);
+        g4.fillRoundRect(5, 5, 120, 30, 10, 10);
+        g4.setStroke(new BasicStroke(3));
+        g4.drawRoundRect(5, 5, 120, 30, 10, 10);
+        JLabel joinButton_bg_true = new JLabel(new ImageIcon(img4));
+        joinButton_bg_true.setBounds(WINDOW_WIDTH/2+15, 210+d.height, 130, 40);
+        eventPanel.add(joinButton_bg_true);
         
-        if(account.getEventPreferred().contains(ce.getEventId())) {
-            goodButton_bg_true.setVisible(true);
-            goodButton_bg_false.setVisible(false);
+        if(account.getAEventGoing(ce.getEventId())) {
+            joinButton_bg_true.setVisible(true);
+            joinButton_bg_false.setVisible(false);
         }
         else {
-            goodButton_bg_false.setVisible(true);
-            goodButton_bg_true.setVisible(false);
+            joinButton_bg_false.setVisible(true);
+            joinButton_bg_true.setVisible(false);
         }
         
-        goodButton.addActionListener(new ActionListener() {
+        joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
-                    if(account.getEventPreferred().contains(ce.getEventId())) {
-                        goodButton.setForeground(Color.black);
-                        goodButton_bg_false.setVisible(true);
-                        goodButton_bg_true.setVisible(false);
-                        eventDetailLabel.setVisible(false);
+                    if(account.getAEventGoing(ce.getEventId())) {
+                        joinButton.setForeground(JOIN_COLOR);
+                        joinButton_bg_false.setVisible(true);
+                        joinButton_bg_true.setVisible(false);
                         
                         //TODO not nice をここに
-                        System.out.println("いいね解除しました");
+                        System.out.println("参加解除しました");
 
                     }
                     else {
-                        goodButton.setForeground(Color.WHITE);
-                        goodButton_bg_false.setVisible(false);
-                        goodButton_bg_true.setVisible(true);
-                        eventDetailLabel.setVisible(true);
+                        joinButton.setForeground(Color.WHITE);
+                        joinButton_bg_false.setVisible(false);
+                        joinButton_bg_true.setVisible(true);
 
-                        System.out.println("いいねしました");
-                        cc.nice(ce.getEventId());
+                        System.out.println("参加しました");
+                        cc.joinEvent(ce.getEventId());
                     }
 
                 } catch (Exception e) {
