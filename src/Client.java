@@ -1818,7 +1818,11 @@ public class Client extends JFrame {
                 else {
                     if(oldPass.equals(password)) {
                         if(newPass.equals(confPass)) {
-                            changePassword(newPass, confPass);
+                            try {
+								cc.changePassword(newPass);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
                             JOptionPane.showMessageDialog(Client.this, "パスワードを変更しました。");
                             userScreen();
                         }
