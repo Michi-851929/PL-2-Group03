@@ -29,7 +29,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -50,6 +49,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -1422,20 +1422,26 @@ public class Client extends JFrame {
                 try {
                 	Boolean tmp = cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
-                    	if(tmp == false) {
                         goodButton.setForeground(Color.black);
                         goodButton_bg_false.setVisible(true);
                         goodButton_bg_true.setVisible(false);
                         eventDetailLabel.setVisible(false);
-                    	}
-                    }else {	
-                    	if(tmp == true) {
+                        
+                        //TODO not nice をここに
+                        System.out.println("いいね解除しました");
+                    	
+                    }
+                    else {
                         goodButton.setForeground(Color.WHITE);
                         goodButton_bg_false.setVisible(false);
                         goodButton_bg_true.setVisible(true);
+
                         eventDetailLabel.setVisible(true);
-                    	}
+
+                        System.out.println("いいねしました");
+                    	
                     }
+
                     //更新を呼ぶ
                 } catch (Exception e) {
                     if(e.getMessage()==ClientConnect.ERROR) {
@@ -1445,6 +1451,7 @@ public class Client extends JFrame {
                 }
             }
         });
+
         // 参加ボタン
         JButton joinButton = new JButton("参加  "+ce.getJoin());
         joinButton.setContentAreaFilled(false);
@@ -1457,6 +1464,73 @@ public class Client extends JFrame {
             joinButton.setForeground(Color.black);
         }
         eventPanel.add(goodButton);
+
+        //いいねボタン背景(非いいね時)
+        BufferedImage img1 = createBackgroundImage(130, 40);
+        Graphics2D g1 = (Graphics2D)img1.getGraphics();
+        g1.setColor(Color.white);
+        g1.fillRect(0, 0, 130, 40);
+        g1.fillRoundRect(5, 5, 120, 30, 10, 10);
+        g1.setColor(GOOD_COLOR);
+        g1.setStroke(new BasicStroke(3));
+        g1.drawRoundRect(5, 5, 120, 30, 10, 10);
+        JLabel goodButton_bg_false = new JLabel(new ImageIcon(img1));
+        goodButton_bg_false.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
+        eventPanel.add(goodButton_bg_false);
+        
+        //いいねボタン背景(いいね時)
+        BufferedImage img2 = createBackgroundImage(130, 40);
+        Graphics2D g2 = (Graphics2D)img2.getGraphics();
+        g2.setColor(Color.white);
+        g2.fillRect(0, 0, 130, 40);
+        g2.setColor(GOOD_COLOR);
+        g2.fillRoundRect(5, 5, 120, 30, 10, 10);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(5, 5, 120, 30, 10, 10);
+        JLabel goodButton_bg_true = new JLabel(new ImageIcon(img2));
+        goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
+        eventPanel.add(goodButton_bg_true);
+        
+        if(account.getEventPreferred().contains(ce.getEventId())) {
+            goodButton_bg_true.setVisible(true);
+            goodButton_bg_false.setVisible(false);
+        }
+        else {
+            goodButton_bg_false.setVisible(true);
+            goodButton_bg_true.setVisible(false);
+        }
+        
+        goodButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae)
+            {
+                try {
+                    if(account.getEventPreferred().contains(ce.getEventId())) {
+                        goodButton.setForeground(Color.black);
+                        goodButton_bg_false.setVisible(true);
+                        goodButton_bg_true.setVisible(false);
+                        eventDetailLabel.setVisible(false);
+                        
+                        //TODO not nice をここに
+                        System.out.println("いいね解除しました");
+
+                    }
+                    else {
+                        goodButton.setForeground(Color.WHITE);
+                        goodButton_bg_false.setVisible(false);
+                        goodButton_bg_true.setVisible(true);
+                        eventDetailLabel.setVisible(true);
+
+                        System.out.println("いいねしました");
+                        cc.nice(ce.getEventId());
+                    }
+
+                } catch (Exception e) {
+                    // TODO 自動生成された catch ブロック
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         //スクロール
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1924,7 +1998,7 @@ public class Client extends JFrame {
     //通報
     void reportEvent(String event_id) throws Exception{
         try {
-           // cc.report(event_id);
+            cc.report(event_id);
         }
         catch(Exception e) {
             throw e;
@@ -1943,27 +2017,7 @@ public class Client extends JFrame {
 
     //更新
     int update() {
-    	try {
-			this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	ArrayList<String> ct = new ArrayList<>();
-    	community_list.forEach(e->{
-    		e.getCalendarArray().forEach(f->{
-    			f.getEventList().forEach(g->{
-    				g.forEach(h->{
-    					ct.add(h);
-    				});
-    			});
-    		});
-    	});
-    	try {
-			this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
-		} catch (Exception e1) {
-			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
-		}
+    	
         return 0;
     }
 
