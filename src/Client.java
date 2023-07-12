@@ -263,14 +263,25 @@ public class Client extends JFrame {
                 if (username.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "名前とパスワードを入力してください");
                 } else {
-                    // ログイン処理を行う
-                    login_flag = 0;
-
-                    if (login_flag == 0) {
+                    try {
+						cc.login(username, password);
+                    	login_flag = 1;
+					} catch (Exception e1) {
+						String error = e1.getMessage();
+						if(error.equals(ClientConnect.NOT_FOUND) ) {
+							JOptionPane.showMessageDialog(Client.this, "該当ユーザーが見つかりません。");
+						}else if(error.equals(ClientConnect.BANNED) ) {
+							JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+						}else if(error.equals(ClientConnect.AUTH) ) {
+							JOptionPane.showMessageDialog(Client.this, "パスワードをお確かめの上,もう一度入力してください。");
+						}else {
+							JOptionPane.showMessageDialog(Client.this, "エラーが発生しました。もう一度お試しください");
+						}
+					}
+                    
+                    if (login_flag == 1) {
                         JOptionPane.showMessageDialog(Client.this, "ログイン成功");
                         login();
-                    } else {
-                        JOptionPane.showMessageDialog(Client.this, "ログインに失敗しました。もう一度お試しください。");
                     }
                 }
             }
@@ -445,11 +456,24 @@ public class Client extends JFrame {
                 }else if (!password.equals(confirmPassword)) {
                     JOptionPane.showMessageDialog(Client.this, "パスワードとパスワード確認が一致しません");
                 } else {
-                      // アカウント登録処理を行う
+                    try {
+						cc.createAccount(username, password, macaddress);
+					} catch (Exception e1) {
+						if(e1.getMessage().equals(ClientConnect.USER)) {
+							JOptionPane.showMessageDialog(Client.this, "既存のユーザーと名前が重複しています。別の名前をお試しください。");
+							register_flag = 2;
+						}else if(e1.getMessage().equals(ClientConnect.MAC)) {
+							 JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。サーバー管理者にお問い合わせください" );
+							 register_flag = 2;
+						}else {
+							register_flag = 1;
+						}
+					}
                     if(register_flag==0) {
                         JOptionPane.showMessageDialog(Client.this, "アカウント登録成功");
+                        login_flag = 1;
                         login();
-                    }else {
+                    }else if(register_flag==1){
                         JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
                     }
                 }
@@ -1678,6 +1702,8 @@ public class Client extends JFrame {
         logOutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
+            	cc.logout();
+            	login_flag = 0;
                 logout();
             }
         });

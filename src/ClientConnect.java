@@ -11,7 +11,6 @@ import javax.net.ssl.SSLSocketFactory;
 public class ClientConnect{
     String id = null;
     String pass = null;
-    String message = null;
     private static SSLContext sslc;
     private static SSLSocketFactory sslf;
     
@@ -31,6 +30,10 @@ public class ClientConnect{
         }catch(Exception e) {
             throw e;
         }
+    }
+    void logout() {
+    	id = null;
+    	pass = null;
     }
     static Message post(Object o) throws Exception{
         try {
