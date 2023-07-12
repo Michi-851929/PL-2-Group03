@@ -127,14 +127,16 @@ public class ClientConnect{
         return (ClientEvent)ans.message;
     }
 
-    void nice(String event_id) throws Exception { //いいね切り替え
+    Boolean nice(String event_id) throws Exception { //いいね切り替え
         Message tmp = new Message(this.id,this.pass,5);
         tmp.message = event_id;
+        Message ans =null;
         try {
-            post(tmp);
+            ans = post(tmp);
         } catch (Exception e) {
             throw e;
         }
+        return (Boolean)ans.message;
     }
     void joinEvent(String event_id) throws Exception { //イベント参加切り替え
         Message tmp = new Message(this.id,this.pass,6);
@@ -277,5 +279,29 @@ public class ClientConnect{
         if((int)ans.message == 0) {
             this.pass = new_password;
         }
+    }
+    
+    ClientEvent[] getEvents(String[] event) throws Exception { //イベント(複数)取得
+        Message tmp = new Message(this.id,this.pass,18);
+        tmp.message = event;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (ClientEvent[])ans.message;
+    }
+    
+    Community[] getCommunitys(String[] name) throws Exception { //コミュニティ取得
+        Message tmp = new Message(this.id,this.pass,19);
+        tmp.message = name;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (Community[])ans.message;
     }
 }

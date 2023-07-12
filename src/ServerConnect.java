@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -118,8 +119,10 @@ class ConnectThread extends Thread{
                     }else{
                         if(tmp.getAEventPreferrd((String)m.message)) {
                             se.setDispreferEvent(m.name, (String)m.message);
+                            ans.message = false;
                         }else {
                             se.setPreferredEvent(m.name, (String)m.message);
+                            ans.message = true;
                         }
                     }
                 }else if(m.mode == 6) {
@@ -196,8 +199,41 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 17) {
                     se.changePassword(m.name, m.pass, (String)m.message);
-                }
-                else {
+                }else if(m.mode == 18) {
+                    String[] st=(String[]) m.message;
+                    ArrayList<ClientEvent> at= new ArrayList<>();
+                    ClientEvent te;
+                    int flag = 0;
+                    for(int i = 0;i< st.length;i++) {
+                    	te = se.getEvent(st[i]);
+                    	if(!te.getEventName().equals("")) {
+                            flag = 1;
+                            at.add(te);
+                        }
+                    }
+                    if(flag == 0) {
+                    	ans.mode = 4; 
+                    }else {
+                    	ans.message = (ClientEvent[])at.toArray();
+                    }
+                }else if(m.mode == 19) {
+                    String[] st=(String[]) m.message;
+                    ArrayList<Community> at= new ArrayList<>();
+                    Community te;
+                    int flag = 0;
+                    for(int i = 0;i< st.length;i++) {
+                    	te = se.getCommunity(st[i]);
+                    	if(!te.getName().equals("")) {
+                            flag = 1;
+                            at.add(te);
+                        }
+                    }
+                    if(flag == 0) {
+                    	ans.mode = 4; 
+                    }else {
+                    	ans.message = (Community[])at.toArray();
+                    }
+                }else {
                     ans.mode = 5;
                 }
             }

@@ -69,6 +69,10 @@ public class Account implements Serializable{
 
         return time;
     }
+    
+    public int[] getLastCheckInt(){
+    	return lastcheck;
+    }
 
     public void setLastCheckTime()
     {

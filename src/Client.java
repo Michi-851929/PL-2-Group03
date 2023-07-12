@@ -1420,6 +1420,7 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
+                	Boolean tmp = cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
                         goodButton.setForeground(Color.black);
                         goodButton_bg_false.setVisible(true);
@@ -1428,20 +1429,28 @@ public class Client extends JFrame {
                         
                         //TODO not nice をここに
                         System.out.println("いいね解除しました");
-
+                    	}else {
+                    		System.out.println("同期ずれのため修正しました(現在はいいねされています)");
+                    	}
                     }
                     else {
                         goodButton.setForeground(Color.WHITE);
                         goodButton_bg_false.setVisible(false);
                         goodButton_bg_true.setVisible(true);
+
                         eventDetailLabel.setVisible(true);
 
                         System.out.println("いいねしました");
-                        cc.nice(ce.getEventId());
+                    	}else {
+                    		System.out.println("同期ずれのため修正しました(現在はいいねされていません)");
+                    	}
                     }
 
+                    //更新を呼ぶ
                 } catch (Exception e) {
-                    // TODO 自動生成された catch ブロック
+                    if(e.getMessage()==ClientConnect.ERROR) {
+                    	System.out.println("存在しないイベントにいいねされました");
+                    }
                     e.printStackTrace();
                 }
             }
@@ -2012,7 +2021,7 @@ public class Client extends JFrame {
 
     //更新
     int update() {
-
+    	
         return 0;
     }
 
@@ -2078,6 +2087,18 @@ public class Client extends JFrame {
         this.account = account;
         community_list.add(community);
         event_list.add(event);
+    }
+    
+    void getNewMessage() {
+    	ArrayList<String> go = this.account.getEventGoing();
+    	ClientEvent[] go_event = null;
+    	try {
+			go_event = cc.getEvents((String[])go.toArray());
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+    	//go_eventの各要素でgetNewOwnerMessageのmessage2が0でないものを表示してください
     }
 
     public static void main(String[] args) {
