@@ -1479,24 +1479,22 @@ public class Client extends JFrame {
                 try {
                 	Boolean tmp = cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
-                        goodButton.setForeground(Color.black);
-                        goodButton_bg_false.setVisible(true);
-                        goodButton_bg_true.setVisible(false);
-                        eventDetailLabel.setVisible(false);
-                        
-                        //TODO not nice をここに
-                        System.out.println("いいね解除しました");
-                    	
+                    	if(tmp ==false) {
+                    		goodButton.setForeground(Color.black);
+                    		goodButton_bg_false.setVisible(true);
+                    		goodButton_bg_true.setVisible(false);
+                    		eventDetailLabel.setVisible(false);
+                    		System.out.println("いいね解除しました");
+                    	}
                     }
                     else {
-                        goodButton.setForeground(Color.WHITE);
-                        goodButton_bg_false.setVisible(false);
-                        goodButton_bg_true.setVisible(true);
-
-                        eventDetailLabel.setVisible(true);
-
-                        System.out.println("いいねしました");
-                    	
+                    	if(tmp == true) {
+                    		goodButton.setForeground(Color.WHITE);
+                    		goodButton_bg_false.setVisible(false);
+                    		goodButton_bg_true.setVisible(true);
+                    		eventDetailLabel.setVisible(true);
+                    		System.out.println("いいねしました");
+                    	}
                     }
 
                     //更新を呼ぶ
@@ -1522,72 +1520,7 @@ public class Client extends JFrame {
         }
         eventPanel.add(goodButton);
 
-        //いいねボタン背景(非いいね時)
-        BufferedImage img1 = createBackgroundImage(130, 40);
-        Graphics2D g1 = (Graphics2D)img1.getGraphics();
-        g1.setColor(Color.white);
-        g1.fillRect(0, 0, 130, 40);
-        g1.fillRoundRect(5, 5, 120, 30, 10, 10);
-        g1.setColor(GOOD_COLOR);
-        g1.setStroke(new BasicStroke(3));
-        g1.drawRoundRect(5, 5, 120, 30, 10, 10);
-        JLabel goodButton_bg_false = new JLabel(new ImageIcon(img1));
-        goodButton_bg_false.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
-        eventPanel.add(goodButton_bg_false);
         
-        //いいねボタン背景(いいね時)
-        BufferedImage img2 = createBackgroundImage(130, 40);
-        Graphics2D g2 = (Graphics2D)img2.getGraphics();
-        g2.setColor(Color.white);
-        g2.fillRect(0, 0, 130, 40);
-        g2.setColor(GOOD_COLOR);
-        g2.fillRoundRect(5, 5, 120, 30, 10, 10);
-        g2.setStroke(new BasicStroke(3));
-        g2.drawRoundRect(5, 5, 120, 30, 10, 10);
-        JLabel goodButton_bg_true = new JLabel(new ImageIcon(img2));
-        goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
-        eventPanel.add(goodButton_bg_true);
-        
-        if(account.getEventPreferred().contains(ce.getEventId())) {
-            goodButton_bg_true.setVisible(true);
-            goodButton_bg_false.setVisible(false);
-        }
-        else {
-            goodButton_bg_false.setVisible(true);
-            goodButton_bg_true.setVisible(false);
-        }
-        
-        goodButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae)
-            {
-                try {
-                    if(account.getEventPreferred().contains(ce.getEventId())) {
-                        goodButton.setForeground(Color.black);
-                        goodButton_bg_false.setVisible(true);
-                        goodButton_bg_true.setVisible(false);
-                        eventDetailLabel.setVisible(false);
-                        
-                        //TODO not nice をここに
-                        System.out.println("いいね解除しました");
-
-                    }
-                    else {
-                        goodButton.setForeground(Color.WHITE);
-                        goodButton_bg_false.setVisible(false);
-                        goodButton_bg_true.setVisible(true);
-                        eventDetailLabel.setVisible(true);
-
-                        System.out.println("いいねしました");
-                        cc.nice(ce.getEventId());
-                    }
-
-                } catch (Exception e) {
-                    // TODO 自動生成された catch ブロック
-                    e.printStackTrace();
-                }
-            }
-        });
-
 
         //スクロール
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
