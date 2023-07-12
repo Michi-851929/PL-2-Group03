@@ -1960,12 +1960,12 @@ public class Client extends JFrame {
     
     //?番目のイベントを返す
     ClientEvent getNumberEvent(ArrayList<ClientEvent> events, int num) {
-    	if(num < events.size()) {
-    		return events.get(num);
-    		}
-    		else {
-    			return null;
-    		}
+        if(num < events.size()) {
+            return events.get(num);
+        }
+        else {
+            return null;
+        }
     }
 
     //イベントデータ取得
@@ -2126,16 +2126,16 @@ public class Client extends JFrame {
     void addTestData(Account account, Community community, ClientEvent event)
     {
         this.account = account;
-        boolean a = true;
-        for(Community com : community_list) {
-        	if(com.getName() == community.getName()) {
-        		a = false;
-        		break;
-        	}
-        }
         
-        if(a) {
-        	community_list.add(community);
+        boolean check = true;
+        for(Community com : community_list) {
+            if(com.getName() == community.getName()) {
+                check = false;
+                break;
+            }
+        }
+        if(check) { //同名のコミュニティがなければリストに追加
+            community_list.add(community);
         }
         
         System.out.println("community:" + ((Community)community_list.get(0)).getCalendarMonth(2023, 7).getDayEvent(13));
