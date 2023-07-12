@@ -80,6 +80,13 @@ public class Client extends JFrame {
     public final static Color THEME_COLOR = new Color(230, 255, 179);
     public final static Color GOOD_COLOR = new Color(0, 176, 240);
     public final static Color JOIN_COLOR = new Color(255, 192, 0);
+    public final static int MONDAY = 1;
+    public final static int TUESDAY = 2;
+    public final static int WEDNESDAY = 3;
+    public final static int THURSDAY = 4;
+    public final static int FRIDAY = 5;
+    public final static int SATURDAY = 6;
+    public final static int SUNDAY = 7;
 
     private String username;
     private String password;
@@ -2011,6 +2018,38 @@ public class Client extends JFrame {
         }
         
         return list;
+    }
+    
+    //ある曜日のイベント配列取得
+    ArrayList<ClientEvent> getDayOfWeekEvents(int year, int month, int day_of_week){
+        ArrayList<ClientEvent> events = new ArrayList<>();
+        int first_day = 0;
+        
+        for(int i = 1; i < 8; i++) {
+            LocalDate date = LocalDate.of(year, month, i);
+            if(date.getDayOfWeek().getValue() == day_of_week) {
+                first_day = i;
+                break;
+            }
+        }
+                  
+        for(int day = first_day; day < 32; day += 7) {
+            for(Community community : community_list) {
+                CalendarMonth calendar = community.getCalendarMonth(year, month);
+                ArrayList<String> id_list = calendar.getDayEvent(day);
+                for(String id : id_list) {
+                    events.add(getEventData(id));
+                }
+            } 
+        }
+        
+        return events;
+    }
+    
+    //ある月のいいね数top10のイベント配列取得(作成中)
+    ArrayList<ClientEvent> getTopTenEvents(int year, int month){
+        ArrayList<ClientEvent> events = new ArrayList<>();
+        return events;
     }
     
     //イベント配列のソート
