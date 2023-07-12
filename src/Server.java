@@ -566,6 +566,11 @@ public class Server extends JFrame implements ActionListener{
     		return false;
     	}
     }
+    
+    public void getToday() {
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.getTime();
+    }
 
     public void actionPerformed(ActionEvent ae)
     {
