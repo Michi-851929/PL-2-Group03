@@ -220,15 +220,20 @@ public class ClientEvent implements Serializable{
     	return eve_rep;
     }
    
-    //ある時刻以降のメッセージの配列を返す
-    public String[] getNewOwnerMessage(int[] time) {
-    	ArrayList<String> st = new ArrayList<String>();
+    //ある時刻以降のメッセージの数と最新のメッセージを返す
+    public Message getNewOwnerMessage(int[] time) {
+    	int tmp = 0;
+    	Message ans = new Message("0","0",0);
     	for(int i = 0;i < eve_own_messagetime.size(); i++) {
     		int[] it= eve_own_messagetime.get(i);
     		if(it[0]>=time[0]&&it[1]>=time[1]&&it[2]>=time[2]&&it[3]>=time[3]&&it[4]>=time[4]&&it[5]>time[5]) {
-    			st.add(eve_own_message.get(i));
+    			tmp ++;
     		}
     	}
-    	return (String[]) st.toArray();
+    	ans.message = tmp;
+    	if(tmp > 0) {
+    		ans.message2 =eve_own_message.get(eve_own_message.size()-1);
+    	}
+    	return ans;
     }
 }
