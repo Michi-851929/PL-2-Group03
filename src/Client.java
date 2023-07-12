@@ -1429,9 +1429,7 @@ public class Client extends JFrame {
                         
                         //TODO not nice をここに
                         System.out.println("いいね解除しました");
-                    	}else {
-                    		System.out.println("同期ずれのため修正しました(現在はいいねされています)");
-                    	}
+                    	
                     }
                     else {
                         goodButton.setForeground(Color.WHITE);
@@ -1441,9 +1439,7 @@ public class Client extends JFrame {
                         eventDetailLabel.setVisible(true);
 
                         System.out.println("いいねしました");
-                    	}else {
-                    		System.out.println("同期ずれのため修正しました(現在はいいねされていません)");
-                    	}
+                    	
                     }
 
                     //更新を呼ぶ
