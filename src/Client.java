@@ -625,9 +625,15 @@ public class Client extends JFrame {
         for(int i = 0; i < 5 + over; i++) {
             for(int j = 0; j < 7; j++) {
                 date = getCalendarMatrics(7 * i + j);
+                System.out.println(date);
                 ui_jb_calendar[7 * i + j] = new JButton();
                 ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
-                ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, event_list.get(0), event_list.get(0)));
+                try {
+					ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, getNumberEvent(sortEvent(getADayEvents(date)),0), getNumberEvent(sortEvent(getADayEvents(date)),1)));
+				} catch (Exception e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
                 ui_jb_calendar[7 * i + j].setDisabledIcon(getDateIcon(date, 0, null, null));
                 ui_jb_calendar[7 * i + j].setEnabled(date.getMonthValue() == ui_ld_firstofmonth.getMonthValue());
                 ui_jb_calendar[7 * i + j].setMargin(new Insets(0, 0, 0, -20));
@@ -1899,12 +1905,12 @@ public class Client extends JFrame {
     }
     
     //ある日のイベント配列取得
-    ClientEvent[] getADayEvents(LocalDate date) throws Exception{
+    ArrayList<ClientEvent> getADayEvents(LocalDate date) throws Exception{
         ArrayList<ClientEvent> list = new ArrayList<>();
-        
         for(Community community : community_list) {
             CalendarMonth calendar = community.getCalendarMonth(date.getYear(), date.getMonthValue());
             ArrayList<String> id_list = calendar.getDayEvent(date.getDayOfMonth());
+            
             for(String id : id_list) {
                 try {
                     list.add(getEventData(id));
@@ -1915,12 +1921,11 @@ public class Client extends JFrame {
             }
         }
         
-        ClientEvent[] events = (ClientEvent[])(list.toArray());
-        return events;
+        return list;
     }
     
     //イベント配列のソート
-    ClientEvent[] sortEvent(ClientEvent[] events) throws Exception{   
+    ArrayList<ClientEvent> sortEvent(ArrayList<ClientEvent> events) throws Exception{   
         ArrayList<ClientEvent> preferred = new ArrayList<>();
         ArrayList<ClientEvent> dispreferred = new ArrayList<>();
         
@@ -1932,6 +1937,7 @@ public class Client extends JFrame {
                 dispreferred.add(event);
             }
         }
+        
         
         Collections.sort(preferred, new Comparator<ClientEvent>() {
             @Override
@@ -1948,31 +1954,30 @@ public class Client extends JFrame {
         });
         
         preferred.addAll(dispreferred);
-        ClientEvent[] sorted_events = (ClientEvent[])(preferred.toArray());
         
-        return sorted_events;
+        return preferred;
     }
     
     //?番目のイベントを返す
-    ClientEvent getNumberEvent(ClientEvent[] events, int num) {
-        if(num < events.length) {
-            return events[num];
-        }
-        else {
-         return null;   
-        }
+    ClientEvent getNumberEvent(ArrayList<ClientEvent> events, int num) {
+    	if(num < events.size()) {
+    		return events.get(num);
+    		}
+    		else {
+    			return null;
+    		}
     }
 
     //イベントデータ取得
-    ClientEvent getEventData(String event_id) throws Exception{
-        ClientEvent event = null;
-        try {
-            event = cc.getEvent(event_id);
+    ClientEvent getEventData(String event_id) {
+        ClientEvent result = null;
+        for(ClientEvent event : event_list) {
+            if(event.getEventId().equals(event_id)) {
+                result = event;
+                break;
+            }
         }
-        catch(Exception e) {
-            throw e;
-        }
-        return event;
+        return result;
     }
 
     //イベントデータ表示
@@ -1980,7 +1985,7 @@ public class Client extends JFrame {
     }
 
     //イベント検索
-    ClientEvent[] searchEvent(String search_word) {
+    ArrayList<ClientEvent> searchEvent(String search_word) {
         ArrayList<ClientEvent> result_list = new ArrayList<>();
         for(ClientEvent event : event_list) {
             String[] word_list = search_word.split(" ");
@@ -1991,8 +1996,7 @@ public class Client extends JFrame {
                 }
             }
         }
-        ClientEvent[] result_array = (ClientEvent[])(result_list.toArray());
-        return result_array;
+        return result_list;
     }
 
 
@@ -2122,8 +2126,21 @@ public class Client extends JFrame {
     void addTestData(Account account, Community community, ClientEvent event)
     {
         this.account = account;
-        community_list.add(community);
+        boolean a = true;
+        for(Community com : community_list) {
+        	if(com.getName() == community.getName()) {
+        		a = false;
+        		break;
+        	}
+        }
+        
+        if(a) {
+        	community_list.add(community);
+        }
+        
+        System.out.println("community:" + ((Community)community_list.get(0)).getCalendarMonth(2023, 7).getDayEvent(13));
         event_list.add(event);
+        System.out.println("event:" + event_list);
     }
     
     void getNewMessage() {
