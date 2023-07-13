@@ -1119,7 +1119,7 @@ public class Client extends JFrame {
                         		if(community_list.get(i).getName().equals(communityName)) {
                         			community_list.get(i).getCalendarMonth(intyear, intmonth).addEvent(event.getEventId(), intday, intday);
                         		};
-                        		break;
+                        		break; //このコードだと1回しかループしないので確認お願いします. 本多
                         	}
                         	eventDialog.setVisible(false);
                         	dateScreen();
