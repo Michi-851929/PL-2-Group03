@@ -2000,7 +2000,7 @@ public class Client extends JFrame {
 
     }
     
-    //ある日のイベント配列取得
+    //ある日のイベントArrayList取得
     ArrayList<ClientEvent> getADayEvents(LocalDate date) throws Exception{
         ArrayList<ClientEvent> list = new ArrayList<>();
         for(Community community : community_list) {
@@ -2020,7 +2020,7 @@ public class Client extends JFrame {
         return list;
     }
     
-    //ある曜日のイベント配列取得
+    //ある曜日のイベントArrayList取得
     ArrayList<ClientEvent> getDayOfWeekEvents(int year, int month, int day_of_week){
         ArrayList<ClientEvent> events = new ArrayList<>();
         int first_day = 0;
@@ -2046,7 +2046,7 @@ public class Client extends JFrame {
         return events;
     }
     
-    //ある月のいいね数top10のイベント配列取得
+    //ある月のいいね数top10のイベントArrayList取得
     ArrayList<ClientEvent> getTopTenEvents(int year, int month){
         ArrayList<ClientEvent> event_all = new ArrayList<>();
         for(int day = 1; day < 32; day++) {
@@ -2078,7 +2078,7 @@ public class Client extends JFrame {
         return topten;
     }
     
-    //イベント配列のソート
+    //イベントArrayListのソート
     ArrayList<ClientEvent> sortEvent(ArrayList<ClientEvent> events) throws Exception{   
         ArrayList<ClientEvent> preferred = new ArrayList<>();
         ArrayList<ClientEvent> dispreferred = new ArrayList<>();
