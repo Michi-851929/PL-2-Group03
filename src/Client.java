@@ -2034,22 +2034,48 @@ public class Client extends JFrame {
         }
                   
         for(int day = first_day; day < 32; day += 7) {
-            for(Community community : community_list) {
-                CalendarMonth calendar = community.getCalendarMonth(year, month);
-                ArrayList<String> id_list = calendar.getDayEvent(day);
-                for(String id : id_list) {
-                    events.add(getEventData(id));
-                }
-            } 
+            LocalDate date = LocalDate.of(year, month, day);
+            try {
+                events.addAll(getADayEvents(date));
+            } catch (Exception e) {
+                // TODO 自動生成された catch ブロック
+                e.printStackTrace();
+            }
         }
         
         return events;
     }
     
-    //ある月のいいね数top10のイベント配列取得(作成中)
+    //ある月のいいね数top10のイベント配列取得
     ArrayList<ClientEvent> getTopTenEvents(int year, int month){
-        ArrayList<ClientEvent> events = new ArrayList<>();
-        return events;
+        ArrayList<ClientEvent> event_all = new ArrayList<>();
+        for(int day = 1; day < 32; day++) {
+            LocalDate date = LocalDate.of(year, month, day);
+            try {
+                event_all.addAll(getADayEvents(date));
+            } catch (Exception e) {
+                // TODO 自動生成された catch ブロック
+                e.printStackTrace();
+            }
+        }
+        
+        Collections.sort(event_all, new Comparator<ClientEvent>() {
+            @Override
+            public int compare(ClientEvent event1, ClientEvent event2) {
+                return event2.getGood() - event1.getGood();
+            }
+        });
+        
+        while(event_all.size() < 10) {
+            event_all.add(null);
+        }
+        
+        ArrayList<ClientEvent> topten = new ArrayList<>(10);
+        for(int i = 0; i < 10; i++) {
+            topten.add(event_all.get(i));
+        }
+        
+        return topten;
     }
     
     //イベント配列のソート
