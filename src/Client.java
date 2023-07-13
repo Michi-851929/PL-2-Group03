@@ -34,6 +34,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -2298,15 +2300,39 @@ public class Client extends JFrame {
     }
     
     void getNewMessage() {
-    	ArrayList<String> go = this.account.getEventGoing();
-    	ClientEvent[] go_event = null;
-    	try {
-			go_event = cc.getEvents((String[])go.toArray());
-		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-    	//go_eventの各要素でgetNewOwnerMessageのmessage2が0でないものを表示してください
+    	Timer timer = new Timer(false);
+    	TimerTask tt = new TimerTask() {
+    		public void run() {
+    			update();
+    			ArrayList<String> go = account.getEventGoing();
+    			ArrayList<ClientEvent> go_event = null;
+    			ArrayList<String[]> out_list= new ArrayList<>();
+    			try {
+    				go_event = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])go.toArray()));
+    				go_event.forEach(event->{
+    					String[] tmp = {"","","",""};
+    					Message m = event.getNewOwnerMessage(account.getLastCheckInt());
+    					if((int)m.message2>0) {
+    						tmp[0] = event.getEventCommunityName();//コミュニティ名
+    						tmp[1] = event.getEventName();//イベント名
+    						tmp[2] = String.valueOf((int) m.message);//メッセージ数
+    						tmp[3] = (String) m.message2;//最新のメッセージ
+    						out_list.add(tmp);
+    					}
+    				});
+    				out_list.forEach(data->{
+    					//dataを出力してください
+    				});
+    			} catch (Exception e) {
+    				// TODO 自動生成された catch ブロック
+    				e.printStackTrace();
+    			}
+    			if(login_flag == 0) {
+    				timer.cancel();
+    			}
+    		}
+    	};
+    	timer.schedule(tt,0,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
     }
 
 
