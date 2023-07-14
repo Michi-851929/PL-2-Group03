@@ -39,7 +39,7 @@ public class ServerConnect{
 
     void run() throws Exception {
         this.mode = 1;
-        SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);
+        SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);//これをコメントアウト
         //ServerSocket ssss = new ServerSocket(ConnectName.port);
         try {
             while(this.mode == 1) {
