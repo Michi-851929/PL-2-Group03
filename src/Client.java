@@ -2262,7 +2262,7 @@ public class Client extends JFrame {
     void login()
     {
         //Accountオブジェクト取得
-
+        
         //Communityオブジェクト取得
 
         //ClientEventオブジェクト取得
