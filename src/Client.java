@@ -101,7 +101,7 @@ public class Client extends JFrame {
     private  int login_flag;
     private int register_flag;
     private String eve_id;
-    private static int timer_flag;
+    private Timer timer = new Timer(false);;
     
     //コンストラクタ(ログイン画面)
     public Client(){
@@ -2275,6 +2275,7 @@ public class Client extends JFrame {
 
     //ログアウト
     int logout() {
+    	timer.cancel();
         loginScreen();
         removeWindowListener(ui_wlistener);
         return 0;
@@ -2301,10 +2302,10 @@ public class Client extends JFrame {
     }
 
     void getNewMessage() { //更新の時はこれを呼んでください
-        Timer timer = new Timer(false);
-        TimerTask tt = new TimerTask() {
+        timer.cancel();
+        timer = new Timer(false);
+        TimerTask tt =new TimerTask() {
             public void run() {
-            	timer_flag = 1;
                 update();
                 ArrayList<String> go = account.getEventGoing();
                 ArrayList<ClientEvent> go_event = null;
@@ -2329,14 +2330,11 @@ public class Client extends JFrame {
                     // TODO 自動生成された catch ブロック
                     e.printStackTrace();
                 }
-                if(login_flag == 0||timer_flag == 0) {
-                    timer.cancel();
-                }
             }
         };
-        timer_flag = 0;
         timer.schedule(tt,0,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
     }
+    
 
 
 
