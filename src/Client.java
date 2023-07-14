@@ -27,6 +27,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -103,6 +104,13 @@ public class Client extends JFrame {
     private int register_flag;
     private String eve_id;
     private Timer timer = new Timer(false);;
+    
+    private JComboBox<Integer> yearComboBox;
+    private JComboBox<String> monthComboBox;
+    private JComboBox<String> dayComboBox;
+    private JComboBox<Integer> yearComboBox2;
+    private JComboBox<String> monthComboBox2;
+    private JComboBox<String> dayComboBox2;
     
     //コンストラクタ(ログイン画面)
     public Client(){
@@ -931,7 +939,7 @@ public class Client extends JFrame {
                 JDialog eventDialog = new JDialog();
                 eventDialog.setTitle("イベント作成");
                 eventDialog.setModal(true); // モーダルダイアログとして設定
-                eventDialog.setSize(400, 500);
+                eventDialog.setSize(500, 500);
                 eventDialog.setLocationRelativeTo(null); // 中央に配置
 
                 // イベント作成画面のコンポーネントを追加
@@ -947,29 +955,85 @@ public class Client extends JFrame {
                 eventPanel.add(nameLabel);
 
                 JTextField nameField = new JTextField();
-                nameField.setBounds(120, 20, 250, 30);
+                nameField.setBounds(120, 20, 315, 30);
                 eventPanel.add(nameField);
 
                 // 開始時間入力フィールド
                 JLabel startTimeLabel = new JLabel("開始時刻:");
                 startTimeLabel.setBounds(20, 60, 100, 30);
                 eventPanel.add(startTimeLabel);
+                
+                int currentYear = ui_ld_looking.getYear();
+                int currentMonth = ui_ld_looking.getMonthValue();
+                int currentday = ui_ld_looking.getDayOfMonth();
+                
+                // 年のコンボボックス
+                yearComboBox = new JComboBox<>();
+                for (int year = currentYear - 10; year <= currentYear + 10; year++) {
+                    yearComboBox.addItem(year);
+                }
+                yearComboBox.setSelectedItem(currentYear); // 現在の年を選択
+                yearComboBox.setBounds(120, 60, 55, 30);
+                yearComboBox.addActionListener(e -> updateDayComboBox(yearComboBox,monthComboBox,dayComboBox));
+                eventPanel.add(yearComboBox);
+                
+                JLabel yearLabel = new JLabel("年");
+                yearLabel.setBounds(175, 60, 20, 30);
+                yearLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                yearLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(yearLabel);
+                
+                // 月のコンボボックス
+                monthComboBox = new JComboBox<>();
+                for (int month = 1; month <= 12; month++) {
+                    monthComboBox.addItem(String.format("%02d", month));
+                }
+                monthComboBox.setSelectedItem(String.format("%02d", currentMonth)); // 現在の月を選択
+                monthComboBox.setBounds(195, 60, 40, 30);
+                monthComboBox.addActionListener(e -> updateDayComboBox(yearComboBox,monthComboBox,dayComboBox));
+                eventPanel.add(monthComboBox);
+                
+                JLabel monthLabel = new JLabel("月");
+                monthLabel.setBounds(235, 60, 20, 30);
+                monthLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                monthLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(monthLabel);
+                
+                // 日のコンボボックス
+                dayComboBox = new JComboBox<>();
+                updateDayComboBox(yearComboBox,monthComboBox,dayComboBox); // 初期の日の選択肢を設定
+                dayComboBox.setBounds(255, 60, 40, 30);
+                dayComboBox.setSelectedItem(String.format("%02d", currentday));
+                eventPanel.add(dayComboBox);
+                
+                JLabel dayLabel = new JLabel("日");
+                dayLabel.setBounds(295, 60, 20, 30);
+                dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                dayLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(dayLabel);
 
+                // 時間のコンボボックス
                 String[] hour = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
                 JComboBox<String> hourComboBox = new JComboBox<>(hour);
-                hourComboBox.setBounds(120, 60, 100, 30);
+                hourComboBox.setBounds(315, 60, 40, 30);
                 eventPanel.add(hourComboBox);
 
-                JLabel timeLabel = new JLabel(":");
-                timeLabel.setBounds(220, 60, 30, 30);
-                timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                timeLabel.setVerticalAlignment(SwingConstants.CENTER);
-                eventPanel.add(timeLabel);
+                JLabel hourLabel = new JLabel("時");
+                hourLabel.setBounds(355, 60, 20, 30);
+                hourLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                hourLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(hourLabel);
 
                 String[] minute = {"00","05","10","15","20","25","30","35","40","45","50","55"};
                 JComboBox<String> minuteComboBox = new JComboBox<>(minute);
-                minuteComboBox.setBounds(250, 60, 100, 30);
+                minuteComboBox.setBounds(375, 60, 40, 30);
                 eventPanel.add(minuteComboBox);
+                
+                JLabel minuteLabel = new JLabel("分");
+                minuteLabel.setBounds(415, 60, 20, 30);
+                minuteLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                minuteLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(minuteLabel);
 
 
 
@@ -977,21 +1041,75 @@ public class Client extends JFrame {
                 JLabel endTimeLabel = new JLabel("終了時刻:");
                 endTimeLabel.setBounds(20, 100, 100, 30);
                 eventPanel.add(endTimeLabel);
+                
+                // 年のコンボボックス
+                yearComboBox2 = new JComboBox<>();
+                for (int year2 = currentYear - 10; year2 <= currentYear + 10; year2++) {
+                    yearComboBox2.addItem(year2);
+                }
+                yearComboBox2.setSelectedItem(currentYear); // 現在の年を選択
+                yearComboBox2.setBounds(120, 100, 55, 30);
+                yearComboBox2.addActionListener(e -> updateDayComboBox(yearComboBox2,monthComboBox2,dayComboBox2));
+                eventPanel.add(yearComboBox2);
+                
+                JLabel yearLabel2 = new JLabel("年");
+                yearLabel2.setBounds(175, 100, 20, 30);
+                yearLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                yearLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(yearLabel2);
+                
+                // 月のコンボボックス
+                monthComboBox2 = new JComboBox<>();
+                for (int month2 = 1; month2 <= 12; month2++) {
+                    monthComboBox2.addItem(String.format("%02d", month2));
+                }
+                monthComboBox2.setSelectedItem(String.format("%02d", currentMonth)); // 現在の月を選択
+                monthComboBox2.setBounds(195, 100, 40, 30);
+                monthComboBox2.addActionListener(e -> updateDayComboBox(yearComboBox2,monthComboBox2,dayComboBox2));
+                eventPanel.add(monthComboBox2);
+                
+                JLabel monthLabel2 = new JLabel("月");
+                monthLabel2.setBounds(235, 100, 20, 30);
+                monthLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                monthLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(monthLabel2);
+                
+                // 日のコンボボックス
+                dayComboBox2 = new JComboBox<>();
+                updateDayComboBox(yearComboBox2,monthComboBox2,dayComboBox2); // 初期の日の選択肢を設定
+                dayComboBox2.setBounds(255, 100, 40, 30);
+                dayComboBox2.setSelectedItem(String.format("%02d", currentday));
+                eventPanel.add(dayComboBox2);
+                
+                JLabel dayLabel2 = new JLabel("日");
+                dayLabel2.setBounds(295, 100, 20, 30);
+                dayLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                dayLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(dayLabel2);
 
-                JComboBox<String> hour2ComboBox = new JComboBox<>(hour);
-                hour2ComboBox.setBounds(120, 100, 100, 30);
-                eventPanel.add(hour2ComboBox);
+                // 時間のコンボボックス
+                String[] hour2 = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+                JComboBox<String> hourComboBox2 = new JComboBox<>(hour2);
+                hourComboBox2.setBounds(315, 100, 40, 30);
+                eventPanel.add(hourComboBox2);
 
-                JLabel time2Label = new JLabel(":");
-                time2Label.setBounds(220, 100, 30, 30);
-                time2Label.setHorizontalAlignment(SwingConstants.CENTER);
-                time2Label.setVerticalAlignment(SwingConstants.CENTER);
-                eventPanel.add(time2Label);
+                JLabel hourLabel2 = new JLabel("時");
+                hourLabel2.setBounds(355, 100, 20, 30);
+                hourLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                hourLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(hourLabel2);
 
-                JComboBox<String> minute2ComboBox = new JComboBox<>(minute);
-                minute2ComboBox.setBounds(250, 100, 100, 30);
-                eventPanel.add(minute2ComboBox);
-
+                String[] minute2 = {"00","05","10","15","20","25","30","35","40","45","50","55"};
+                JComboBox<String> minuteComboBox2 = new JComboBox<>(minute2);
+                minuteComboBox2.setBounds(375, 100, 40, 30);
+                eventPanel.add(minuteComboBox2);
+                
+                JLabel minuteLabel2 = new JLabel("分");
+                minuteLabel2.setBounds(415, 100, 20, 30);
+                minuteLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                minuteLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(minuteLabel2);
+                
 
                 // 場所入力フィールド
                 JLabel placeLabel = new JLabel("場所:");
@@ -999,7 +1117,7 @@ public class Client extends JFrame {
                 eventPanel.add(placeLabel);
 
                 JTextField placeField = new JTextField();
-                placeField.setBounds(120, 140, 250, 30);
+                placeField.setBounds(120, 140, 315, 30);
                 eventPanel.add(placeField);
 
                 // 概要入力フィールド
@@ -1008,12 +1126,12 @@ public class Client extends JFrame {
                 eventPanel.add(summaryLabel);
 
                 JTextArea summaryArea = new JTextArea();
-                summaryArea.setBounds(120, 180, 250, 80);
+                summaryArea.setBounds(120, 180, 315, 80);
                 summaryArea.setLineWrap(true);
                 summaryArea.setWrapStyleWord(true);
                 summaryArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
                 JScrollPane summaryScrollPane = new JScrollPane(summaryArea);
-                summaryScrollPane.setBounds(120, 180, 250, 80);
+                summaryScrollPane.setBounds(120, 180, 315, 80);
                 summaryScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                 summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
                 summaryScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
@@ -1025,12 +1143,12 @@ public class Client extends JFrame {
                 eventPanel.add(detailsLabel);
 
                 JTextArea detailsArea = new JTextArea();
-                detailsArea.setBounds(120, 270, 250, 80);
+                detailsArea.setBounds(120, 270, 315, 80);
                 detailsArea.setLineWrap(true);
                 detailsArea.setWrapStyleWord(true);
                 detailsArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
                 JScrollPane detailsScrollPane = new JScrollPane(detailsArea);
-                detailsScrollPane.setBounds(120, 270, 250, 80);
+                detailsScrollPane.setBounds(120, 270, 315, 80);
                 detailsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                 detailsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
                 detailsScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
@@ -1048,7 +1166,7 @@ public class Client extends JFrame {
                     com_list[i]=community_list.get(i).getName();
                 }
                 JComboBox<String> communityComboBox = new JComboBox<>(com_list);
-                communityComboBox.setBounds(120, 360, 250, 30);
+                communityComboBox.setBounds(120, 360, 315, 30);
                 eventPanel.add(communityComboBox);
 
                 BufferedImage img = createBackgroundImage(60, 40);
@@ -1063,14 +1181,14 @@ public class Client extends JFrame {
                 addButton.setForeground(Color.black);
                 addButton.setOpaque(true);
                 addButton.setBorderPainted(false);
-                addButton.setBounds(170,400,60,40);
+                addButton.setBounds(220,400,60,40);
                 addButton.setIcon(new ImageIcon(img));
 
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         String eventName = nameField.getText();
                         String startTime = (String)hourComboBox.getSelectedItem()+":"+(String)minuteComboBox.getSelectedItem();
-                        String endTime = (String)hour2ComboBox.getSelectedItem()+":"+(String)minute2ComboBox.getSelectedItem();
+                        String endTime = (String)hourComboBox2.getSelectedItem()+":"+(String)minuteComboBox2.getSelectedItem();
                         String place = placeField.getText();
                         String summary = summaryArea.getText();
                         String details = detailsArea.getText();
@@ -1103,13 +1221,13 @@ public class Client extends JFrame {
                             System.out.println(ui_ld_looking);
                             DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
                             String year = ui_ld_looking.format(formatter1);
-                            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("MM");
-                            String month = ui_ld_looking.format(formatter2);
-                            DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("dd");
-                            String day = ui_ld_looking.format(formatter3);
+                            String month = (String)monthComboBox.getSelectedItem();
+                            String day1 = (String)dayComboBox.getSelectedItem();
+                            String day2 = (String)dayComboBox2.getSelectedItem();
                             int intyear = Integer.parseInt(year);
                             int intmonth = Integer.parseInt(month);
-                            int intday = Integer.parseInt(day);
+                            int intday1 = Integer.parseInt(day1);
+                            int intday2 = Integer.parseInt(day2);
                             ClientEvent event = new ClientEvent(eventName,intyear, intmonth, startTime,endTime,place,username,summary,details,communityName);
                             event_list.add(event);
 
@@ -1122,7 +1240,7 @@ public class Client extends JFrame {
 
                             for(int i=0;i<=community_list.size();i++) {
                                 if(community_list.get(i).getName().equals(communityName)) {
-                                    community_list.get(i).getCalendarMonth(intyear, intmonth).addEvent(event.getEventId(), intday, intday);
+                                    community_list.get(i).getCalendarMonth(intyear, intmonth).addEvent(event.getEventId(), intday1, intday2);
                                     break;
                                 };
                             }
@@ -1352,6 +1470,17 @@ public class Client extends JFrame {
         repaint();
 
 
+    }
+    
+    private void updateDayComboBox(JComboBox<Integer> yearc,JComboBox<String> monthc,JComboBox<String> dayc) {
+        int year = (int) yearc.getSelectedItem();
+        int month = Integer.parseInt((String) monthc.getSelectedItem());
+        int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
+
+        dayc.removeAllItems();
+        for (int day = 1; day <= daysInMonth; day++) {
+            dayc.addItem(String.format("%02d", day));
+        }
     }
 
     //イベント画面 month, dayは表示のため
