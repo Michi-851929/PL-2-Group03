@@ -38,6 +38,7 @@ public class ClientConnect{
     static Message post(Object o) throws Exception{
         try {
             Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);
+            //Socket s = new Socket(ConnectName.name,ConnectName.port);
             OutputStream os = s.getOutputStream();
             InputStream is = s.getInputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);

@@ -18,6 +18,7 @@ public class ServerConnect{
     SSLServerSocketFactory sf;
     Server se;
     ServerConnect(Server server) throws Exception{
+    	//ここから
         try (FileInputStream fis = new FileInputStream(Certificate.name);){
             KeyStore ks;
             KeyManagerFactory kmf;
@@ -32,11 +33,14 @@ public class ServerConnect{
     }catch(Exception e) {
             throw e;
         }
+        //ここまでコメントアウト
+        // se = server;
     }
 
     void run() throws Exception {
         this.mode = 1;
         SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);
+        //ServerSocket ssss = new ServerSocket(ConnectName.port);
         try {
             while(this.mode == 1) {
                 Socket s = ssss.accept();
