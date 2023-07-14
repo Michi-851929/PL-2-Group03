@@ -74,6 +74,7 @@ public class Client extends JFrame {
     private LocalDate ui_ld_looking;
     private TrayIcon ui_ticon;
     private WindowListener ui_wlistener;
+    private JFrame frame;
 
     private JButton[] ui_jb_calendar = new JButton[7 * 6];
 
@@ -293,6 +294,7 @@ public class Client extends JFrame {
                     if (login_flag == 1) {
                         JOptionPane.showMessageDialog(Client.this, "ログイン成功");
                         login();
+                        notificationScreen();
                     }
                 }
             }
@@ -1978,6 +1980,108 @@ public class Client extends JFrame {
     //コミュニティ管理画面
     void communityScreen() {
 
+    }
+    
+    //通知画面
+    void notificationScreen() {
+    	
+    	final int WINDOW_WIDTH = 300;
+        final int WINDOW_HEIGHT = 200;
+        final int SCREEN_PADDING = 10;
+    	
+        frame = new JFrame("通知");
+        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        frame.setLocation(getScreenRight() - WINDOW_WIDTH - SCREEN_PADDING, getScreenBottom() - WINDOW_HEIGHT - SCREEN_PADDING);
+
+        // 全体
+        JPanel ui_panel_00 = new JPanel();
+        ui_panel_00.setLayout(null);
+        ui_panel_00.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        ui_panel_00.setBackground(THEME_COLOR);
+        
+        // 背景画像を表示するためのパネルを作成
+        BufferedImage img0 = createBackgroundImage(WINDOW_WIDTH, WINDOW_HEIGHT);
+        Graphics g0 = img0.getGraphics();
+        g0.setColor(THEME_COLOR);
+        g0.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        g0.setColor(Color.WHITE);
+        kadomaruRect(g0, 15, 10, WINDOW_WIDTH - 40, WINDOW_HEIGHT - 60, 20);
+        JPanel backgroundPanel = new JPanel();
+        backgroundPanel.setLayout(null);
+        backgroundPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        backgroundPanel.setBackground(THEME_COLOR);
+        
+        // 通知ラベルの設定
+        // ここに通知内容を入れてください
+        String number = ("2");
+        String community = ("コミュニティ名");
+        String event = ("イベント名");
+        String message = ("テストです。どのように表示されるか確認しています。自動改行は有効ですか？\n改行も問題ありませんね。\n文字数が枠を超えてもスクロールできるように設計したつもりです。\nテストーーーーーー");
+        
+        JLabel numberLabel = new JLabel(number+"件の通知が届いています。");
+        numberLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+        numberLabel.setBounds(20,10,190,20);
+        ui_panel_00.add(numberLabel);
+        
+        JLabel community_event_Label = new JLabel(community+":"+event);
+        community_event_Label.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+        community_event_Label.setBounds(20,30,265,20);
+        ui_panel_00.add(community_event_Label);
+        
+        JTextArea messageTextArea = new JTextArea("最新メッセージ:\n"+message);
+        messageTextArea.setBounds(20,50,250,82);
+        messageTextArea.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+        messageTextArea.setBackground(Color.white); // 背景を透明に設定
+        messageTextArea.setBorder(null); // ボーダーを削除
+        messageTextArea.setEditable(false); // 編集不可に設定
+        messageTextArea.setLineWrap(true); // テキストの幅で自動的に改行
+        
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBounds(20, 50, 255, 82); // スクロールペインのサイズを設定
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.white, 2));
+        scrollPane.setBackground(Color.WHITE);
+
+        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
+        ui_sb_00.setOpaque(true);
+        ui_sb_00.setBackground(Color.WHITE);
+        ui_sb_00.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10));
+        ui_sb_00.setVisible(false);
+
+        scrollPane.setViewportView(messageTextArea);
+        ui_panel_00.add(scrollPane, "Center");
+        
+        JButton openButton = new JButton("Communi+Iを開く");
+        openButton.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+        openButton.setBounds(80,132,130,15);
+        openButton.setBackground(THEME_COLOR);
+        openButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	
+                frame.setVisible(false);
+                login();//使い方あってるかわからないので違っていたら直してください
+                
+            }
+        });
+        ui_panel_00.add(openButton);
+        
+        JLabel ui_jl_back = new JLabel("");
+        ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        ui_jl_back.setIcon(new ImageIcon(img0));
+        backgroundPanel.add(ui_jl_back);
+        ui_panel_00.add(backgroundPanel);
+        
+        frame.add(ui_panel_00);
+        frame.setVisible(true);
+        frame.setAlwaysOnTop(true); // 常に他のウィンドウの上に表示
+
+    }
+    
+    private int getScreenRight() {
+        return Toolkit.getDefaultToolkit().getScreenSize().width;
+    }
+
+    private int getScreenBottom() {
+        return Toolkit.getDefaultToolkit().getScreenSize().height;
     }
 
 
