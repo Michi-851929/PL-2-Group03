@@ -16,12 +16,24 @@ public class ClientDriver {
         community.getCalendarMonth(2023, 7).addEvent(event2.getEventId(), 13, 14);
         client.addTestData(account, community, event2);
         account.addEventPreferred("bb");
+        event2.increaseGood();
+        ClientEvent event3 = new ClientEvent("C会", 2023, 07, "9:00", "19:00", "会館", "ADMIN", "学会です", "ためになります", "PL-2-Group03");
+        event3.setEventId("cc");
+        community.getCalendarMonth(2023, 7).addEvent(event3.getEventId(), 12, 13);
+        client.addTestData(account, community, event3);
         try {
 			client.getADayEvents(LocalDate.of(2023, 7, 13));
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
+        for(int i=0;i<100;i++) {
+        	event3.increaseGood();
+        }
+        
+        for(int i=0;i<50;i++) {
+        	event1.increaseGood();
+        }
     }
 
 }

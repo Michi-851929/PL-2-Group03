@@ -34,11 +34,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -104,6 +105,8 @@ public class Client extends JFrame {
     private int register_flag;
     private String eve_id;
     private Timer timer = new Timer(false);;
+    private int sortflag;
+    private int sortValue;
     
     private JComboBox<Integer> yearComboBox;
     private JComboBox<String> monthComboBox;
@@ -934,6 +937,11 @@ public class Client extends JFrame {
         addButton.setOpaque(true);
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
+            	// コミュニティが存在しない場合、エラーメッセージを表示して処理を中止
+                if (community_list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "所属しているコミュニティがありません。", "エラー", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 System.out.println("イベントを追加します");
                 // イベント作成画面のダイアログを作成
                 JDialog eventDialog = new JDialog();
@@ -1324,40 +1332,57 @@ public class Client extends JFrame {
 
 
 
+        // 一番大きい値を保存する変数を初期化
+        int maxgood = 0;
+
+        // イベントリストをループして一番大きい値を見つける
+        for (ClientEvent event : event_list) {
+            int sortValue = event.getGood();
+            if (sortValue > maxgood) {
+                maxgood = sortValue;
+            }
+        }
 
 
-        /*
-         * イベントの取得
-         * ここではダミーデータで対応します。
-         */
-
-        List<ClientEvent> eventList  = new ArrayList<>();
-        ClientEvent event1 = new ClientEvent("イベント1", 2023, 07, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03");
-        ClientEvent event2 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event3 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event4 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event5 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event6 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event7 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event8 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event9 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-        ClientEvent event10 = new ClientEvent("イベント2", 2023, 07, "10:00", "18:00", "オフィス", "USER", "セミナーです", "参加費無料", "PL-2-Group03");
-
-
-        // ダミーデータの追加
-        eventList.add(event1);
-        eventList.add(event2);
-        eventList.add(event3);
-        eventList.add(event4);
-        eventList.add(event5);
-        eventList.add(event6);
-        eventList.add(event7);
-        eventList.add(event8);
-        eventList.add(event9);
-        eventList.add(event10);
-
-
-
+        // リストをソート
+        try {
+        	
+        	if(sortflag==0) {
+        		sortValue = maxgood;
+                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                    @Override
+                    public int compare(ClientEvent event1, ClientEvent event2) {
+                        int diff1 = Math.abs(event1.getGood() - sortValue);
+                        int diff2 = Math.abs(event2.getGood() - sortValue);
+                        return Integer.compare(diff1, diff2);
+                    }
+                });
+                
+                // イベントをいいねしたものを最初に持ってくる
+                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                    @Override
+                    public int compare(ClientEvent e1, ClientEvent e2) {
+                        if (account.getAEventPreferrd(e1.getEventId()) && !account.getAEventPreferrd(e2.getEventId())) {
+                            return -1;
+                        } else if (!account.getAEventPreferrd(e1.getEventId()) && account.getAEventPreferrd(e2.getEventId())) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+                
+        	}else {
+        		sortflag=0;
+        	}
+        	
+            
+			
+		} catch (Exception e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+        
         for (ClientEvent event : event_list) {
             System.out.println(event.getEventName());
         }
@@ -1365,7 +1390,7 @@ public class Client extends JFrame {
         int events_num = event_list.size();
 
         int button_width = 600;
-        int button_height = 100;
+        int button_height = 96;
         int r = 20;
 
 
@@ -1380,7 +1405,11 @@ public class Client extends JFrame {
 
         // イベント一覧
         JPanel ui_panel_03 = new JPanel();
-        ui_panel_03.setLayout(new GridLayout(events_num, 1, 4, 4));
+        if(events_num < 6) {
+        	ui_panel_03.setLayout(new GridLayout(5, 1, 4, 4));
+        }else {
+            ui_panel_03.setLayout(new GridLayout(events_num, 1, 4, 4));
+        }
         ui_panel_03.setBackground(THEME_COLOR); // ボタン間の隙間をTHEME_COLORで塗りつぶす
 
         for (int i = 0; i < events_num; i++) {
@@ -1391,8 +1420,8 @@ public class Client extends JFrame {
             Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
             g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 24));
             g1.setColor(Color.BLACK);
+            ClientEvent event = event_list.get(i);
             String name = event_list.get(i).getEventName();
-
             String s_time = event_list.get(i).getEventStart();
             String f_time = event_list.get(i).getEventFinish();
             String place = event_list.get(i).getEventPlace();
@@ -1400,14 +1429,18 @@ public class Client extends JFrame {
             int good_num = event_list.get(i).getGood();
             String id = event_list.get(i).getEventId();
 
-            g1.drawString(name, 10, 30);
+            if(account.getAEventPreferrd(event_list.get(i).getEventId())==true) {
+            	g1.drawString(name+"(like)", 10, 30);
+            }else {
+                g1.drawString(name, 10, 30);
+            }
             g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
             g1.drawString(s_time+"-"+f_time, 10, 90);
             g1.drawString(place, 170, 90);
             g1.drawString(com_name, 400, 30);
             g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
-
-
+            
+            
             JButton eventButton = new JButton(name);
             eventButton.setBackground(THEME_COLOR);
             eventButton.setForeground(THEME_COLOR);
@@ -1420,17 +1453,16 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     eve_id = id;
                     System.out.println(id);
-                    eventScreen(event1, 16);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM");
+                    String day = ui_ld_looking.format(formatter);
+                    int intday = Integer.parseInt(day);
+                    eventScreen(event, intday);
                 }
             });
 
-
             ui_panel_03.add(eventButton);
 
-
         }
-
-
 
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setSize(WINDOW_WIDTH, 600);
@@ -1450,39 +1482,92 @@ public class Client extends JFrame {
 
         JPanel ui_panel_07 = new JPanel();
         ui_panel_07.setLayout(new BorderLayout());
-        ui_panel_07.setBounds(100, 613, WINDOW_WIDTH - 200, 62);
+        ui_panel_07.setBounds(100, 613, WINDOW_WIDTH - 200, 60);
         ui_panel_07.setBackground(THEME_COLOR);
 
         int minValue = 0;   // スライダーの最小値
-        int maxValue = 1000; // スライダーの最大値
-        int initialValue = 1000; // スライダーの初期値
+        int maxValue = maxgood; // スライダーの最大値
+        int initialValue = sortValue; // スライダーの初期値
 
         JSlider slider = new JSlider(minValue, maxValue, initialValue);
         slider.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 2));
         slider.setBackground(THEME_COLOR);
         slider.setOpaque(false);
 
-        JLabel valueLabel = new JLabel("いいねの数:"+String.valueOf(initialValue), JLabel.CENTER);
+        JPanel valueSortPanel = new JPanel();
+        BoxLayout boxLayout = new BoxLayout(valueSortPanel, BoxLayout.X_AXIS);
+        valueSortPanel.setLayout(boxLayout);
+        valueSortPanel.setBackground(THEME_COLOR);
+        valueSortPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); // 左右の余白を追加
+
+        JLabel valueLabel = new JLabel("いいねの数:" + String.valueOf(initialValue));
         valueLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
+        
+        BufferedImage img = createBackgroundImage(80, 40);
+        Graphics g = img.getGraphics();
+        g.setColor(Color.WHITE);
+        Client.kadomaruRect(g, 0 ,0 , 80, 40, 10, Color.white, THEME_COLOR);
+        g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        g.setColor(Color.BLACK);
+        g.drawString("ソート", 11, 27);
+        JButton sortButton = new JButton("");
+        sortButton.setBackground(THEME_COLOR);
+        sortButton.setForeground(Color.black);
+        sortButton.setOpaque(true);
+        sortButton.setBorderPainted(false);
+        sortButton.setIcon(new ImageIcon(img));
+
+
+
+        valueSortPanel.add(Box.createHorizontalGlue()); // 左端に余白を追加
+        valueSortPanel.add(valueLabel);
+        valueSortPanel.add(Box.createHorizontalStrut(50)); // ラベルとボタンの間にスペースを追加
+        valueSortPanel.add(sortButton);
+        valueSortPanel.add(Box.createHorizontalGlue()); // 右端に余白を追加
 
         ui_panel_07.add(slider, BorderLayout.CENTER);
-        ui_panel_07.add(valueLabel, BorderLayout.SOUTH);
+        ui_panel_07.add(valueSortPanel, BorderLayout.SOUTH); // valueSortPanelを追加
 
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 int value = slider.getValue();
+                sortValue = value;
                 valueLabel.setText("いいねの数:"+String.valueOf(value));
                 // スライダーの値が変更されたときの処理を記述
+                
+            }
+        });
+        
+        sortButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+            	sortflag = 1;
+            	// Comparatorを使用してソート
+                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                    @Override
+                    public int compare(ClientEvent event1, ClientEvent event2) {
+                        int diff1 = Math.abs(event1.getGood() - sortValue);
+                        int diff2 = Math.abs(event2.getGood() - sortValue);
+                        return Integer.compare(diff1, diff2);
+                    }
+                });
+                // イベントをいいねしたものを最初に持ってくる
+                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                    @Override
+                    public int compare(ClientEvent e1, ClientEvent e2) {
+                        if (account.getAEventPreferrd(e1.getEventId()) && !account.getAEventPreferrd(e2.getEventId())) {
+                            return -1;
+                        } else if (!account.getAEventPreferrd(e1.getEventId()) && account.getAEventPreferrd(e2.getEventId())) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+            	dateScreen();
             }
         });
 
-
-
-
         ui_panel_00.add(ui_panel_07);
-
-
-
 
         contentPane1.add(ui_panel_00);
         setVisible(true);
