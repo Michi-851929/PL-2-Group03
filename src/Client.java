@@ -2157,8 +2157,13 @@ public class Client extends JFrame {
         community_event_Label.setBounds(20,30,265,20);
         ui_panel_00.add(community_event_Label);
         
-        JTextArea messageTextArea = new JTextArea("最新メッセージ:\n"+message);
-        messageTextArea.setBounds(20,50,250,82);
+        JLabel messageLabel = new JLabel("最新メッセージ:");
+        messageLabel.setBounds(20,50,250,20);
+        messageLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+        ui_panel_00.add(messageLabel);
+        
+        JTextArea messageTextArea = new JTextArea(message);
+        messageTextArea.setBounds(20,70,250,62);
         messageTextArea.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
         messageTextArea.setBackground(Color.white); // 背景を透明に設定
         messageTextArea.setBorder(null); // ボーダーを削除
@@ -2166,7 +2171,7 @@ public class Client extends JFrame {
         messageTextArea.setLineWrap(true); // テキストの幅で自動的に改行
         
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBounds(20, 50, 255, 82); // スクロールペインのサイズを設定
+        scrollPane.setBounds(20, 70, 255, 62); // スクロールペインのサイズを設定
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.white, 2));
         scrollPane.setBackground(Color.WHITE);
 
