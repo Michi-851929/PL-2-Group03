@@ -1,12 +1,16 @@
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 
 public class ServerConnect{
@@ -15,7 +19,7 @@ public class ServerConnect{
     Server se;
     ServerConnect(Server server) throws Exception{
         //ここから
-        /*
+
         try (FileInputStream fis = new FileInputStream(Certificate.name);){
             KeyStore ks;
             KeyManagerFactory kmf;
@@ -30,15 +34,15 @@ public class ServerConnect{
     }catch(Exception e) {
             throw e;
         }
-        */
+
         //ここまでコメントアウト
-        se = server;
+        //se = server;
     }
 
     void run() throws Exception {
         this.mode = 1;
-        //SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);//これをコメントアウト
-        ServerSocket ssss = new ServerSocket(ConnectName.port);
+        SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);//これをコメントアウト
+        //ServerSocket ssss = new ServerSocket(ConnectName.port);
         try {
             while(this.mode == 1) {
                 Socket s = ssss.accept();
