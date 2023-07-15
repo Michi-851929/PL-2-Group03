@@ -1485,6 +1485,7 @@ public class Client extends JFrame {
 
     //イベント画面 month, dayは表示のため
     void eventScreen(ClientEvent ce, int day) {
+        boolean debug_boolean = true;
         setTitle("イベントの詳細");
         contentPane1.removeAll();
         contentPane1.setLayout(null);
@@ -1587,34 +1588,51 @@ public class Client extends JFrame {
         Dimension d2 = eventDetailLabel.getPreferredSize();
         eventDetailLabel.setBounds(75, 270+d.height, WINDOW_WIDTH-150, d2.height);
         eventPanel.add(eventDetailLabel);
-        if(account.getEventPreferred().contains(ce.getEventId())) {
-            eventDetailLabel.setVisible(true);
+        //if(account.getEventPreferred().contains(ce.getEventId())) { //TODO デバッグ用にコメントアウトしてるので、もろもろ完成時には解除する
+        if(debug_boolean) {
+            eventDetailLabel.setText(ce.getEventDetail());
         }
         else {
-            eventDetailLabel.setVisible(false);
+            eventDetailLabel.setText("いいねで詳細を表示");
         }
-
+        
+        //詳細背景
+        BufferedImage img_d = createBackgroundImage(WINDOW_WIDTH-130, d2.height+20);
+        Graphics2D g_d = (Graphics2D)img_d.getGraphics();
+        g_d.setColor(Color.white);
+        g_d.fillRect(0, 0, WINDOW_WIDTH-130, d2.height+20);
+        g_d.fillRoundRect(5, 5, WINDOW_WIDTH-140, d2.height+10, 10, 10);
+        g_d.setColor(GOOD_COLOR);
+        g_d.setStroke(new BasicStroke(3));
+        g_d.drawRoundRect(5, 5, WINDOW_WIDTH-140, d2.height+10, 10, 10);
+        //g1.drawImage(blueIineImg, 5, 5, 30, 30, goodButton);
+        JLabel detailBackGround = new JLabel(new ImageIcon(img_d));
+        detailBackGround.setBounds(60, 260+d.height, WINDOW_WIDTH-130, d2.height+20);
+        eventPanel.add(detailBackGround);
+        
+        
         JLabel ui_jl_back = new JLabel("");
         ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
         ui_jl_back.setIcon(new ImageIcon(img0));
 
         // いいねボタン
-        ImageIcon iine;
-        ImageIcon blueIine = new ImageIcon("blueiine.png");
-        ImageIcon whiteIine = new ImageIcon("whiteiine.png");
-        Image blueIineImg = Toolkit.getDefaultToolkit().getImage("blueiine.png");
+        //ImageIcon iine;
+        //ImageIcon blueIine = new ImageIcon("blueiine.png");
+        //ImageIcon whiteIine = new ImageIcon("whiteiine.png");
+        //Image blueIineImg = Toolkit.getDefaultToolkit().getImage("blueiine.png");
         JButton goodButton = new JButton("いいね");
         goodButton.setContentAreaFilled(false);
         goodButton.setBorderPainted(false);
-        if(account.getEventPreferred().contains(ce.getEventId())) {
+        //if(account.getEventPreferred().contains(ce.getEventId())) {
+        if(debug_boolean) {//TODO デバッグ用  
             goodButton.setForeground(Color.white);
-            iine = new ImageIcon(whiteIine.getImage());
+            //iine = new ImageIcon(whiteIine.getImage());
         }
         else {
             goodButton.setForeground(GOOD_COLOR);
-            iine = new ImageIcon(blueIine.getImage());
+            //iine = new ImageIcon(blueIine.getImage());
         }
-        goodButton.setIcon(iine);
+        //goodButton.setIcon(iine);
         goodButton.setBounds(WINDOW_WIDTH/2-140, 215+d.height, 120, 30);
         eventPanel.add(goodButton);
 
@@ -1626,8 +1644,8 @@ public class Client extends JFrame {
         g1.fillRoundRect(5, 5, 120, 30, 10, 10);
         g1.setColor(GOOD_COLOR);
         g1.setStroke(new BasicStroke(3));
-        //g1.drawRoundRect(5, 5, 120, 30, 10, 10);
-        g1.drawImage(blueIineImg, 5, 5, 30, 30, goodButton);
+        g1.drawRoundRect(5, 5, 120, 30, 10, 10);
+        //g1.drawImage(blueIineImg, 5, 5, 30, 30, goodButton);
         JLabel goodButton_bg_false = new JLabel(new ImageIcon(img1));
         goodButton_bg_false.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
         eventPanel.add(goodButton_bg_false);
@@ -1641,12 +1659,13 @@ public class Client extends JFrame {
         g2.fillRoundRect(5, 5, 120, 30, 10, 10);
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(5, 5, 120, 30, 10, 10);
-        g2.drawImage(whiteIine.getImage(), 5, 5, 30, 30, goodButton);
+        //g2.drawImage(whiteIine.getImage(), 5, 5, 30, 30, goodButton);
         JLabel goodButton_bg_true = new JLabel(new ImageIcon(img2));
         goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
         eventPanel.add(goodButton_bg_true);
 
-        if(account.getEventPreferred().contains(ce.getEventId())) {
+        //if(account.getEventPreferred().contains(ce.getEventId())) {
+        if(debug_boolean) {//TODO for debug
             goodButton_bg_true.setVisible(true);
             goodButton_bg_false.setVisible(false);
         }
@@ -1660,7 +1679,8 @@ public class Client extends JFrame {
             {
                 try {
                     Boolean tmp = cc.nice(ce.getEventId());
-                    if(account.getEventPreferred().contains(ce.getEventId())) {
+                    //if(account.getEventPreferred().contains(ce.getEventId())) {
+                    if(debug_boolean) {//TODO for debug
                         if(tmp ==false) {
                             goodButton.setForeground(Color.black);
                             goodButton_bg_false.setVisible(true);
@@ -1695,7 +1715,8 @@ public class Client extends JFrame {
         joinButton.setContentAreaFilled(false);
         joinButton.setBorderPainted(false);
         joinButton.setBounds(WINDOW_WIDTH/2+20, 215+d.height, 120, 30);
-        if(account.getAEventGoing(ce.getEventId())) {
+        //if(account.getAEventGoing(ce.getEventId())) {
+        if(debug_boolean) { //TODO for debug
             joinButton.setForeground(Color.white);
         }
         else {
@@ -1729,7 +1750,8 @@ public class Client extends JFrame {
         joinButton_bg_true.setBounds(WINDOW_WIDTH/2+15, 210+d.height, 130, 40);
         eventPanel.add(joinButton_bg_true);
 
-        if(account.getAEventGoing(ce.getEventId())) {
+        //if(account.getAEventGoing(ce.getEventId())) {
+        if(debug_boolean) { //TODO for debug
             joinButton_bg_true.setVisible(true);
             joinButton_bg_false.setVisible(false);
         }
@@ -1743,7 +1765,8 @@ public class Client extends JFrame {
             {
                 try {
                     Boolean tmp = cc.joinEvent(ce.getEventId());
-                    if(account.getAEventGoing(ce.getEventId())) {
+                    //if(account.getAEventGoing(ce.getEventId())) {
+                    if(debug_boolean) { //TODO for debug
                         if(tmp ==false) {
                             joinButton.setForeground(JOIN_COLOR);
                             joinButton_bg_false.setVisible(true);
@@ -1902,6 +1925,7 @@ public class Client extends JFrame {
         communityManageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
+                
                 eventScreen(new ClientEvent("イベント1", 2023, 7, "9:00", "19:00", "環境情報１号棟５１５室", "ADMIN", "学会です", "ためになります", "PL-2-Group03"), 11);
             }
         });
