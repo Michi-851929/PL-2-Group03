@@ -1229,23 +1229,42 @@ public class Client extends JFrame {
                             int intday1 = Integer.parseInt(day1);
                             int intday2 = Integer.parseInt(day2);
                             ClientEvent event = new ClientEvent(eventName,intyear, intmonth, startTime,endTime,place,username,summary,details,communityName);
-                            event_list.add(event);
+                            try {
+                            	cc.makeEvent(event, intyear, intmonth, intday1, intday2);
+                            	event_list.add(event);
+                                
+                                //確認
+                                int eve_size = event_list.size();
+                                for(int i=0;i<eve_size;i++) {
+                                    String eve_name =event_list.get(i).getEventName();
+                                    System.out.println(eve_name);
+                                }
 
-                            //確認
-                            int eve_size = event_list.size();
-                            for(int i=0;i<eve_size;i++) {
-                                String eve_name =event_list.get(i).getEventName();
-                                System.out.println(eve_name);
+                                for(int i=0;i<=community_list.size();i++) {
+                                    if(community_list.get(i).getName().equals(communityName)) {
+                                        community_list.get(i).getCalendarMonth(intyear, intmonth).addEvent(event.getEventId(), intday1, intday2);
+                                        break;
+                                    };
+                                }
+                                eventDialog.setVisible(false);
+                                dateScreen();
+                            }catch(Exception e){
+                            	String error = e.getMessage();
+                                if(error.equals(ClientConnect.NOT_FOUND)) {
+                                    JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                    logout();
+                                }else if(error.equals(ClientConnect.BANNED)) {
+                                    JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                    logout();
+                                }else if(error.equals(ClientConnect.AUTH)) {
+                                    JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                    logout();
+                                }else{
+                                    JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                }
+                                 
                             }
-
-                            for(int i=0;i<=community_list.size();i++) {
-                                if(community_list.get(i).getName().equals(communityName)) {
-                                    community_list.get(i).getCalendarMonth(intyear, intmonth).addEvent(event.getEventId(), intday1, intday2);
-                                    break;
-                                };
-                            }
-                            eventDialog.setVisible(false);
-                            dateScreen();
+                            
                         }
                     }
                 });
@@ -1701,9 +1720,22 @@ public class Client extends JFrame {
 
                     //更新を呼ぶ
                 } catch (Exception e) {
-                    if(e.getMessage()==ClientConnect.ERROR) {
+                	String error = e.getMessage();
+                    if(error.equals(ClientConnect.NOT_FOUND)) {
+                        JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                        logout();
+                    }else if(error.equals(ClientConnect.BANNED)) {
+                        JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                        logout();
+                    }else if(error.equals(ClientConnect.AUTH)) {
+                        JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                        logout();
+                    }else if(error.equals(ClientConnect.ERROR)) {
                         System.out.println("存在しないイベントです");
+                    }else{
+                        JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                     }
+                     
                     e.printStackTrace();
                 }
             }
@@ -1784,9 +1816,22 @@ public class Client extends JFrame {
                     }
 
                 } catch (Exception e) {
-                     if(e.getMessage()==ClientConnect.ERROR) {
-                         System.out.println("存在しないイベントです");
-                     }
+                	String error = e.getMessage();
+                    if(error.equals(ClientConnect.NOT_FOUND)) {
+                        JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                        logout();
+                    }else if(error.equals(ClientConnect.BANNED)) {
+                        JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                        logout();
+                    }else if(error.equals(ClientConnect.AUTH)) {
+                        JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                        logout();
+                    }else if(error.equals(ClientConnect.ERROR)) {
+                        System.out.println("存在しないイベントです");
+                    }else{
+                        JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                    }
+                     
                      e.printStackTrace();
                 }
             }
@@ -2071,13 +2116,13 @@ public class Client extends JFrame {
                                 String error = e.getMessage();
                                 if(error.equals(ClientConnect.NOT_FOUND)) {
                                     JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
-                                    login_flag = 0;
+                                    logout();
                                 }else if(error.equals(ClientConnect.BANNED)) {
                                     JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
-                                    login_flag = 0;
+                                    logout();
                                 }else if(error.equals(ClientConnect.AUTH)) {
-                                    JOptionPane.showMessageDialog(Client.this, "パスワードが変更されました。再ログインをお願いします。");
-                                    login_flag = 0;
+                                    JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                    logout();
                                 }else {
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                 }
@@ -2528,11 +2573,7 @@ public class Client extends JFrame {
 
     void login()
     {
-        //Accountオブジェクト取得
-        
-        //Communityオブジェクト取得
-
-        //ClientEventオブジェクト取得
+        getNewMessage();
 
         ui_clayout.show(contentPane0, "カレンダー画面");
         userScreen();
@@ -2542,6 +2583,7 @@ public class Client extends JFrame {
 
     //ログアウト
     int logout() {
+    	login_flag = 0;
     	timer.cancel();
         loginScreen();
         removeWindowListener(ui_wlistener);
