@@ -2437,6 +2437,11 @@ public class Client extends JFrame {
 
     //更新(使用しないように)
     int update() {
+    	try {
+    		account = cc.getAccount(account.getUserName());
+    	} catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
         } catch (Exception e) {
