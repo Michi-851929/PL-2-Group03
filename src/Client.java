@@ -2438,7 +2438,7 @@ public class Client extends JFrame {
     //更新(使用しないように)
     int update() {
     	try {
-    		account = cc.getAccount(account.getUserName());
+    		account = cc.getAccount(username);
     	} catch (Exception e) {
             e.printStackTrace();
         }
