@@ -3181,6 +3181,7 @@ public class Client extends JFrame {
                     ArrayList<ClientEvent> go_event = new ArrayList<>();
                     ArrayList<String[]> out_list= new ArrayList<>();
                     try {
+                    	if(!go.isEmpty()) {
                         go_event = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])go.toArray()));
                         go_event.forEach(event->{
                             String[] tmp = {"","","",""};
@@ -3196,6 +3197,7 @@ public class Client extends JFrame {
                         out_list.forEach(data->{
                         //dataを出力してください
                         });
+                    	}
                     } catch (Exception e) {
                     // TODO 自動生成された catch ブロック
                         e.printStackTrace();
