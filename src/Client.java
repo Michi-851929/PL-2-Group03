@@ -640,7 +640,7 @@ public class Client extends JFrame {
                 ui_jb_calendar[7 * i + j] = new JButton();
                 ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
                 try {
-                    ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, getNumberEvent(sortEvent(getADayEvents(date)),0), getNumberEvent(sortEvent(getADayEvents(date)),1)));
+                    ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, getADayEvents(date).size(), getNumberEvent(sortEvent(getADayEvents(date)),0), getNumberEvent(sortEvent(getADayEvents(date)),1)));
                 } catch (Exception e) {
                     // TODO 自動生成された catch ブロック
                     e.printStackTrace();
@@ -1982,8 +1982,8 @@ public class Client extends JFrame {
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
         ui_sb_00.setOpaque(false);
         ui_sb_00.setBackground(THEME_COLOR);
-        ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
-        ui_sb_00.setUI(getScrollBarUI());
+        //ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
+        //ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(true);
 
         eventPanel.setOpaque(true);
@@ -3079,8 +3079,7 @@ public class Client extends JFrame {
             });
         });
         try {
-        	ArrayList<String> n = new ArrayList<>();
-        	if(!community_list.equals(n)) {
+        	if(!community_list.isEmpty()) {
         		this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
         	}
         } catch (Exception e1) {
