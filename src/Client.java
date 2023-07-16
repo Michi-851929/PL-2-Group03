@@ -1627,7 +1627,6 @@ public class Client extends JFrame {
         });
         ImageIcon icon = new ImageIcon("src/back.png");
         backButton.setIcon(icon);
-
         // ボタンの余白を調整
         backButton.setMargin(new Insets(0, 0, 0, 0));
 
@@ -1637,7 +1636,29 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         backButton.setContentAreaFilled(false);
         backgroundPanel.add(backButton);
+        
+        
+        // 編集ボタン
+        JButton editButton = new JButton("編集");
+        editButton.setBounds(WINDOW_WIDTH-80, 10, 60, 30);
+        editButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                //editEvent();
+            }
+        });
 
+        // ボタンの余白を調整
+        editButton.setMargin(new Insets(0, 0, 0, 0));
+
+        // ボタンの枠線を非表示にする
+        editButton.setBorderPainted(false);
+
+        // ボタンの背景を透明にする
+        editButton.setContentAreaFilled(false);
+        backgroundPanel.add(editButton);
+
+        
+        
         //イベント情報を置くパネル
         JPanel eventPanel = new JPanel();
         eventPanel.setLayout(null);
@@ -1689,7 +1710,6 @@ public class Client extends JFrame {
 
         //イベント詳細
         JTextArea eventDetailLabel = new JTextArea(ce.getEventDetail(),18,1);
-
         eventDetailLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         eventDetailLabel.setLineWrap(true);
         eventDetailLabel.setEditable(false);
@@ -1724,6 +1744,48 @@ public class Client extends JFrame {
         JLabel ui_jl_back = new JLabel("");
         ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
         ui_jl_back.setIcon(new ImageIcon(img0));
+        
+        //主催者からのメッセージ
+        int message_y = 290+d.height+d2.height;
+        if(ce.getOwnerMessage().length>0) {
+            JTextArea[] eventOwnerMessageLabel = new JTextArea[ce.getOwnerMessage().length];
+            for(int i = 0; i < ce.getOwnerMessage().length;i++) {
+                eventOwnerMessageLabel[i] = new JTextArea(ce.getOwnerMessage()[i],18,1);
+                eventOwnerMessageLabel[i].setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+                eventOwnerMessageLabel[i].setLineWrap(true);
+                eventOwnerMessageLabel[i].setEditable(false);
+                eventOwnerMessageLabel[i].setBackground(Color.WHITE);
+                eventOwnerMessageLabel[i].setRows(calculateLineCount(eventOwnerMessageLabel[i], WINDOW_WIDTH-130));
+                Dimension d3 = eventOwnerMessageLabel[i].getPreferredSize();
+                eventOwnerMessageLabel[i].setBounds(75, message_y, WINDOW_WIDTH-150, d3.height);
+                message_y += d3.height+15;
+                eventPanel.add(eventOwnerMessageLabel[i]);
+            }
+        }
+        
+        //キャンセル
+        username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
+        if(username.equals(ce.getEventOwner())) {
+            System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
+            int message_y2 = message_y+20;
+            if(ce.getCancelMessage().length>0) {
+                JTextArea[] eventCancelMessageLabel = new JTextArea[ce.getCancelMessage().length];
+                for(int i = 0; i < ce.getCancelMessage().length;i++) {
+                    String cancel_txt = "キャンセル者名: "+ce.getCancelName()[i]+System.getProperty("line.separator")+"キャンセル理由: "+ce.getCancelMessage()[i];
+                    eventCancelMessageLabel[i] = new JTextArea(cancel_txt,18,1);
+                    eventCancelMessageLabel[i].setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
+                    eventCancelMessageLabel[i].setLineWrap(true);
+                    eventCancelMessageLabel[i].setEditable(false);
+                    eventCancelMessageLabel[i].setBackground(Color.WHITE);
+                    eventCancelMessageLabel[i].setRows(calculateLineCount(eventCancelMessageLabel[i], WINDOW_WIDTH-130));
+                    Dimension d4 = eventCancelMessageLabel[i].getPreferredSize();
+                    eventCancelMessageLabel[i].setBounds(75, message_y2, WINDOW_WIDTH-150, d4.height);
+                    message_y2 += d4.height+15;
+                    eventPanel.add(eventCancelMessageLabel[i]);
+                }
+            }
+        }
+
 
         // いいねボタン
         //ImageIcon iine;

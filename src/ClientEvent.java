@@ -147,7 +147,7 @@ public class ClientEvent implements Serializable{
 
     //主催者メッセージ取得//
     public String[] getOwnerMessage() {
-        return (String[])eve_own_message.toArray();
+        return (String[])eve_own_message.toArray(new String[eve_own_message.size()]);
     }
 
     public LocalDateTime getLastUpdateTime()
@@ -168,17 +168,17 @@ public class ClientEvent implements Serializable{
 
     //キャンセル者取得//
     public String[] getCancelName() {
-        return (String[])eve_cancel_name.toArray();
+        return (String[])eve_cancel_name.toArray(new String[eve_cancel_name.size()]);
     }
 
     //キャンセル理由取得//
     public String[] getCancelMessage() {
-        return (String[])eve_cancel_message.toArray();
+        return (String[])eve_cancel_message.toArray(new String[eve_cancel_message.size()]);
     }
 
     //キャンセル送信時間取得//
     public LocalDateTime[] getCancelTime() {
-        return (LocalDateTime[])eve_cancel_time.toArray();
+        return (LocalDateTime[])eve_cancel_time.toArray(new LocalDateTime[eve_cancel_time.size()]);
     }
 
     //いいね数取得//
