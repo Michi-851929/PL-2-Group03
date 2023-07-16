@@ -310,7 +310,6 @@ public class Client extends JFrame {
                     if (login_flag == 1) {
                         JOptionPane.showMessageDialog(Client.this, "ログイン成功");
                         login();
-                        notificationScreen();
                     }
                 }
             }
@@ -478,6 +477,7 @@ public class Client extends JFrame {
                 }
                 catch(Exception ex) {
                     register_flag = 1;
+                    ex.printStackTrace();
                 }
 
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -888,14 +888,14 @@ public class Client extends JFrame {
 
   //日付画面
     void dateScreen() {
-    	
-    	try {
-			//event_list.addAll(getADayEvents(ui_ld_looking));
-			System.out.println(event_list);
-		} catch (Exception e3) {
-			// TODO 自動生成された catch ブロック
-			e3.printStackTrace();
-		}
+
+        try {
+            event_list.addAll(getADayEvents(ui_ld_looking));
+            System.out.println(event_list);
+        } catch (Exception e3) {
+            // TODO 自動生成された catch ブロック
+            e3.printStackTrace();
+        }
 
         int WINDOW_HEIGHT = 700;
 
@@ -988,7 +988,7 @@ public class Client extends JFrame {
                 int currentYear = ui_ld_looking.getYear();
                 int currentMonth = ui_ld_looking.getMonthValue();
                 int currentday = ui_ld_looking.getDayOfMonth();
-                
+
 
                 /*
                 JLabel yearLabel = new JLabel(currentYear+"年");
@@ -1003,7 +1003,7 @@ public class Client extends JFrame {
                 monthLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 monthLabel.setVerticalAlignment(SwingConstants.CENTER);
                 //eventPanel.add(monthLabel);
-                 * 
+                 *
                  */
 
                 // 日のコンボボックス
@@ -1080,7 +1080,7 @@ public class Client extends JFrame {
                 monthLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 monthLabel2.setVerticalAlignment(SwingConstants.CENTER);
                 //eventPanel.add(monthLabel2);
-                 * 
+                 *
                  */
 
                 // 日のコンボボックス
@@ -1337,7 +1337,7 @@ public class Client extends JFrame {
         // 一番大きい値を保存する変数を初期化
         int maxgood = 0;
 
-        
+
         // イベントリストをループして一番大きい値を見つける
         for (ClientEvent event : event_list) {
             int sortValue = event.getGood();
@@ -1632,8 +1632,8 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         backButton.setContentAreaFilled(false);
         backgroundPanel.add(backButton);
-        
-        
+
+
         // 編集ボタン
         JButton editButton = new JButton("編集");
         editButton.setBounds(WINDOW_WIDTH-80, 10, 60, 30);
@@ -1653,8 +1653,8 @@ public class Client extends JFrame {
         editButton.setContentAreaFilled(false);
         backgroundPanel.add(editButton);
 
-        
-        
+
+
         //イベント情報を置くパネル
         JPanel eventPanel = new JPanel();
         eventPanel.setLayout(null);
@@ -1741,7 +1741,7 @@ public class Client extends JFrame {
         JLabel ui_jl_back = new JLabel("");
         ui_jl_back.setBounds(0, 0, WINDOW_WIDTH, 675);
         ui_jl_back.setIcon(new ImageIcon(img0));
-        
+
         //主催者からのメッセージ
         int message_y = 290+d.height+d2.height;
         if(ce.getOwnerMessage().length>0) {
@@ -1759,7 +1759,7 @@ public class Client extends JFrame {
                 eventPanel.add(eventOwnerMessageLabel[i]);
             }
         }
-        
+
         //キャンセル
         username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
         if(username.equals(ce.getEventOwner())) {
@@ -2010,7 +2010,7 @@ public class Client extends JFrame {
         
         scrollPane.setViewportView(eventPanel);
         //scrollPane.setOpaque(false);
-        
+
         backgroundPanel.add(scrollPane);
 
         backgroundPanel.add(ui_jl_back);
@@ -2502,11 +2502,11 @@ public class Client extends JFrame {
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         //通信 コミュニティを作る処理
-                    	try {
-                    		String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
-                    		cc.makeCommunity(new Community(nameLabel.getText(),username,summaryLabel.getText(),tmp));
-                    		getNewMessage();
-                    	}catch(Exception e){
+                        try {
+                            String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
+                            cc.makeCommunity(new Community(nameLabel.getText(),username,summaryLabel.getText(),tmp));
+                            getNewMessage();
+                        }catch(Exception e){
                             String error = e.getMessage();
                             if(error.equals(ClientConnect.NOT_FOUND)) {
                                 JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
@@ -2560,10 +2560,10 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     int select = JOptionPane.showConfirmDialog(ui_panel_00, (community.getName() + "から脱退しますか？"), "コミュニティの脱退", JOptionPane.YES_NO_OPTION);
                     if(select == JOptionPane.YES_OPTION) {
-                    	try {
-                    		cc.quitCommunity(community.getName());
-                    		getNewMessage();
-                    	}catch(Exception e){
+                        try {
+                            cc.quitCommunity(community.getName());
+                            getNewMessage();
+                        }catch(Exception e){
                             String error = e.getMessage();
                             if(error.equals(ClientConnect.NOT_FOUND)) {
                                 JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
@@ -2581,8 +2581,8 @@ public class Client extends JFrame {
                             }
 
                         }
-                    
-                    	
+
+
                         System.out.println(community.getName() + "から脱退しました");
                     }
                 }
@@ -2640,15 +2640,16 @@ public class Client extends JFrame {
                     return;
                 }//検索語が正しくない場合
 
-                ArrayList<Community> search_list = new ArrayList<>();/*通信部分
+                ArrayList<Community> search_list = new ArrayList<>();//通信部分
                 try {
-                    search_list = cc.searchCommunity(search_word);
+                    Community[] list = cc.searchCommunity(search_word);
+                    for(int i = 0; i < list.length; i++) {
+                        search_list.add(list[i]);
+                    }
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
-*/
-                search_list.addAll(community_list);
                 ui_panel_40.removeAll();
                 for(Community community : search_list) {
                     Image img = createImage(350, 150);
@@ -2656,10 +2657,24 @@ public class Client extends JFrame {
                     g.setColor(THEME_COLOR);
                     g.fillRect(0, 0, 350, 150);
                     g.setColor(Color.WHITE);
-                    g.fillRoundRect(0, 0, 350, 130, 20, 20);
+                    g.fillRoundRect(0, 0, 350, 130, 30, 30);
                     g.setColor(Color.BLACK);
-                    g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 48));
-                    g.drawString(community.getName(), 15, 55);
+                    g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
+                    g.drawString(community.getName(), 15, 30);
+                    String[] tags = community.getTag();
+                    for(int i = 0; i < tags.length; i++) {
+                        if(tags[i] == null) {
+                            break;
+                        }
+                        g.setColor(new Color(0, 112, 192));
+                        kadomaruRect(g, 30, 36 + 18 * i, 150, 15, 5);
+                        g.setColor(Color.WHITE);
+                        g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
+                        g.drawString(tags[i], 42, 48 + 18 * i);
+                    }
+                    g.setColor(Color.BLACK);
+                    g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
+                    g.drawString((Integer.toString(community.getPopulation()) + "人"), 56, 250);
 
                     JButton ui_jb_scomm = new JButton(community.getName());
                     ui_jb_scomm.setSize(350, 150);
@@ -2674,10 +2689,10 @@ public class Client extends JFrame {
                             String s = ae.getActionCommand();//コミュニティ名
                             int select = JOptionPane.showConfirmDialog(ui_panel_00, (s + "に加入しますか？"), "コミュニティの加入", JOptionPane.YES_NO_OPTION);
                             if(select == JOptionPane.YES_OPTION) {
-                            	try {
-                            		cc.joinCommunity(s);
-                            		getNewMessage();
-                            	}catch(Exception e){
+                                try {
+                                    cc.joinCommunity(s);
+                                    getNewMessage();
+                                }catch(Exception e){
                                     String error = e.getMessage();
                                     if(error.equals(ClientConnect.NOT_FOUND)) {
                                         JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
@@ -2702,7 +2717,6 @@ public class Client extends JFrame {
                     });
                     ui_panel_40.add(ui_jb_scomm);
                     ui_sp_01.setViewportView(ui_panel_40);
-                    System.out.println("aaa");
                 }
                 ui_panel_40.repaint();
             }
