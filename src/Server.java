@@ -548,28 +548,51 @@ public class Server extends JFrame implements ActionListener{
         getEvent(event_id).setOwnerMessage(message);
     }
     
-    public boolean getEventMakeSig(Account account) 
+    public boolean getEventMakeSig(Account account) //いいね数からイベント作成できるかを判断
     {
     	int total_good=0;
     	int limit_eventnum;
+    	int today_eventnum=0;
+    	Calendar today = Calendar.getInstance();
     	for(String event_id : account.getEventMade()) {
     		total_good+=this.getEvent(event_id).getJoin();
     	}
     	if(total_good<10) {
+    		limit_eventnum=2;
+    	}else if(total_good<50) {
+    		limit_eventnum=5;
+    	}else if(total_good<100) {
     		limit_eventnum=10;
+    	}else if(total_good<500) {
+    		limit_eventnum=20;
     	}else {
-    		limit_eventnum=total_good;
+    		limit_eventnum=30;
     	}
-    	if(account.getTotalEventMade()<limit_eventnum) {
+    	
+    	
+    	if(today_eventnum<limit_eventnum) {
+    		today_eventnum++;
+    		today=this.getToday();
     		return true;
     	}else {
-    		return false;
+    		if(this.getToday().compareTo(today) == 0) {
+    			return false;
+    		}else {
+    			today_eventnum=1;
+    			today=this.getToday();
+        		return true;
+    		}
     	}
     }
     
-    public void getToday() {
+    public Calendar getToday() {//その日の日付(時分秒切り捨て)を取得
     	Calendar calendar = Calendar.getInstance();
-    	calendar.getTime();
+    	calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        
+        return calendar;
     }
 
     public void actionPerformed(ActionEvent ae)
