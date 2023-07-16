@@ -640,7 +640,7 @@ public class Client extends JFrame {
                 ui_jb_calendar[7 * i + j] = new JButton();
                 ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
                 try {
-                    ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, getNumberEvent(sortEvent(getADayEvents(date)),0), getNumberEvent(sortEvent(getADayEvents(date)),1)));
+                    ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, getADayEvents(date).size(), getNumberEvent(sortEvent(getADayEvents(date)),0), getNumberEvent(sortEvent(getADayEvents(date)),1)));
                 } catch (Exception e) {
                     // TODO 自動生成された catch ブロック
                     e.printStackTrace();
