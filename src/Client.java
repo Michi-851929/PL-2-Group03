@@ -1992,18 +1992,21 @@ public class Client extends JFrame {
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-90);
         scrollPane.setBounds(0,0, WINDOW_WIDTH, WINDOW_HEIGHT-90);
-        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
+        scrollPane.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 0));
         scrollPane.setBackground(THEME_COLOR);
+        scrollPane.setOpaque(false);
+        scrollPane.setVisible(true);
 
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
-        ui_sb_00.setOpaque(true);
+        ui_sb_00.setOpaque(false);
         ui_sb_00.setBackground(THEME_COLOR);
-        ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+        ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
         ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(true);
 
-        scrollPane.setOpaque(false);
-        eventPanel.setOpaque(false);
+        eventPanel.setOpaque(true);
+        eventPanel.setBackground(Color.white);
+        //scrollPane.setBackground(GOOD_COLOR);
         
         scrollPane.setViewportView(eventPanel);
         //scrollPane.setOpaque(false);
@@ -2011,6 +2014,7 @@ public class Client extends JFrame {
         backgroundPanel.add(scrollPane);
 
         backgroundPanel.add(ui_jl_back);
+        backgroundPanel.setOpaque(false);
         
         contentPane1.add(backgroundPanel);
 
