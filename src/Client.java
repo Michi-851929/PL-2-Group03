@@ -2521,7 +2521,7 @@ public class Client extends JFrame {
                             }else if(error.equals(ClientConnect.ERROR)) {
                                 JOptionPane.showMessageDialog(Client.this, "既存のコミュニティと名前が重複しています.変更して再度お試しください。");
                             }else{
-                                JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                JOptionPane.showMessageDialog(Client.this,e.getMessage());
                             }
 
                         }
