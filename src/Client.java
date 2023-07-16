@@ -2281,7 +2281,7 @@ public class Client extends JFrame {
         ui_panel_00.setBackground(THEME_COLOR);
         ui_panel_00.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         ui_panel_00.setLayout(null);
-        //背景補完
+        //検索フォーム
         JTextField ui_tf_search = new JTextField(16);
         ui_tf_search.setBounds(215, 20, 300, 50);
         ui_tf_search.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
@@ -2307,15 +2307,30 @@ public class Client extends JFrame {
         //戻るボタン
         JButton ui_jb_back = new JButton("");
         ui_jb_back.setBounds(15, 13, 60, 50);
+        ui_jb_back.setBackground(THEME_COLOR);
+        ui_jb_back.setForeground(THEME_COLOR);
+        ui_jb_back.setOpaque(true);
+        ui_jb_back.setMargin(new Insets(0,0,0,0));
+        ui_jb_back.setBorderPainted(false);
         ui_jb_back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
                 userScreen();
             }
         });
-        ImageIcon icon = new ImageIcon("src/back.png");
-        ui_jb_back.setIcon(icon);
+        ui_jb_back.setIcon(new ImageIcon("src/back.png"));
         ui_panel_00.add(ui_jb_back);
+
+        //検索ボタン
+        JButton ui_jb_search = new JButton("");
+        ui_jb_search.setBounds(520, 18, 50, 50);
+        ui_jb_search.setBackground(THEME_COLOR);
+        ui_jb_search.setForeground(THEME_COLOR);
+        ui_jb_search.setOpaque(true);
+        ui_jb_search.setMargin(new Insets(0,0,0,0));
+        ui_jb_search.setBorderPainted(false);
+        ui_jb_search.setIcon(new ImageIcon("src/search.png"));
+        ui_panel_00.add(ui_jb_search);
 
 
         //所属コミュニティ
@@ -2349,7 +2364,7 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     int select = JOptionPane.showConfirmDialog(ui_panel_00, (community.getName() + "から脱退しますか？"), "コミュニティの脱退", JOptionPane.YES_NO_OPTION);
                     if(select == JOptionPane.YES_OPTION) {
-                        //通信
+                        //通信など コミュニティから脱退する処理
                         System.out.println(community.getName() + "から脱退しました");
                     }
                 }
@@ -2381,9 +2396,10 @@ public class Client extends JFrame {
         JPanel ui_panel_03 = new JPanel();
         ui_panel_03.setLayout(null);
         ui_panel_03.setBounds(215, 75 + 10, 370, 600 - 10);
-        JPanel ui_panel_04 = new JPanel();
-        ui_panel_04.setBackground(THEME_COLOR);
-        ui_panel_04.setLayout(new BoxLayout(ui_panel_04, BoxLayout.Y_AXIS));
+        JPanel ui_panel_40 = new JPanel();
+        ui_panel_40.setBackground(THEME_COLOR);
+        ui_panel_40.setBounds(0, 0, 370, 600);
+        ui_panel_40.setLayout(new BoxLayout(ui_panel_40, BoxLayout.Y_AXIS));
 
         JScrollPane ui_sp_01 = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         ui_sp_01.setSize(370, 600);
@@ -2397,20 +2413,75 @@ public class Client extends JFrame {
         ui_sb_01.setUI(getScrollBarUI());
         ui_sb_01.setVisible(false);
 
-        ui_sp_01.setViewportView(ui_panel_04);
+        ui_jb_search.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+
+                String search_word = ui_tf_search.getText();
+                if(search_word.equals("") || search_word.equals("コミュニティ検索")) {
+                    JOptionPane.showMessageDialog(null, "検索語を入力してください。", "エラー", JOptionPane.ERROR_MESSAGE);
+                }//検索語が正しくない場合
+
+                ArrayList<Community> search_list = new ArrayList<>();/*通信部分
+                try {
+                    search_list = cc.searchCommunity(search_word);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+*/
+                search_list.addAll(community_list);
+                ui_panel_40.removeAll();
+                for(Community community : search_list) {
+                    Image img = createImage(350, 150);
+                    Graphics g = img.getGraphics();
+                    g.setColor(THEME_COLOR);
+                    g.fillRect(0, 0, 350, 150);
+                    g.setColor(Color.WHITE);
+                    g.fillRoundRect(0, 0, 350, 130, 20, 20);
+                    g.setColor(Color.BLACK);
+                    g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 48));
+                    g.drawString(community.getName(), 15, 55);
+
+                    JButton ui_jb_scomm = new JButton(community.getName());
+                    ui_jb_scomm.setSize(350, 150);
+                    ui_jb_scomm.setBackground(THEME_COLOR);
+                    ui_jb_scomm.setForeground(THEME_COLOR);
+                    ui_jb_scomm.setOpaque(true);
+                    ui_jb_scomm.setMargin(new Insets(0,0,0,0));
+                    ui_jb_scomm.setBorderPainted(false);
+                    ui_jb_scomm.setIcon(new ImageIcon(img));
+                    ui_jb_scomm.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent ae) {
+                            String s = ae.getActionCommand();//コミュニティ名
+                            int select = JOptionPane.showConfirmDialog(ui_panel_00, (s + "に加入しますか？"), "コミュニティの加入", JOptionPane.YES_NO_OPTION);
+                            if(select == JOptionPane.YES_OPTION) {
+                                //通信など コミュニティに加入する処理
+                                System.out.println(s + "に加入しました");
+                            }
+                        }
+                    });
+                    ui_panel_40.add(ui_jb_scomm);
+                    ui_sp_01.setViewportView(ui_panel_40);
+                    System.out.println("aaa");
+                }
+                ui_panel_40.repaint();
+            }
+        });
+
+        ui_sp_01.setViewportView(ui_panel_40);
         ui_panel_03.add(ui_sp_01);
         ui_panel_00.add(ui_panel_03);
 
 
         JLabel ui_jl_ue = new JLabel();
         ui_jl_ue.setBounds(-3, 75, 200, 30);
-        Image img = createImage(200, 30);
-        Graphics g = img.getGraphics();
-        g.setColor(THEME_COLOR);
-        g.fillRect(0, 0, 200, 30);
-        g.setColor(Color.WHITE);
-        kadomaruRect(g, -40, 0, 240, 60, 40);
-        ui_jl_ue.setIcon(new ImageIcon(img));
+        Image ue_img = createImage(200, 30);
+        Graphics ue_g = ue_img.getGraphics();
+        ue_g.setColor(THEME_COLOR);
+        ue_g.fillRect(0, 0, 200, 30);
+        ue_g.setColor(Color.WHITE);
+        kadomaruRect(ue_g, -40, 0, 240, 60, 40);
+        ui_jl_ue.setIcon(new ImageIcon(ue_img));
         ui_panel_00.add(ui_jl_ue);
 
 
