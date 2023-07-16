@@ -2341,6 +2341,109 @@ public class Client extends JFrame {
         ui_panel_02.setBackground(Color.WHITE);
         ui_panel_02.setLayout(new BoxLayout(ui_panel_02, BoxLayout.Y_AXIS));
 
+        Image make_img = createImage(180, 120);
+        Graphics make_g = make_img.getGraphics();
+        make_g.setColor(Color.WHITE);
+        make_g.fillRect(0, 0, 180, 120);
+        make_g.setColor(new Color(255, 192, 0));
+        Client.kadomaruRect(make_g, -100, 0, 280, 100, 100);
+        make_g.setColor(Color.WHITE);
+        make_g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 48));
+        make_g.drawString("+", 70, 70);
+
+
+        JButton ui_jb_make = new JButton();//コミュニティ作成
+        ui_jb_make.setBackground(Color.WHITE);
+        ui_jb_make.setForeground(Color.WHITE);
+        ui_jb_make.setOpaque(true);
+        ui_jb_make.setMargin(new Insets(0,0,0,0));
+        ui_jb_make.setBorderPainted(false);
+        ui_jb_make.setIcon(new ImageIcon(make_img));
+
+        ui_jb_make.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                JDialog eventDialog = new JDialog();
+                eventDialog.setTitle("イベント作成");
+                eventDialog.setModal(true); // モーダルダイアログとして設定
+                eventDialog.setSize(500, 500);
+                eventDialog.setLocationRelativeTo(null); // 中央に配置
+
+                // イベント作成画面のコンポーネントを追加
+                // TODO: イベント作成画面のコンポーネントを追加する処理を記述
+                // イベント作成画面のコンポーネントを追加
+                JPanel eventPanel = new JPanel();
+                eventPanel.setLayout(null);
+                eventPanel.setBackground(THEME_COLOR);
+
+                // イベント名入力フィールド
+                JLabel nameLabel = new JLabel("コミュニティ名:");
+                nameLabel.setBounds(20, 20, 100, 30);
+                eventPanel.add(nameLabel);
+
+                JTextField nameField = new JTextField();
+                nameField.setBounds(120, 20, 315, 30);
+                eventPanel.add(nameField);
+
+                // 概要入力フィールド
+                JLabel summaryLabel = new JLabel("概要:");
+                summaryLabel.setBounds(20, 70, 100, 30);
+                eventPanel.add(summaryLabel);
+
+                JTextArea summaryArea = new JTextArea();
+                summaryArea.setBounds(120, 70, 315, 80);
+                summaryArea.setLineWrap(true);
+                summaryArea.setWrapStyleWord(true);
+                summaryArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                JScrollPane summaryScrollPane = new JScrollPane(summaryArea);
+                summaryScrollPane.setBounds(120, 70, 315, 80);
+                summaryScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                summaryScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                eventPanel.add(summaryScrollPane);
+
+                for(int i = 0; i < 5; i++) {
+                    // タグ入力フィールド
+                    JLabel tagLabel = new JLabel("タグ" + Integer.toString(i + 1) + ":");
+                    tagLabel.setBounds(20, 170 + 40 * i, 100, 30);
+                    eventPanel.add(tagLabel);
+
+                    JTextField tagField = new JTextField();
+                    tagField.setBounds(120, 170 + 40 * i, 315, 30);
+                    eventPanel.add(tagField);
+                }
+
+
+                BufferedImage img = createBackgroundImage(60, 40);
+                Graphics g = img.getGraphics();
+                g.setColor(Color.WHITE);
+                Client.kadomaruRect(g, 0, 0, 60, 40, 8, Color.WHITE, THEME_COLOR);
+                g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+                g.setColor(Color.BLACK);
+                g.drawString("作成", 9, 27);
+                JButton addButton = new JButton("");
+                addButton.setBackground(THEME_COLOR);
+                addButton.setForeground(Color.black);
+                addButton.setOpaque(true);
+                addButton.setBorderPainted(false);
+                addButton.setBounds(220,400,60,40);
+                addButton.setIcon(new ImageIcon(img));
+
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        //通信 コミュニティを作る処理
+                    }
+                });
+                eventPanel.add(addButton);
+
+                // イベント作成ダイアログにパネルを追加
+                eventDialog.add(eventPanel);
+
+
+                eventDialog.setVisible(true);
+            }
+        });
+        ui_panel_02.add(ui_jb_make);
+
         for (Community community : community_list) {
             Image img = createImage(180, 120);
             Graphics g = img.getGraphics();
