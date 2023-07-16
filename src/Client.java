@@ -3061,7 +3061,7 @@ public class Client extends JFrame {
             e.printStackTrace();
         }
         try {
-            this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys((String[])account.getCommunity().toArray()));
+            this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
         } catch (Exception e) {
             e.printStackTrace();
         }
