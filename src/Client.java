@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -209,7 +211,7 @@ public class Client extends JFrame {
 
     }
 
-    //ログイン画面
+  //ログイン画面
     void loginScreen() {
         //int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
         int button_width = 200;
@@ -311,6 +313,16 @@ public class Client extends JFrame {
                         JOptionPane.showMessageDialog(Client.this, "ログイン成功");
                         login();
                     }
+                }
+            }
+        });
+        
+        // パスワードフィールドにキーリスナーを追加
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    loginButton.doClick(); // ログインボタンのクリックイベントをトリガーする
                 }
             }
         });
@@ -2488,7 +2500,7 @@ public class Client extends JFrame {
                         //通信 コミュニティを作る処理
                         try {
                             String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
-                            cc.makeCommunity(new Community(nameLabel.getText(),username,summaryLabel.getText(),tmp));
+                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),tmp));
                             getNewMessage();
                         }catch(Exception e){
                             String error = e.getMessage();
@@ -2730,7 +2742,7 @@ public class Client extends JFrame {
     }
 
     //通知画面
-    void notificationScreen() {
+    void notificationScreen(String community,String event,String number,String message) {
 
         final int WINDOW_WIDTH = 300;
         final int WINDOW_HEIGHT = 200;
@@ -2759,11 +2771,6 @@ public class Client extends JFrame {
         backgroundPanel.setBackground(THEME_COLOR);
 
         // 通知ラベルの設定
-        // ここに通知内容を入れてください
-        String number = ("2");
-        String community = ("コミュニティ名");
-        String event = ("イベント名");
-        String message = ("テストです。どのように表示されるか確認しています。自動改行は有効ですか？\n改行も問題ありませんね。\n文字数が枠を超えてもスクロールできるように設計したつもりです。\nテストーーーーーー");
 
         JLabel numberLabel = new JLabel(number+"件の通知が届いています。");
         numberLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
@@ -2796,7 +2803,7 @@ public class Client extends JFrame {
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
         ui_sb_00.setOpaque(true);
         ui_sb_00.setBackground(Color.WHITE);
-      //ui_sb_00.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10));
+        //ui_sb_00.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10));
         ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(false);
 
@@ -3062,8 +3069,7 @@ public class Client extends JFrame {
             e.printStackTrace();
         }
         try {
-        	String[] n = {}; 
-        	if(!account.getCommunity().equals(n)) { 
+        	if(!(account.getCommunity().length==0)) { 
         		this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
         	}
         } catch (Exception e) {
@@ -3180,9 +3186,10 @@ public class Client extends JFrame {
                 if(login_flag ==1) {
                     update();
                     ArrayList<String> go = account.getEventGoing();
-                    ArrayList<ClientEvent> go_event = null;
+                    ArrayList<ClientEvent> go_event = new ArrayList<>();
                     ArrayList<String[]> out_list= new ArrayList<>();
                     try {
+                    	if(!go.isEmpty()) {
                         go_event = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])go.toArray()));
                         go_event.forEach(event->{
                             String[] tmp = {"","","",""};
@@ -3197,7 +3204,13 @@ public class Client extends JFrame {
                         });
                         out_list.forEach(data->{
                         //dataを出力してください
+                        	String communityName = data[0];
+                            String eventName = data[1];
+                            String messageCount = data[2];
+                            String latestMessage = data[3];
+                            notificationScreen(communityName, eventName, messageCount, latestMessage);
                         });
+                    	}
                     } catch (Exception e) {
                     // TODO 自動生成された catch ブロック
                         e.printStackTrace();

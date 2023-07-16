@@ -224,7 +224,7 @@ class ConnectThread extends Thread{
                     if(flag == 0) {
                         ans.mode = 4;
                     }else {
-                        ans.message = (ClientEvent[])at.toArray();
+                        ans.message = (ClientEvent[])at.toArray(new ClientEvent[at.size()]);
                     }
                 }else if(m.mode == 19) {
                     String[] st=(String[]) m.message;
@@ -241,7 +241,7 @@ class ConnectThread extends Thread{
                     if(flag == 0) {
                         ans.mode = 4;
                     }else {
-                        ans.message = (Community[])at.toArray();
+                        ans.message = (Community[])at.toArray(new Community[at.size()]);
                     }
                 }else {
                     ans.mode = 5;
