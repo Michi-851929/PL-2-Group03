@@ -2487,7 +2487,7 @@ public class Client extends JFrame {
                         //通信 コミュニティを作る処理
                         try {
                             String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
-                            cc.makeCommunity(new Community(nameLabel.getText(),username,summaryLabel.getText(),tmp));
+                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),tmp));
                             getNewMessage();
                         }catch(Exception e){
                             String error = e.getMessage();
