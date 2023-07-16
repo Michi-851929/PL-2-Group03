@@ -470,16 +470,6 @@ public class Client extends JFrame {
                 System.out.println("username:"+username);
                 System.out.println("password:"+password);
                 System.out.println("macaddress:"+macaddress);
-
-                try {
-                    cc.createAccount(username, password, macaddress);
-                    register_flag = 0;
-                }
-                catch(Exception ex) {
-                    register_flag = 1;
-                    ex.printStackTrace();
-                }
-
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
                 }else if (!password.equals(confirmPassword)) {
@@ -487,28 +477,20 @@ public class Client extends JFrame {
                 } else {
                     try {
                         cc.createAccount(username, password, macaddress);
-                    } catch (Exception e1) {
-                        if(e1.getMessage().equals(ClientConnect.USER)) {
-                            JOptionPane.showMessageDialog(Client.this, "既存のユーザーと名前が重複しています。別の名前をお試しください。");
-                            register_flag = 2;
-                        }else if(e1.getMessage().equals(ClientConnect.MAC)) {
-                             JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。サーバー管理者にお問い合わせください" );
-                             register_flag = 2;
-                        }else {
-                            register_flag = 1;
-                        }
-                    }
-                    if(register_flag==0) {
                         JOptionPane.showMessageDialog(Client.this, "アカウント登録成功");
                         login_flag = 1;
                         login();
-                    }else if(register_flag==1){
-                        JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                    } catch (Exception e1) {
+                        if(e1.getMessage().equals(ClientConnect.USER)) {
+                            JOptionPane.showMessageDialog(Client.this, "既存のユーザーと名前が重複しています。別の名前をお試しください。");
+                        }else if(e1.getMessage().equals(ClientConnect.MAC)) {
+                             JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。サーバー管理者にお問い合わせください" );
+                        }else {
+                        	 JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                        }
                     }
                 }
-
             }
-
         });
 
         // 戻るボタン
@@ -658,7 +640,7 @@ public class Client extends JFrame {
                 ui_jb_calendar[7 * i + j] = new JButton();
                 ui_jb_calendar[7 * i + j].setText((7 * i + j + 1 >= 10 ? "" : "0") + Integer.toString(7 * i + j + 1));
                 try {
-                    ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, 43, getNumberEvent(sortEvent(getADayEvents(date)),0), getNumberEvent(sortEvent(getADayEvents(date)),1)));
+                    ui_jb_calendar[7 * i + j].setIcon(getDateIcon(date, getADayEvents(date).size(), getNumberEvent(sortEvent(getADayEvents(date)),0), getNumberEvent(sortEvent(getADayEvents(date)),1)));
                 } catch (Exception e) {
                     // TODO 自動生成された catch ブロック
                     e.printStackTrace();
@@ -2277,6 +2259,9 @@ public class Client extends JFrame {
                             try {
                                 cc.changePassword(newPass);
                                 getNewMessage();
+                                password = newPass;
+                                JOptionPane.showMessageDialog(Client.this, "パスワードを変更しました。");
+                                userScreen();
                             } catch (Exception e) {
                                 String error = e.getMessage();
                                 if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2292,9 +2277,7 @@ public class Client extends JFrame {
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                 }
                             }
-                            password = newPass;
-                            JOptionPane.showMessageDialog(Client.this, "パスワードを変更しました。");
-                            userScreen();
+                            
                         }
                         else {
                             JOptionPane.showMessageDialog(Client.this, "新パスワードとパスワード確認欄に入力したパスワードが一致しません。");
@@ -3078,7 +3061,10 @@ public class Client extends JFrame {
             e.printStackTrace();
         }
         try {
-            this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
+        	String[] n = {}; 
+        	if(!account.getCommunity().equals(n)) { 
+        		this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
+        	}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3093,7 +3079,9 @@ public class Client extends JFrame {
             });
         });
         try {
-            this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
+        	if(!community_list.isEmpty()) {
+        		this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
+        	}
         } catch (Exception e1) {
             // TODO 自動生成された catch ブロック
             e1.printStackTrace();
