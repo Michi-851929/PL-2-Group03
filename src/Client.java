@@ -2500,9 +2500,9 @@ public class Client extends JFrame {
                         try {
                             ArrayList<String> tmp = new ArrayList<>();
                             for(int i = 0;i < 5;i++) {
-                            	if(!tagField[i].getText().equals("")) {
-                            		tmp.add(tagField[i].getText());
-                            	}
+                                if(!tagField[i].getText().equals("")) {
+                                    tmp.add(tagField[i].getText());
+                                }
                             }
                             cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray(new String[tmp.size()])));
                             getNewMessage();
@@ -3091,7 +3091,7 @@ public class Client extends JFrame {
         });
         try {
             if(!community_list.isEmpty()) {
-                this.event_list = cc.getEvents((String[])ct.toArray());
+                this.event_list = cc.getEvents((String[])ct.toArray(new String[ct.size()]));
             }
         } catch (Exception e1) {
             // TODO 自動生成された catch ブロック
