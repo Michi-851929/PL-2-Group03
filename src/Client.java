@@ -2505,7 +2505,7 @@ public class Client extends JFrame {
                             		tmp.add(tagField[0].getText());
                             	}
                             }
-                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray()));
+                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray(new String[tmp.size()])));
                             getNewMessage();
                         }catch(Exception e){
                             String error = e.getMessage();
