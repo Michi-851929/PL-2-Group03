@@ -3079,8 +3079,7 @@ public class Client extends JFrame {
             });
         });
         try {
-        	ArrayList<String> n = new ArrayList<>();
-        	if(!community_list.equals(n)) {
+        	if(!community_list.isEmpty()) {
         		this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
         	}
         } catch (Exception e1) {
