@@ -3061,7 +3061,10 @@ public class Client extends JFrame {
             e.printStackTrace();
         }
         try {
-            this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
+        	String[] n = {}; 
+        	if(!account.getCommunity().equals(n)) { 
+        		this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
+        	}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3076,7 +3079,10 @@ public class Client extends JFrame {
             });
         });
         try {
-            this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
+        	ArrayList<String> n = new ArrayList<>();
+        	if(!community_list.equals(n)) {
+        		this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
+        	}
         } catch (Exception e1) {
             // TODO 自動生成された catch ブロック
             e1.printStackTrace();
