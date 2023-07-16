@@ -3178,7 +3178,7 @@ public class Client extends JFrame {
                 if(login_flag ==1) {
                     update();
                     ArrayList<String> go = account.getEventGoing();
-                    ArrayList<ClientEvent> go_event = null;
+                    ArrayList<ClientEvent> go_event = new ArrayList<>();
                     ArrayList<String[]> out_list= new ArrayList<>();
                     try {
                         go_event = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])go.toArray()));
