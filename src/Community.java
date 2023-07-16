@@ -22,7 +22,7 @@ public class Community implements Serializable{
         com_name = name;
         com_owner = owner;
         com_info = info;
-        for(int i = 0; i<tag.length;i++) {
+        for(int i = 0; i<5;i++) {
             com_tag[i] = tag[i];
         }
         com_member = new ArrayList<>();
