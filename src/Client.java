@@ -888,6 +888,14 @@ public class Client extends JFrame {
 
   //日付画面
     void dateScreen() {
+    	
+    	try {
+			//event_list.addAll(getADayEvents(ui_ld_looking));
+			System.out.println(event_list);
+		} catch (Exception e3) {
+			// TODO 自動生成された catch ブロック
+			e3.printStackTrace();
+		}
 
         int WINDOW_HEIGHT = 700;
 
@@ -912,16 +920,17 @@ public class Client extends JFrame {
         ui_panel_00.add(ui_panel_01);
 
         // 戻るボタン
-        JButton backButton = new JButton("");
+        JButton backButton = new JButton("←");
         backButton.setBounds(15, 13, 60, 50);
+        backButton.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
                 calendarScreen();
             }
         });
-        ImageIcon icon = new ImageIcon("src/back.png");
-        backButton.setIcon(icon);
+        //ImageIcon icon = new ImageIcon("src/back.png");
+        //backButton.setIcon(icon);
 
         // ボタンの余白を調整
         backButton.setMargin(new Insets(0, 0, 0, 0));
@@ -979,48 +988,33 @@ public class Client extends JFrame {
                 int currentYear = ui_ld_looking.getYear();
                 int currentMonth = ui_ld_looking.getMonthValue();
                 int currentday = ui_ld_looking.getDayOfMonth();
+                
 
-                // 年のコンボボックス
-                yearComboBox = new JComboBox<>();
-                for (int year = currentYear - 10; year <= currentYear + 10; year++) {
-                    yearComboBox.addItem(year);
-                }
-                yearComboBox.setSelectedItem(currentYear); // 現在の年を選択
-                yearComboBox.setBounds(120, 60, 55, 30);
-                yearComboBox.addActionListener(e -> updateDayComboBox(yearComboBox,monthComboBox,dayComboBox));
-                eventPanel.add(yearComboBox);
-
-                JLabel yearLabel = new JLabel("年");
-                yearLabel.setBounds(175, 60, 20, 30);
+                /*
+                JLabel yearLabel = new JLabel(currentYear+"年");
+                yearLabel.setBounds(120, 60, 75, 30);
                 yearLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 yearLabel.setVerticalAlignment(SwingConstants.CENTER);
-                eventPanel.add(yearLabel);
+                //eventPanel.add(yearLabel);
 
-                // 月のコンボボックス
-                monthComboBox = new JComboBox<>();
-                for (int month = 1; month <= 12; month++) {
-                    monthComboBox.addItem(String.format("%02d", month));
-                }
-                monthComboBox.setSelectedItem(String.format("%02d", currentMonth)); // 現在の月を選択
-                monthComboBox.setBounds(195, 60, 40, 30);
-                monthComboBox.addActionListener(e -> updateDayComboBox(yearComboBox,monthComboBox,dayComboBox));
-                eventPanel.add(monthComboBox);
 
-                JLabel monthLabel = new JLabel("月");
-                monthLabel.setBounds(235, 60, 20, 30);
+                JLabel monthLabel = new JLabel(currentMonth+"月");
+                monthLabel.setBounds(195, 60, 60, 30);
                 monthLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 monthLabel.setVerticalAlignment(SwingConstants.CENTER);
-                eventPanel.add(monthLabel);
+                //eventPanel.add(monthLabel);
+                 * 
+                 */
 
                 // 日のコンボボックス
                 dayComboBox = new JComboBox<>();
-                updateDayComboBox(yearComboBox,monthComboBox,dayComboBox); // 初期の日の選択肢を設定
-                dayComboBox.setBounds(255, 60, 40, 30);
+                updateDayComboBox(currentYear,currentMonth,dayComboBox); // 初期の日の選択肢を設定
+                dayComboBox.setBounds(120, 60, 40, 30);
                 dayComboBox.setSelectedItem(String.format("%02d", currentday));
                 eventPanel.add(dayComboBox);
 
                 JLabel dayLabel = new JLabel("日");
-                dayLabel.setBounds(295, 60, 20, 30);
+                dayLabel.setBounds(160, 60, 20, 30);
                 dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 dayLabel.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(dayLabel);
@@ -1028,22 +1022,22 @@ public class Client extends JFrame {
                 // 時間のコンボボックス
                 String[] hour = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
                 JComboBox<String> hourComboBox = new JComboBox<>(hour);
-                hourComboBox.setBounds(315, 60, 40, 30);
+                hourComboBox.setBounds(180, 60, 40, 30);
                 eventPanel.add(hourComboBox);
 
                 JLabel hourLabel = new JLabel("時");
-                hourLabel.setBounds(355, 60, 20, 30);
+                hourLabel.setBounds(220, 60, 20, 30);
                 hourLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 hourLabel.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(hourLabel);
 
                 String[] minute = {"00","05","10","15","20","25","30","35","40","45","50","55"};
                 JComboBox<String> minuteComboBox = new JComboBox<>(minute);
-                minuteComboBox.setBounds(375, 60, 40, 30);
+                minuteComboBox.setBounds(240, 60, 40, 30);
                 eventPanel.add(minuteComboBox);
 
                 JLabel minuteLabel = new JLabel("分");
-                minuteLabel.setBounds(415, 60, 20, 30);
+                minuteLabel.setBounds(280, 60, 20, 30);
                 minuteLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 minuteLabel.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(minuteLabel);
@@ -1055,6 +1049,7 @@ public class Client extends JFrame {
                 endTimeLabel.setBounds(20, 100, 100, 30);
                 eventPanel.add(endTimeLabel);
 
+                /*
                 // 年のコンボボックス
                 yearComboBox2 = new JComboBox<>();
                 for (int year2 = currentYear - 10; year2 <= currentYear + 10; year2++) {
@@ -1062,14 +1057,14 @@ public class Client extends JFrame {
                 }
                 yearComboBox2.setSelectedItem(currentYear); // 現在の年を選択
                 yearComboBox2.setBounds(120, 100, 55, 30);
-                yearComboBox2.addActionListener(e -> updateDayComboBox(yearComboBox2,monthComboBox2,dayComboBox2));
-                eventPanel.add(yearComboBox2);
+                yearComboBox2.addActionListener(e -> updateDayComboBox(currentYear,currentMonth,dayComboBox2));
+                //eventPanel.add(yearComboBox2);
 
                 JLabel yearLabel2 = new JLabel("年");
                 yearLabel2.setBounds(175, 100, 20, 30);
                 yearLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 yearLabel2.setVerticalAlignment(SwingConstants.CENTER);
-                eventPanel.add(yearLabel2);
+                //eventPanel.add(yearLabel2);
 
                 // 月のコンボボックス
                 monthComboBox2 = new JComboBox<>();
@@ -1078,24 +1073,25 @@ public class Client extends JFrame {
                 }
                 monthComboBox2.setSelectedItem(String.format("%02d", currentMonth)); // 現在の月を選択
                 monthComboBox2.setBounds(195, 100, 40, 30);
-                monthComboBox2.addActionListener(e -> updateDayComboBox(yearComboBox2,monthComboBox2,dayComboBox2));
-                eventPanel.add(monthComboBox2);
+                monthComboBox2.addActionListener(e -> updateDayComboBox(currentYear,currentMonth,dayComboBox2));
 
                 JLabel monthLabel2 = new JLabel("月");
                 monthLabel2.setBounds(235, 100, 20, 30);
                 monthLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 monthLabel2.setVerticalAlignment(SwingConstants.CENTER);
-                eventPanel.add(monthLabel2);
+                //eventPanel.add(monthLabel2);
+                 * 
+                 */
 
                 // 日のコンボボックス
                 dayComboBox2 = new JComboBox<>();
-                updateDayComboBox(yearComboBox2,monthComboBox2,dayComboBox2); // 初期の日の選択肢を設定
-                dayComboBox2.setBounds(255, 100, 40, 30);
+                updateDayComboBox(currentYear,currentMonth,dayComboBox2); // 初期の日の選択肢を設定
+                dayComboBox2.setBounds(120, 100, 40, 30);
                 dayComboBox2.setSelectedItem(String.format("%02d", currentday));
                 eventPanel.add(dayComboBox2);
 
                 JLabel dayLabel2 = new JLabel("日");
-                dayLabel2.setBounds(295, 100, 20, 30);
+                dayLabel2.setBounds(160, 100, 20, 30);
                 dayLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 dayLabel2.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(dayLabel2);
@@ -1103,22 +1099,22 @@ public class Client extends JFrame {
                 // 時間のコンボボックス
                 String[] hour2 = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
                 JComboBox<String> hourComboBox2 = new JComboBox<>(hour2);
-                hourComboBox2.setBounds(315, 100, 40, 30);
+                hourComboBox2.setBounds(180, 100, 40, 30);
                 eventPanel.add(hourComboBox2);
 
                 JLabel hourLabel2 = new JLabel("時");
-                hourLabel2.setBounds(355, 100, 20, 30);
+                hourLabel2.setBounds(220, 100, 20, 30);
                 hourLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 hourLabel2.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(hourLabel2);
 
                 String[] minute2 = {"00","05","10","15","20","25","30","35","40","45","50","55"};
                 JComboBox<String> minuteComboBox2 = new JComboBox<>(minute2);
-                minuteComboBox2.setBounds(375, 100, 40, 30);
+                minuteComboBox2.setBounds(240, 100, 40, 30);
                 eventPanel.add(minuteComboBox2);
 
                 JLabel minuteLabel2 = new JLabel("分");
-                minuteLabel2.setBounds(415, 100, 20, 30);
+                minuteLabel2.setBounds(280, 100, 20, 30);
                 minuteLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 minuteLabel2.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(minuteLabel2);
@@ -1200,15 +1196,17 @@ public class Client extends JFrame {
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         String eventName = nameField.getText();
+                        String startDay = (String)dayComboBox.getSelectedItem()+"日";
                         String startTime = (String)hourComboBox.getSelectedItem()+":"+(String)minuteComboBox.getSelectedItem();
                         String endTime = (String)hourComboBox2.getSelectedItem()+":"+(String)minuteComboBox2.getSelectedItem();
+                        String endDay = (String)dayComboBox2.getSelectedItem()+"日";
                         String place = placeField.getText();
                         String summary = summaryArea.getText();
                         String details = detailsArea.getText();
                         String communityName = (String)communityComboBox.getSelectedItem();
 
                         // 入力欄が空の場合、エラーメッセージを表示して進めないようにする
-                        if (eventName.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || place.isEmpty() ||
+                        if (eventName.isEmpty() ||  startDay.isEmpty() || endDay.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || place.isEmpty() ||
                             summary.isEmpty() || details.isEmpty() || communityName.isEmpty()) {
                             JOptionPane.showMessageDialog(eventDialog, "すべての項目を入力してください。", "エラー", JOptionPane.ERROR_MESSAGE);
                             return;
@@ -1218,8 +1216,8 @@ public class Client extends JFrame {
                         int result = JOptionPane.showConfirmDialog(eventDialog,
                                 "以下の情報でイベントを作成しますか？\n\n"
                                 + "イベント名: " + eventName + "\n"
-                                + "開始時間: " + startTime + "\n"
-                                + "終了時間: " + endTime + "\n"
+                                + "開始時間: " + startDay+startTime + "\n"
+                                + "終了時間: " + endDay+endTime + "\n"
                                 + "場所: " + place + "\n"
                                 + "概要: " + summary + "\n"
                                 + "詳細: " + details + "\n"
@@ -1232,18 +1230,16 @@ public class Client extends JFrame {
                             // ここでイベントを作成する処理を実行
 
                             System.out.println(ui_ld_looking);
-                            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
-                            String year = ui_ld_looking.format(formatter1);
-                            String month = (String)monthComboBox.getSelectedItem();
-                            String day1 = (String)dayComboBox.getSelectedItem();
-                            String day2 = (String)dayComboBox2.getSelectedItem();
-                            int intyear = Integer.parseInt(year);
-                            int intmonth = Integer.parseInt(month);
-                            int intday1 = Integer.parseInt(day1);
-                            int intday2 = Integer.parseInt(day2);
-                            ClientEvent event = new ClientEvent(eventName,intyear, intmonth, startTime,endTime,place,username,summary,details,communityName);
+                            //DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
+                            //String year = ui_ld_looking.format(formatter1);
+                            //String month = (String)monthComboBox.getSelectedItem();
+                            //int intyear = Integer.parseInt(year);
+                            //int intmonth = Integer.parseInt(month);
+                            int intday1 = Integer.parseInt((String)dayComboBox.getSelectedItem());
+                            int intday2 = Integer.parseInt((String)dayComboBox2.getSelectedItem());
+                            ClientEvent event = new ClientEvent(eventName,currentYear, currentMonth, startTime,endTime,place,username,summary,details,communityName);
                             try {
-                                cc.makeEvent(event, intyear, intmonth, intday1, intday2);
+                                cc.makeEvent(event, currentYear, currentMonth, intday1, intday2);
                                 event_list.add(event);
 
                                 //確認
@@ -1255,10 +1251,11 @@ public class Client extends JFrame {
 
                                 for(int i=0;i<=community_list.size();i++) {
                                     if(community_list.get(i).getName().equals(communityName)) {
-                                        community_list.get(i).getCalendarMonth(intyear, intmonth).addEvent(event.getEventId(), intday1, intday2);
+                                        community_list.get(i).getCalendarMonth(currentYear, currentMonth).addEvent(event.getEventId(), intday1, intday2);
                                         break;
                                     };
                                 }
+                                getNewMessage();
                                 eventDialog.setVisible(false);
                                 dateScreen();
                             }catch(Exception e){
@@ -1340,6 +1337,7 @@ public class Client extends JFrame {
         // 一番大きい値を保存する変数を初期化
         int maxgood = 0;
 
+        
         // イベントリストをループして一番大きい値を見つける
         for (ClientEvent event : event_list) {
             int sortValue = event.getGood();
@@ -1394,7 +1392,7 @@ public class Client extends JFrame {
 
         int events_num = event_list.size();
 
-        int button_width = 600;
+        int button_width = 525;
         int button_height = 96;
         int r = 20;
 
@@ -1419,7 +1417,7 @@ public class Client extends JFrame {
 
         for (int i = 0; i < events_num; i++) {
 
-            Image img1 = createImage(button_width, button_height);
+            BufferedImage img1 = createBackgroundImage(button_width, button_height);
             Graphics g1 = img1.getGraphics();
             g1.setColor(Color.WHITE);
             Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
@@ -1446,11 +1444,11 @@ public class Client extends JFrame {
             g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
 
 
-            JButton eventButton = new JButton(name);
+            JButton eventButton = new JButton("");
             eventButton.setBackground(THEME_COLOR);
-            eventButton.setForeground(THEME_COLOR);
+            eventButton.setForeground(Color.black);
             eventButton.setOpaque(true);
-            eventButton.setMargin(new Insets(0,0,0,0));
+            //eventButton.setMargin(new Insets(0,0,0,0));
             eventButton.setBorderPainted(false);
             eventButton.setIcon(new ImageIcon(img1));
 
@@ -1582,9 +1580,7 @@ public class Client extends JFrame {
 
     }
 
-    private void updateDayComboBox(JComboBox<Integer> yearc,JComboBox<String> monthc,JComboBox<String> dayc) {
-        int year = (int) yearc.getSelectedItem();
-        int month = Integer.parseInt((String) monthc.getSelectedItem());
+    private void updateDayComboBox(int year,int month,JComboBox<String> dayc) {
         int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
 
         dayc.removeAllItems();
@@ -1871,7 +1867,7 @@ public class Client extends JFrame {
                             System.out.println("いいねしました");
                         }
                     }
-
+                    getNewMessage();
                     //更新を呼ぶ
                 } catch (Exception e) {
                     String error = e.getMessage();
@@ -1968,7 +1964,7 @@ public class Client extends JFrame {
                         System.out.println("参加しました");
                         }
                     }
-
+                    getNewMessage();
                 } catch (Exception e) {
                     String error = e.getMessage();
                     if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2276,6 +2272,7 @@ public class Client extends JFrame {
                         if(newPass.equals(confPass)) {
                             try {
                                 cc.changePassword(newPass);
+                                getNewMessage();
                             } catch (Exception e) {
                                 String error = e.getMessage();
                                 if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2470,16 +2467,16 @@ public class Client extends JFrame {
                 summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
                 summaryScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
                 eventPanel.add(summaryScrollPane);
-
+                JTextField[] tagField = {new JTextField(),new JTextField(),new JTextField(),new JTextField(),new JTextField()};
                 for(int i = 0; i < 5; i++) {
                     // タグ入力フィールド
                     JLabel tagLabel = new JLabel("タグ" + Integer.toString(i + 1) + ":");
                     tagLabel.setBounds(20, 170 + 40 * i, 100, 30);
                     eventPanel.add(tagLabel);
 
-                    JTextField tagField = new JTextField();
-                    tagField.setBounds(120, 170 + 40 * i, 315, 30);
-                    eventPanel.add(tagField);
+                    //tagField[i] = new JTextField();
+                    tagField[i].setBounds(120, 170 + 40 * i, 315, 30);
+                    eventPanel.add(tagField[i]);
                 }
 
 
@@ -2501,6 +2498,28 @@ public class Client extends JFrame {
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         //通信 コミュニティを作る処理
+                    	try {
+                    		String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
+                    		cc.makeCommunity(new Community(nameLabel.getText(),username,summaryLabel.getText(),tmp));
+                    		getNewMessage();
+                    	}catch(Exception e){
+                            String error = e.getMessage();
+                            if(error.equals(ClientConnect.NOT_FOUND)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                logout();
+                            }else if(error.equals(ClientConnect.BANNED)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                logout();
+                            }else if(error.equals(ClientConnect.AUTH)) {
+                                JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                logout();
+                            }else if(error.equals(ClientConnect.ERROR)) {
+                                JOptionPane.showMessageDialog(Client.this, "既存のコミュニティと名前が重複しています.変更して再度お試しください。");
+                            }else{
+                                JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                            }
+
+                        }
                     }
                 });
                 eventPanel.add(addButton);
@@ -2537,7 +2556,29 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     int select = JOptionPane.showConfirmDialog(ui_panel_00, (community.getName() + "から脱退しますか？"), "コミュニティの脱退", JOptionPane.YES_NO_OPTION);
                     if(select == JOptionPane.YES_OPTION) {
-                        //通信など コミュニティから脱退する処理
+                    	try {
+                    		cc.quitCommunity(community.getName());
+                    		getNewMessage();
+                    	}catch(Exception e){
+                            String error = e.getMessage();
+                            if(error.equals(ClientConnect.NOT_FOUND)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                logout();
+                            }else if(error.equals(ClientConnect.BANNED)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                logout();
+                            }else if(error.equals(ClientConnect.AUTH)) {
+                                JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                logout();
+                            }else if(error.equals(ClientConnect.ERROR)) {
+                                JOptionPane.showMessageDialog(Client.this, "加入していない,あるいは存在しないコミュニティから脱退しようとしました。");
+                            }else{
+                                JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                            }
+
+                        }
+                    
+                    	
                         System.out.println(community.getName() + "から脱退しました");
                     }
                 }
@@ -2629,6 +2670,27 @@ public class Client extends JFrame {
                             String s = ae.getActionCommand();//コミュニティ名
                             int select = JOptionPane.showConfirmDialog(ui_panel_00, (s + "に加入しますか？"), "コミュニティの加入", JOptionPane.YES_NO_OPTION);
                             if(select == JOptionPane.YES_OPTION) {
+                            	try {
+                            		cc.joinCommunity(s);
+                            		getNewMessage();
+                            	}catch(Exception e){
+                                    String error = e.getMessage();
+                                    if(error.equals(ClientConnect.NOT_FOUND)) {
+                                        JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                        logout();
+                                    }else if(error.equals(ClientConnect.BANNED)) {
+                                        JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                        logout();
+                                    }else if(error.equals(ClientConnect.AUTH)) {
+                                        JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                        logout();
+                                    }else if(error.equals(ClientConnect.ERROR)) {
+                                        JOptionPane.showMessageDialog(Client.this, "既に加入している,あるいは存在しないコミュニティに加入しようとしました。");
+                                    }else{
+                                        JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                    }
+
+                                }
                                 //通信など コミュニティに加入する処理
                                 System.out.println(s + "に加入しました");
                             }
