@@ -478,6 +478,7 @@ public class Client extends JFrame {
                 }
                 catch(Exception ex) {
                     register_flag = 1;
+                    ex.printStackTrace();
                 }
 
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -2004,14 +2005,14 @@ public class Client extends JFrame {
 
         scrollPane.setOpaque(false);
         eventPanel.setOpaque(false);
-        
+
         scrollPane.setViewportView(eventPanel);
         //scrollPane.setOpaque(false);
-        
+
         backgroundPanel.add(scrollPane);
 
         backgroundPanel.add(ui_jl_back);
-        
+
         contentPane1.add(backgroundPanel);
 
         // フッターなど
