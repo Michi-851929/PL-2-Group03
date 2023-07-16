@@ -2499,8 +2499,13 @@ public class Client extends JFrame {
                     public void actionPerformed(ActionEvent ae) {
                         //通信 コミュニティを作る処理
                         try {
-                            String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
-                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),tmp));
+                            ArrayList<String> tmp = new ArrayList<>();
+                            for(int i = 0;i < 5;i++) {
+                            	if(tagField[0].getText()!=null) {
+                            		tmp.add(tagField[0].getText());
+                            	}
+                            }
+                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray()));
                             getNewMessage();
                         }catch(Exception e){
                             String error = e.getMessage();
