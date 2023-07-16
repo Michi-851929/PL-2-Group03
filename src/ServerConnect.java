@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -17,6 +18,8 @@ public class ServerConnect{
     SSLServerSocketFactory sf;
     Server se;
     ServerConnect(Server server) throws Exception{
+        //ここから
+
         try (FileInputStream fis = new FileInputStream(Certificate.name);){
             KeyStore ks;
             KeyManagerFactory kmf;
@@ -31,11 +34,15 @@ public class ServerConnect{
     }catch(Exception e) {
             throw e;
         }
+
+        //ここまでコメントアウト
+        //se = server;
     }
 
     void run() throws Exception {
         this.mode = 1;
-        SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);
+        SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);//これをコメントアウト
+        //ServerSocket ssss = new ServerSocket(ConnectName.port);
         try {
             while(this.mode == 1) {
                 Socket s = ssss.accept();
@@ -86,6 +93,8 @@ class ConnectThread extends Thread{
                 ans.mode = 1;
             }else if(tmp == Server.LOGIN_BANNED){
                 ans.mode = 2;
+            }else if(tmp == Account.PASS_FALSE) {
+                ans.mode = 3;
             }
         }else {
             Account tmp = se.getAccount(m.name);
@@ -118,8 +127,10 @@ class ConnectThread extends Thread{
                     }else{
                         if(tmp.getAEventPreferrd((String)m.message)) {
                             se.setDispreferEvent(m.name, (String)m.message);
+                            ans.message = false;
                         }else {
                             se.setPreferredEvent(m.name, (String)m.message);
+                            ans.message = true;
                         }
                     }
                 }else if(m.mode == 6) {
@@ -129,8 +140,10 @@ class ConnectThread extends Thread{
                     }else{
                         if(tmp.getAEventGoing((String)m.message)) {
                             se.setPresentEvent(m.name, (String)m.message);
+                            ans.message = false;
                         }else {
                             se.setAbsentEvent(m.name, (String)m.message);
+                            ans.message = true;
                         }
                     }
                 }else if(m.mode == 7) {
@@ -138,7 +151,7 @@ class ConnectThread extends Thread{
                     if(te.getEventName().equals("")) {
                         ans.mode = 4;
                     }else{
-                    	int[] it = (int[])m.message2;  
+                        int[] it = (int[])m.message2;
                         se.reportEvent((String) m.message,it[0],it[1]);
                     }
                 }else if(m.mode == 8) {
@@ -164,7 +177,7 @@ class ConnectThread extends Thread{
                     if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
                         ans.mode = 4;
                     }else{
-                    	int[] it = (int[])m.message2; 
+                        int[] it = (int[])m.message2;
                         se.deleteEvent(te.getEventId(),it[0],it[1]);
                     }
                 }else if(m.mode == 12) {
@@ -196,8 +209,41 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 17) {
                     se.changePassword(m.name, m.pass, (String)m.message);
-                }
-                else {
+                }else if(m.mode == 18) {
+                    String[] st=(String[]) m.message;
+                    ArrayList<ClientEvent> at= new ArrayList<>();
+                    ClientEvent te;
+                    int flag = 0;
+                    for(int i = 0;i< st.length;i++) {
+                        te = se.getEvent(st[i]);
+                        if(!te.getEventName().equals("")) {
+                            flag = 1;
+                            at.add(te);
+                        }
+                    }
+                    if(flag == 0) {
+                        ans.mode = 4;
+                    }else {
+                        ans.message = (ClientEvent[])at.toArray();
+                    }
+                }else if(m.mode == 19) {
+                    String[] st=(String[]) m.message;
+                    ArrayList<Community> at= new ArrayList<>();
+                    Community te;
+                    int flag = 0;
+                    for(int i = 0;i< st.length;i++) {
+                        te = se.getCommunity(st[i]);
+                        if(!te.getName().equals("")) {
+                            flag = 1;
+                            at.add(te);
+                        }
+                    }
+                    if(flag == 0) {
+                        ans.mode = 4;
+                    }else {
+                        ans.message = (Community[])at.toArray();
+                    }
+                }else {
                     ans.mode = 5;
                 }
             }
@@ -205,14 +251,14 @@ class ConnectThread extends Thread{
         oos.writeObject(ans);
         //ここまで各自処理
         }catch(Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
         }finally {
             try {
                 if(s != null) {
                     s.close();
                 }
             }catch(Exception e) {
-            		e.printStackTrace();
+                    e.printStackTrace();
             }
         }
     }

@@ -11,10 +11,9 @@ import javax.net.ssl.SSLSocketFactory;
 public class ClientConnect{
     String id = null;
     String pass = null;
-    String message = null;
     private static SSLContext sslc;
     private static SSLSocketFactory sslf;
-    
+
     public final static String NOT_FOUND = "Not Found(user)";//該当ユーザーがいない
     public final static String BANNED = "Banned user";//BANされてるユーザー
     public final static String AUTH = "Auth falled";//ユーザーはいるけどパスワードが違う
@@ -22,8 +21,8 @@ public class ClientConnect{
     public final static String REQ_FAILED = "Not Found(Request)";//該当するリクエストがないとき(呼ばれることはないはず)
     public final static String USER = "Duplication(user)";//アカウント作成時のみ投げます(user重複)
     public final static String MAC = "Dupilicaion(mac)";//アカウント作成時のみ投げます(mac重複)
-    
-    
+
+
     ClientConnect() throws Exception{
         try {
             sslc = SSLContext.getDefault();
@@ -32,9 +31,14 @@ public class ClientConnect{
             throw e;
         }
     }
+    void logout() {
+        id = null;
+        pass = null;
+    }
     static Message post(Object o) throws Exception{
         try {
-            Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);
+            Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);//これをコメントアウト
+            //Socket s = new Socket(ConnectName.name,ConnectName.port);
             OutputStream os = s.getOutputStream();
             InputStream is = s.getInputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -50,11 +54,11 @@ public class ClientConnect{
             }else if(ans.mode == 4) {
                 throw  new Exception(ERROR);//リクエスト失敗(普通のエラー)
             }else if(ans.mode == 5) {
-            	throw  new Exception(REQ_FAILED);//該当するリクエストがないとき(呼ばれることはないはず)
+                throw  new Exception(REQ_FAILED);//該当するリクエストがないとき(呼ばれることはないはず)
             }else if(ans.mode == 6) {
-            	throw  new Exception(USER);//アカウント作成時のみ投げます(user重複)
+                throw  new Exception(USER);//アカウント作成時のみ投げます(user重複)
             }else if(ans.mode == 7) {
-            	throw  new Exception(MAC);//アカウント作成時のみ投げます(mac重複)
+                throw  new Exception(MAC);//アカウント作成時のみ投げます(mac重複)
             }
             return ans;
         }catch(Exception e) {
@@ -127,23 +131,27 @@ public class ClientConnect{
         return (ClientEvent)ans.message;
     }
 
-    void nice(String event_id) throws Exception { //いいね切り替え
+    Boolean nice(String event_id) throws Exception { //いいね切り替え
         Message tmp = new Message(this.id,this.pass,5);
         tmp.message = event_id;
+        Message ans =null;
         try {
-            post(tmp);
+            ans = post(tmp);
         } catch (Exception e) {
             throw e;
         }
+        return (Boolean)ans.message;
     }
-    void joinEvent(String event_id) throws Exception { //イベント参加切り替え
+    Boolean joinEvent(String event_id) throws Exception { //イベント参加切り替え
         Message tmp = new Message(this.id,this.pass,6);
         tmp.message = event_id;
+        Message ans =null;
         try {
-            post(tmp);
+            ans =post(tmp);
         } catch (Exception e) {
             throw e;
         }
+        return (Boolean)ans.message;
     }
 
     int report(String event_id,int year,int month) throws Exception { //イベント通報
@@ -176,7 +184,7 @@ public class ClientConnect{
         tmp.message2 = it;
         Message ans= null;
         try {
-        	ans= post(tmp);
+            ans= post(tmp);
         } catch (Exception e) {
             throw e;
         }
@@ -219,7 +227,7 @@ public class ClientConnect{
             throw e;
         }
     }
-    
+
     Boolean checkCommunity(String name) throws Exception { //コミュニティ確認
         Message tmp = new Message(this.id,this.pass,13);
         tmp.message = name;
@@ -231,10 +239,10 @@ public class ClientConnect{
         }
         return (Boolean)ans.message;//作れるならtrue,無理ならfalse
     }
-    
+
     Community[] searchCommunity(String search) throws Exception { //コミュニティ検索
         //送受信 検索語を入れるとCommunity[]を返すメソッドsearchCommunity(String)がサーバにあります 玖津見
-    	Message tmp = new Message(this.id,this.pass,14);
+        Message tmp = new Message(this.id,this.pass,14);
         tmp.message = search;
         Message ans = null;
         try {
@@ -277,5 +285,29 @@ public class ClientConnect{
         if((int)ans.message == 0) {
             this.pass = new_password;
         }
+    }
+
+    ClientEvent[] getEvents(String[] event) throws Exception { //イベント(複数)取得
+        Message tmp = new Message(this.id,this.pass,18);
+        tmp.message = event;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (ClientEvent[])ans.message;
+    }
+
+    Community[] getCommunitys(String[] name) throws Exception { //コミュニティ取得
+        Message tmp = new Message(this.id,this.pass,19);
+        tmp.message = name;
+        Message ans = null;
+        try {
+            ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (Community[])ans.message;
     }
 }
