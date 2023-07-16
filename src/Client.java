@@ -2273,6 +2273,9 @@ public class Client extends JFrame {
                             try {
                                 cc.changePassword(newPass);
                                 getNewMessage();
+                                password = newPass;
+                                JOptionPane.showMessageDialog(Client.this, "パスワードを変更しました。");
+                                userScreen();
                             } catch (Exception e) {
                                 String error = e.getMessage();
                                 if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2288,9 +2291,7 @@ public class Client extends JFrame {
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                 }
                             }
-                            password = newPass;
-                            JOptionPane.showMessageDialog(Client.this, "パスワードを変更しました。");
-                            userScreen();
+                            
                         }
                         else {
                             JOptionPane.showMessageDialog(Client.this, "新パスワードとパスワード確認欄に入力したパスワードが一致しません。");
