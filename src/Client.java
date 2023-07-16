@@ -2501,8 +2501,8 @@ public class Client extends JFrame {
                         try {
                             ArrayList<String> tmp = new ArrayList<>();
                             for(int i = 0;i < 5;i++) {
-                            	if(tagField[0].getText()!=null) {
-                            		tmp.add(tagField[0].getText());
+                            	if(tagField[i].getText().equals("")) {
+                            		tmp.add(tagField[i].getText());
                             	}
                             }
                             cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray(new String[tmp.size()])));
