@@ -310,7 +310,6 @@ public class Client extends JFrame {
                     if (login_flag == 1) {
                         JOptionPane.showMessageDialog(Client.this, "ログイン成功");
                         login();
-                        notificationScreen();
                     }
                 }
             }
@@ -873,7 +872,7 @@ public class Client extends JFrame {
     void dateScreen() {
 
         try {
-            //event_list.addAll(getADayEvents(ui_ld_looking));
+            event_list.addAll(getADayEvents(ui_ld_looking));
             System.out.println(event_list);
         } catch (Exception e3) {
             // TODO 自動生成された catch ブロック
@@ -1987,14 +1986,14 @@ public class Client extends JFrame {
 
         scrollPane.setOpaque(false);
         eventPanel.setOpaque(false);
-        
+
         scrollPane.setViewportView(eventPanel);
         //scrollPane.setOpaque(false);
-        
+
         backgroundPanel.add(scrollPane);
 
         backgroundPanel.add(ui_jl_back);
-        
+
         contentPane1.add(backgroundPanel);
 
         // フッターなど

@@ -69,9 +69,9 @@ public class Account implements Serializable{
 
         return time;
     }
-    
+
     public int[] getLastCheckInt(){
-    	return lastcheck;
+        return lastcheck;
     }
 
     public void setLastCheckTime()
@@ -122,9 +122,9 @@ public class Account implements Serializable{
     }
 
     //所属コミュニティを取得
-    public String[] getCommunity()
+    public ArrayList<String> getCommunity()
     {
-        return (String[])community_involved.toArray();
+        return community_involved;
     }
 
     //参加イベントを追加
@@ -162,39 +162,39 @@ public class Account implements Serializable{
     {
         return event_preferred;
     }
-    
+
     //あるイベントに参加しているか
     public boolean getAEventGoing(String s) {
-    	for(String str: event_going) {
-    		if(str.equals(s)) {
-    			return true;
-    		}
-    	}
-    	return false;
+        for(String str: event_going) {
+            if(str.equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     //あるイベントにいいねしているか
     public boolean getAEventPreferrd(String s) {
-    	for(String str: event_preferred) {
-    		if(str.equals(s)) {
-    			return true;
-    		}
-    	}
-    	return false;
+        for(String str: event_preferred) {
+            if(str.equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     //作成したイベントを追加
     public void addEventMade(String event) {
-    	event_made.add(event);
+        event_made.add(event);
     }
     //作成したイベントを取得
     public ArrayList<String> getEventMade()
     {
         return event_made;
     }
-    
+
     //作成したイベントの総数を取得
     public int getTotalEventMade() {
-    	return event_made.size();
+        return event_made.size();
     }
 }
