@@ -3,6 +3,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -287,7 +288,8 @@ public class ClientConnect{
         }
     }
 
-    ClientEvent[] getEvents(String[] event) throws Exception { //イベント(複数)取得
+    @SuppressWarnings("unchecked")
+	ArrayList<ClientEvent> getEvents(String[] event) throws Exception { //イベント(複数)取得
         Message tmp = new Message(this.id,this.pass,18);
         tmp.message = event;
         Message ans = null;
@@ -296,10 +298,11 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (ClientEvent[])ans.message;
+        return (ArrayList<ClientEvent>)ans.message;
     }
 
-    Community[] getCommunitys(String[] name) throws Exception { //コミュニティ取得
+    @SuppressWarnings("unchecked")
+	ArrayList<Community> getCommunitys(String[] name) throws Exception { //コミュニティ取得
         Message tmp = new Message(this.id,this.pass,19);
         tmp.message = name;
         Message ans = null;
@@ -308,6 +311,6 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (Community[])ans.message;
+        return (ArrayList<Community>)ans.message;
     }
 }
