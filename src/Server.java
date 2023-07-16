@@ -409,7 +409,7 @@ public class Server extends JFrame implements ActionListener{
             }
         }
 
-        Community[] result_array = (Community[])(result_list.toArray());
+        Community[] result_array = (Community[])(result_list.toArray(new Community[result_list.size()]));
         return result_array;
     }
 
