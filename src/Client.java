@@ -1662,14 +1662,15 @@ public class Client extends JFrame {
         //イベント情報を置くパネル
         JPanel eventPanel = new JPanel();
         eventPanel.setLayout(null);
-        eventPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        eventPanel.setBackground(Color.white);
+        eventPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT+90);
 
         // タイトル
         JLabel titleLabel = new JLabel(ce.getMonthValue() +" / "+day);
         titleLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setBounds(WINDOW_WIDTH/2-100, 10, 200, 50);
-        eventPanel.add(titleLabel);
+        backgroundPanel.add(titleLabel);
 
         // イベント名
         JLabel eventNameLabel = new JLabel(ce.getEventName());
@@ -1993,23 +1994,30 @@ public class Client extends JFrame {
 
         //スクロール
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setSize(WINDOW_WIDTH, 675);
+        scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-90);
+        scrollPane.setBounds(0,0, WINDOW_WIDTH, WINDOW_HEIGHT-90);
         scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
         scrollPane.setBackground(THEME_COLOR);
 
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
         ui_sb_00.setOpaque(true);
         ui_sb_00.setBackground(THEME_COLOR);
-        //ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+        ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
         ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(true);
 
+        scrollPane.setOpaque(false);
+        eventPanel.setOpaque(false);
+        
         scrollPane.setViewportView(eventPanel);
-
-        contentPane1.add(backgroundPanel);
+        //scrollPane.setOpaque(false);
+        
         backgroundPanel.add(scrollPane);
 
-        eventPanel.add(ui_jl_back);
+        backgroundPanel.add(ui_jl_back);
+        
+        contentPane1.add(backgroundPanel);
+
         // フッターなど
         setFooter(contentPane1);
         //setSize(400, 500);
