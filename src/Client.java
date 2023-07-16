@@ -2419,6 +2419,7 @@ public class Client extends JFrame {
                 String search_word = ui_tf_search.getText();
                 if(search_word.equals("") || search_word.equals("コミュニティ検索")) {
                     JOptionPane.showMessageDialog(null, "検索語を入力してください。", "エラー", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }//検索語が正しくない場合
 
                 ArrayList<Community> search_list = new ArrayList<>();/*通信部分
