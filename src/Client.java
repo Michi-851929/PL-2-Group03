@@ -36,7 +36,6 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Timer;
@@ -3195,7 +3194,7 @@ public class Client extends JFrame {
                     ArrayList<String[]> out_list= new ArrayList<>();
                     try {
                         if(!go.isEmpty()) {
-                        go_event = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])go.toArray()));
+                        go_event = cc.getEvents((String[])go.toArray());
                         go_event.forEach(event->{
                             String[] tmp = {"","","",""};
                             Message m = event.getNewOwnerMessage(account.getLastCheckInt());
