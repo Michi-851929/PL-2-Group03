@@ -471,15 +471,6 @@ public class Client extends JFrame {
                 System.out.println("username:"+username);
                 System.out.println("password:"+password);
                 System.out.println("macaddress:"+macaddress);
-
-                try {
-                    cc.createAccount(username, password, macaddress);
-                    register_flag = 0;
-                }
-                catch(Exception ex) {
-                    register_flag = 1;
-                }
-
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
                 }else if (!password.equals(confirmPassword)) {
@@ -487,28 +478,20 @@ public class Client extends JFrame {
                 } else {
                     try {
                         cc.createAccount(username, password, macaddress);
-                    } catch (Exception e1) {
-                        if(e1.getMessage().equals(ClientConnect.USER)) {
-                            JOptionPane.showMessageDialog(Client.this, "既存のユーザーと名前が重複しています。別の名前をお試しください。");
-                            register_flag = 2;
-                        }else if(e1.getMessage().equals(ClientConnect.MAC)) {
-                             JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。サーバー管理者にお問い合わせください" );
-                             register_flag = 2;
-                        }else {
-                            register_flag = 1;
-                        }
-                    }
-                    if(register_flag==0) {
                         JOptionPane.showMessageDialog(Client.this, "アカウント登録成功");
                         login_flag = 1;
                         login();
-                    }else if(register_flag==1){
-                        JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                    } catch (Exception e1) {
+                        if(e1.getMessage().equals(ClientConnect.USER)) {
+                            JOptionPane.showMessageDialog(Client.this, "既存のユーザーと名前が重複しています。別の名前をお試しください。");
+                        }else if(e1.getMessage().equals(ClientConnect.MAC)) {
+                             JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。サーバー管理者にお問い合わせください" );
+                        }else {
+                        	 JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                        }
                     }
                 }
-
             }
-
         });
 
         // 戻るボタン
