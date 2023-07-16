@@ -2000,8 +2000,8 @@ public class Client extends JFrame {
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
         ui_sb_00.setOpaque(false);
         ui_sb_00.setBackground(THEME_COLOR);
-        ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
-        ui_sb_00.setUI(getScrollBarUI());
+        //ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
+        //ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(true);
 
         eventPanel.setOpaque(true);
