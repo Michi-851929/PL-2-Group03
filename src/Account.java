@@ -122,9 +122,9 @@ public class Account implements Serializable{
     }
 
     //所属コミュニティを取得
-    public ArrayList<String> getCommunity()
+    public String[] getCommunity()
     {
-        return community_involved;
+        return (String[])community_involved.toArray(new String[community_involved.size()]);
     }
 
     //参加イベントを追加
