@@ -2501,7 +2501,7 @@ public class Client extends JFrame {
                         try {
                             ArrayList<String> tmp = new ArrayList<>();
                             for(int i = 0;i < 5;i++) {
-                            	if(tagField[i].getText().equals("")) {
+                            	if(!tagField[i].getText().equals("")) {
                             		tmp.add(tagField[i].getText());
                             	}
                             }
