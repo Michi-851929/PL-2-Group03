@@ -1972,15 +1972,16 @@ public class Client extends JFrame {
 
         //スクロール
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-90);
-        scrollPane.setBounds(0,0, WINDOW_WIDTH, WINDOW_HEIGHT-90);
+        //scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-125);
+        scrollPane.setBounds(0,0, WINDOW_WIDTH-120, WINDOW_HEIGHT-125);
+        scrollPane.setPreferredSize(new Dimension(WINDOW_WIDTH-12, WINDOW_HEIGHT-125));
         scrollPane.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 0));
         scrollPane.setBackground(THEME_COLOR);
-        scrollPane.setOpaque(false);
+        scrollPane.setOpaque(true);
         scrollPane.setVisible(true);
 
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
-        ui_sb_00.setOpaque(false);
+        ui_sb_00.setOpaque(true);
         ui_sb_00.setBackground(THEME_COLOR);
         //ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
         //ui_sb_00.setUI(getScrollBarUI());
