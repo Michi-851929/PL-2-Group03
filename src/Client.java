@@ -1255,6 +1255,7 @@ public class Client extends JFrame {
                                         break;
                                     };
                                 }
+                                getNewMessage();
                                 eventDialog.setVisible(false);
                                 dateScreen();
                             }catch(Exception e){
@@ -1865,7 +1866,7 @@ public class Client extends JFrame {
                             System.out.println("いいねしました");
                         }
                     }
-
+                    getNewMessage();
                     //更新を呼ぶ
                 } catch (Exception e) {
                     String error = e.getMessage();
@@ -1962,7 +1963,7 @@ public class Client extends JFrame {
                         System.out.println("参加しました");
                         }
                     }
-
+                    getNewMessage();
                 } catch (Exception e) {
                     String error = e.getMessage();
                     if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2488,6 +2489,26 @@ public class Client extends JFrame {
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         //通信 コミュニティを作る処理
+                    	try {
+                    		
+                    	}catch(Exception e){
+                            String error = e.getMessage();
+                            if(error.equals(ClientConnect.NOT_FOUND)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                logout();
+                            }else if(error.equals(ClientConnect.BANNED)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                logout();
+                            }else if(error.equals(ClientConnect.AUTH)) {
+                                JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                logout();
+                            }else if(error.equals(ClientConnect.ERROR)) {
+                                JOptionPane.showMessageDialog(Client.this, "既存のコミュニティと名前が重複しています.変更して再度お試しください。");
+                            }else{
+                                JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                            }
+
+                        }
                     }
                 });
                 eventPanel.add(addButton);
@@ -2524,7 +2545,28 @@ public class Client extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     int select = JOptionPane.showConfirmDialog(ui_panel_00, (community.getName() + "から脱退しますか？"), "コミュニティの脱退", JOptionPane.YES_NO_OPTION);
                     if(select == JOptionPane.YES_OPTION) {
-                        //通信など コミュニティから脱退する処理
+                    	try {
+                    		
+                    	}catch(Exception e){
+                            String error = e.getMessage();
+                            if(error.equals(ClientConnect.NOT_FOUND)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                logout();
+                            }else if(error.equals(ClientConnect.BANNED)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                logout();
+                            }else if(error.equals(ClientConnect.AUTH)) {
+                                JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                logout();
+                            }else if(error.equals(ClientConnect.ERROR)) {
+                                JOptionPane.showMessageDialog(Client.this, "加入していない,あるいは存在しないコミュニティから脱退しようとしました。");
+                            }else{
+                                JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                            }
+
+                        }
+                    
+                    	
                         System.out.println(community.getName() + "から脱退しました");
                     }
                 }
@@ -2616,6 +2658,26 @@ public class Client extends JFrame {
                             String s = ae.getActionCommand();//コミュニティ名
                             int select = JOptionPane.showConfirmDialog(ui_panel_00, (s + "に加入しますか？"), "コミュニティの加入", JOptionPane.YES_NO_OPTION);
                             if(select == JOptionPane.YES_OPTION) {
+                            	try {
+                            		cc.joinCommunity(s);
+                            	}catch(Exception e){
+                                    String error = e.getMessage();
+                                    if(error.equals(ClientConnect.NOT_FOUND)) {
+                                        JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                        logout();
+                                    }else if(error.equals(ClientConnect.BANNED)) {
+                                        JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                        logout();
+                                    }else if(error.equals(ClientConnect.AUTH)) {
+                                        JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                        logout();
+                                    }else if(error.equals(ClientConnect.ERROR)) {
+                                        JOptionPane.showMessageDialog(Client.this, "既に加入している,あるいは存在しないコミュニティに加入しようとしました。");
+                                    }else{
+                                        JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                    }
+
+                                }
                                 //通信など コミュニティに加入する処理
                                 System.out.println(s + "に加入しました");
                             }
