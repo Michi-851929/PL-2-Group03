@@ -1391,7 +1391,7 @@ public class Client extends JFrame {
 
         int events_num = event_list.size();
 
-        int button_width = 600;
+        int button_width = 525;
         int button_height = 96;
         int r = 20;
 
@@ -1416,7 +1416,7 @@ public class Client extends JFrame {
 
         for (int i = 0; i < events_num; i++) {
 
-            Image img1 = createImage(button_width, button_height);
+            BufferedImage img1 = createBackgroundImage(button_width, button_height);
             Graphics g1 = img1.getGraphics();
             g1.setColor(Color.WHITE);
             Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
@@ -1443,11 +1443,11 @@ public class Client extends JFrame {
             g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
 
 
-            JButton eventButton = new JButton(name);
+            JButton eventButton = new JButton("");
             eventButton.setBackground(THEME_COLOR);
-            eventButton.setForeground(THEME_COLOR);
+            eventButton.setForeground(Color.black);
             eventButton.setOpaque(true);
-            eventButton.setMargin(new Insets(0,0,0,0));
+            //eventButton.setMargin(new Insets(0,0,0,0));
             eventButton.setBorderPainted(false);
             eventButton.setIcon(new ImageIcon(img1));
 
