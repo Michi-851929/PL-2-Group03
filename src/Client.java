@@ -2264,6 +2264,7 @@ public class Client extends JFrame {
                         if(newPass.equals(confPass)) {
                             try {
                                 cc.changePassword(newPass);
+                                getNewMessage();
                             } catch (Exception e) {
                                 String error = e.getMessage();
                                 if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2458,16 +2459,16 @@ public class Client extends JFrame {
                 summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
                 summaryScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
                 eventPanel.add(summaryScrollPane);
-
+                JTextField[] tagField = {new JTextField(),new JTextField(),new JTextField(),new JTextField(),new JTextField()};
                 for(int i = 0; i < 5; i++) {
                     // タグ入力フィールド
                     JLabel tagLabel = new JLabel("タグ" + Integer.toString(i + 1) + ":");
                     tagLabel.setBounds(20, 170 + 40 * i, 100, 30);
                     eventPanel.add(tagLabel);
 
-                    JTextField tagField = new JTextField();
-                    tagField.setBounds(120, 170 + 40 * i, 315, 30);
-                    eventPanel.add(tagField);
+                    //tagField[i] = new JTextField();
+                    tagField[i].setBounds(120, 170 + 40 * i, 315, 30);
+                    eventPanel.add(tagField[i]);
                 }
 
 
@@ -2490,7 +2491,9 @@ public class Client extends JFrame {
                     public void actionPerformed(ActionEvent ae) {
                         //通信 コミュニティを作る処理
                     	try {
-                    		
+                    		String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
+                    		cc.makeCommunity(new Community(nameLabel.getText(),username,summaryLabel.getText(),tmp));
+                    		getNewMessage();
                     	}catch(Exception e){
                             String error = e.getMessage();
                             if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2546,7 +2549,8 @@ public class Client extends JFrame {
                     int select = JOptionPane.showConfirmDialog(ui_panel_00, (community.getName() + "から脱退しますか？"), "コミュニティの脱退", JOptionPane.YES_NO_OPTION);
                     if(select == JOptionPane.YES_OPTION) {
                     	try {
-                    		
+                    		cc.quitCommunity(community.getName());
+                    		getNewMessage();
                     	}catch(Exception e){
                             String error = e.getMessage();
                             if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2660,6 +2664,7 @@ public class Client extends JFrame {
                             if(select == JOptionPane.YES_OPTION) {
                             	try {
                             		cc.joinCommunity(s);
+                            		getNewMessage();
                             	}catch(Exception e){
                                     String error = e.getMessage();
                                     if(error.equals(ClientConnect.NOT_FOUND)) {
