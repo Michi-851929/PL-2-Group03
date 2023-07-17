@@ -36,6 +36,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Timer;
@@ -2568,6 +2569,7 @@ public class Client extends JFrame {
                         try {
                             cc.quitCommunity(community.getName());
                             getNewMessage();
+                            communityScreen();
                         }catch(Exception e){
                             String error = e.getMessage();
                             if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2697,6 +2699,7 @@ public class Client extends JFrame {
                                 try {
                                     cc.joinCommunity(s);
                                     getNewMessage();
+                                    communityScreen();
                                 }catch(Exception e){
                                     String error = e.getMessage();
                                     if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -3084,10 +3087,10 @@ public class Client extends JFrame {
         }
         try {
 /*
-        	String[] n = {}; 
-        	if(!account.getCommunity().equals(n)) { 
-        		this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
-        	}
+            String[] n = {};
+            if(!account.getCommunity().equals(n)) {
+                this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
+            }
 */
             if(!(account.getCommunity().length==0)) {
                 this.community_list = cc.getCommunitys(account.getCommunity());
