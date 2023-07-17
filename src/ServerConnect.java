@@ -213,7 +213,7 @@ class ConnectThread extends Thread{
                         se.quitCommunity((String)m.message, m.name);
                     }
                 }else if(m.mode == 17) {
-                    se.changePassword(m.name, m.pass, (String)m.message);
+                    ans.message = se.changePassword(m.name, m.pass, (String)m.message);
                 }else if(m.mode == 18) {
                     String[] st=(String[]) m.message;
                     ArrayList<ClientEvent> at= new ArrayList<>();
