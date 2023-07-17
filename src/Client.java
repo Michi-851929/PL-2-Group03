@@ -1627,6 +1627,8 @@ public class Client extends JFrame {
 
 
         // 編集ボタン
+        username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
+
         JButton editButton = new JButton("編集");
         editButton.setBounds(WINDOW_WIDTH-80, 10, 60, 30);
         editButton.addActionListener(new ActionListener() {
@@ -1634,6 +1636,10 @@ public class Client extends JFrame {
                 //editEvent();
             }
         });
+        if(username.equals(ce.getEventOwner())) {
+            System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
+            editButton.setVisible(debug_boolean);
+        }
 
         // ボタンの余白を調整
         editButton.setMargin(new Insets(0, 0, 0, 0));
@@ -1663,20 +1669,20 @@ public class Client extends JFrame {
         // イベント名
         JLabel eventNameLabel = new JLabel(ce.getEventName());
         eventNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 25));
-        eventNameLabel.setBounds(70, 70, 400, 50);
+        eventNameLabel.setBounds(70, 20, 400, 50);
         eventPanel.add(eventNameLabel);
 
         // イベントコミュニティ名
         JLabel eventCommunityNameLabel = new JLabel(ce.getEventCommunityName());
         eventCommunityNameLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventCommunityNameLabel.setHorizontalAlignment(JLabel.RIGHT);
-        eventCommunityNameLabel.setBounds(WINDOW_WIDTH/2, 100, WINDOW_WIDTH/2-70, 50);
+        eventCommunityNameLabel.setBounds(WINDOW_WIDTH/2, 50, WINDOW_WIDTH/2-70, 50);
         eventPanel.add(eventCommunityNameLabel);
 
         // イベント名
         JLabel eventTimePlaceLabel = new JLabel(ce.getEventStart()+"-"+ce.getEventFinish()+" "+ce.getEventPlace() );
         eventTimePlaceLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
-        eventTimePlaceLabel.setBounds(70, 120, 400, 50);
+        eventTimePlaceLabel.setBounds(70, 70, 400, 50);
         eventPanel.add(eventTimePlaceLabel);
 
         // イベント概要
@@ -1687,14 +1693,14 @@ public class Client extends JFrame {
         eventOutlineLabel.setBackground(Color.WHITE);
         eventOutlineLabel.setRows(calculateLineCount(eventOutlineLabel, WINDOW_WIDTH-140));
         Dimension d = eventOutlineLabel.getPreferredSize();
-        eventOutlineLabel.setBounds(70, 170, WINDOW_WIDTH-140, d.height);
+        eventOutlineLabel.setBounds(70, 120, WINDOW_WIDTH-140, d.height);
         eventPanel.add(eventOutlineLabel);
 
         // イベントオーナー名
         JLabel eventOwnerLabel = new JLabel(ce.getEventOwner());
         eventOwnerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 17));
         eventOwnerLabel.setHorizontalAlignment(JLabel.RIGHT);
-        eventOwnerLabel.setBounds(WINDOW_WIDTH/2, 170+d.height, WINDOW_WIDTH/2-70, 50);
+        eventOwnerLabel.setBounds(WINDOW_WIDTH/2, 120+d.height, WINDOW_WIDTH/2-70, 50);
         eventPanel.add(eventOwnerLabel);
 
         //イベント詳細
@@ -1705,7 +1711,7 @@ public class Client extends JFrame {
         eventDetailLabel.setBackground(Color.WHITE);
         eventDetailLabel.setRows(calculateLineCount(eventDetailLabel, WINDOW_WIDTH-130));
         Dimension d2 = eventDetailLabel.getPreferredSize();
-        eventDetailLabel.setBounds(75, 270+d.height, WINDOW_WIDTH-150, d2.height);
+        eventDetailLabel.setBounds(75, 220+d.height, WINDOW_WIDTH-150, d2.height);
         eventPanel.add(eventDetailLabel);
         //if(account.getEventPreferred().contains(ce.getEventId())) { //TODO デバッグ用にコメントアウトしてるので、もろもろ完成時には解除する
         if(debug_boolean) {
@@ -1726,7 +1732,7 @@ public class Client extends JFrame {
         g_d.drawRoundRect(5, 5, WINDOW_WIDTH-140, d2.height+10, 10, 10);
         //g1.drawImage(blueIineImg, 5, 5, 30, 30, goodButton);
         JLabel detailBackGround = new JLabel(new ImageIcon(img_d));
-        detailBackGround.setBounds(60, 260+d.height, WINDOW_WIDTH-130, d2.height+20);
+        detailBackGround.setBounds(60, 210+d.height, WINDOW_WIDTH-130, d2.height+20);
         eventPanel.add(detailBackGround);
 
 
@@ -1735,7 +1741,7 @@ public class Client extends JFrame {
         ui_jl_back.setIcon(new ImageIcon(img0));
 
         //主催者からのメッセージ
-        int message_y = 290+d.height+d2.height;
+        int message_y = 290+d.height+d2.height-50;
         if(ce.getOwnerMessage().length>0) {
             JTextArea[] eventOwnerMessageLabel = new JTextArea[ce.getOwnerMessage().length];
             for(int i = 0; i < ce.getOwnerMessage().length;i++) {
@@ -1751,12 +1757,11 @@ public class Client extends JFrame {
                 eventPanel.add(eventOwnerMessageLabel[i]);
             }
         }
-
+        eventPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, message_y));
         //キャンセル
-        username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
         if(username.equals(ce.getEventOwner())) {
             System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
-            int message_y2 = message_y+20;
+            int message_y2 = message_y;
             if(ce.getCancelMessage().length>0) {
                 JTextArea[] eventCancelMessageLabel = new JTextArea[ce.getCancelMessage().length];
                 for(int i = 0; i < ce.getCancelMessage().length;i++) {
@@ -1772,6 +1777,7 @@ public class Client extends JFrame {
                     message_y2 += d4.height+15;
                     eventPanel.add(eventCancelMessageLabel[i]);
                 }
+                eventPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, message_y2));
             }
         }
 
@@ -1794,7 +1800,7 @@ public class Client extends JFrame {
             //iine = new ImageIcon(blueIine.getImage());
         }
         //goodButton.setIcon(iine);
-        goodButton.setBounds(WINDOW_WIDTH/2-140, 215+d.height, 120, 30);
+        goodButton.setBounds(WINDOW_WIDTH/2-140, 165+d.height, 120, 30);
         eventPanel.add(goodButton);
 
         //いいねボタン背景(非いいね時)
@@ -1808,7 +1814,7 @@ public class Client extends JFrame {
         g1.drawRoundRect(5, 5, 120, 30, 10, 10);
         //g1.drawImage(blueIineImg, 5, 5, 30, 30, goodButton);
         JLabel goodButton_bg_false = new JLabel(new ImageIcon(img1));
-        goodButton_bg_false.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
+        goodButton_bg_false.setBounds(WINDOW_WIDTH/2-145, 160+d.height, 130, 40);
         eventPanel.add(goodButton_bg_false);
 
         //いいねボタン背景(いいね時)
@@ -1822,7 +1828,7 @@ public class Client extends JFrame {
         g2.drawRoundRect(5, 5, 120, 30, 10, 10);
         //g2.drawImage(whiteIine.getImage(), 5, 5, 30, 30, goodButton);
         JLabel goodButton_bg_true = new JLabel(new ImageIcon(img2));
-        goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 210+d.height, 130, 40);
+        goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 160+d.height, 130, 40);
         eventPanel.add(goodButton_bg_true);
 
         //if(account.getEventPreferred().contains(ce.getEventId())) {
@@ -1888,7 +1894,7 @@ public class Client extends JFrame {
         JButton joinButton = new JButton("参加  "+ce.getJoin());
         joinButton.setContentAreaFilled(false);
         joinButton.setBorderPainted(false);
-        joinButton.setBounds(WINDOW_WIDTH/2+20, 215+d.height, 120, 30);
+        joinButton.setBounds(WINDOW_WIDTH/2+20, 165+d.height, 120, 30);
         //if(account.getAEventGoing(ce.getEventId())) {
         if(debug_boolean) { //TODO for debug
             joinButton.setForeground(Color.white);
@@ -1908,7 +1914,7 @@ public class Client extends JFrame {
         g3.setStroke(new BasicStroke(3));
         g3.drawRoundRect(5, 5, 120, 30, 10, 10);
         JLabel joinButton_bg_false = new JLabel(new ImageIcon(img3));
-        joinButton_bg_false.setBounds(WINDOW_WIDTH/2+15, 210+d.height, 130, 40);
+        joinButton_bg_false.setBounds(WINDOW_WIDTH/2+15, 160+d.height, 130, 40);
         eventPanel.add(joinButton_bg_false);
 
         //参加ボタン背景(参加時)
@@ -1921,7 +1927,7 @@ public class Client extends JFrame {
         g4.setStroke(new BasicStroke(3));
         g4.drawRoundRect(5, 5, 120, 30, 10, 10);
         JLabel joinButton_bg_true = new JLabel(new ImageIcon(img4));
-        joinButton_bg_true.setBounds(WINDOW_WIDTH/2+15, 210+d.height, 130, 40);
+        joinButton_bg_true.setBounds(WINDOW_WIDTH/2+15, 160+d.height, 130, 40);
         eventPanel.add(joinButton_bg_true);
 
         //if(account.getAEventGoing(ce.getEventId())) {
@@ -1983,7 +1989,7 @@ public class Client extends JFrame {
         //スクロール
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-125);
-        scrollPane.setBounds(0,0, WINDOW_WIDTH-12, WINDOW_HEIGHT-125);
+        scrollPane.setBounds(0,50, WINDOW_WIDTH, WINDOW_HEIGHT-175);
         //scrollPane.setPreferredSize(new Dimension(WINDOW_WIDTH-12, WINDOW_HEIGHT-125));
         scrollPane.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 0));
         scrollPane.setBackground(THEME_COLOR);
@@ -1994,7 +2000,7 @@ public class Client extends JFrame {
         ui_sb_00.setOpaque(true);
         ui_sb_00.setBackground(THEME_COLOR);
         //ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
-        //ui_sb_00.setUI(getScrollBarUI());
+        ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(true);
 
         eventPanel.setOpaque(true);
