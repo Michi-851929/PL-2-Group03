@@ -2270,7 +2270,7 @@ public class Client extends JFrame {
             for(int i = 0; i < ce.getOwnerMessage().length;i++) {
                 LocalDateTime time = ce.getMessageDateData(i);
                 String timeStr = time.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-                eventOwnerMessageLabel[i] = new JTextArea( timeStr+System.getProperty("line.separator")+ce.getOwnerMessage()[i],18,1);
+                eventOwnerMessageLabel[i] = new JTextArea(timeStr+System.getProperty("line.separator")+ce.getOwnerMessage()[i],18,1);
                 eventOwnerMessageLabel[i].setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
                 eventOwnerMessageLabel[i].setLineWrap(true);
                 eventOwnerMessageLabel[i].setEditable(false);
