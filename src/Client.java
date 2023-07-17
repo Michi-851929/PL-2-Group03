@@ -1968,6 +1968,7 @@ public class Client extends JFrame {
             joinButton_bg_false.setVisible(true);
             joinButton_bg_true.setVisible(false);
         }
+        boolean atFirstJoin = account.getAEventGoing(ce.getEventId());//画面を表示したとき参加をしていたか
 
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
@@ -1980,15 +1981,24 @@ public class Client extends JFrame {
                         joinButton_bg_false.setVisible(true);
                         joinButton_bg_true.setVisible(false);
                         System.out.println("参加解除しました");
-                        newJoin--;
+                        if(atFirstJoin) {
+                            joinButton.setText("参加 "+ (ce.getJoin()-1));
+                        }
+                        else {
+                            joinButton.setText("参加 "+ ce.getJoin());
+                        }
                     }
                     else {
                         joinButton.setForeground(Color.WHITE);
                         joinButton_bg_false.setVisible(false);
                         joinButton_bg_true.setVisible(true);
                         System.out.println("参加しました");
-                        newJoin++;
-                    }
+                        if(atFirstJoin) {
+                            joinButton.setText("参加 "+ (ce.getJoin()-1));
+                        }
+                        else {
+                            joinButton.setText("参加 "+ ce.getJoin());
+                        }                    }
                     joinButton.setText("参加  "+newJoin);
                     getNewMessage();
                 } catch (Exception e) {
