@@ -1592,7 +1592,8 @@ public class Client extends JFrame {
     }
 
     //イベント画面 month, dayは表示のため
-    void eventScreen(ClientEvent ce, int day) {
+    void eventScreen(ClientEvent ev, int day) {
+        ClientEvent ce = ev;
         boolean debug_boolean = true;
         setTitle("イベントの詳細");
         contentPane1.removeAll();
@@ -1856,11 +1857,13 @@ public class Client extends JFrame {
             goodButton_bg_true.setVisible(false);
         }
 
+        boolean atFirstGood = account.getEventPreferred().contains(ce.getEventId());//画面を表示したときいいねしていたか
+        
         goodButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
-                    Boolean tmp = cc.nice(ce.getEventId());
+                    cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
                     //if(debug_boolean) {//TODO for debug
                         goodButton.setForeground(Color.black);
@@ -1869,6 +1872,12 @@ public class Client extends JFrame {
                         eventDetailLabel.setText("いいねで詳細を表示");
                         goodButton.setIcon(blueIine);
                         System.out.println("いいね解除しました");
+                        if(atFirstGood) {
+                            goodButton.setText("いいね "+ (ce.getGood()-1));
+                        }
+                        else {
+                            goodButton.setText("いいね "+ ce.getGood());
+                        }
                     }
                     else {
                         goodButton.setForeground(Color.WHITE);
@@ -1877,10 +1886,14 @@ public class Client extends JFrame {
                         eventDetailLabel.setText(ce.getEventDetail());
                         goodButton.setIcon(whiteIine);
                         System.out.println("いいねしました");
-                    }
+                        if(atFirstGood) {
+                            goodButton.setText("いいね "+ (ce.getGood()));
+                        }
+                        else {
+                            goodButton.setText("いいね "+ ce.getGood()+1);
+                        }                    }
                     getNewMessage();
                     //更新を呼ぶ
-                    goodButton.setText("いいね "+ce.getGood());
                 } catch (Exception e) {
                     String error = e.getMessage();
                     if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -1958,24 +1971,23 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
-                    Boolean tmp = cc.joinEvent(ce.getEventId());
+                    cc.joinEvent(ce.getEventId());
+                    int newJoin = ce.getJoin();
                     if(account.getAEventGoing(ce.getEventId())) {
-                    //if(debug_boolean) { //TODO for debug
-                        if(tmp ==false) {
-                            joinButton.setForeground(JOIN_COLOR);
-                            joinButton_bg_false.setVisible(true);
-                            joinButton_bg_true.setVisible(false);
-                            System.out.println("参加解除しました");
-                        }
+                        joinButton.setForeground(JOIN_COLOR);
+                        joinButton_bg_false.setVisible(true);
+                        joinButton_bg_true.setVisible(false);
+                        System.out.println("参加解除しました");
+                        newJoin--;
                     }
                     else {
-                        if(tmp == true) {
                         joinButton.setForeground(Color.WHITE);
                         joinButton_bg_false.setVisible(false);
                         joinButton_bg_true.setVisible(true);
                         System.out.println("参加しました");
-                        }
+                        newJoin++;
                     }
+                    joinButton.setText("参加  "+newJoin);
                     getNewMessage();
                 } catch (Exception e) {
                     String error = e.getMessage();
