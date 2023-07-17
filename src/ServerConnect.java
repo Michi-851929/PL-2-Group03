@@ -139,7 +139,6 @@ class ConnectThread extends Thread{
                         ans.mode = 4;
                     }else{
                         if(tmp.getAEventGoing((String)m.message)) {
-                            se.setAbsentEvent(m.name, (String)m.message);
                             ans.message = false;
                         }else {
                             se.setPresentEvent(m.name, (String)m.message);
@@ -242,6 +241,18 @@ class ConnectThread extends Thread{
                         ans.mode = 4;
                     }else {
                         ans.message = at;
+                    }
+                }else if(m.mode == 20) {
+                    ClientEvent te=se.getEvent((String) m.message);
+                    if(te.getEventName().equals("")) {
+                        ans.mode = 4;
+                    }else{
+                        if(!tmp.getAEventGoing((String)m.message)) {
+                            ans.message = false;
+                        }else {
+                            se.setAbsentEvent(m.name, (String)m.message,(String)m.message2);
+                            ans.message = true;
+                        }
                     }
                 }else {
                     ans.mode = 5;

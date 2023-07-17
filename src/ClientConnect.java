@@ -143,7 +143,8 @@ public class ClientConnect{
         }
         return (Boolean)ans.message;
     }
-    Boolean joinEvent(String event_id) throws Exception { //イベント参加切り替え
+    
+    Boolean joinEvent(String event_id) throws Exception { //イベント参加
         Message tmp = new Message(this.id,this.pass,6);
         tmp.message = event_id;
         Message ans =null;
@@ -152,7 +153,7 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (Boolean)ans.message;
+        return (Boolean) ans.message;
     }
 
     int report(String event_id,int year,int month) throws Exception { //イベント通報
@@ -312,5 +313,18 @@ public class ClientConnect{
             throw e;
         }
         return (ArrayList<Community>)ans.message;
+    }
+    
+    Boolean AbsentEvent(String event_id,String cause) throws Exception { //イベント参加
+        Message tmp = new Message(this.id,this.pass,20);
+        tmp.message = event_id;
+        tmp.message2 = cause;
+        Message ans = null;
+        try {
+           ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (Boolean)ans.message;
     }
 }
