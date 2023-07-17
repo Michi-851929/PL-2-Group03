@@ -3185,46 +3185,51 @@ public class Client extends JFrame {
     void getNewMessage() { //更新の時はこれを呼んでください
         timer.cancel();
         timer = new Timer(false);
+        inroop();
         TimerTask tt =new TimerTask() {
             public void run() {
-                if(login_flag ==1) {
-                    update();
-                    ArrayList<String> go = account.getEventGoing();
-                    ArrayList<ClientEvent> go_event = new ArrayList<>();
-                    ArrayList<String[]> out_list= new ArrayList<>();
-                    try {
-                        if(!go.isEmpty()) {
-                        go_event = cc.getEvents((String[])go.toArray());
-                        go_event.forEach(event->{
-                            String[] tmp = {"","","",""};
-                            Message m = event.getNewOwnerMessage(account.getLastCheckInt());
-                            if((int)m.message2>0) {
-                                tmp[0] = event.getEventCommunityName();//コミュニティ名
-                                tmp[1] = event.getEventName();//イベント名
-                                tmp[2] = String.valueOf((int) m.message);//メッセージ数
-                                tmp[3] = (String) m.message2;//最新のメッセージ
-                                out_list.add(tmp);
-                            }
-                        });
-                        out_list.forEach(data->{
-                        //dataを出力してください
-                            String communityName = data[0];
-                            String eventName = data[1];
-                            String messageCount = data[2];
-                            String latestMessage = data[3];
-                            notificationScreen(communityName, eventName, messageCount, latestMessage);
-                        });
-                        }
-                    } catch (Exception e) {
-                    // TODO 自動生成された catch ブロック
-                        e.printStackTrace();
-                    }
-                }else {
-                    timer.cancel();
-                }
+                inroop();
             }
         };
-        timer.schedule(tt,0,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
+        timer.schedule(tt,300000,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
+    }
+    
+    void inroop() {
+    	if(login_flag ==1) {
+            update();
+            ArrayList<String> go = account.getEventGoing();
+            ArrayList<ClientEvent> go_event = new ArrayList<>();
+            ArrayList<String[]> out_list= new ArrayList<>();
+            try {
+                if(!go.isEmpty()) {
+                go_event = cc.getEvents((String[])go.toArray());
+                go_event.forEach(event->{
+                    String[] tmp = {"","","",""};
+                    Message m = event.getNewOwnerMessage(account.getLastCheckInt());
+                    if((int)m.message2>0) {
+                        tmp[0] = event.getEventCommunityName();//コミュニティ名
+                        tmp[1] = event.getEventName();//イベント名
+                        tmp[2] = String.valueOf((int) m.message);//メッセージ数
+                        tmp[3] = (String) m.message2;//最新のメッセージ
+                        out_list.add(tmp);
+                    }
+                });
+                out_list.forEach(data->{
+                //dataを出力してください
+                    String communityName = data[0];
+                    String eventName = data[1];
+                    String messageCount = data[2];
+                    String latestMessage = data[3];
+                    notificationScreen(communityName, eventName, messageCount, latestMessage);
+                });
+                }
+            } catch (Exception e) {
+            // TODO 自動生成された catch ブロック
+                e.printStackTrace();
+            }
+        }else {
+            timer.cancel();
+        }
     }
 
     public BasicScrollBarUI getScrollBarUI(){
