@@ -2509,6 +2509,8 @@ public class Client extends JFrame {
                             }
                             cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray(new String[tmp.size()])));
                             getNewMessage();
+                            eventDialog.setVisible(false);
+                            communityScreen();
                         }catch(Exception e){
                             String error = e.getMessage();
                             if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -3235,9 +3237,9 @@ public class Client extends JFrame {
         };
         timer.schedule(tt,300000,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
     }
-    
+
     void inroop() {
-    	if(login_flag ==1) {
+        if(login_flag ==1) {
             update();
             ArrayList<String> go = account.getEventGoing();
             ArrayList<ClientEvent> go_event = new ArrayList<>();
