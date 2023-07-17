@@ -3960,7 +3960,7 @@ public class Client extends JFrame {
             try {
                 if(!go.isEmpty()) {
                 go_event = cc.getEvents((String[])go.toArray(new String[go.size()]));
-                System.out.println(account.getLastCheckInt());
+                System.out.println(account.getLastCheckTime());
                 go_event.forEach(event->{
                     String[] tmp = {"","","",""};
                     Message m = event.getNewOwnerMessage(account.getLastCheckInt());
