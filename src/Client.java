@@ -3225,7 +3225,7 @@ public class Client extends JFrame {
             int ind10 = 0;
             int ind12 = 0;
             int ind18 = 0;
-            int ind24 = 0;
+            int ind22 = 0;
             char[] chars = name.toCharArray();
             
             for(int i = 1; i < chars.length; i++) {
@@ -3237,8 +3237,8 @@ public class Client extends JFrame {
                 }
                 ind = i;
                 
-                if(ind24 == 0 && str_length >= 24) {
-                    ind24 = ind;
+                if(ind22 == 0 && str_length >= 22) {
+                    ind22 = ind;
                 }
                 else if(ind18 == 0 && str_length >= 18) {
                     ind18 = ind;
@@ -3258,9 +3258,9 @@ public class Client extends JFrame {
             if(String.valueOf(chars[0]).getBytes().length < 2) {
                 g.drawString(name.substring(1, str_length >= 12 ? ind12 : name.length()), 36, 60);
                 if(str_length >= 12) {
-                    g.drawString(name.substring(ind12, str_length >= 24 ? ind24 : name.length()), 36, 80);
+                    g.drawString(name.substring(ind12, str_length >= 22 ? ind22 : name.length()), 36, 80);
                 }
-                if(str_length >= 24) {
+                if(str_length >= 22) {
                     g.drawString("…", 128, 80);
                 }
             }
