@@ -138,7 +138,7 @@ public class Client extends JFrame {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
-        ui_wlistener = new WindowListener() {
+        addWindowListener(new WindowListener() {
             public void windowOpened(WindowEvent e) {
 
             }
@@ -200,7 +200,7 @@ public class Client extends JFrame {
 
             }
 
-        };
+        });
 
         contentPane0 = new JPanel();
         ui_clayout = new CardLayout();
@@ -1461,10 +1461,10 @@ public class Client extends JFrame {
             JPanel jp = new JPanel();
             jp.setLayout(null);
             jp.setBounds(0, 0, 525,100);
-            
+
             JButton lb = new JButton("like");
             lb.setBounds(300,70,100,30);
-            
+
 
             BufferedImage img1 = createBackgroundImage(button_width, button_height);
             Graphics g1 = img1.getGraphics();
@@ -1519,12 +1519,12 @@ public class Client extends JFrame {
             jp.add(eventButton);
             ui_panel_04.add(jp);
             scrollPane.setViewportView(ui_panel_04);
-            
-            
+
+
         }
-        
-        
-        
+
+
+
 
         ui_panel_06.add(scrollPane);//, "Center");
         //ui_panel_06.add(ui_panel_05);
@@ -1699,7 +1699,7 @@ public class Client extends JFrame {
                 int button_width = 200;
                 int button_height = 50;
                 int r = 15;
-                
+
                 //メッセージを入力させる
                 JDialog messageAddDialog = new JDialog();
                 messageAddDialog.setTitle("メッセージを追加");
@@ -1707,7 +1707,7 @@ public class Client extends JFrame {
                 messageAddDialog.setSize(500, 300);
                 messageAddDialog.setLocationRelativeTo(null); // 中央に配置
                 messageAddDialog.setBackground(THEME_COLOR);
-                
+
                 JPanel messageAddPanel = new JPanel();
                 messageAddPanel.setPreferredSize(new Dimension(500, 300));
                 messageAddPanel.setLayout(null);
@@ -1722,7 +1722,7 @@ public class Client extends JFrame {
                 messageField.setBounds(50,50,400,30);
                 messageField.setPreferredSize(new Dimension(400,35));
                 messageAddPanel.add(messageField);
-                
+
                 // メッセージ追加ボタン
                 Image img1 = createImage(button_width, button_height);
                 Graphics g1 = img1.getGraphics();
@@ -1768,10 +1768,10 @@ public class Client extends JFrame {
                         }
                     }
                 });
-                
-                
+
+
                 messageAddPanel.add(messageDialogButton);
-                
+
                 messageAddDialog.add(messageAddPanel);
                 messageAddDialog.setVisible(true);
                 try {
@@ -1794,7 +1794,7 @@ public class Client extends JFrame {
         // 編集ボタン
         //username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
 
-        
+
         JButton editButton = new JButton("編集");
         editButton.setBounds(WINDOW_WIDTH-80, 10, 60, 30);
         editButton.addActionListener(new ActionListener() {
@@ -1872,12 +1872,12 @@ public class Client extends JFrame {
                 dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 dayLabel.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(dayLabel);
-                
+
                 */
 
                 // 時間のコンボボックス
                 String[] hour = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
-                
+
                 JComboBox<String> hourComboBox = new JComboBox<>(hour);
                 hourComboBox.setSelectedItem(split1[0]);
                 hourComboBox.setBounds(120, 60, 40, 30);
@@ -1949,7 +1949,7 @@ public class Client extends JFrame {
                 dayComboBox2.setBounds(120, 100, 40, 30);
                 dayComboBox2.setSelectedItem(String.format("%02d", currentday));
                 eventPanel.add(dayComboBox2);
-                
+
 
                 JLabel dayLabel2 = new JLabel("日");
                 dayLabel2.setBounds(160, 100, 20, 30);
@@ -2136,7 +2136,7 @@ public class Client extends JFrame {
 
             }
         });
-        
+
         if(username.equals(ce.getEventOwner())) {
             System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
             editButton.setVisible(debug_boolean);
@@ -2281,8 +2281,8 @@ public class Client extends JFrame {
                 message_y = message_y2;
             }
         }
-        
-        
+
+
         //報告ボタン
         JButton reportButton = new JButton("イベントを通報する");
         reportButton.setBounds(75,message_y,200,30);
@@ -2321,7 +2321,7 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         reportButton.setContentAreaFilled(false);
         eventPanel.add(reportButton);
-        
+
         eventPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, message_y+30));
 
 
@@ -2333,7 +2333,7 @@ public class Client extends JFrame {
         JButton goodButton = new JButton("いいね "+ce.getGood());
         goodButton.setContentAreaFilled(false);
         goodButton.setBorderPainted(false);
-        
+
         if(account.getEventPreferred().contains(ce.getEventId())) {
         //if(debug_boolean) {//TODO デバッグ用
             goodButton.setForeground(Color.white);
@@ -2500,11 +2500,11 @@ public class Client extends JFrame {
             {
                 try {
                     if(account.getEventGoing().contains(ce.getEventId())) {
-                        
+
                         int button_width = 200;
                         int button_height = 50;
                         int r = 15;
-                        
+
                         //キャンセル理由を入力させる
                         JDialog cancelDialog = new JDialog();
                         cancelDialog.setTitle("キャンセル理由を入力");
@@ -2512,7 +2512,7 @@ public class Client extends JFrame {
                         cancelDialog.setSize(500, 300);
                         cancelDialog.setLocationRelativeTo(null); // 中央に配置
                         cancelDialog.setBackground(THEME_COLOR);
-                        
+
                         JPanel cancelPanel = new JPanel();
                         cancelPanel.setPreferredSize(new Dimension(500, 300));
                         cancelPanel.setLayout(null);
@@ -2527,7 +2527,7 @@ public class Client extends JFrame {
                         reason.setBounds(50,50,400,50);
                         reason.setPreferredSize(new Dimension(400,35));
                         cancelPanel.add(reason);
-                        
+
                         // キャンセルボタン
                         Image img1 = createImage(button_width, button_height);
                         Graphics g1 = img1.getGraphics();
@@ -2569,7 +2569,7 @@ public class Client extends JFrame {
                                             JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
                                             account.removeEventGoing(ce.getEventId());
                                             eventScreen(cc.getEvent(ce.getEventId()), event_day); //再描画
-                                        }        
+                                        }
                                         getNewMessage();
                                     } catch (Exception e) {
                                         String error = e.getMessage();
@@ -2595,10 +2595,10 @@ public class Client extends JFrame {
                                 }
                             }
                         });
-                        
-                        
+
+
                         cancelPanel.add(cancelButton);
-                        
+
                         cancelDialog.add(cancelPanel);
                         cancelDialog.setVisible(true);
 
@@ -2615,7 +2615,7 @@ public class Client extends JFrame {
                             }
                             else {
                                 joinButton.setText("参加 "+ Integer.toString((ce.getJoin()+1)));
-                            }  
+                            }
                         }else {
                             JOptionPane.showMessageDialog(Client.this, "既に参加しているイベントです");
                             account.addEventGoing(ce.getEventId());
@@ -3221,8 +3221,8 @@ public class Client extends JFrame {
             Client.kadomaruRect(g, -100, 0, 280, 100, 100);
             g.setColor(Color.WHITE);
             g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 48));
-            
-            String name = community.getName(); 
+
+            String name = community.getName();
             int str_length = 0;
             int ind = 0;
             int ind10 = 0;
@@ -3230,7 +3230,7 @@ public class Client extends JFrame {
             int ind18 = 0;
             int ind22 = 0;
             char[] chars = name.toCharArray();
-            
+
             for(int i = 1; i < chars.length; i++) {
                 if(String.valueOf(chars[i]).getBytes().length < 2) {
                     str_length += 1;
@@ -3239,7 +3239,7 @@ public class Client extends JFrame {
                     str_length += 2;
                 }
                 ind = i;
-                
+
                 if(ind22 == 0 && str_length >= 22) {
                     ind22 = ind;
                 }
@@ -3247,16 +3247,16 @@ public class Client extends JFrame {
                     ind18 = ind;
                 }
                 else if(ind12 == 0 && str_length >= 12) {
-                    ind12 = ind; 
+                    ind12 = ind;
                 }
                 else if(ind10 == 0 && str_length >= 10) {
                     ind10 = ind;
                 }
-                
+
             }
-            
+
             g.drawString(name.substring(0,1), 0, 80);
-            
+
             g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
             if(String.valueOf(chars[0]).getBytes().length < 2) {
                 g.drawString(name.substring(1, str_length >= 12 ? ind12 : name.length()), 36, 60);
@@ -3888,7 +3888,6 @@ public class Client extends JFrame {
         ui_clayout.show(contentPane0, "カレンダー画面");
         userScreen();
         calendarScreen();
-        addWindowListener(ui_wlistener);
     }
 
     //ログアウト
@@ -3896,7 +3895,6 @@ public class Client extends JFrame {
         login_flag = 0;
         timer.cancel();
         loginScreen();
-        removeWindowListener(ui_wlistener);
         return 0;
     }
 
