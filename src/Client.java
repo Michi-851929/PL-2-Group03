@@ -3940,13 +3940,14 @@ public class Client extends JFrame {
         };
         timer.schedule(tt,300000,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
     }
-
+    
+    ArrayList<String[]> out_list= new ArrayList<>();
     void inroop() {
         if(login_flag ==1) {
             update();
             ArrayList<String> go = account.getEventGoing();
             ArrayList<ClientEvent> go_event = new ArrayList<>();
-            ArrayList<String[]> out_list= new ArrayList<>();
+            out_list = new ArrayList<>();
             try {
                 if(!go.isEmpty()) {
                 go_event = cc.getEvents((String[])go.toArray(new String[go.size()]));
@@ -3961,14 +3962,16 @@ public class Client extends JFrame {
                         out_list.add(tmp);
                     }
                 });
-                out_list.forEach(data->{
+                if(out_list!=null) {
+                    out_list.forEach(data->{
                 //dataを出力してください
-                    String communityName = data[0];
-                    String eventName = data[1];
-                    String messageCount = data[2];
-                    String latestMessage = data[3];
+                        String communityName = data[0];
+                        String eventName = data[1];
+                        String messageCount = data[2];
+                        String latestMessage = data[3];
                     notificationScreen(communityName, eventName, messageCount, latestMessage);
-                });
+                    });
+                    }
                 }
             } catch (Exception e) {
             // TODO 自動生成された catch ブロック
