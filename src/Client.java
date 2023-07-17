@@ -32,6 +32,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -1287,7 +1288,6 @@ public class Client extends JFrame {
                                     logout();
                                 }else{
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
-                                    e.printStackTrace();
                                 }
 
                             }
@@ -1422,49 +1422,21 @@ public class Client extends JFrame {
         ui_panel_06.setLayout(null);
         ui_panel_06.setBounds(13, 75, WINDOW_WIDTH, 550 - 12);
         ui_panel_06.setBackground(THEME_COLOR);
-        /*
         JPanel ui_panel_05 = new JPanel();
         ui_panel_05.setLayout(new BorderLayout());
         ui_panel_05.setSize(WINDOW_WIDTH - 24, 550 - 12);
         ui_panel_05.setBackground(THEME_COLOR);
-        */
 
         // イベント一覧
-        /*
         JPanel ui_panel_03 = new JPanel();
-        ui_panel_03.setLayout(null);
-        ui_panel_03.setSize(WINDOW_WIDTH-20,500);
-        //ui_panel_03.setBounds(25,75,550,600);
-         * */
-        JPanel ui_panel_04 = new JPanel();
-        ui_panel_04.setBackground(THEME_COLOR);
-        //ui_panel_04.setBounds(0, 0, 525, 600);
-        ui_panel_04.setLayout(new BoxLayout(ui_panel_04, BoxLayout.Y_AXIS));
-        //ui_panel_03.add(ui_panel_04);
+        if(events_num < 6) {
+            ui_panel_03.setLayout(new GridLayout(5, 1, 4, 4));
+        }else {
+            ui_panel_03.setLayout(new GridLayout(events_num, 1, 4, 4));
+        }
+        ui_panel_03.setBackground(THEME_COLOR); // ボタン間の隙間をTHEME_COLORで塗りつぶす
 
-        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        //scrollPane.setSize(WINDOW_WIDTH, 600);
-        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
-        scrollPane.setBackground(THEME_COLOR);
-        scrollPane.setBounds(0,0,WINDOW_WIDTH,600);
-
-        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
-        ui_sb_00.setOpaque(true);
-        ui_sb_00.setBackground(THEME_COLOR);
-        //ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
-        ui_sb_00.setUI(getScrollBarUI());
-        ui_sb_00.setVisible(false);
-
-        scrollPane.setViewportView(ui_panel_04);
         for (int i = 0; i < events_num; i++) {
-            int offset = 80;
-            JPanel jp = new JPanel();
-            jp.setLayout(null);
-            jp.setBounds(0, 0, 525,100);
-
-            JButton lb = new JButton("like");
-            lb.setBounds(300,70,100,30);
-
 
             BufferedImage img1 = createBackgroundImage(button_width, button_height);
             Graphics g1 = img1.getGraphics();
@@ -1494,7 +1466,6 @@ public class Client extends JFrame {
 
 
             JButton eventButton = new JButton("");
-            eventButton.setBounds(0, 0, 525, 100);
             eventButton.setBackground(THEME_COLOR);
             eventButton.setForeground(Color.black);
             eventButton.setOpaque(true);
@@ -1515,19 +1486,25 @@ public class Client extends JFrame {
                 }
             });
 
-            jp.add(lb);
-            jp.add(eventButton);
-            ui_panel_04.add(jp);
-            scrollPane.setViewportView(ui_panel_04);
-
+            ui_panel_03.add(eventButton);
 
         }
 
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setSize(WINDOW_WIDTH, 600);
+        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
+        scrollPane.setBackground(THEME_COLOR);
 
+        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
+        ui_sb_00.setOpaque(true);
+        ui_sb_00.setBackground(THEME_COLOR);
+        //ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+        ui_sb_00.setUI(getScrollBarUI());
+        ui_sb_00.setVisible(false);
 
-
-        ui_panel_06.add(scrollPane);//, "Center");
-        //ui_panel_06.add(ui_panel_05);
+        scrollPane.setViewportView(ui_panel_03);
+        ui_panel_05.add(scrollPane, "Center");
+        ui_panel_06.add(ui_panel_05);
         ui_panel_00.add(ui_panel_06);
 
         JPanel ui_panel_07 = new JPanel();
@@ -1625,7 +1602,110 @@ public class Client extends JFrame {
         repaint();
 
 
+/*日付画面もがきすぎてわけわからない
+ * 
+ *      // イベント一覧
+        
+        JPanel ui_panel_03 = new JPanel();
+        ui_panel_03.setLayout(null);
+        ui_panel_03.setSize(WINDOW_WIDTH-20,500);
+        //ui_panel_03.setBounds(25,75,550,600);
+         
+        JPanel ui_panel_04 = new JPanel();
+        ui_panel_04.setBackground(THEME_COLOR);
+        ui_panel_04.setLayout(new BoxLayout(ui_panel_04, BoxLayout.Y_AXIS));
+        //ui_panel_03.add(ui_panel_04);
 
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBounds(25,75,550, 525);
+        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
+        scrollPane.setBackground(THEME_COLOR);
+
+        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
+        ui_sb_00.setOpaque(true);
+        ui_sb_00.setBackground(THEME_COLOR);
+        //ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+        ui_sb_00.setUI(getScrollBarUI());
+        ui_sb_00.setVisible(false);
+
+        //scrollPane.setViewportView(ui_panel_04);
+        for (int i = 0; i < events_num; i++) {
+            JPanel jp = new JPanel();
+            jp.setLayout(null);
+            jp.setBounds(0,0,500,100);
+            jp.setBackground(THEME_COLOR);
+            jp.setForeground(Color.black);
+            //eventButton.setMargin(new Insets(0,0,0,0));
+            
+            JButton lb = new JButton("like");
+            lb.setBounds(300,70,100,30);
+            
+
+            BufferedImage img1 = createBackgroundImage(500, button_height);
+            Graphics g1 = img1.getGraphics();
+            g1.setColor(Color.WHITE);
+            Client.kadomaruRect(g1, 0, 0, 500, button_height, r, Color.WHITE, THEME_COLOR);
+            g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 24));
+            g1.setColor(Color.BLACK);
+            ClientEvent event = day_event.get(i);
+            String name = day_event.get(i).getEventName();
+            String s_time = day_event.get(i).getEventStart();
+            String f_time = day_event.get(i).getEventFinish();
+            String place = day_event.get(i).getEventPlace();
+            String com_name = day_event.get(i).getEventCommunityName();
+            int good_num = day_event.get(i).getGood();
+            String id = day_event.get(i).getEventId();
+
+            if(account.getAEventPreferrd(day_event.get(i).getEventId())==true) {
+                g1.drawString(name+"♡", 10, 30);
+            }else {
+                g1.drawString(name, 10, 30);
+            }
+            g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
+            g1.drawString(s_time+"-"+f_time, 10, 90);
+            g1.drawString(place, 170, 90);
+            g1.drawString(com_name, 350, 30);
+            g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
+
+
+            JButton eventButton = new JButton("");
+            eventButton.setBounds(0, 0, 525, 100);
+            eventButton.setBackground(THEME_COLOR);
+            eventButton.setForeground(Color.black);
+            eventButton.setOpaque(true);
+            //eventButton.setMargin(new Insets(0,0,0,0));
+            eventButton.setBorderPainted(false);
+            eventButton.setIcon(new ImageIcon(img1));
+
+            eventButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    eve_id = id;
+                    System.out.println(id);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM");
+                    String day = ui_ld_looking.format(formatter);
+                    int intday = Integer.parseInt(day);
+                    eventScreen(event, intday);
+                    day_event.clear();
+                    addflag=0;
+                }
+            });
+
+            jp.add(lb);
+            jp.add(eventButton);
+            ui_panel_04.add(jp);
+            //ui_panel_04.add(eventButton);
+            scrollPane.setViewportView(ui_panel_04);
+            
+            
+        }
+        
+        
+        
+
+        //ui_panel_06.add(scrollPane);//, "Center");
+        //ui_panel_06.add(ui_panel_05);
+        ui_panel_00.add(scrollPane);
+ */
 
     }
 
@@ -2267,7 +2347,9 @@ public class Client extends JFrame {
             eventPanel.add(eventOwnerMessageLabelTitle);
             message_y += 25;
             for(int i = 0; i < ce.getOwnerMessage().length;i++) {
-                eventOwnerMessageLabel[i] = new JTextArea(ce.getOwnerMessage()[i],18,1);
+                LocalDateTime time = ce.getMessageDateData(i);
+                String timeStr = time.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+                eventOwnerMessageLabel[i] = new JTextArea(timeStr+System.getProperty("line.separator")+ce.getOwnerMessage()[i],18,1);
                 eventOwnerMessageLabel[i].setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
                 eventOwnerMessageLabel[i].setLineWrap(true);
                 eventOwnerMessageLabel[i].setEditable(false);
