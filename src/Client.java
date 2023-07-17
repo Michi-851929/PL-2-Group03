@@ -2249,13 +2249,14 @@ public class Client extends JFrame {
                     message_y2 += d4.height+15;
                     eventPanel.add(eventCancelMessageLabel[i]);
                 }
-                eventPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, message_y2));
+                message_y = message_y2;
             }
-            message_y = message_y2;
         }
         
+        
+        //報告ボタン
         JButton reportButton = new JButton("イベントを通報する");
-        reportButton.setBounds(0,message_y+5,40,30);
+        reportButton.setBounds(75,message_y,200,30);
         reportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 ce.increaseReport();
@@ -2276,7 +2277,9 @@ public class Client extends JFrame {
 
         // ボタンの背景を透明にする
         reportButton.setContentAreaFilled(false);
-        backgroundPanel.add(reportButton);
+        eventPanel.add(reportButton);
+        
+        eventPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, message_y+30));
 
 
         // いいねボタン
