@@ -15,8 +15,8 @@ public class Account implements Serializable{
     private ArrayList<String> event_going = new ArrayList<>();
     private ArrayList<String> event_preferred = new ArrayList<>();
     private ArrayList<String> event_made = new ArrayList<>();
-    private final String SALT_FRONT = "f784ge8fiawurfheshrtawt8uwt8h4yd";
-    private final String SALT_BACK = "u8ofhaeioniqahriawrfjarfaifbdurg";
+    public final String SALT_FRONT = "f784ge8fiawurfheshrtawt8uwt8h4yd";
+    public final String SALT_BACK = "u8ofhaeioniqahriawrfjarfaifbdurg";
 
     //パスワード認証の戻り値を表す定数
     public final static int PASS_CORRECT = 1; //正しい
