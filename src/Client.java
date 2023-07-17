@@ -85,7 +85,6 @@ public class Client extends JFrame {
     private LocalDate ui_ld_firstofmonth;
     private LocalDate ui_ld_looking;
     private TrayIcon ui_ticon;
-    private WindowListener ui_wlistener;
     private JFrame frame;
 
     private JButton[] ui_jb_calendar = new JButton[7 * 6];
@@ -114,7 +113,6 @@ public class Client extends JFrame {
 
 
     private  int login_flag;
-    private int register_flag;
     private String eve_id;
     private Timer timer = new Timer(false);;
     private int sortflag;
@@ -303,8 +301,6 @@ public class Client extends JFrame {
                 username = usernameField.getText();
                 char[] passwordchars = passwordField.getPassword();
                 password = new String(passwordchars);
-                System.out.println("username:" + username);
-                System.out.println("password:" + password);
 
                 if (username.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "名前とパスワードを入力してください");
@@ -494,9 +490,6 @@ public class Client extends JFrame {
                 } catch (SocketException e1) {
                     e1.printStackTrace();
                 }
-                System.out.println("username:"+username);
-                System.out.println("password:"+password);
-                System.out.println("macaddress:"+macaddress);
                 if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(Client.this, "全ての項目を入力してください");
                 }else if (!password.equals(confirmPassword)) {
@@ -848,7 +841,6 @@ public class Client extends JFrame {
                                 String place = search_list.get(i).getEventPlace();
                                 String com_name = search_list.get(i).getEventCommunityName();
                                 int good_num = search_list.get(i).getGood();
-                                String id = search_list.get(i).getEventId();
 
                                 if(account.getAEventPreferrd(search_list.get(i).getEventId())==true) {
                                     g1.drawString(name+"♡", 10, 30);
@@ -1231,7 +1223,7 @@ public class Client extends JFrame {
             }
 
 
-            System.out.println(day_event);
+            //System.out.println(day_event);
         } catch (Exception e3) {
             // TODO 自動生成された catch ブロック
             e3.printStackTrace();
@@ -1292,7 +1284,7 @@ public class Client extends JFrame {
                     JOptionPane.showMessageDialog(null, "所属しているコミュニティがありません。", "エラー", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                System.out.println("イベントを追加します");
+                //System.out.println("イベントを追加します");
                 // イベント作成画面のダイアログを作成
                 JDialog eventDialog = new JDialog();
                 eventDialog.setTitle("イベント作成");
@@ -1565,7 +1557,7 @@ public class Client extends JFrame {
                             // OKボタンが押された場合の処理を記述
                             // ここでイベントを作成する処理を実行
 
-                            System.out.println(ui_ld_looking);
+                            //System.out.println(ui_ld_looking);
                             //DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
                             //String year = ui_ld_looking.format(formatter1);
                             //String month = (String)monthComboBox.getSelectedItem();
@@ -1585,7 +1577,7 @@ public class Client extends JFrame {
                                 int eve_size = day_event.size();
                                 for(int i=0;i<eve_size;i++) {
                                     String eve_name =day_event.get(i).getEventName();
-                                    System.out.println(eve_name);
+                                    //System.out.println(eve_name);
                                 }
 
                                 for(int i=0;i<=community_list.size();i++) {
@@ -1728,11 +1720,11 @@ public class Client extends JFrame {
             // TODO 自動生成された catch ブロック
             e1.printStackTrace();
         }
-
+/*
         for (ClientEvent event : day_event) {
             System.out.println(event.getEventName());
         }
-
+*/
         int events_num = day_event.size();
 
         int button_width = 525;
@@ -1798,7 +1790,7 @@ public class Client extends JFrame {
             eventButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
                     eve_id = id;
-                    System.out.println(id);
+                    //System.out.println(id);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM");
                     String day = ui_ld_looking.format(formatter);
                     int intday = Integer.parseInt(day);
@@ -2044,7 +2036,7 @@ public class Client extends JFrame {
     void eventScreen(ClientEvent ev, int day) {
         int event_day = day;
         ClientEvent ce = ev;
-        boolean debug_boolean = true;
+        //boolean debug_boolean = true;
         setTitle("イベントの詳細");
         contentPane1.removeAll();
         contentPane1.setLayout(null);
@@ -2212,7 +2204,7 @@ public class Client extends JFrame {
                     JOptionPane.showMessageDialog(null, "所属しているコミュニティがありません。", "エラー", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                System.out.println("イベントを編集します");
+                //System.out.println("イベントを編集します");
                 // イベント作成画面のダイアログを作成
                 JDialog eventDialog = new JDialog();
                 eventDialog.setTitle("イベント編集");
@@ -2241,11 +2233,11 @@ public class Client extends JFrame {
                 JLabel startTimeLabel = new JLabel("開始時刻:");
                 startTimeLabel.setBounds(20, 60, 100, 30);
                 eventPanel.add(startTimeLabel);
-
+/*
                 int currentYear = ui_ld_looking.getYear();
                 int currentMonth = ui_ld_looking.getMonthValue();
                 int currentday = ui_ld_looking.getDayOfMonth();
-
+*/
 
                 /*
                 JLabel yearLabel = new JLabel(currentYear+"年");
@@ -2549,7 +2541,7 @@ public class Client extends JFrame {
         });
 
         if(username.equals(ce.getEventOwner())) {
-            System.out.println("ユーザーはこのイベントの主催者です");
+            //System.out.println("ユーザーはこのイベントの主催者です");
             editButton.setVisible(true);
         }
         else {
@@ -2686,7 +2678,7 @@ public class Client extends JFrame {
         eventPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, message_y));
         //キャンセル
         if(username.equals(ce.getEventOwner())) {
-            System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
+            //System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
             int message_y2 = message_y;
             if(ce.getCancelMessage().length>0) {
                 JTextArea[] eventCancelMessageLabel = new JTextArea[ce.getCancelMessage().length];
@@ -2824,7 +2816,7 @@ public class Client extends JFrame {
                         goodButton_bg_true.setVisible(false);
                         eventDetailLabel.setText("いいねで詳細を表示");
                         goodButton.setIcon(blueIine);
-                        System.out.println("いいね解除しました");
+                        //System.out.println("いいね解除しました");
                         if(atFirstGood) {
                             goodButton.setText("いいね "+ Integer.toString(ce.getGood()-1));
                         }
@@ -2838,7 +2830,7 @@ public class Client extends JFrame {
                         goodButton_bg_true.setVisible(true);
                         eventDetailLabel.setText(ce.getEventDetail());
                         goodButton.setIcon(whiteIine);
-                        System.out.println("いいねしました");
+                        //System.out.println("いいねしました");
                         if(atFirstGood) {
                             goodButton.setText("いいね "+ Integer.toString(ce.getGood()));
                         }
@@ -2859,7 +2851,7 @@ public class Client extends JFrame {
                         JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                         logout();
                     }else if(error.equals(ClientConnect.ERROR)) {
-                        System.out.println("存在しないイベントです");
+                        //System.out.println("存在しないイベントです");
                     }else{
                         JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                         e.printStackTrace();
@@ -2984,7 +2976,7 @@ public class Client extends JFrame {
                                             joinButton.setForeground(JOIN_COLOR);
                                             joinButton_bg_false.setVisible(true);
                                             joinButton_bg_true.setVisible(false);
-                                            System.out.println("参加解除しました");
+                                            //System.out.println("参加解除しました");
                                             if(atFirstJoin) {
                                                 joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
                                             }
@@ -3009,7 +3001,7 @@ public class Client extends JFrame {
                                             JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                                             logout();
                                         }else if(error.equals(ClientConnect.ERROR)) {
-                                            System.out.println("存在しないイベントです");
+                                            //System.out.println("存在しないイベントです");
                                         }else{
                                             JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                             e.printStackTrace();
@@ -3035,7 +3027,7 @@ public class Client extends JFrame {
                             joinButton.setForeground(Color.WHITE);
                             joinButton_bg_false.setVisible(false);
                             joinButton_bg_true.setVisible(true);
-                            System.out.println("参加しました");
+                            //System.out.println("参加しました");
                             if(atFirstJoin) {
                                 joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
                             }
@@ -3062,7 +3054,7 @@ public class Client extends JFrame {
                         JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                         logout();
                     }else if(error.equals(ClientConnect.ERROR)) {
-                        System.out.println("存在しないイベントです");
+                        //System.out.println("存在しないイベントです");
                     }else{
                         JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                         e.printStackTrace();
@@ -3131,7 +3123,7 @@ public class Client extends JFrame {
                 textWidth = charWidth;
             }
         }
-        System.out.println(lineCount);
+        //System.out.println(lineCount);
         return lineCount;
     }
 
@@ -3742,7 +3734,7 @@ public class Client extends JFrame {
                         }
 
 
-                        System.out.println(community.getName() + "から脱退しました");
+                        //System.out.println(community.getName() + "から脱退しました");
                     }
                 }
             });
@@ -3872,7 +3864,7 @@ public class Client extends JFrame {
 
                                 }
                                 //通信など コミュニティに加入する処理
-                                System.out.println(s + "に加入しました");
+                                //System.out.println(s + "に加入しました");
                             }
                         }
                     });
@@ -4400,7 +4392,7 @@ public class Client extends JFrame {
             // TODO 自動生成された catch ブロック
                 e.printStackTrace();
             }
-            System.out.println(account.getLastCheckTime());
+            //System.out.println(account.getLastCheckTime());
         }else {
             timer.cancel();
         }
