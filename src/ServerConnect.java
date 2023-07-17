@@ -155,9 +155,10 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 8) {
                     ClientEvent te=se.getEvent((String) m.message);
-                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||!te.getEventOwner().equals(m.name)) {
                         ans.mode = 4;
                     }else{
+                       
                         se.addHostMessage((String)m.message,(String) m.message2);
                     }
                 }else if(m.mode == 9) {
@@ -166,14 +167,14 @@ class ConnectThread extends Thread{
                     ans.message=se.createEvent(te,it[0],it[1],it[2],it[3] );
                 }else if(m.mode == 10) {
                     ClientEvent te = (ClientEvent)m.message;
-                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||!te.getEventOwner().equals(m.name)) {
                         ans.mode = 4;
                     }else{
                         se.manageEvent(te);
                     }
                 }else if(m.mode == 11) {
                     ClientEvent te = (ClientEvent)m.message;
-                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||!te.getEventOwner().equals(m.name)) {
                         ans.mode = 4;
                     }else{
                         int[] it = (int[])m.message2;
