@@ -1326,9 +1326,9 @@ public class Client extends JFrame {
         ui_jb_lastmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 ui_ld_looking = ui_ld_looking.minusDays(1);
-                dateScreen();
                 day_event.clear();
                 addflag=0;
+                dateScreen();
             }
         });
         ui_panel_02.add(ui_jb_lastmonth, "West");
@@ -1340,9 +1340,9 @@ public class Client extends JFrame {
         ui_jb_nextmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 ui_ld_looking = ui_ld_looking.plusDays(1);
-                dateScreen();
                 day_event.clear();
                 addflag=0;
+                dateScreen();
             }
         });
         ui_panel_02.add(ui_jb_nextmonth, "East");
@@ -1670,9 +1670,353 @@ public class Client extends JFrame {
         editButton.setBounds(WINDOW_WIDTH-80, 10, 60, 30);
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                //editEvent();
+                // コミュニティが存在しない場合、エラーメッセージを表示して処理を中止
+                if (community_list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "所属しているコミュニティがありません。", "エラー", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                System.out.println("イベントを編集します");
+                // イベント作成画面のダイアログを作成
+                JDialog eventDialog = new JDialog();
+                eventDialog.setTitle("イベント編集");
+                eventDialog.setModal(true); // モーダルダイアログとして設定
+                eventDialog.setSize(500, 500);
+                eventDialog.setLocationRelativeTo(null); // 中央に配置
+
+                // イベント作成画面のコンポーネントを追加
+                // TODO: イベント作成画面のコンポーネントを追加する処理を記述
+                // イベント作成画面のコンポーネントを追加
+                JPanel eventPanel = new JPanel();
+                eventPanel.setLayout(null);
+                eventPanel.setBackground(THEME_COLOR);
+
+                // イベント名入力フィールド
+                JLabel nameLabel = new JLabel("イベント名:");
+                nameLabel.setBounds(20, 20, 100, 30);
+                eventPanel.add(nameLabel);
+
+                JTextField nameField = new JTextField();
+                nameField.setBounds(120, 20, 315, 30);
+                nameField.setText(ce.getEventName());
+                eventPanel.add(nameField);
+
+                // 開始時間入力フィールド
+                JLabel startTimeLabel = new JLabel("開始時刻:");
+                startTimeLabel.setBounds(20, 60, 100, 30);
+                eventPanel.add(startTimeLabel);
+
+                int currentYear = ui_ld_looking.getYear();
+                int currentMonth = ui_ld_looking.getMonthValue();
+                int currentday = ui_ld_looking.getDayOfMonth();
+
+
+                /*
+                JLabel yearLabel = new JLabel(currentYear+"年");
+                yearLabel.setBounds(120, 60, 75, 30);
+                yearLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                yearLabel.setVerticalAlignment(SwingConstants.CENTER);
+                //eventPanel.add(yearLabel);
+
+
+                JLabel monthLabel = new JLabel(currentMonth+"月");
+                monthLabel.setBounds(195, 60, 60, 30);
+                monthLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                monthLabel.setVerticalAlignment(SwingConstants.CENTER);
+                //eventPanel.add(monthLabel);
+                 *
+                 */
+
+                // 日のコンボボックス
+                dayComboBox = new JComboBox<>();
+                updateDayComboBox(currentYear,currentMonth,dayComboBox); // 初期の日の選択肢を設定
+                dayComboBox.setBounds(120, 60, 40, 30);
+                dayComboBox.setSelectedItem(String.format("%02d", currentday));
+                eventPanel.add(dayComboBox);
+
+                JLabel dayLabel = new JLabel("日");
+                dayLabel.setBounds(160, 60, 20, 30);
+                dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                dayLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(dayLabel);
+
+                // 時間のコンボボックス
+                String[] hour = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+                JComboBox<String> hourComboBox = new JComboBox<>(hour);
+                hourComboBox.setBounds(180, 60, 40, 30);
+                eventPanel.add(hourComboBox);
+
+                JLabel hourLabel = new JLabel("時");
+                hourLabel.setBounds(220, 60, 20, 30);
+                hourLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                hourLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(hourLabel);
+
+                String[] minute = {"00","05","10","15","20","25","30","35","40","45","50","55"};
+                JComboBox<String> minuteComboBox = new JComboBox<>(minute);
+                minuteComboBox.setBounds(240, 60, 40, 30);
+                eventPanel.add(minuteComboBox);
+
+                JLabel minuteLabel = new JLabel("分");
+                minuteLabel.setBounds(280, 60, 20, 30);
+                minuteLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                minuteLabel.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(minuteLabel);
+
+
+
+                // 終了時間入力フィールド
+                JLabel endTimeLabel = new JLabel("終了時刻:");
+                endTimeLabel.setBounds(20, 100, 100, 30);
+                eventPanel.add(endTimeLabel);
+
+                /*
+                // 年のコンボボックス
+                yearComboBox2 = new JComboBox<>();
+                for (int year2 = currentYear - 10; year2 <= currentYear + 10; year2++) {
+                    yearComboBox2.addItem(year2);
+                }
+                yearComboBox2.setSelectedItem(currentYear); // 現在の年を選択
+                yearComboBox2.setBounds(120, 100, 55, 30);
+                yearComboBox2.addActionListener(e -> updateDayComboBox(currentYear,currentMonth,dayComboBox2));
+                //eventPanel.add(yearComboBox2);
+
+                JLabel yearLabel2 = new JLabel("年");
+                yearLabel2.setBounds(175, 100, 20, 30);
+                yearLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                yearLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                //eventPanel.add(yearLabel2);
+
+                // 月のコンボボックス
+                monthComboBox2 = new JComboBox<>();
+                for (int month2 = 1; month2 <= 12; month2++) {
+                    monthComboBox2.addItem(String.format("%02d", month2));
+                }
+                monthComboBox2.setSelectedItem(String.format("%02d", currentMonth)); // 現在の月を選択
+                monthComboBox2.setBounds(195, 100, 40, 30);
+                monthComboBox2.addActionListener(e -> updateDayComboBox(currentYear,currentMonth,dayComboBox2));
+
+                JLabel monthLabel2 = new JLabel("月");
+                monthLabel2.setBounds(235, 100, 20, 30);
+                monthLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                monthLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                //eventPanel.add(monthLabel2);
+                 *
+                 */
+
+                // 日のコンボボックス
+                dayComboBox2 = new JComboBox<>();
+                updateDayComboBox(currentYear,currentMonth,dayComboBox2); // 初期の日の選択肢を設定
+                dayComboBox2.setBounds(120, 100, 40, 30);
+                dayComboBox2.setSelectedItem(String.format("%02d", currentday));
+                eventPanel.add(dayComboBox2);
+
+                JLabel dayLabel2 = new JLabel("日");
+                dayLabel2.setBounds(160, 100, 20, 30);
+                dayLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                dayLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(dayLabel2);
+
+                // 時間のコンボボックス
+                String[] hour2 = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+                JComboBox<String> hourComboBox2 = new JComboBox<>(hour2);
+                hourComboBox2.setBounds(180, 100, 40, 30);
+                eventPanel.add(hourComboBox2);
+
+                JLabel hourLabel2 = new JLabel("時");
+                hourLabel2.setBounds(220, 100, 20, 30);
+                hourLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                hourLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(hourLabel2);
+
+                String[] minute2 = {"00","05","10","15","20","25","30","35","40","45","50","55"};
+                JComboBox<String> minuteComboBox2 = new JComboBox<>(minute2);
+                minuteComboBox2.setBounds(240, 100, 40, 30);
+                eventPanel.add(minuteComboBox2);
+
+                JLabel minuteLabel2 = new JLabel("分");
+                minuteLabel2.setBounds(280, 100, 20, 30);
+                minuteLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+                minuteLabel2.setVerticalAlignment(SwingConstants.CENTER);
+                eventPanel.add(minuteLabel2);
+
+
+                // 場所入力フィールド
+                JLabel placeLabel = new JLabel("場所:");
+                placeLabel.setBounds(20, 140, 100, 30);
+                eventPanel.add(placeLabel);
+
+                JTextField placeField = new JTextField();
+                placeField.setText(ce.getEventPlace());
+                placeField.setBounds(120, 140, 315, 30);
+                eventPanel.add(placeField);
+
+                // 概要入力フィールド
+                JLabel summaryLabel = new JLabel("概要:");
+                summaryLabel.setBounds(20, 180, 100, 30);
+                eventPanel.add(summaryLabel);
+
+                JTextArea summaryArea = new JTextArea();
+                summaryArea.setBounds(120, 180, 315, 80);
+                summaryArea.setText(ce.getEventOutline());
+                summaryArea.setLineWrap(true);
+                summaryArea.setWrapStyleWord(true);
+                summaryArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                JScrollPane summaryScrollPane = new JScrollPane(summaryArea);
+                summaryScrollPane.setBounds(120, 180, 315, 80);
+                summaryScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                summaryScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                eventPanel.add(summaryScrollPane);
+
+                // 詳細入力フィールド
+                JLabel detailsLabel = new JLabel("詳細:");
+                detailsLabel.setBounds(20, 270, 100, 30);
+                eventPanel.add(detailsLabel);
+
+                JTextArea detailsArea = new JTextArea();
+                detailsArea.setBounds(120, 270, 315, 80);
+                detailsArea.setText(ce.getEventDetail());
+                detailsArea.setLineWrap(true);
+                detailsArea.setWrapStyleWord(true);
+                detailsArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                JScrollPane detailsScrollPane = new JScrollPane(detailsArea);
+                detailsScrollPane.setBounds(120, 270, 315, 80);
+                detailsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                detailsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                detailsScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                eventPanel.add(detailsScrollPane);
+
+
+                // コミュニティ名入力フィールド
+                JLabel communityLabel = new JLabel("コミュニティ名:");
+                communityLabel.setBounds(20, 360, 100, 30);
+                eventPanel.add(communityLabel);
+
+                int com_size = community_list.size();
+                String[] com_list = new String[com_size];
+                for(int i=0;i<com_size;i++) {
+                    com_list[i]=community_list.get(i).getName();
+                }
+                JComboBox<String> communityComboBox = new JComboBox<>(com_list);
+                communityComboBox.setBounds(120, 360, 315, 30);
+                communityComboBox.setEnabled(false);
+                eventPanel.add(communityComboBox);
+
+                BufferedImage img = createBackgroundImage(60, 40);
+                Graphics g = img.getGraphics();
+                g.setColor(Color.WHITE);
+                Client.kadomaruRect(g, 0, 0, 60, 40, 8, Color.WHITE, THEME_COLOR);
+                g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+                g.setColor(Color.BLACK);
+                g.drawString("編集", 9, 27);
+                JButton addButton = new JButton("");
+                addButton.setBackground(THEME_COLOR);
+                addButton.setForeground(Color.black);
+                addButton.setOpaque(true);
+                addButton.setBorderPainted(false);
+                addButton.setBounds(220,400,60,40);
+                addButton.setIcon(new ImageIcon(img));
+
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        String eventName = nameField.getText();
+                        String startDay = (String)dayComboBox.getSelectedItem()+"日";
+                        String startTime = (String)hourComboBox.getSelectedItem()+":"+(String)minuteComboBox.getSelectedItem();
+                        String endTime = (String)hourComboBox2.getSelectedItem()+":"+(String)minuteComboBox2.getSelectedItem();
+                        String endDay = (String)dayComboBox2.getSelectedItem()+"日";
+                        String place = placeField.getText();
+                        String summary = summaryArea.getText();
+                        String details = detailsArea.getText();
+                        String communityName = (String)communityComboBox.getSelectedItem();
+
+                        // 入力欄が空の場合、エラーメッセージを表示して進めないようにする
+                        if (eventName.isEmpty() ||  startDay.isEmpty() || endDay.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || place.isEmpty() ||
+                            summary.isEmpty() || details.isEmpty() || communityName.isEmpty()) {
+                            JOptionPane.showMessageDialog(eventDialog, "すべての項目を入力してください。", "エラー", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        // 確認ダイアログを表示
+                        int result = JOptionPane.showConfirmDialog(eventDialog,
+                                "以下の情報でイベントを作成しますか？\n\n"
+                                + "イベント名: " + eventName + "\n"
+                                + "開始時間: " + startDay+startTime + "\n"
+                                + "終了時間: " + endDay+endTime + "\n"
+                                + "場所: " + place + "\n"
+                                + "概要: " + summary + "\n"
+                                + "詳細: " + details + "\n"
+                                + "コミュニティ名: " + communityName,
+                                "イベント作成の確認",
+                                JOptionPane.OK_CANCEL_OPTION);
+
+                        if (result == JOptionPane.OK_OPTION) {
+                            // OKボタンが押された場合の処理を記述
+                            // ここでイベントを作成する処理を実行
+
+                            System.out.println(ui_ld_looking);
+                            //DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
+                            //String year = ui_ld_looking.format(formatter1);
+                            //String month = (String)monthComboBox.getSelectedItem();
+                            //int intyear = Integer.parseInt(year);
+                            //int intmonth = Integer.parseInt(month);
+                            int intday1 = Integer.parseInt((String)dayComboBox.getSelectedItem());
+                            int intday2 = Integer.parseInt((String)dayComboBox2.getSelectedItem());
+                            ClientEvent event = new ClientEvent(eventName,currentYear, currentMonth, startTime,endTime,place,username,summary,details,communityName);
+                            try {
+                                cc.makeEvent(event, currentYear, currentMonth, intday1, intday2);
+                                event_list.add(event);
+                                day_event.add(event);
+                                sortflag=0;
+                                addflag=1;
+
+                                //確認
+                                int eve_size = day_event.size();
+                                for(int i=0;i<eve_size;i++) {
+                                    String eve_name =day_event.get(i).getEventName();
+                                    System.out.println(eve_name);
+                                }
+
+                                for(int i=0;i<=community_list.size();i++) {
+                                    if(community_list.get(i).getName().equals(communityName)) {
+                                        community_list.get(i).getCalendarMonth(currentYear, currentMonth).addEvent(event.getEventId(), intday1, intday2);
+                                        break;
+                                    };
+                                }
+                                getNewMessage();
+                                eventDialog.setVisible(false);
+                                dateScreen();
+                            }catch(Exception e){
+                                String error = e.getMessage();
+                                if(error.equals(ClientConnect.NOT_FOUND)) {
+                                    JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                    logout();
+                                }else if(error.equals(ClientConnect.BANNED)) {
+                                    JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                    logout();
+                                }else if(error.equals(ClientConnect.AUTH)) {
+                                    JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                    logout();
+                                }else{
+                                    JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                }
+
+                            }
+
+                        }
+                    }
+                });
+
+                eventPanel.add(addButton);
+
+                // イベント作成ダイアログにパネルを追加
+                eventDialog.add(eventPanel);
+
+
+                eventDialog.setVisible(true);
+
             }
         });
+        
         if(username.equals(ce.getEventOwner())) {
             System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
             editButton.setVisible(debug_boolean);
