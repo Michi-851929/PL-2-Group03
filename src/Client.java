@@ -146,6 +146,8 @@ public class Client extends JFrame {
             public void windowClosing(WindowEvent e) {
                 if(login_flag == 1) {
                     PopupMenu popup = new PopupMenu();
+                    day_event.clear();
+                    addflag=0;
                     /*
                     Image img = createImage(20, 20);
                     Graphics g = img.getGraphics();
