@@ -2064,17 +2064,17 @@ public class Client extends JFrame {
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         String eventName = nameField.getText();
-                        String startDay = (String)dayComboBox.getSelectedItem()+"日";
+                        //String startDay = (String)dayComboBox.getSelectedItem()+"日";
                         String startTime = (String)hourComboBox.getSelectedItem()+":"+(String)minuteComboBox.getSelectedItem();
                         String endTime = (String)hourComboBox2.getSelectedItem()+":"+(String)minuteComboBox2.getSelectedItem();
-                        String endDay = (String)dayComboBox2.getSelectedItem()+"日";
+                        //String endDay = (String)dayComboBox2.getSelectedItem()+"日";
                         String place = placeField.getText();
                         String summary = summaryArea.getText();
                         String details = detailsArea.getText();
                         String communityName = (String)communityComboBox.getSelectedItem();
 
                         // 入力欄が空の場合、エラーメッセージを表示して進めないようにする
-                        if (eventName.isEmpty() ||  startDay.isEmpty() || endDay.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || place.isEmpty() ||
+                        if (eventName.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || place.isEmpty() ||
                             summary.isEmpty() || details.isEmpty() || communityName.isEmpty()) {
                             JOptionPane.showMessageDialog(eventDialog, "すべての項目を入力してください。", "エラー", JOptionPane.ERROR_MESSAGE);
                             return;
@@ -2082,10 +2082,10 @@ public class Client extends JFrame {
 
                         // 確認ダイアログを表示
                         int result = JOptionPane.showConfirmDialog(eventDialog,
-                                "以下の情報でイベントを作成しますか？\n\n"
+                                "以下の情報でイベントを更新しますか？\n\n"
                                 + "イベント名: " + eventName + "\n"
-                                + "開始時間: " + startDay+startTime + "\n"
-                                + "終了時間: " + endDay+endTime + "\n"
+                                + "開始時間: " + startTime + "\n"
+                                + "終了時間: " + endTime + "\n"
                                 + "場所: " + place + "\n"
                                 + "概要: " + summary + "\n"
                                 + "詳細: " + details + "\n"
@@ -2104,6 +2104,9 @@ public class Client extends JFrame {
                             ce.setEventDetail(detailsArea.getText());
                             try {
                                 cc.editEvent(ce);
+                                eventDialog.setVisible(false);
+                                eventScreen(cc.getEvent(ce.getEventId()), event_day);//再描画
+                                
                             } catch (Exception e) {
                                 String error = e.getMessage();
                                 if(error.equals(ClientConnect.NOT_FOUND)) {
