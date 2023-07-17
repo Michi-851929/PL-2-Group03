@@ -1675,10 +1675,10 @@ public class Client extends JFrame {
                     JOptionPane.showMessageDialog(null, "所属しているコミュニティがありません。", "エラー", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                System.out.println("イベントを追加します");
+                System.out.println("イベントを編集します");
                 // イベント作成画面のダイアログを作成
                 JDialog eventDialog = new JDialog();
-                eventDialog.setTitle("イベント作成");
+                eventDialog.setTitle("イベント編集");
                 eventDialog.setModal(true); // モーダルダイアログとして設定
                 eventDialog.setSize(500, 500);
                 eventDialog.setLocationRelativeTo(null); // 中央に配置
@@ -1697,6 +1697,7 @@ public class Client extends JFrame {
 
                 JTextField nameField = new JTextField();
                 nameField.setBounds(120, 20, 315, 30);
+                nameField.setText(ce.getEventName());
                 eventPanel.add(nameField);
 
                 // 開始時間入力フィールド
@@ -1845,6 +1846,7 @@ public class Client extends JFrame {
                 eventPanel.add(placeLabel);
 
                 JTextField placeField = new JTextField();
+                placeField.setText(ce.getEventPlace());
                 placeField.setBounds(120, 140, 315, 30);
                 eventPanel.add(placeField);
 
@@ -1855,6 +1857,7 @@ public class Client extends JFrame {
 
                 JTextArea summaryArea = new JTextArea();
                 summaryArea.setBounds(120, 180, 315, 80);
+                summaryArea.setText(ce.getEventOutline());
                 summaryArea.setLineWrap(true);
                 summaryArea.setWrapStyleWord(true);
                 summaryArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
@@ -1872,6 +1875,7 @@ public class Client extends JFrame {
 
                 JTextArea detailsArea = new JTextArea();
                 detailsArea.setBounds(120, 270, 315, 80);
+                detailsArea.setText(ce.getEventDetail());
                 detailsArea.setLineWrap(true);
                 detailsArea.setWrapStyleWord(true);
                 detailsArea.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
@@ -1895,6 +1899,7 @@ public class Client extends JFrame {
                 }
                 JComboBox<String> communityComboBox = new JComboBox<>(com_list);
                 communityComboBox.setBounds(120, 360, 315, 30);
+                communityComboBox.setEnabled(false);
                 eventPanel.add(communityComboBox);
 
                 BufferedImage img = createBackgroundImage(60, 40);
