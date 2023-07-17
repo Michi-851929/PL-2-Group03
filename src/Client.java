@@ -143,30 +143,36 @@ public class Client extends JFrame {
             }
 
             public void windowClosing(WindowEvent e) {
-                PopupMenu popup = new PopupMenu();
-                Image img = createImage(20, 20);
-                Graphics g = img.getGraphics();
-                g.setColor(THEME_COLOR);
-                g.fillRect(0, 0, 20, 20);
-                g.setColor(Color.WHITE);
-                g.fillRect(0, 10, 20, 10);
-                ui_ticon = new TrayIcon(img, "Communi+I", popup);
-                MenuItem ui_mi_open = new MenuItem("開く");
-                ui_mi_open.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent ae)
-                    {
-                        calendarScreen();
-                        SystemTray.getSystemTray().remove(ui_ticon);
-                    }
-                });
-                popup.add(ui_mi_open);
+                if(login_flag == 1) {
+                	PopupMenu popup = new PopupMenu();
+                    Image img = createImage(20, 20);
+                    Graphics g = img.getGraphics();
+                    g.setColor(THEME_COLOR);
+                    g.fillRect(0, 0, 20, 20);
+                    g.setColor(Color.WHITE);
+                    g.fillRect(0, 10, 20, 10);
+                    ui_ticon = new TrayIcon(img, "Communi+I", popup);
+                    MenuItem ui_mi_open = new MenuItem("開く");
+                    ui_mi_open.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent ae)
+                        {
+                            calendarScreen();
+                            SystemTray.getSystemTray().remove(ui_ticon);
+                        }
+                    });
+                    popup.add(ui_mi_open);
 
-                try {
-                    SystemTray.getSystemTray().add(ui_ticon);
+                    try {
+                        SystemTray.getSystemTray().add(ui_ticon);
+                    }
+                    catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
-                catch (Exception ex) {
-                    ex.printStackTrace();
+                else {
+                    System.exit(0);
                 }
+                
             }
 
             public void windowClosed(WindowEvent e) {
