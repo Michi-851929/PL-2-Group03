@@ -2682,6 +2682,7 @@ public class Client extends JFrame {
 
         contentPane1.add(backgroundPanel);
 
+        System.out.println("スクロールバーの位置: "+ui_sb_00.getValue()+" 最小値: "+ui_sb_00.getMinimum());
         // フッターなど
         setFooter(contentPane1);
         //setSize(400, 500);
