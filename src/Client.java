@@ -3717,7 +3717,7 @@ public class Client extends JFrame {
             ArrayList<String[]> out_list= new ArrayList<>();
             try {
                 if(!go.isEmpty()) {
-                go_event = cc.getEvents((String[])go.toArray());
+                go_event = cc.getEvents((String[])go.toArray(new String[go.size()]));
                 go_event.forEach(event->{
                     String[] tmp = {"","","",""};
                     Message m = event.getNewOwnerMessage(account.getLastCheckInt());
