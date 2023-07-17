@@ -2384,9 +2384,9 @@ public class Client extends JFrame {
                         Graphics g1 = img1.getGraphics();
                         g1.setColor(Color.WHITE);
                         Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
-                        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 23));
+                        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
                         g1.setColor(Color.BLACK);
-                        g1.drawString("キャンセル", 55, 24);
+                        g1.drawString("キャンセル", 45, 34);
                         JButton changePasswordButton = new JButton("1");
                         changePasswordButton.setBounds(150,200,button_width,button_height);
                         //gbc.anchor = GridBagConstraints.CENTER;
@@ -2401,8 +2401,30 @@ public class Client extends JFrame {
                         changePasswordButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent ae)
                             {
-                                //キャンセルボタンを押したときの処理をここに
-                            }
+                                Boolean tmp;
+                                try {
+                                    tmp = false;
+                                    tmp = cc.AbsentEvent(ce.getEventId(), "");
+                                } catch (Exception e) {
+                                    // TODO 自動生成された catch ブロック
+                                    e.printStackTrace();
+                                }//""に入力内容
+                                if(tmp == true) {
+                                    joinButton.setForeground(JOIN_COLOR);
+                                    joinButton_bg_false.setVisible(true);
+                                    joinButton_bg_true.setVisible(false);
+                                    System.out.println("参加解除しました");
+                                    if(atFirstJoin) {
+                                        joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
+                                    }
+                                    else {
+                                        joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                                    }
+                                }else {
+                                    JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
+                                    account.removeEventGoing(ce.getEventId());
+                                    
+                                }                            }
                         });
                         
                         
@@ -2410,23 +2432,7 @@ public class Client extends JFrame {
                         
                         cancelDialog.add(cancelPanel);
                         cancelDialog.setVisible(true);
-                        Boolean tmp = cc.AbsentEvent(ce.getEventId(), "");//""に入力内容
-                        if(tmp == true) {
-                            joinButton.setForeground(JOIN_COLOR);
-                            joinButton_bg_false.setVisible(true);
-                            joinButton_bg_true.setVisible(false);
-                            System.out.println("参加解除しました");
-                            if(atFirstJoin) {
-                                joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
-                            }
-                            else {
-                                joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
-                            }
-                        }else {
-                            JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
-                            account.removeEventGoing(ce.getEventId());
-                            
-                        }
+
                     }
                     else {
                         Boolean tmp = cc.joinEvent(ce.getEventId());
