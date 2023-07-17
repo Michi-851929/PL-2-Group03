@@ -116,7 +116,6 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 3) {
                     ans.message = tmp;
-                    tmp.setLastCheckTime();
                 }else if(m.mode == 4) {
                     ClientEvent te=se.getEvent((String) m.message);
                     if(te.getEventName().equals("")) {
@@ -266,6 +265,10 @@ class ConnectThread extends Thread{
         }
         oos.writeObject(ans);
         //ここまで各自処理
+        if(m.mode == 3) {
+            Account tmp = se.getAccount(m.name);
+            tmp.setLastCheckTime();
+        }
         }catch(Exception e) {
             e.printStackTrace();
         }finally {
