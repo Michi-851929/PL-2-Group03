@@ -3141,7 +3141,9 @@ public class Client extends JFrame {
                 this.event_list = cc.getEvents((String[])ct.toArray(new String[ct.size()]));
             }
         } catch (Exception e1) {
-            // TODO 自動生成された catch ブロック
+            if(e1.getMessage()==ClientConnect.ERROR) {
+                this.event_list = new  ArrayList<>();
+            }
             e1.printStackTrace();
         }
         return 0;
