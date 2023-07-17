@@ -229,6 +229,10 @@ public class Account implements Serializable{
 
     //作成したイベントの総数を取得
     public int getTotalEventMade() {
-        return event_made.size();
+        if(event_made!=null) {
+            return event_made.size();
+        }else {
+            return 0;
+        }
     }
 }

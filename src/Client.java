@@ -895,6 +895,7 @@ public class Client extends JFrame {
         g.fillRect(x + r / 2, y, width - r, height);
     }
 
+
     //日付画面
     void dateScreen() {
 
@@ -1419,21 +1420,49 @@ public class Client extends JFrame {
         ui_panel_06.setLayout(null);
         ui_panel_06.setBounds(13, 75, WINDOW_WIDTH, 550 - 12);
         ui_panel_06.setBackground(THEME_COLOR);
+        /*
         JPanel ui_panel_05 = new JPanel();
         ui_panel_05.setLayout(new BorderLayout());
         ui_panel_05.setSize(WINDOW_WIDTH - 24, 550 - 12);
         ui_panel_05.setBackground(THEME_COLOR);
+        */
 
         // イベント一覧
+        /*
         JPanel ui_panel_03 = new JPanel();
-        if(events_num < 6) {
-            ui_panel_03.setLayout(new GridLayout(5, 1, 4, 4));
-        }else {
-            ui_panel_03.setLayout(new GridLayout(events_num, 1, 4, 4));
-        }
-        ui_panel_03.setBackground(THEME_COLOR); // ボタン間の隙間をTHEME_COLORで塗りつぶす
+        ui_panel_03.setLayout(null);
+        ui_panel_03.setSize(WINDOW_WIDTH-20,500);
+        //ui_panel_03.setBounds(25,75,550,600);
+         * */
+        JPanel ui_panel_04 = new JPanel();
+        ui_panel_04.setBackground(THEME_COLOR);
+        //ui_panel_04.setBounds(0, 0, 525, 600);
+        ui_panel_04.setLayout(new BoxLayout(ui_panel_04, BoxLayout.Y_AXIS));
+        //ui_panel_03.add(ui_panel_04);
 
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        //scrollPane.setSize(WINDOW_WIDTH, 600);
+        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
+        scrollPane.setBackground(THEME_COLOR);
+        scrollPane.setBounds(0,0,WINDOW_WIDTH,600);
+
+        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
+        ui_sb_00.setOpaque(true);
+        ui_sb_00.setBackground(THEME_COLOR);
+        //ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+        ui_sb_00.setUI(getScrollBarUI());
+        ui_sb_00.setVisible(false);
+
+        scrollPane.setViewportView(ui_panel_04);
         for (int i = 0; i < events_num; i++) {
+            int offset = 80;
+            JPanel jp = new JPanel();
+            jp.setLayout(null);
+            jp.setBounds(0, 0, 525,100);
+            
+            JButton lb = new JButton("like");
+            lb.setBounds(300,70,100,30);
+            
 
             BufferedImage img1 = createBackgroundImage(button_width, button_height);
             Graphics g1 = img1.getGraphics();
@@ -1451,7 +1480,7 @@ public class Client extends JFrame {
             String id = day_event.get(i).getEventId();
 
             if(account.getAEventPreferrd(day_event.get(i).getEventId())==true) {
-                g1.drawString(name+"(like)", 10, 30);
+                g1.drawString(name+"♡", 10, 30);
             }else {
                 g1.drawString(name, 10, 30);
             }
@@ -1463,6 +1492,7 @@ public class Client extends JFrame {
 
 
             JButton eventButton = new JButton("");
+            eventButton.setBounds(0, 0, 525, 100);
             eventButton.setBackground(THEME_COLOR);
             eventButton.setForeground(Color.black);
             eventButton.setOpaque(true);
@@ -1483,25 +1513,19 @@ public class Client extends JFrame {
                 }
             });
 
-            ui_panel_03.add(eventButton);
-
+            jp.add(lb);
+            jp.add(eventButton);
+            ui_panel_04.add(jp);
+            scrollPane.setViewportView(ui_panel_04);
+            
+            
         }
+        
+        
+        
 
-        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setSize(WINDOW_WIDTH, 600);
-        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
-        scrollPane.setBackground(THEME_COLOR);
-
-        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
-        ui_sb_00.setOpaque(true);
-        ui_sb_00.setBackground(THEME_COLOR);
-        //ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
-        ui_sb_00.setUI(getScrollBarUI());
-        ui_sb_00.setVisible(false);
-
-        scrollPane.setViewportView(ui_panel_03);
-        ui_panel_05.add(scrollPane, "Center");
-        ui_panel_06.add(ui_panel_05);
+        ui_panel_06.add(scrollPane);//, "Center");
+        //ui_panel_06.add(ui_panel_05);
         ui_panel_00.add(ui_panel_06);
 
         JPanel ui_panel_07 = new JPanel();
