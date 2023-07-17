@@ -2366,12 +2366,13 @@ public class Client extends JFrame {
                         
                         JPanel cancelPanel = new JPanel();
                         cancelPanel.setPreferredSize(new Dimension(500, 300));
-                        eventPanel.setLayout(null);
+                        cancelPanel.setLayout(null);
+                        cancelPanel.setBackground(THEME_COLOR);
 
                         //キャンセル理由入力欄
                         JTextField reason = new JTextField();
                         reason.setBounds(50,50,400,50);
-                        reason.setPreferredSize(new Dimension(400,50));
+                        reason.setPreferredSize(new Dimension(400,35));
                         cancelPanel.add(reason);
                         
                         // キャンセルボタン
