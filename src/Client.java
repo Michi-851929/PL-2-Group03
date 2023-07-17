@@ -210,7 +210,7 @@ public class Client extends JFrame {
 
     }
 
-  //ログイン画面
+    //ログイン画面
     void loginScreen() {
         //int WINDOW_HEIGHT1 = 700; //画面からはみ出たのでログイン画面の大きさを調整しました。
         int button_width = 200;
@@ -325,7 +325,6 @@ public class Client extends JFrame {
                 }
             }
         });
-
 
         // アカウント登録ボタン
         BufferedImage img2 = createBackgroundImage(button_width, button_height);
@@ -1984,8 +1983,8 @@ public class Client extends JFrame {
         //スクロール
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-125);
-        scrollPane.setBounds(0,0, WINDOW_WIDTH-120, WINDOW_HEIGHT-125);
-        scrollPane.setPreferredSize(new Dimension(WINDOW_WIDTH-12, WINDOW_HEIGHT-125));
+        scrollPane.setBounds(0,0, WINDOW_WIDTH-12, WINDOW_HEIGHT-125);
+        //scrollPane.setPreferredSize(new Dimension(WINDOW_WIDTH-12, WINDOW_HEIGHT-125));
         scrollPane.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 0));
         scrollPane.setBackground(THEME_COLOR);
         scrollPane.setOpaque(true);
@@ -2498,6 +2497,10 @@ public class Client extends JFrame {
                     public void actionPerformed(ActionEvent ae) {
                         //通信 コミュニティを作る処理
                         try {
+/*
+                            String[] tmp = {tagField[0].getText(),tagField[1].getText(),tagField[2].getText(),tagField[3].getText(),tagField[4].getText()};
+                            cc.makeCommunity(new Community(nameLabel.getText(),username,summaryLabel.getText(),tmp));
+*/
                             ArrayList<String> tmp = new ArrayList<>();
                             for(int i = 0;i < 5;i++) {
                                 if(!tagField[i].getText().equals("")) {
@@ -2506,6 +2509,8 @@ public class Client extends JFrame {
                             }
                             cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray(new String[tmp.size()])));
                             getNewMessage();
+                            eventDialog.setVisible(false);
+                            communityScreen();
                         }catch(Exception e){
                             String error = e.getMessage();
                             if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -2746,7 +2751,7 @@ public class Client extends JFrame {
     }
 
     //通知画面
-    void notificationScreen(String community,String event,String number,String message) {
+    void notificationScreen() {
 
         final int WINDOW_WIDTH = 300;
         final int WINDOW_HEIGHT = 200;
@@ -2775,6 +2780,11 @@ public class Client extends JFrame {
         backgroundPanel.setBackground(THEME_COLOR);
 
         // 通知ラベルの設定
+        // ここに通知内容を入れてください
+        String number = ("2");
+        String community = ("コミュニティ名");
+        String event = ("イベント名");
+        String message = ("テストです。どのように表示されるか確認しています。自動改行は有効ですか？\n改行も問題ありませんね。\n文字数が枠を超えてもスクロールできるように設計したつもりです。\nテストーーーーーー");
 
         JLabel numberLabel = new JLabel(number+"件の通知が届いています。");
         numberLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
@@ -2807,7 +2817,7 @@ public class Client extends JFrame {
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
         ui_sb_00.setOpaque(true);
         ui_sb_00.setBackground(Color.WHITE);
-        //ui_sb_00.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10));
+      //ui_sb_00.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10));
         ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(false);
 
@@ -3073,6 +3083,12 @@ public class Client extends JFrame {
             e.printStackTrace();
         }
         try {
+/*
+        	String[] n = {}; 
+        	if(!account.getCommunity().equals(n)) { 
+        		this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
+        	}
+*/
             if(!(account.getCommunity().length==0)) {
                 this.community_list = cc.getCommunitys(account.getCommunity());
             }
@@ -3188,14 +3204,42 @@ public class Client extends JFrame {
         inroop();
         TimerTask tt =new TimerTask() {
             public void run() {
+                if(login_flag ==1) {
+                    update();
+                    ArrayList<String> go = account.getEventGoing();
+                    ArrayList<ClientEvent> go_event = null;
+                    ArrayList<String[]> out_list= new ArrayList<>();
+                    try {
+                        go_event = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])go.toArray()));
+                        go_event.forEach(event->{
+                            String[] tmp = {"","","",""};
+                            Message m = event.getNewOwnerMessage(account.getLastCheckInt());
+                            if((int)m.message2>0) {
+                                tmp[0] = event.getEventCommunityName();//コミュニティ名
+                                tmp[1] = event.getEventName();//イベント名
+                                tmp[2] = String.valueOf((int) m.message);//メッセージ数
+                                tmp[3] = (String) m.message2;//最新のメッセージ
+                                out_list.add(tmp);
+                            }
+                        });
+                        out_list.forEach(data->{
+                        //dataを出力してください
+                        });
+                    } catch (Exception e) {
+                    // TODO 自動生成された catch ブロック
+                        e.printStackTrace();
+                    }
+                }else {
+                    timer.cancel();
+                }
                 inroop();
             }
         };
         timer.schedule(tt,300000,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
     }
-    
+
     void inroop() {
-    	if(login_flag ==1) {
+        if(login_flag ==1) {
             update();
             ArrayList<String> go = account.getEventGoing();
             ArrayList<ClientEvent> go_event = new ArrayList<>();
