@@ -1791,6 +1791,12 @@ public class Client extends JFrame {
         // ボタンの背景を透明にする
         messageAddButton.setContentAreaFilled(false);
         backgroundPanel.add(messageAddButton);
+        if(username.equals(ce.getEventOwner())) {
+            messageAddButton.setVisible(true);
+        }
+        else {
+            messageAddButton.setVisible(false);
+        }
         // 編集ボタン
         //username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
 
@@ -2141,8 +2147,11 @@ public class Client extends JFrame {
         });
 
         if(username.equals(ce.getEventOwner())) {
-            System.out.println("ユーザーはこのイベントの主催者です"+ce.getCancelMessage().length);
-            editButton.setVisible(debug_boolean);
+            System.out.println("ユーザーはこのイベントの主催者です");
+            editButton.setVisible(true);
+        }
+        else {
+            editButton.setVisible(false);
         }
 
         // ボタンの余白を調整
@@ -2287,8 +2296,8 @@ public class Client extends JFrame {
 
 
         //報告ボタン
-        JButton reportButton = new JButton("イベントを通報する");
-        reportButton.setBounds(75,message_y,200,30);
+        JButton reportButton = new JButton("イベントを通報");
+        reportButton.setBounds(40,message_y,160,30);
         reportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 ce.increaseReport();
@@ -2312,7 +2321,7 @@ public class Client extends JFrame {
                         e.printStackTrace();
                     }
                 }
-                reportButton.setText("イベントを通報済みです");
+                reportButton.setText("イベント通報済");
                 reportButton.setEnabled(false);
             }
         });
@@ -2397,7 +2406,7 @@ public class Client extends JFrame {
                     cc.nice(ce.getEventId());
                     if(account.getEventPreferred().contains(ce.getEventId())) {
                     //if(debug_boolean) {//TODO for debug
-                        goodButton.setForeground(Color.black);
+                        goodButton.setForeground(GOOD_COLOR);
                         goodButton_bg_false.setVisible(true);
                         goodButton_bg_true.setVisible(false);
                         eventDetailLabel.setText("いいねで詳細を表示");
@@ -2655,6 +2664,7 @@ public class Client extends JFrame {
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-125);
         scrollPane.setBounds(0,51, WINDOW_WIDTH, WINDOW_HEIGHT-175);
+        scrollPane.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT-175));
         //scrollPane.setPreferredSize(new Dimension(WINDOW_WIDTH-12, WINDOW_HEIGHT-125));
         scrollPane.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 0));
         scrollPane.setBackground(THEME_COLOR);
@@ -2663,7 +2673,7 @@ public class Client extends JFrame {
 
         JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
         ui_sb_00.setOpaque(true);
-        ui_sb_00.setBackground(THEME_COLOR);
+        ui_sb_00.setBackground(Color.white);
         //ui_sb_00.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 10));
         ui_sb_00.setUI(getScrollBarUI());
         ui_sb_00.setVisible(true);
@@ -2682,7 +2692,6 @@ public class Client extends JFrame {
 
         contentPane1.add(backgroundPanel);
 
-        System.out.println("スクロールバーの位置: "+ui_sb_00.getValue()+" 最小値: "+ui_sb_00.getMinimum());
         // フッターなど
         setFooter(contentPane1);
         //setSize(400, 500);
