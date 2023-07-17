@@ -61,6 +61,8 @@ public class ServerConnect{
 class ConnectThread extends Thread{
     private Socket s;
     Server se;
+    int flag = 0;
+    String name;
     public ConnectThread(Socket socket,Server server) {
         this.s = socket;
         this.se = server;
@@ -114,6 +116,8 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 3) {
                     ans.message = tmp;
+                    flag=1;
+                    name = m.name;
                 }else if(m.mode == 4) {
                     ClientEvent te=se.getEvent((String) m.message);
                     if(te.getEventName().equals("")) {
@@ -268,16 +272,15 @@ class ConnectThread extends Thread{
 
         oos.writeObject(ans);
         //ここまで各自処理
-        if(m.mode == 3) {
-            Account tmp = se.getAccount(m.name);
-            tmp.setLastCheckTime();
-        }
         }catch(Exception e) {
             e.printStackTrace();
         }finally {
             try {
                 if(s != null) {
                     s.close();
+                }
+                if(flag ==1) {
+                    se.getAccount(name).setLastCheckTime();
                 }
             }catch(Exception e) {
                     e.printStackTrace();
