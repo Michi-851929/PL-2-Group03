@@ -3602,8 +3602,9 @@ public class Client extends JFrame {
         } catch (Exception e1) {
             if(e1.getMessage()==ClientConnect.ERROR) {
                 this.event_list = new  ArrayList<>();
+            }else {
+                e1.printStackTrace();
             }
-            e1.printStackTrace();
         }
         return 0;
     }
