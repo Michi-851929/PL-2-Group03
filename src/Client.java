@@ -3047,7 +3047,62 @@ public class Client extends JFrame {
             g.setColor(new Color(255, 192, 0));
             Client.kadomaruRect(g, -100, 0, 280, 100, 100);
             g.setColor(Color.WHITE);
-            g.drawString(community.getName(), 0, 80);
+            g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 48));
+            
+            String name = community.getName(); 
+            int str_length = 0;
+            int ind = 0;
+            int ind10 = 0;
+            int ind12 = 0;
+            int ind18 = 0;
+            int ind24 = 0;
+            char[] chars = name.toCharArray();
+            
+            for(int i = 1; i < chars.length; i++) {
+                if(String.valueOf(chars[i]).getBytes().length < 2) {
+                    str_length += 1;
+                }
+                else {
+                    str_length += 2;
+                }
+                ind = i;
+                
+                if(ind24 == 0 && str_length >= 24) {
+                    ind24 = ind;
+                }
+                else if(ind18 == 0 && str_length >= 18) {
+                    ind18 = ind;
+                }
+                else if(ind12 == 0 && str_length >= 12) {
+                    ind12 = ind; 
+                }
+                else if(ind10 == 0 && str_length >= 10) {
+                    ind10 = ind;
+                }
+                
+            }
+            
+            g.drawString(name.substring(0,1), 0, 80);
+            
+            g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+            if(String.valueOf(chars[0]).getBytes().length < 2) {
+                g.drawString(name.substring(1, str_length >= 12 ? ind12 : name.length()), 36, 60);
+                if(str_length >= 12) {
+                    g.drawString(name.substring(ind12, str_length >= 24 ? ind24 : name.length()), 36, 80);
+                }
+                if(str_length >= 24) {
+                    g.drawString("…", 128, 80);
+                }
+            }
+            else {
+                g.drawString(name.substring(1, str_length >= 10 ? ind10 : name.length()), 48, 60);
+                if(str_length >= 10) {
+                    g.drawString(name.substring(ind10, str_length >= 18 ? ind18 : name.length()), 48, 80);
+                }
+                if(str_length >= 18) {
+                    g.drawString("…", 128, 80);
+                }
+            }
 
 
             JButton eventButton = new JButton();
