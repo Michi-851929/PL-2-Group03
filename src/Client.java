@@ -1674,7 +1674,7 @@ public class Client extends JFrame {
                 int button_height = 50;
                 int r = 15;
                 
-                //メッセージ理由を入力させる
+                //メッセージを入力させる
                 JDialog messageAddDialog = new JDialog();
                 messageAddDialog.setTitle("メッセージを追加");
                 messageAddDialog.setModal(true); // モーダルダイアログとして設定
@@ -1719,10 +1719,15 @@ public class Client extends JFrame {
                 messageDialogButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae)
                     {
-                        //ここにメッセージを追加する処理
+                        //こッセージを追加する処理
+                        ce.setOwnerMessage(messageField.getText());
+                        try {
+                            cc.editEvent(ce);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         messageAddDialog.dispose();
                     }
-                    
                 });
                 
                 
@@ -1730,6 +1735,12 @@ public class Client extends JFrame {
                 
                 messageAddDialog.add(messageAddPanel);
                 messageAddDialog.setVisible(true);
+                try {
+                    eventScreen(cc.getEvent(ce.getEventId()), event_day);
+                } catch (Exception e) {
+                    // TODO 自動生成された catch ブロック
+                    e.printStackTrace();
+                }//再描画
             }
         });
         // ボタンの余白を調整
@@ -2045,57 +2056,19 @@ public class Client extends JFrame {
 
                         if (result == JOptionPane.OK_OPTION) {
                             // OKボタンが押された場合の処理を記述
-                            // ここでイベントを作成する処理を実行
-
-                            System.out.println(ui_ld_looking);
-                            //DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
-                            //String year = ui_ld_looking.format(formatter1);
-                            //String month = (String)monthComboBox.getSelectedItem();
-                            //int intyear = Integer.parseInt(year);
-                            //int intmonth = Integer.parseInt(month);
-                            int intday1 = Integer.parseInt((String)dayComboBox.getSelectedItem());
-                            int intday2 = Integer.parseInt((String)dayComboBox2.getSelectedItem());
-                            ClientEvent event = new ClientEvent(eventName,currentYear, currentMonth, startTime,endTime,place,username,summary,details,communityName);
+                            // ここでイベントを編集する処理を実行
+                            ce.setEventStart((String)hourComboBox.getSelectedItem()+":"+(String)minuteComboBox.getSelectedItem());
+                            ce.setEventFinish((String)hourComboBox2.getSelectedItem()+":"+(String)minuteComboBox2.getSelectedItem());
+                            ce.setEventName(nameField.getText());
+                            ce.setEventPlace(placeField.getText());
+                            ce.setEventOutline(summaryArea.getText());
+                            ce.setEventDetail(detailsArea.getText());
                             try {
-                                cc.makeEvent(event, currentYear, currentMonth, intday1, intday2);
-                                event_list.add(event);
-                                day_event.add(event);
-                                sortflag=0;
-                                addflag=1;
-
-                                //確認
-                                int eve_size = day_event.size();
-                                for(int i=0;i<eve_size;i++) {
-                                    String eve_name =day_event.get(i).getEventName();
-                                    System.out.println(eve_name);
-                                }
-
-                                for(int i=0;i<=community_list.size();i++) {
-                                    if(community_list.get(i).getName().equals(communityName)) {
-                                        community_list.get(i).getCalendarMonth(currentYear, currentMonth).addEvent(event.getEventId(), intday1, intday2);
-                                        break;
-                                    };
-                                }
-                                getNewMessage();
-                                eventDialog.setVisible(false);
-                                dateScreen();
-                            }catch(Exception e){
-                                String error = e.getMessage();
-                                if(error.equals(ClientConnect.NOT_FOUND)) {
-                                    JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
-                                    logout();
-                                }else if(error.equals(ClientConnect.BANNED)) {
-                                    JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
-                                    logout();
-                                }else if(error.equals(ClientConnect.AUTH)) {
-                                    JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
-                                    logout();
-                                }else{
-                                    JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
-                                }
-
+                                cc.editEvent(ce);
+                            } catch (Exception e) {
+                                // TODO 自動生成された catch ブロック
+                                e.printStackTrace();
                             }
-
                         }
                     }
                 });
@@ -2254,7 +2227,32 @@ public class Client extends JFrame {
                 }
                 eventPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, message_y2));
             }
+            message_y = message_y2;
         }
+        
+        JButton reportButton = new JButton("イベントを通報する");
+        reportButton.setBounds(0,message_y+5,40,30);
+        reportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                ce.increaseReport();
+                try {
+                    cc.editEvent(ce);
+                } catch (Exception e) {
+                    // TODO 自動生成された catch ブロック
+                    e.printStackTrace();
+                }
+                reportButton.setText("イベントを通報済みです");
+                reportButton.setEnabled(false);
+            }
+        });
+        reportButton.setMargin(new Insets(0, 0, 0, 0));
+
+        // ボタンの枠線を非表示にする
+        reportButton.setBorderPainted(false);
+
+        // ボタンの背景を透明にする
+        reportButton.setContentAreaFilled(false);
+        backgroundPanel.add(reportButton);
 
 
         // いいねボタン
@@ -2552,6 +2550,7 @@ public class Client extends JFrame {
                             JOptionPane.showMessageDialog(Client.this, "既に参加しているイベントです");
                             account.addEventGoing(ce.getEventId());
                             //再描画
+                            eventScreen(cc.getEvent(ce.getEventId()), event_day);//再描画
                         }
                     }
                     getNewMessage();
