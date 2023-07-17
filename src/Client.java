@@ -3575,6 +3575,8 @@ public class Client extends JFrame {
 */
             if(!(account.getCommunity().length==0)) {
                 this.community_list = cc.getCommunitys(account.getCommunity());
+            }else {
+                this.community_list = new ArrayList<>();
             }
         } catch (Exception e) {
             e.printStackTrace();
