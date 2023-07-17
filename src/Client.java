@@ -3721,7 +3721,7 @@ public class Client extends JFrame {
                 go_event.forEach(event->{
                     String[] tmp = {"","","",""};
                     Message m = event.getNewOwnerMessage(account.getLastCheckInt());
-                    if((int)m.message2>0) {
+                    if((int)m.message>0) {
                         tmp[0] = event.getEventCommunityName();//コミュニティ名
                         tmp[1] = event.getEventName();//イベント名
                         tmp[2] = String.valueOf((int) m.message);//メッセージ数
