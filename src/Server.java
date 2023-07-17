@@ -554,8 +554,10 @@ public class Server extends JFrame implements ActionListener{
     {
     	int total_good=0;
     	int limit_eventnum;
-    	for(String event_id : account.getEventMade()) {
-    		total_good+=this.getEvent(event_id).getJoin();
+    	if(account.getEventMade()!=null) {
+    	    for(String event_id : account.getEventMade()) {
+    	        total_good+=this.getEvent(event_id).getJoin();
+    	    }
     	}
     	if(total_good<10) {
     		limit_eventnum=10;
