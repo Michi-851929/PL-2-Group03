@@ -1326,9 +1326,9 @@ public class Client extends JFrame {
         ui_jb_lastmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 ui_ld_looking = ui_ld_looking.minusDays(1);
-                dateScreen();
                 day_event.clear();
                 addflag=0;
+                dateScreen();
             }
         });
         ui_panel_02.add(ui_jb_lastmonth, "West");
@@ -1340,9 +1340,9 @@ public class Client extends JFrame {
         ui_jb_nextmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 ui_ld_looking = ui_ld_looking.plusDays(1);
-                dateScreen();
                 day_event.clear();
                 addflag=0;
+                dateScreen();
             }
         });
         ui_panel_02.add(ui_jb_nextmonth, "East");
