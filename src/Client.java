@@ -1730,7 +1730,7 @@ public class Client extends JFrame {
                 String[] split1 = ce.getEventStart().split(":"); //split1[0]: 時間 [1]: 分
                 String[] split2 = ce.getEventStart().split(":"); //split1[0]: 時間 [1]: 分
 
-                
+                /*
                 // 日のコンボボックス
                 dayComboBox = new JComboBox<>();
                 updateDayComboBox(currentYear,currentMonth,dayComboBox); // 初期の日の選択肢を設定
@@ -1743,17 +1743,19 @@ public class Client extends JFrame {
                 dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 dayLabel.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(dayLabel);
+                
+                */
 
                 // 時間のコンボボックス
                 String[] hour = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
                 
                 JComboBox<String> hourComboBox = new JComboBox<>(hour);
                 hourComboBox.setSelectedItem(split1[0]);
-                hourComboBox.setBounds(180, 60, 40, 30);
+                hourComboBox.setBounds(120, 60, 40, 30);
                 eventPanel.add(hourComboBox);
 
                 JLabel hourLabel = new JLabel("時");
-                hourLabel.setBounds(220, 60, 20, 30);
+                hourLabel.setBounds(160, 60, 20, 30);
                 hourLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 hourLabel.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(hourLabel);
@@ -1761,11 +1763,11 @@ public class Client extends JFrame {
                 String[] minute = {"00","05","10","15","20","25","30","35","40","45","50","55"};
                 JComboBox<String> minuteComboBox = new JComboBox<>(minute);
                 minuteComboBox.setSelectedItem(split1[1]);
-                minuteComboBox.setBounds(240, 60, 40, 30);
+                minuteComboBox.setBounds(180, 60, 40, 30);
                 eventPanel.add(minuteComboBox);
 
                 JLabel minuteLabel = new JLabel("分");
-                minuteLabel.setBounds(280, 60, 20, 30);
+                minuteLabel.setBounds(220, 60, 20, 30);
                 minuteLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 minuteLabel.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(minuteLabel);
@@ -2181,6 +2183,7 @@ public class Client extends JFrame {
         JButton goodButton = new JButton("いいね "+ce.getGood());
         goodButton.setContentAreaFilled(false);
         goodButton.setBorderPainted(false);
+        
         if(account.getEventPreferred().contains(ce.getEventId())) {
         //if(debug_boolean) {//TODO デバッグ用
             goodButton.setForeground(Color.white);
@@ -2348,7 +2351,60 @@ public class Client extends JFrame {
             {
                 try {
                     if(account.getEventGoing().contains(ce.getEventId())) {
+                        
+                        int button_width = 100;
+                        int button_height = 50;
+                        int r = 15;
+                        
                         //キャンセル理由を入力させる
+                        JDialog cancelDialog = new JDialog();
+                        cancelDialog.setTitle("キャンセル理由を入力");
+                        cancelDialog.setModal(true); // モーダルダイアログとして設定
+                        cancelDialog.setSize(500, 300);
+                        cancelDialog.setLocationRelativeTo(null); // 中央に配置
+                        cancelDialog.setBackground(THEME_COLOR);
+                        
+                        JPanel cancelPanel = new JPanel();
+                        cancelPanel.setPreferredSize(new Dimension(500, 300));
+                        eventPanel.setLayout(null);
+
+                        //キャンセル理由入力欄
+                        JTextField reason = new JTextField();
+                        reason.setBounds(50,50,400,50);
+                        reason.setPreferredSize(new Dimension(400,50));
+                        cancelPanel.add(reason);
+                        
+                        // キャンセルボタン
+                        Image img1 = createImage(button_width, button_height);
+                        Graphics g1 = img1.getGraphics();
+                        g1.setColor(Color.WHITE);
+                        Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
+                        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 42));
+                        g1.setColor(Color.BLACK);
+                        g1.drawString("キャンセル", 75, 94);
+                        JButton changePasswordButton = new JButton("1");
+                        changePasswordButton.setBounds(250,200,button_width,button_height);
+                        //gbc.anchor = GridBagConstraints.CENTER;
+                        //gbc.insets = new Insets(10, 0, 0, 0);
+
+                        changePasswordButton.setBackground(THEME_COLOR);
+                        changePasswordButton.setForeground(THEME_COLOR);
+                        changePasswordButton.setOpaque(true);
+                        changePasswordButton.setMargin(new Insets(-3, -3, -3, -13));
+                        changePasswordButton.setBorderPainted(false);
+                        changePasswordButton.setIcon(new ImageIcon(img1));
+                        changePasswordButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent ae)
+                            {
+                                //キャンセルボタンを押したときの処理をここに
+                            }
+                        });
+                        
+                        
+                        cancelPanel.add(changePasswordButton);
+                        
+                        cancelDialog.add(cancelPanel);
+                        cancelDialog.setVisible(true);
                         Boolean tmp = cc.AbsentEvent(ce.getEventId(), "");//""に入力内容
                         if(tmp == true) {
                             joinButton.setForeground(JOIN_COLOR);
@@ -2364,7 +2420,7 @@ public class Client extends JFrame {
                         }else {
                             JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
                             account.removeEventGoing(ce.getEventId());
-                            //再描画
+                            
                         }
                     }
                     else {
