@@ -1662,10 +1662,88 @@ public class Client extends JFrame {
         ui_jb_back.setContentAreaFilled(false);
         backgroundPanel.add(ui_jb_back);
 
+     // 編集ボタン
+        //username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
 
+        JButton messageAddButton = new JButton("メッセージ追加");
+        messageAddButton.setBounds(WINDOW_WIDTH-190, 10, 140, 30);
+        messageAddButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                int button_width = 200;
+                int button_height = 50;
+                int r = 15;
+                
+                //メッセージ理由を入力させる
+                JDialog messageAddDialog = new JDialog();
+                messageAddDialog.setTitle("メッセージを追加");
+                messageAddDialog.setModal(true); // モーダルダイアログとして設定
+                messageAddDialog.setSize(500, 300);
+                messageAddDialog.setLocationRelativeTo(null); // 中央に配置
+                messageAddDialog.setBackground(THEME_COLOR);
+                
+                JPanel messageAddPanel = new JPanel();
+                messageAddPanel.setPreferredSize(new Dimension(500, 300));
+                messageAddPanel.setLayout(null);
+                messageAddPanel.setBackground(THEME_COLOR);
+
+                //キャンセル理由入力欄 ラベル
+                JLabel reasonLabel = new JLabel("メッセージ");
+                reasonLabel.setBounds(50,20,150,30);
+                messageAddPanel.add(reasonLabel);
+                //キャンセル理由入力欄
+                JTextField messageField = new JTextField();
+                messageField.setBounds(50,50,400,30);
+                messageField.setPreferredSize(new Dimension(400,35));
+                messageAddPanel.add(messageField);
+                
+                // メッセージ追加ボタン
+                Image img1 = createImage(button_width, button_height);
+                Graphics g1 = img1.getGraphics();
+                g1.setColor(Color.WHITE);
+                Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
+                g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
+                g1.setColor(Color.BLACK);
+                g1.drawString("メッセージ追加", 25, 34);
+                JButton messageDialogButton = new JButton("1");
+                messageDialogButton.setBounds(150,200,button_width,button_height);
+                //gbc.anchor = GridBagConstraints.CENTER;
+                //gbc.insets = new Insets(10, 0, 0, 0);
+
+                messageDialogButton.setBackground(THEME_COLOR);
+                messageDialogButton.setForeground(THEME_COLOR);
+                messageDialogButton.setOpaque(true);
+                messageDialogButton.setMargin(new Insets(-3, -3, -3, -13));
+                messageDialogButton.setBorderPainted(false);
+                messageDialogButton.setIcon(new ImageIcon(img1));
+                messageDialogButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae)
+                    {
+                        //ここにメッセージを追加する処理
+                        messageAddDialog.dispose();
+                    }
+                    
+                });
+                
+                
+                messageAddPanel.add(messageDialogButton);
+                
+                messageAddDialog.add(messageAddPanel);
+                messageAddDialog.setVisible(true);
+            }
+        });
+        // ボタンの余白を調整
+        messageAddButton.setMargin(new Insets(0, 0, 0, 0));
+
+        // ボタンの枠線を非表示にする
+        messageAddButton.setBorderPainted(false);
+
+        // ボタンの背景を透明にする
+        messageAddButton.setContentAreaFilled(false);
+        backgroundPanel.add(messageAddButton);
         // 編集ボタン
         //username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
 
+        
         JButton editButton = new JButton("編集");
         editButton.setBounds(WINDOW_WIDTH-80, 10, 60, 30);
         editButton.addActionListener(new ActionListener() {
@@ -1728,7 +1806,7 @@ public class Client extends JFrame {
 
                 //編集前の日,時間を取得
                 String[] split1 = ce.getEventStart().split(":"); //split1[0]: 時間 [1]: 分
-                String[] split2 = ce.getEventStart().split(":"); //split1[0]: 時間 [1]: 分
+                String[] split2 = ce.getEventFinish().split(":"); //split1[0]: 時間 [1]: 分
 
                 /*
                 // 日のコンボボックス
@@ -1814,39 +1892,42 @@ public class Client extends JFrame {
                  */
 
                 // 日のコンボボックス
+                /*
                 dayComboBox2 = new JComboBox<>();
                 updateDayComboBox(currentYear,currentMonth,dayComboBox2); // 初期の日の選択肢を設定
                 dayComboBox2.setBounds(120, 100, 40, 30);
                 dayComboBox2.setSelectedItem(String.format("%02d", currentday));
                 eventPanel.add(dayComboBox2);
+                
 
                 JLabel dayLabel2 = new JLabel("日");
                 dayLabel2.setBounds(160, 100, 20, 30);
                 dayLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 dayLabel2.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(dayLabel2);
+                */
 
                 // 時間のコンボボックス
                 String[] hour2 = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
                 JComboBox<String> hourComboBox2 = new JComboBox<>(hour2);
                 hourComboBox2.setSelectedItem(split2[0]);
-                hourComboBox2.setBounds(180, 100, 40, 30);
+                hourComboBox2.setBounds(120, 100, 40, 30);
                 eventPanel.add(hourComboBox2);
 
                 JLabel hourLabel2 = new JLabel("時");
-                hourLabel2.setBounds(220, 100, 20, 30);
+                hourLabel2.setBounds(160, 100, 20, 30);
                 hourLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 hourLabel2.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(hourLabel2);
 
                 String[] minute2 = {"00","05","10","15","20","25","30","35","40","45","50","55"};
                 JComboBox<String> minuteComboBox2 = new JComboBox<>(minute2);
-                hourComboBox2.setSelectedItem(split2[1]);
-                minuteComboBox2.setBounds(240, 100, 40, 30);
+                minuteComboBox2.setSelectedItem(split2[1]);
+                minuteComboBox2.setBounds(180, 100, 40, 30);
                 eventPanel.add(minuteComboBox2);
 
                 JLabel minuteLabel2 = new JLabel("分");
-                minuteLabel2.setBounds(280, 100, 20, 30);
+                minuteLabel2.setBounds(220, 100, 20, 30);
                 minuteLabel2.setHorizontalAlignment(SwingConstants.CENTER);
                 minuteLabel2.setVerticalAlignment(SwingConstants.CENTER);
                 eventPanel.add(minuteLabel2);
@@ -2387,24 +2468,23 @@ public class Client extends JFrame {
                         g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
                         g1.setColor(Color.BLACK);
                         g1.drawString("キャンセル", 45, 34);
-                        JButton changePasswordButton = new JButton("1");
-                        changePasswordButton.setBounds(150,200,button_width,button_height);
+                        JButton cancelButton = new JButton("1");
+                        cancelButton.setBounds(150,200,button_width,button_height);
                         //gbc.anchor = GridBagConstraints.CENTER;
                         //gbc.insets = new Insets(10, 0, 0, 0);
 
-                        changePasswordButton.setBackground(THEME_COLOR);
-                        changePasswordButton.setForeground(THEME_COLOR);
-                        changePasswordButton.setOpaque(true);
-                        changePasswordButton.setMargin(new Insets(-3, -3, -3, -13));
-                        changePasswordButton.setBorderPainted(false);
-                        changePasswordButton.setIcon(new ImageIcon(img1));
-                        changePasswordButton.addActionListener(new ActionListener() {
+                        cancelButton.setBackground(THEME_COLOR);
+                        cancelButton.setForeground(THEME_COLOR);
+                        cancelButton.setOpaque(true);
+                        cancelButton.setMargin(new Insets(-3, -3, -3, -13));
+                        cancelButton.setBorderPainted(false);
+                        cancelButton.setIcon(new ImageIcon(img1));
+                        cancelButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent ae)
                             {
-                                Boolean tmp;
+                                Boolean tmp=false;
                                 try {
-                                    tmp = false;
-                                    tmp = cc.AbsentEvent(ce.getEventId(), "");
+                                    tmp = cc.AbsentEvent(ce.getEventId(), reason.getText());
                                 } catch (Exception e) {
                                     // TODO 自動生成された catch ブロック
                                     e.printStackTrace();
@@ -2424,11 +2504,14 @@ public class Client extends JFrame {
                                     JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
                                     account.removeEventGoing(ce.getEventId());
                                     
-                                }                            }
+                                }       
+                                cancelDialog.dispose();
+                            }
+                            
                         });
                         
                         
-                        cancelPanel.add(changePasswordButton);
+                        cancelPanel.add(cancelButton);
                         
                         cancelDialog.add(cancelPanel);
                         cancelDialog.setVisible(true);
