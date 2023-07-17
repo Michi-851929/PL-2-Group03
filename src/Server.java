@@ -360,7 +360,11 @@ public class Server extends JFrame implements ActionListener{
             return LOGIN_BANNED;
         }
         else {
-            return account.verifyPassword(password);
+            int tmp = account.verifyPassword(password);
+            if(tmp ==Account.PASS_CORRECT) {
+                account.setLastCheckTime();
+            }
+            return tmp;
         }
     }
 
