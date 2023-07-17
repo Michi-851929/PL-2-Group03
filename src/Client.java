@@ -3970,10 +3970,9 @@ public class Client extends JFrame {
             try {
                 if(!go.isEmpty()) {
                 go_event = cc.getEvents((String[])go.toArray(new String[go.size()]));
-                System.out.println(account.getLastCheckTime());
                 go_event.forEach(event->{
                     String[] tmp = {"","","",""};
-                    Message m = event.getNewOwnerMessage(account.getLastCheckInt());
+                    Message m = event.getNewOwnerMessage(account.getLastCheckTime());
                     if((int)m.message>0) {
                         tmp[0] = event.getEventCommunityName();//コミュニティ名
                         tmp[1] = event.getEventName();//イベント名
@@ -3982,7 +3981,6 @@ public class Client extends JFrame {
                         out_list.add(tmp);
                     }
                 });
-                System.out.println(account.getLastCheckTime());
                 if(out_list!=null) {
                     out_list.forEach(data->{
                 //dataを出力してください
@@ -3998,6 +3996,7 @@ public class Client extends JFrame {
             // TODO 自動生成された catch ブロック
                 e.printStackTrace();
             }
+            System.out.println(account.getLastCheckTime());
         }else {
             timer.cancel();
         }

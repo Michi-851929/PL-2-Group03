@@ -237,11 +237,11 @@ public class ClientEvent implements Serializable{
     }
 
     //ある時刻以降のメッセージの数と最新のメッセージを返す
-    public Message getNewOwnerMessage(int[] time) {
+    public Message getNewOwnerMessage(LocalDateTime time) {
         int tmp = 0;
         Message ans = new Message("0","0",0);
         for(int i = 0;i < eve_own_messagetime.size(); i++) {
-            if(getMessageDateData(i).isAfter(LocalDateTime.of(time[0], time[1], time[2], time[3], time[4], time[5], time[6]))) {
+            if(getMessageDateData(i).isAfter(time)) {
                 tmp++;
             }
         }
