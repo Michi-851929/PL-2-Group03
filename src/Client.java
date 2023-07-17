@@ -39,12 +39,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -55,6 +57,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -596,6 +599,325 @@ public class Client extends JFrame {
         ui_panel_01.setBackground(THEME_COLOR);
 
         ui_panel_00.add(ui_panel_01);
+
+        JButton ui_jb_search = new JButton("");
+        ui_jb_search.setBounds(520, 13, 50, 50);
+        ui_jb_search.setBackground(THEME_COLOR);
+        ui_jb_search.setForeground(THEME_COLOR);
+        ui_jb_search.setOpaque(true);
+        ui_jb_search.setMargin(new Insets(0,0,0,0));
+        ui_jb_search.setBorderPainted(false);
+        ui_jb_search.setIcon(new ImageIcon("src/search.png"));
+        ui_jb_search.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                JDialog searchDialog = new JDialog();
+                searchDialog.setTitle("イベント検索");
+                searchDialog.setModal(true); // モーダルダイアログとして設定
+                searchDialog.setSize(500, 500);
+                searchDialog.setLocationRelativeTo(null); // 中央に配置
+
+                // イベント作成画面のコンポーネントを追加
+                // TODO: イベント作成画面のコンポーネントを追加する処理を記述
+                // イベント作成画面のコンポーネントを追加
+                JPanel eventPanel = new JPanel();
+                eventPanel.setLayout(null);
+                eventPanel.setBackground(THEME_COLOR);
+
+                ButtonGroup group = new ButtonGroup();
+                JRadioButton ui_rb_00 = new JRadioButton("検索語を指定", true);
+                ui_rb_00.setBounds(40, 70, 150, 30);
+                ui_rb_00.setBackground(THEME_COLOR);
+                eventPanel.add(ui_rb_00);
+                JTextField ui_tf_word = new JTextField(16);
+                ui_tf_word.setBounds(40, 100, 410, 30);
+                ui_tf_word.setForeground(Color.LIGHT_GRAY);
+                ui_tf_word.setText("検索語");
+                ui_tf_word.addFocusListener(new FocusListener() {
+                    public void focusGained(FocusEvent fe) {
+                        String s = ui_tf_word.getText();
+                        if (s.equals("検索語")) {
+                            ui_tf_word.setText("");
+                            ui_tf_word.setForeground(Color.BLACK);
+                        }
+                    }
+                    public void focusLost(FocusEvent fe) {
+                        String s = ui_tf_word.getText();
+                        if (s.equals("")) {
+                            ui_tf_word.setText("検索語");
+                            ui_tf_word.setForeground(Color.LIGHT_GRAY);
+                        }
+                    }
+                });
+                eventPanel.add(ui_tf_word);
+                JRadioButton ui_rb_01 = new JRadioButton("曜日を指定", false);
+                ui_rb_01.setBounds(40, 160, 150, 30);
+                ui_rb_01.setBackground(THEME_COLOR);
+                eventPanel.add(ui_rb_01);
+                String[] hour = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
+                JComboBox<String> hourComboBox = new JComboBox<>(hour);
+                hourComboBox.setBounds(40, 190, 90, 30);
+                eventPanel.add(hourComboBox);
+                JRadioButton ui_rb_02 = new JRadioButton("いいね数に基づく", false);
+                ui_rb_02.setBounds(40, 250, 150, 30);
+                ui_rb_02.setBackground(THEME_COLOR);
+                eventPanel.add(ui_rb_02);
+                group.add(ui_rb_00);
+                group.add(ui_rb_01);
+                group.add(ui_rb_02);
+
+                BufferedImage img = createBackgroundImage(60, 40);
+                Graphics g = img.getGraphics();
+                g.setColor(Color.WHITE);
+                Client.kadomaruRect(g, 0, 0, 60, 40, 8, Color.WHITE, THEME_COLOR);
+                g.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+                g.setColor(Color.BLACK);
+                g.drawString("検索", 9, 27);
+                JButton addButton = new JButton("");
+                addButton.setBackground(THEME_COLOR);
+                addButton.setForeground(Color.black);
+                addButton.setOpaque(true);
+                addButton.setBorderPainted(false);
+                addButton.setBounds(220,320,60,40);
+                addButton.setIcon(new ImageIcon(img));
+
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        ArrayList<ClientEvent> search_list = new ArrayList<>();
+                        ArrayList<Integer> date_list = new ArrayList<>();
+                        if(ui_rb_00.isSelected()) {
+                            if(ui_tf_word.getText().equals("") || ui_tf_word.getText().equals("検索語")) {
+                                JOptionPane.showMessageDialog(searchDialog, "検索語を入力してください。", "エラー", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                            for(Community community : community_list) {
+                                List<ArrayList<String>> months = community.getCalendarMonth(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue()).getEventList();
+                                for(int i = 0; i < months.size(); i++) {
+                                    for(String id : months.get(i)) {
+                                        for(ClientEvent event : event_list) {
+                                            if(id.equals(event.getEventId())) {
+                                                String[] word_list = ui_tf_word.getText().split(" ");
+                                                for(String word : word_list) {
+                                                    if(event.getEventName().contains(word)) {
+                                                        search_list.add(event);
+                                                        date_list.add(i + 1);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if(ui_rb_01.isSelected()) {
+                            String youbi = (String)hourComboBox.getSelectedItem();
+                            DayOfWeek offset = DayOfWeek.SUNDAY;
+                            switch(youbi) {
+                                case "日曜日":
+                                    offset = DayOfWeek.SUNDAY;
+                                    break;
+                                case "月曜日":
+                                    offset = DayOfWeek.MONDAY;
+                                    break;
+                                case "火曜日":
+                                    offset = DayOfWeek.TUESDAY;
+                                    break;
+                                case "水曜日":
+                                    offset = DayOfWeek.WEDNESDAY;
+                                    break;
+                                case "木曜日":
+                                    offset = DayOfWeek.THURSDAY;
+                                    break;
+                                case "金曜日":
+                                    offset = DayOfWeek.FRIDAY;
+                                    break;
+                                case "土曜日":
+                                    offset = DayOfWeek.SATURDAY;
+                                    break;
+                            }
+                            for(Community community : community_list) {
+                                List<ArrayList<String>> months = community.getCalendarMonth(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue()).getEventList();
+                                for(int i = 0; i < months.size(); i++) {
+                                    for(String id : months.get(i)) {
+                                        if(LocalDate.of(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue(), i + 1).getDayOfWeek().equals(offset)) {
+                                            for(ClientEvent event : event_list) {
+                                                if(id.equals(event.getEventId())) {
+                                                    search_list.add(event);
+                                                    date_list.add(i + 1);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if(ui_rb_02.isSelected()) {
+                            ArrayList<ClientEvent> topten = getTopTenEvents(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue());
+                            for(Community community : community_list) {
+                                List<ArrayList<String>> months = community.getCalendarMonth(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue()).getEventList();
+                                for(int i = 0; i < months.size(); i++) {
+                                    for(String id : months.get(i)) {
+                                        for(ClientEvent event : topten) {
+                                            try {
+                                                if(id.equals(event.getEventId())) {
+                                                    search_list.add(event);
+                                                    date_list.add(i + 1);
+                                                }
+                                            }
+                                            catch(Exception e) {
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        JDialog eventDialog = new JDialog();
+                        eventDialog.setTitle("イベント検索");
+                        eventDialog.setModal(true); // モーダルダイアログとして設定
+                        eventDialog.setSize(WINDOW_WIDTH, WINDOW_WIDTH);
+                        eventDialog.setLocationRelativeTo(null); // 中央に配置
+
+                        JPanel eventPanel = new JPanel();
+                        eventPanel.setLayout(null);
+                        eventPanel.setBackground(THEME_COLOR);
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
+                        /*
+                        String formattedDate = ui_ld_looking.format(formatter);
+                        JLabel ui_jl_month = new JLabel("", JLabel.CENTER);
+                        ui_jl_month.setText(formattedDate);
+                        ui_jl_month.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
+                        ui_panel_02.add(ui_jl_month, "Center");
+                        */
+
+                        int events_num = search_list.size();
+
+                        int button_width = 525;
+                        int button_height = 96;
+                        int r = 20;
+
+
+                        JPanel ui_panel_06 = new JPanel();
+                        ui_panel_06.setLayout(null);
+                        ui_panel_06.setBounds(0, 0, WINDOW_WIDTH, WINDOW_WIDTH);
+                        ui_panel_06.setBackground(THEME_COLOR);
+                        JPanel ui_panel_05 = new JPanel();
+                        ui_panel_05.setLayout(new BorderLayout());
+                        ui_panel_05.setSize(WINDOW_WIDTH, WINDOW_WIDTH);
+                        ui_panel_05.setBackground(THEME_COLOR);
+
+                        // イベント一覧
+                        JPanel ui_panel_03 = new JPanel();
+                        events_num += date_list.size();
+                        if(events_num < 6) {
+                            ui_panel_03.setLayout(new GridLayout(5, 1, 4, 4));
+                        }else {
+                            ui_panel_03.setLayout(new GridLayout(events_num, 1, 4, 4));
+                        }
+                        ui_panel_03.setBackground(THEME_COLOR); // ボタン間の隙間をTHEME_COLORで塗りつぶす
+
+                        try {
+                            for (int i = 0; i < events_num; i++) {
+                                if(i == 0 || date_list.get(i) > date_list.get(i - 1)) {
+                                    BufferedImage img1 = createBackgroundImage(button_width, button_height);
+                                    Graphics g1 = img1.getGraphics();
+                                    g1.setColor(THEME_COLOR);
+                                    g1.fillRect(0, 0, button_width, button_height);
+                                    g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 24));
+                                    g1.setColor(Color.BLACK);
+                                    g1.drawString(LocalDate.of(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue(), date_list.get(i)).format(formatter), 50, 80);
+
+                                    JLabel eventButton = new JLabel("");
+                                    eventButton.setBackground(THEME_COLOR);
+                                    eventButton.setOpaque(true);
+                                    eventButton.setIcon(new ImageIcon(img1));
+
+                                    ui_panel_03.add(eventButton);
+                                }
+                                BufferedImage img1 = createBackgroundImage(button_width, button_height);
+                                Graphics g1 = img1.getGraphics();
+                                g1.setColor(Color.WHITE);
+                                Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
+                                g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 24));
+                                g1.setColor(Color.BLACK);
+                                ClientEvent event = search_list.get(i);
+                                String name = search_list.get(i).getEventName();
+                                String s_time = search_list.get(i).getEventStart();
+                                String f_time = search_list.get(i).getEventFinish();
+                                String place = search_list.get(i).getEventPlace();
+                                String com_name = search_list.get(i).getEventCommunityName();
+                                int good_num = search_list.get(i).getGood();
+                                String id = search_list.get(i).getEventId();
+
+                                if(account.getAEventPreferrd(search_list.get(i).getEventId())==true) {
+                                    g1.drawString(name+"♡", 10, 30);
+                                }else {
+                                    g1.drawString(name, 10, 30);
+                                }
+                                g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
+                                g1.drawString(s_time+"-"+f_time, 10, 90);
+                                g1.drawString(place, 170, 90);
+                                g1.drawString(com_name, 350, 30);
+                                g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
+
+
+                                JButton eventButton = new JButton("");
+                                eventButton.setBackground(THEME_COLOR);
+                                eventButton.setForeground(Color.black);
+                                eventButton.setOpaque(true);
+                                //eventButton.setMargin(new Insets(0,0,0,0));
+                                eventButton.setBorderPainted(false);
+                                eventButton.setIcon(new ImageIcon(img1));
+                                int day = i;
+                                eventButton.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent ae) {
+                                        ui_ld_looking = LocalDate.of(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue(), date_list.get(day));
+                                        eventDialog.setVisible(false);
+                                        eventScreen(event, day);
+                                    }
+                                });
+
+                                ui_panel_03.add(eventButton);
+
+                            }
+                        } catch (Exception e) {
+                        }
+
+                        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                        scrollPane.setSize(WINDOW_WIDTH, WINDOW_WIDTH);
+                        scrollPane.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 0));
+                        scrollPane.setBackground(THEME_COLOR);
+
+                        JScrollBar ui_sb_00 = scrollPane.getVerticalScrollBar();
+                        ui_sb_00.setOpaque(true);
+                        ui_sb_00.setBackground(THEME_COLOR);
+                        //ui_sb_00.setBorder(BorderFactory.createLineBorder(THEME_COLOR, 10));
+                        ui_sb_00.setUI(getScrollBarUI());
+                        ui_sb_00.setVisible(false);
+
+                        scrollPane.setViewportView(ui_panel_03);
+                        ui_panel_05.add(scrollPane, "Center");
+                        ui_panel_06.add(ui_panel_05);
+                        eventPanel.add(ui_panel_06);
+
+
+                        // イベント作成ダイアログにパネルを追加
+                        eventDialog.add(eventPanel);
+                        searchDialog.setVisible(false);
+                        eventDialog.setVisible(true);
+                    }
+                });
+                eventPanel.add(addButton);
+
+                // イベント作成ダイアログにパネルを追加
+                searchDialog.add(eventPanel);
+
+
+                searchDialog.setVisible(true);
+            }
+        });
+        ui_panel_01.add(ui_jb_search);
 
         //ボタン月ボタン
         JPanel ui_panel_02 = new JPanel();
@@ -1603,14 +1925,14 @@ public class Client extends JFrame {
 
 
 /*日付画面もがきすぎてわけわからない
- * 
+ *
  *      // イベント一覧
-        
+
         JPanel ui_panel_03 = new JPanel();
         ui_panel_03.setLayout(null);
         ui_panel_03.setSize(WINDOW_WIDTH-20,500);
         //ui_panel_03.setBounds(25,75,550,600);
-         
+
         JPanel ui_panel_04 = new JPanel();
         ui_panel_04.setBackground(THEME_COLOR);
         ui_panel_04.setLayout(new BoxLayout(ui_panel_04, BoxLayout.Y_AXIS));
@@ -1636,10 +1958,10 @@ public class Client extends JFrame {
             jp.setBackground(THEME_COLOR);
             jp.setForeground(Color.black);
             //eventButton.setMargin(new Insets(0,0,0,0));
-            
+
             JButton lb = new JButton("like");
             lb.setBounds(300,70,100,30);
-            
+
 
             BufferedImage img1 = createBackgroundImage(500, button_height);
             Graphics g1 = img1.getGraphics();
@@ -1695,12 +2017,12 @@ public class Client extends JFrame {
             ui_panel_04.add(jp);
             //ui_panel_04.add(eventButton);
             scrollPane.setViewportView(ui_panel_04);
-            
-            
+
+
         }
-        
-        
-        
+
+
+
 
         //ui_panel_06.add(scrollPane);//, "Center");
         //ui_panel_06.add(ui_panel_05);
