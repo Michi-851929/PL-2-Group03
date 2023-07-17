@@ -401,15 +401,17 @@ public class Server extends JFrame implements ActionListener{
                 }
                 String[] tags = community.getTag();
                 for(int i = 0; i < tags.length; i++) {
-                    if(tags[i].contains(word)) {
-                        result_list.add(community);
-                        break limit;
-                    }
+                	if(tags[i] != null) {
+                		if(tags[i].contains(word)) {
+                			result_list.add(community);
+                			break limit;
+                		}
+                	}
                 }
             }
         }
 
-        Community[] result_array = (Community[])(result_list.toArray());
+        Community[] result_array = (Community[])(result_list.toArray(new Community[result_list.size()]));
         return result_array;
     }
 
