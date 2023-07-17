@@ -2112,7 +2112,7 @@ public class Client extends JFrame {
                                 cc.editEvent(ce);
                                 eventDialog.setVisible(false);
                                 eventScreen(cc.getEvent(ce.getEventId()), event_day);//再描画
-                                
+
                             } catch (Exception e) {
                                 String error = e.getMessage();
                                 if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -3949,10 +3949,11 @@ public class Client extends JFrame {
         };
         timer.schedule(tt,300000,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
     }
-    
+
     ArrayList<String[]> out_list= new ArrayList<>();
     synchronized void inroop() {
         if(login_flag ==1) {
+            System.out.println(account.getLastCheckTime());
             update();
             ArrayList<String> go = account.getEventGoing();
             ArrayList<ClientEvent> go_event = new ArrayList<>();
@@ -3960,7 +3961,6 @@ public class Client extends JFrame {
             try {
                 if(!go.isEmpty()) {
                 go_event = cc.getEvents((String[])go.toArray(new String[go.size()]));
-                System.out.println(account.getLastCheckInt());
                 go_event.forEach(event->{
                     String[] tmp = {"","","",""};
                     Message m = event.getNewOwnerMessage(account.getLastCheckInt());
@@ -3972,6 +3972,7 @@ public class Client extends JFrame {
                         out_list.add(tmp);
                     }
                 });
+                System.out.println(account.getLastCheckTime());
                 if(out_list!=null) {
                     out_list.forEach(data->{
                 //dataを出力してください
