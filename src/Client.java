@@ -2369,6 +2369,10 @@ public class Client extends JFrame {
                         cancelPanel.setLayout(null);
                         cancelPanel.setBackground(THEME_COLOR);
 
+                        //キャンセル理由入力欄 ラベル
+                        JLabel reasonLabel = new JLabel("キャンセル理由");
+                        reasonLabel.setBounds(50,20,150,30);
+                        cancelPanel.add(reasonLabel);
                         //キャンセル理由入力欄
                         JTextField reason = new JTextField();
                         reason.setBounds(50,50,400,50);
@@ -2384,7 +2388,7 @@ public class Client extends JFrame {
                         g1.setColor(Color.BLACK);
                         g1.drawString("キャンセル", 75, 94);
                         JButton changePasswordButton = new JButton("1");
-                        changePasswordButton.setBounds(250,200,button_width,button_height);
+                        changePasswordButton.setBounds(200,200,button_width,button_height);
                         //gbc.anchor = GridBagConstraints.CENTER;
                         //gbc.insets = new Insets(10, 0, 0, 0);
 
