@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -105,7 +106,7 @@ class ConnectThread extends Thread{
             }else if(tmp.verifyPassword(m.pass)==0) {
                 ans.mode = 3;
             }else {
-                if(ans.mode != 3) {
+                if(m.mode != 3) {
                     tmp.setLastCheckTime();
                 }
                 if(m.mode == 2) {
@@ -262,7 +263,12 @@ class ConnectThread extends Thread{
                     ans.mode = 5;
                 }
             }
+            if(m.mode==3) {
+            System.out.println(tmp.getLastCheckTime());
+            System.out.println(LocalDateTime.now());
+            }
         }
+
         oos.writeObject(ans);
         //ここまで各自処理
         if(m.mode == 3) {
