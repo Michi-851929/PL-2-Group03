@@ -106,9 +106,6 @@ class ConnectThread extends Thread{
             }else if(tmp.verifyPassword(m.pass)==0) {
                 ans.mode = 3;
             }else {
-                if(m.mode != 3) {
-                    tmp.setLastCheckTime();
-                }
                 if(m.mode == 2) {
                     if(se.isCreatableCommunity((String)m.message) != Server.DUPLICATE_NAME) {
                         ans.mode = 4;
