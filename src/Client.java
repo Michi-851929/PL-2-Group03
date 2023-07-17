@@ -510,6 +510,7 @@ public class Client extends JFrame {
                              JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。サーバー管理者にお問い合わせください" );
                         }else {
                              JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                             e1.printStackTrace();
                         }
                     }
                 }
@@ -1286,6 +1287,7 @@ public class Client extends JFrame {
                                     logout();
                                 }else{
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                    e.printStackTrace();
                                 }
 
                             }
@@ -1743,14 +1745,27 @@ public class Client extends JFrame {
                 messageDialogButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae)
                     {
-                        //こッセージを追加する処理
-                        ce.setOwnerMessage(messageField.getText());
                         try {
-                            cc.editEvent(ce);
+                            cc.sendMessage(ce.getEventId(),messageField.getText());
+                            messageAddDialog.dispose();
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            String error = e.getMessage();
+                            if(error.equals(ClientConnect.NOT_FOUND)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                logout();
+                            }else if(error.equals(ClientConnect.BANNED)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                logout();
+                            }else if(error.equals(ClientConnect.AUTH)) {
+                                JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                logout();
+                            }else if(error.equals(ClientConnect.ERROR)) {
+                                JOptionPane.showMessageDialog(Client.this, "該当するイベントが存在しないか,あなたが作成者でないイベントです。");
+                            }else{
+                                JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                e.printStackTrace();
+                            }
                         }
-                        messageAddDialog.dispose();
                     }
                 });
                 
@@ -2090,8 +2105,22 @@ public class Client extends JFrame {
                             try {
                                 cc.editEvent(ce);
                             } catch (Exception e) {
-                                // TODO 自動生成された catch ブロック
-                                e.printStackTrace();
+                                String error = e.getMessage();
+                                if(error.equals(ClientConnect.NOT_FOUND)) {
+                                    JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                    logout();
+                                }else if(error.equals(ClientConnect.BANNED)) {
+                                    JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                    logout();
+                                }else if(error.equals(ClientConnect.AUTH)) {
+                                    JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                    logout();
+                                }else if(error.equals(ClientConnect.ERROR)) {
+                                    JOptionPane.showMessageDialog(Client.this, "該当するイベントが存在しないか,あなたが作成者でないイベントです。");
+                                }else{
+                                    JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -2263,8 +2292,22 @@ public class Client extends JFrame {
                 try {
                     cc.editEvent(ce);
                 } catch (Exception e) {
-                    // TODO 自動生成された catch ブロック
-                    e.printStackTrace();
+                    String error = e.getMessage();
+                    if(error.equals(ClientConnect.NOT_FOUND)) {
+                        JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                        logout();
+                    }else if(error.equals(ClientConnect.BANNED)) {
+                        JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                        logout();
+                    }else if(error.equals(ClientConnect.AUTH)) {
+                        JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                        logout();
+                    }else if(error.equals(ClientConnect.ERROR)) {
+                        JOptionPane.showMessageDialog(Client.this, "該当するイベントが存在しません。");
+                    }else{
+                        JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                        e.printStackTrace();
+                    }
                 }
                 reportButton.setText("イベントを通報済みです");
                 reportButton.setEnabled(false);
@@ -2394,9 +2437,8 @@ public class Client extends JFrame {
                         System.out.println("存在しないイベントです");
                     }else{
                         JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                        e.printStackTrace();
                     }
-
-                    e.printStackTrace();
                 }
             }
         });
@@ -2544,6 +2586,7 @@ public class Client extends JFrame {
                                             System.out.println("存在しないイベントです");
                                         }else{
                                             JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                            e.printStackTrace();
                                         }
 
                                     }
@@ -2596,6 +2639,7 @@ public class Client extends JFrame {
                         System.out.println("存在しないイベントです");
                     }else{
                         JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                        e.printStackTrace();
                     }
 
                      e.printStackTrace();
@@ -2910,6 +2954,7 @@ public class Client extends JFrame {
                                     logout();
                                 }else {
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                    e.printStackTrace();
                                 }
                             }
 
@@ -3149,7 +3194,8 @@ public class Client extends JFrame {
                             }else if(error.equals(ClientConnect.ERROR)) {
                                 JOptionPane.showMessageDialog(Client.this, "既存のコミュニティと名前が重複しています.変更して再度お試しください。");
                             }else{
-                                JOptionPane.showMessageDialog(Client.this,e.getMessage());
+                                JOptionPane.showMessageDialog(Client.this,"不明なエラーが発生しました。再度お試しください。");
+                                e.printStackTrace();
                             }
 
                         }
@@ -3182,7 +3228,7 @@ public class Client extends JFrame {
             int ind10 = 0;
             int ind12 = 0;
             int ind18 = 0;
-            int ind24 = 0;
+            int ind22 = 0;
             char[] chars = name.toCharArray();
             
             for(int i = 1; i < chars.length; i++) {
@@ -3194,8 +3240,8 @@ public class Client extends JFrame {
                 }
                 ind = i;
                 
-                if(ind24 == 0 && str_length >= 24) {
-                    ind24 = ind;
+                if(ind22 == 0 && str_length >= 22) {
+                    ind22 = ind;
                 }
                 else if(ind18 == 0 && str_length >= 18) {
                     ind18 = ind;
@@ -3215,9 +3261,9 @@ public class Client extends JFrame {
             if(String.valueOf(chars[0]).getBytes().length < 2) {
                 g.drawString(name.substring(1, str_length >= 12 ? ind12 : name.length()), 36, 60);
                 if(str_length >= 12) {
-                    g.drawString(name.substring(ind12, str_length >= 24 ? ind24 : name.length()), 36, 80);
+                    g.drawString(name.substring(ind12, str_length >= 22 ? ind22 : name.length()), 36, 80);
                 }
-                if(str_length >= 24) {
+                if(str_length >= 22) {
                     g.drawString("…", 128, 80);
                 }
             }
@@ -3263,6 +3309,7 @@ public class Client extends JFrame {
                                 JOptionPane.showMessageDialog(Client.this, "加入していない,あるいは存在しないコミュニティから脱退しようとしました。");
                             }else{
                                 JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                e.printStackTrace();
                             }
 
                         }
@@ -3393,6 +3440,7 @@ public class Client extends JFrame {
                                         JOptionPane.showMessageDialog(Client.this, "既に加入している,あるいは存在しないコミュニティに加入しようとしました。");
                                     }else{
                                         JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                        e.printStackTrace();
                                     }
 
                                 }
