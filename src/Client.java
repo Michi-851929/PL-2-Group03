@@ -2352,7 +2352,7 @@ public class Client extends JFrame {
                 try {
                     if(account.getEventGoing().contains(ce.getEventId())) {
                         
-                        int button_width = 100;
+                        int button_width = 200;
                         int button_height = 50;
                         int r = 15;
                         
@@ -2384,11 +2384,11 @@ public class Client extends JFrame {
                         Graphics g1 = img1.getGraphics();
                         g1.setColor(Color.WHITE);
                         Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
-                        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 42));
+                        g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 23));
                         g1.setColor(Color.BLACK);
-                        g1.drawString("キャンセル", 75, 94);
+                        g1.drawString("キャンセル", 55, 24);
                         JButton changePasswordButton = new JButton("1");
-                        changePasswordButton.setBounds(200,200,button_width,button_height);
+                        changePasswordButton.setBounds(150,200,button_width,button_height);
                         //gbc.anchor = GridBagConstraints.CENTER;
                         //gbc.insets = new Insets(10, 0, 0, 0);
 
