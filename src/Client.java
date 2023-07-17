@@ -115,6 +115,7 @@ public class Client extends JFrame {
     private Timer timer = new Timer(false);;
     private int sortflag;
     private int sortValue;
+    private int addflag;
 
     private JComboBox<Integer> yearComboBox;
     private JComboBox<String> monthComboBox;
@@ -144,7 +145,9 @@ public class Client extends JFrame {
 
             public void windowClosing(WindowEvent e) {
                 if(login_flag == 1) {
-                	PopupMenu popup = new PopupMenu();
+                    PopupMenu popup = new PopupMenu();
+                    day_event.clear();
+                    addflag=0;
                     /*
                     Image img = createImage(20, 20);
                     Graphics g = img.getGraphics();
@@ -174,7 +177,7 @@ public class Client extends JFrame {
                 else {
                     System.exit(0);
                 }
-                
+
             }
 
             public void windowClosed(WindowEvent e) {
@@ -608,8 +611,10 @@ public class Client extends JFrame {
         ui_jb_lastmonth.setOpaque(true);
         ui_jb_lastmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                ui_ld_firstofmonth = ui_ld_firstofmonth.minus(1, ChronoUnit.MONTHS);
-                calendarScreen();
+                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR || ui_ld_firstofmonth.getMonthValue() == 1)) {
+                    ui_ld_firstofmonth = ui_ld_firstofmonth.minus(1, ChronoUnit.MONTHS);
+                    calendarScreen();
+                }
             }
         });
         ui_panel_02.add(ui_jb_lastmonth, "West");
@@ -620,8 +625,10 @@ public class Client extends JFrame {
         ui_jb_nextmonth.setOpaque(true);
         ui_jb_nextmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                ui_ld_firstofmonth = ui_ld_firstofmonth.plus(1, ChronoUnit.MONTHS);
-                calendarScreen();
+                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR + Community.CALENDAR_YEARS - 1 || ui_ld_firstofmonth.getMonthValue() == 12)) {
+                    ui_ld_firstofmonth = ui_ld_firstofmonth.plus(1, ChronoUnit.MONTHS);
+                    calendarScreen();
+                }
             }
         });
         ui_panel_02.add(ui_jb_nextmonth, "East");
@@ -888,12 +895,17 @@ public class Client extends JFrame {
         g.fillRect(x + r / 2, y, width - r, height);
     }
 
-  //日付画面
+    //日付画面
     void dateScreen() {
 
         try {
-            day_event.clear();
-            day_event.addAll(getADayEvents(ui_ld_looking));
+            if(addflag==0) {
+                day_event.addAll(getADayEvents(ui_ld_looking));
+            }else {
+                addflag=0;
+            }
+
+           
             System.out.println(day_event);
         } catch (Exception e3) {
             // TODO 自動生成された catch ブロック
@@ -922,28 +934,24 @@ public class Client extends JFrame {
 
         ui_panel_00.add(ui_panel_01);
 
-        // 戻るボタン
-        JButton backButton = new JButton("←");
-        backButton.setBounds(15, 13, 60, 50);
-        backButton.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 32));
-        backButton.addActionListener(new ActionListener() {
+        //戻るボタン
+        JButton ui_jb_back = new JButton("");
+        ui_jb_back.setBounds(15, 13, 60, 50);
+        ui_jb_back.setBackground(THEME_COLOR);
+        ui_jb_back.setForeground(THEME_COLOR);
+        ui_jb_back.setOpaque(true);
+        ui_jb_back.setMargin(new Insets(0,0,0,0));
+        ui_jb_back.setBorderPainted(false);
+        ui_jb_back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
                 calendarScreen();
+                day_event.clear();
+                addflag=0;
             }
         });
-        //ImageIcon icon = new ImageIcon("src/back.png");
-        //backButton.setIcon(icon);
-
-        // ボタンの余白を調整
-        backButton.setMargin(new Insets(0, 0, 0, 0));
-
-        // ボタンの枠線を非表示にする
-        backButton.setBorderPainted(false);
-
-        // ボタンの背景を透明にする
-        backButton.setContentAreaFilled(false);
-        ui_panel_01.add(backButton);
+        ui_jb_back.setIcon(new ImageIcon("src/back.png"));
+        ui_panel_01.add(ui_jb_back);
 
         // ボタン追加：右上に追加するボタン
         JButton addButton = new JButton("+");
@@ -1245,6 +1253,8 @@ public class Client extends JFrame {
                                 cc.makeEvent(event, currentYear, currentMonth, intday1, intday2);
                                 event_list.add(event);
                                 day_event.add(event);
+                                sortflag=0;
+                                addflag=1;
 
                                 //確認
                                 int eve_size = day_event.size();
@@ -1317,6 +1327,8 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 ui_ld_looking = ui_ld_looking.minusDays(1);
                 dateScreen();
+                day_event.clear();
+                addflag=0;
             }
         });
         ui_panel_02.add(ui_jb_lastmonth, "West");
@@ -1329,6 +1341,8 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 ui_ld_looking = ui_ld_looking.plusDays(1);
                 dateScreen();
+                day_event.clear();
+                addflag=0;
             }
         });
         ui_panel_02.add(ui_jb_nextmonth, "East");
@@ -1444,7 +1458,7 @@ public class Client extends JFrame {
             g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
             g1.drawString(s_time+"-"+f_time, 10, 90);
             g1.drawString(place, 170, 90);
-            g1.drawString(com_name, 400, 30);
+            g1.drawString(com_name, 350, 30);
             g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
 
 
@@ -1464,6 +1478,8 @@ public class Client extends JFrame {
                     String day = ui_ld_looking.format(formatter);
                     int intday = Integer.parseInt(day);
                     eventScreen(event, intday);
+                    day_event.clear();
+                    addflag=0;
                 }
             });
 
@@ -1549,6 +1565,7 @@ public class Client extends JFrame {
         sortButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 sortflag = 1;
+                addflag = 1;
                 // Comparatorを使用してソート
                 Collections.sort(day_event, new Comparator<ClientEvent>() {
                     @Override
@@ -1580,6 +1597,8 @@ public class Client extends JFrame {
         contentPane1.add(ui_panel_00);
         setVisible(true);
         repaint();
+        
+        
 
 
     }
@@ -1860,7 +1879,7 @@ public class Client extends JFrame {
         }
 
         boolean atFirstGood = account.getEventPreferred().contains(ce.getEventId());//画面を表示したときいいねしていたか
-        
+
         goodButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
@@ -3150,7 +3169,9 @@ public class Client extends JFrame {
                 this.event_list = cc.getEvents((String[])ct.toArray(new String[ct.size()]));
             }
         } catch (Exception e1) {
-            // TODO 自動生成された catch ブロック
+            if(e1.getMessage()==ClientConnect.ERROR) {
+                this.event_list = new  ArrayList<>();
+            }
             e1.printStackTrace();
         }
         return 0;
