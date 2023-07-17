@@ -3211,34 +3211,6 @@ public class Client extends JFrame {
         inroop();
         TimerTask tt =new TimerTask() {
             public void run() {
-                if(login_flag ==1) {
-                    update();
-                    ArrayList<String> go = account.getEventGoing();
-                    ArrayList<ClientEvent> go_event = null;
-                    ArrayList<String[]> out_list= new ArrayList<>();
-                    try {
-                        go_event = cc.getEvents((String[])go.toArray());
-                        go_event.forEach(event->{
-                            String[] tmp = {"","","",""};
-                            Message m = event.getNewOwnerMessage(account.getLastCheckInt());
-                            if((int)m.message2>0) {
-                                tmp[0] = event.getEventCommunityName();//コミュニティ名
-                                tmp[1] = event.getEventName();//イベント名
-                                tmp[2] = String.valueOf((int) m.message);//メッセージ数
-                                tmp[3] = (String) m.message2;//最新のメッセージ
-                                out_list.add(tmp);
-                            }
-                        });
-                        out_list.forEach(data->{
-                        //dataを出力してください
-                        });
-                    } catch (Exception e) {
-                    // TODO 自動生成された catch ブロック
-                        e.printStackTrace();
-                    }
-                }else {
-                    timer.cancel();
-                }
                 inroop();
             }
         };
