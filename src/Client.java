@@ -1617,29 +1617,34 @@ public class Client extends JFrame {
 
 
         // 戻るボタン
-        JButton backButton = new JButton("戻る");
-        backButton.setBounds(10, 10, 60, 30);
-        backButton.addActionListener(new ActionListener() {
+        //戻るボタン
+        JButton ui_jb_back = new JButton("");
+        ui_jb_back.setBounds(15, 8, 60, 50);
+        ui_jb_back.setBackground(THEME_COLOR);
+        ui_jb_back.setForeground(THEME_COLOR);
+        ui_jb_back.setOpaque(true);
+        ui_jb_back.setMargin(new Insets(0,0,0,0));
+        ui_jb_back.setBorderPainted(false);
+        ui_jb_back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
-                userScreen();
+                dateScreen();
             }
         });
-        ImageIcon icon = new ImageIcon("src/back.png");
-        backButton.setIcon(icon);
+        ui_jb_back.setIcon(new ImageIcon("src/back.png"));
         // ボタンの余白を調整
-        backButton.setMargin(new Insets(0, 0, 0, 0));
+        ui_jb_back.setMargin(new Insets(0, 0, 0, 0));
 
         // ボタンの枠線を非表示にする
-        backButton.setBorderPainted(false);
+        ui_jb_back.setBorderPainted(false);
 
         // ボタンの背景を透明にする
-        backButton.setContentAreaFilled(false);
-        backgroundPanel.add(backButton);
+        ui_jb_back.setContentAreaFilled(false);
+        backgroundPanel.add(ui_jb_back);
 
 
         // 編集ボタン
-        username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
+        //username = "ADMIN"; //TODO デバッグ用 完成時にこの行は削除する
 
         JButton editButton = new JButton("編集");
         editButton.setBounds(WINDOW_WIDTH-80, 10, 60, 30);
@@ -1725,8 +1730,8 @@ public class Client extends JFrame {
         Dimension d2 = eventDetailLabel.getPreferredSize();
         eventDetailLabel.setBounds(75, 220+d.height, WINDOW_WIDTH-150, d2.height);
         eventPanel.add(eventDetailLabel);
-        //if(account.getEventPreferred().contains(ce.getEventId())) { //TODO デバッグ用にコメントアウトしてるので、もろもろ完成時には解除する
-        if(debug_boolean) {
+        if(account.getEventPreferred().contains(ce.getEventId())) { //TODO デバッグ用にコメントアウトしてるので、もろもろ完成時には解除する
+        //if(debug_boolean) {
             eventDetailLabel.setText(ce.getEventDetail());
         }
         else {
@@ -1795,23 +1800,23 @@ public class Client extends JFrame {
 
 
         // いいねボタン
-        //ImageIcon iine;
-        //ImageIcon blueIine = new ImageIcon("blueiine.png");
-        //ImageIcon whiteIine = new ImageIcon("whiteiine.png");
+        ImageIcon iine;
+        ImageIcon blueIine = new ImageIcon("src/blueiine.png");
+        ImageIcon whiteIine = new ImageIcon("src/whiteiine.png");
         //Image blueIineImg = Toolkit.getDefaultToolkit().getImage("blueiine.png");
-        JButton goodButton = new JButton("いいね");
+        JButton goodButton = new JButton("いいね "+ce.getGood());
         goodButton.setContentAreaFilled(false);
         goodButton.setBorderPainted(false);
-        //if(account.getEventPreferred().contains(ce.getEventId())) {
-        if(debug_boolean) {//TODO デバッグ用
+        if(account.getEventPreferred().contains(ce.getEventId())) {
+        //if(debug_boolean) {//TODO デバッグ用
             goodButton.setForeground(Color.white);
-            //iine = new ImageIcon(whiteIine.getImage());
+            iine = new ImageIcon(whiteIine.getImage());
         }
         else {
             goodButton.setForeground(GOOD_COLOR);
-            //iine = new ImageIcon(blueIine.getImage());
+            iine = new ImageIcon(blueIine.getImage());
         }
-        //goodButton.setIcon(iine);
+        goodButton.setIcon(iine);
         goodButton.setBounds(WINDOW_WIDTH/2-140, 165+d.height, 120, 30);
         eventPanel.add(goodButton);
 
@@ -1843,8 +1848,8 @@ public class Client extends JFrame {
         goodButton_bg_true.setBounds(WINDOW_WIDTH/2-145, 160+d.height, 130, 40);
         eventPanel.add(goodButton_bg_true);
 
-        //if(account.getEventPreferred().contains(ce.getEventId())) {
-        if(debug_boolean) {//TODO for debug
+        if(account.getEventPreferred().contains(ce.getEventId())) {
+        //if(debug_boolean) {//TODO for debug
             goodButton_bg_true.setVisible(true);
             goodButton_bg_false.setVisible(false);
         }
@@ -1858,27 +1863,26 @@ public class Client extends JFrame {
             {
                 try {
                     Boolean tmp = cc.nice(ce.getEventId());
-                    //if(account.getEventPreferred().contains(ce.getEventId())) {
-                    if(debug_boolean) {//TODO for debug
-                        if(tmp ==false) {
-                            goodButton.setForeground(Color.black);
-                            goodButton_bg_false.setVisible(true);
-                            goodButton_bg_true.setVisible(false);
-                            eventDetailLabel.setVisible(false);
-                            System.out.println("いいね解除しました");
-                        }
+                    if(account.getEventPreferred().contains(ce.getEventId())) {
+                    //if(debug_boolean) {//TODO for debug
+                        goodButton.setForeground(Color.black);
+                        goodButton_bg_false.setVisible(true);
+                        goodButton_bg_true.setVisible(false);
+                        eventDetailLabel.setText("いいねで詳細を表示");
+                        goodButton.setIcon(blueIine);
+                        System.out.println("いいね解除しました");
                     }
                     else {
-                        if(tmp == true) {
-                            goodButton.setForeground(Color.WHITE);
-                            goodButton_bg_false.setVisible(false);
-                            goodButton_bg_true.setVisible(true);
-                            eventDetailLabel.setVisible(true);
-                            System.out.println("いいねしました");
-                        }
+                        goodButton.setForeground(Color.WHITE);
+                        goodButton_bg_false.setVisible(false);
+                        goodButton_bg_true.setVisible(true);
+                        eventDetailLabel.setText(ce.getEventDetail());
+                        goodButton.setIcon(whiteIine);
+                        System.out.println("いいねしました");
                     }
                     getNewMessage();
                     //更新を呼ぶ
+                    goodButton.setText("いいね "+ce.getGood());
                 } catch (Exception e) {
                     String error = e.getMessage();
                     if(error.equals(ClientConnect.NOT_FOUND)) {
@@ -1907,8 +1911,8 @@ public class Client extends JFrame {
         joinButton.setContentAreaFilled(false);
         joinButton.setBorderPainted(false);
         joinButton.setBounds(WINDOW_WIDTH/2+20, 165+d.height, 120, 30);
-        //if(account.getAEventGoing(ce.getEventId())) {
-        if(debug_boolean) { //TODO for debug
+        if(account.getAEventGoing(ce.getEventId())) {
+        //if(debug_boolean) { //TODO for debug
             joinButton.setForeground(Color.white);
         }
         else {
@@ -1942,8 +1946,8 @@ public class Client extends JFrame {
         joinButton_bg_true.setBounds(WINDOW_WIDTH/2+15, 160+d.height, 130, 40);
         eventPanel.add(joinButton_bg_true);
 
-        //if(account.getAEventGoing(ce.getEventId())) {
-        if(debug_boolean) { //TODO for debug
+        if(account.getAEventGoing(ce.getEventId())) {
+        //if(debug_boolean) { //TODO for debug
             joinButton_bg_true.setVisible(true);
             joinButton_bg_false.setVisible(false);
         }
@@ -1957,8 +1961,8 @@ public class Client extends JFrame {
             {
                 try {
                     Boolean tmp = cc.joinEvent(ce.getEventId());
-                    //if(account.getAEventGoing(ce.getEventId())) {
-                    if(debug_boolean) { //TODO for debug
+                    if(account.getAEventGoing(ce.getEventId())) {
+                    //if(debug_boolean) { //TODO for debug
                         if(tmp ==false) {
                             joinButton.setForeground(JOIN_COLOR);
                             joinButton_bg_false.setVisible(true);
@@ -2001,7 +2005,7 @@ public class Client extends JFrame {
         //スクロール
         JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //scrollPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT-125);
-        scrollPane.setBounds(0,50, WINDOW_WIDTH, WINDOW_HEIGHT-175);
+        scrollPane.setBounds(0,51, WINDOW_WIDTH, WINDOW_HEIGHT-175);
         //scrollPane.setPreferredSize(new Dimension(WINDOW_WIDTH-12, WINDOW_HEIGHT-125));
         scrollPane.setBorder(BorderFactory.createLineBorder(GOOD_COLOR, 0));
         scrollPane.setBackground(THEME_COLOR);
