@@ -2337,30 +2337,44 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
-                    cc.joinEvent(ce.getEventId());
                     if(account.getEventGoing().contains(ce.getEventId())) {
-                        joinButton.setForeground(JOIN_COLOR);
-                        joinButton_bg_false.setVisible(true);
-                        joinButton_bg_true.setVisible(false);
-                        System.out.println("参加解除しました");
-                        if(atFirstJoin) {
-                            joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
-                        }
-                        else {
-                            joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                        //キャンセル理由を入力させる
+                        Boolean tmp = cc.AbsentEvent(ce.getEventId(), "");//""に入力内容
+                        if(tmp == true) {
+                            joinButton.setForeground(JOIN_COLOR);
+                            joinButton_bg_false.setVisible(true);
+                            joinButton_bg_true.setVisible(false);
+                            System.out.println("参加解除しました");
+                            if(atFirstJoin) {
+                                joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
+                            }
+                            else {
+                                joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                            }
+                        }else {
+                            JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
+                            account.removeEventGoing(ce.getEventId());
+                            //再描画
                         }
                     }
                     else {
-                        joinButton.setForeground(Color.WHITE);
-                        joinButton_bg_false.setVisible(false);
-                        joinButton_bg_true.setVisible(true);
-                        System.out.println("参加しました");
-                        if(atFirstJoin) {
-                            joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                        Boolean tmp = cc.joinEvent(ce.getEventId());
+                        if(tmp == true){
+                            joinButton.setForeground(Color.WHITE);
+                            joinButton_bg_false.setVisible(false);
+                            joinButton_bg_true.setVisible(true);
+                            System.out.println("参加しました");
+                            if(atFirstJoin) {
+                                joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                            }
+                            else {
+                                joinButton.setText("参加 "+ Integer.toString((ce.getJoin()+1)));
+                            }  
+                        }else {
+                            JOptionPane.showMessageDialog(Client.this, "既に参加しているイベントです");
+                            account.addEventGoing(ce.getEventId());
+                            //再描画
                         }
-                        else {
-                            joinButton.setText("参加 "+ Integer.toString((ce.getJoin()+1)));
-                        }                    
                     }
                     getNewMessage();
                 } catch (Exception e) {
