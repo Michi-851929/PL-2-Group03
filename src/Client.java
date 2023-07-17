@@ -2257,9 +2257,18 @@ public class Client extends JFrame {
         int message_y = 290+d.height+d2.height-50;
         if(ce.getOwnerMessage().length>0) {
             JTextArea[] eventOwnerMessageLabel = new JTextArea[ce.getOwnerMessage().length];
+            JTextArea eventOwnerMessageLabelTitle = new JTextArea("主催者からのメッセージ", 18, 1);
+            eventOwnerMessageLabelTitle.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+            eventOwnerMessageLabelTitle.setForeground(GOOD_COLOR);
+            eventOwnerMessageLabelTitle.setLineWrap(true);
+            eventOwnerMessageLabelTitle.setEditable(false);
+            eventOwnerMessageLabelTitle.setBackground(Color.WHITE);
+            eventOwnerMessageLabelTitle.setBounds(75, message_y, WINDOW_WIDTH-150, 20);
+            eventPanel.add(eventOwnerMessageLabelTitle);
+            message_y += 20;
             for(int i = 0; i < ce.getOwnerMessage().length;i++) {
                 eventOwnerMessageLabel[i] = new JTextArea(ce.getOwnerMessage()[i],18,1);
-                eventOwnerMessageLabel[i].setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+                eventOwnerMessageLabel[i].setFont(new Font("ＭＳ ゴシック", Font.BOLD, 15));
                 eventOwnerMessageLabel[i].setLineWrap(true);
                 eventOwnerMessageLabel[i].setEditable(false);
                 eventOwnerMessageLabel[i].setBackground(Color.WHITE);
@@ -2562,6 +2571,7 @@ public class Client extends JFrame {
                         cancelButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent ae)
                             {
+                                cancelDialog.setVisible(false);
                                 Boolean tmp;
                                 if(reason.getText().length()!=0) {
                                     try {
