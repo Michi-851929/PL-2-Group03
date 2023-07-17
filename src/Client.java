@@ -108,7 +108,7 @@ public class Client extends JFrame {
     private ArrayList<ClientEvent> event_list = new ArrayList<>();
     private ArrayList<ClientEvent> day_event = new ArrayList<>();
 
-    
+
     private  int login_flag;
     private int register_flag;
     private String eve_id;
@@ -144,13 +144,15 @@ public class Client extends JFrame {
 
             public void windowClosing(WindowEvent e) {
                 PopupMenu popup = new PopupMenu();
+                /*
                 Image img = createImage(20, 20);
                 Graphics g = img.getGraphics();
                 g.setColor(THEME_COLOR);
                 g.fillRect(0, 0, 20, 20);
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 10, 20, 10);
-                ui_ticon = new TrayIcon(img, "Communi+I", popup);
+                */
+                ui_ticon = new TrayIcon(new ImageIcon("src/minilogo.png").getImage(), "Communi+I", popup);
                 MenuItem ui_mi_open = new MenuItem("開く");
                 ui_mi_open.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae)
@@ -884,7 +886,7 @@ public class Client extends JFrame {
     void dateScreen() {
 
         try {
-        	day_event.clear();
+            day_event.clear();
             day_event.addAll(getADayEvents(ui_ld_looking));
             System.out.println(day_event);
         } catch (Exception e3) {
