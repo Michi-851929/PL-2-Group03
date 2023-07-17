@@ -1614,6 +1614,7 @@ public class Client extends JFrame {
 
     //イベント画面 month, dayは表示のため
     void eventScreen(ClientEvent ev, int day) {
+        int event_day = day;
         ClientEvent ce = ev;
         boolean debug_boolean = true;
         setTitle("イベントの詳細");
@@ -2482,32 +2483,49 @@ public class Client extends JFrame {
                         cancelButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent ae)
                             {
-                                Boolean tmp=false;
-                                try {
-                                    tmp = cc.AbsentEvent(ce.getEventId(), reason.getText());
-                                } catch (Exception e) {
-                                    // TODO 自動生成された catch ブロック
-                                    e.printStackTrace();
-                                }//""に入力内容
-                                if(tmp == true) {
-                                    joinButton.setForeground(JOIN_COLOR);
-                                    joinButton_bg_false.setVisible(true);
-                                    joinButton_bg_true.setVisible(false);
-                                    System.out.println("参加解除しました");
-                                    if(atFirstJoin) {
-                                        joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
-                                    }
-                                    else {
-                                        joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                                Boolean tmp;
+                                if(reason.getText().length()!=0) {
+                                    try {
+                                        tmp = cc.AbsentEvent(ce.getEventId(), reason.getText());
+                                        if(tmp == true) {
+                                            joinButton.setForeground(JOIN_COLOR);
+                                            joinButton_bg_false.setVisible(true);
+                                            joinButton_bg_true.setVisible(false);
+                                            System.out.println("参加解除しました");
+                                            if(atFirstJoin) {
+                                                joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
+                                            }
+                                            else {
+                                                joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                                            }
+                                        }else {
+                                            JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
+                                            account.removeEventGoing(ce.getEventId());
+                                            eventScreen(cc.getEvent(ce.getEventId()), event_day); //再描画
+                                        }        
+                                        getNewMessage();
+                                    } catch (Exception e) {
+                                        String error = e.getMessage();
+                                        if(error.equals(ClientConnect.NOT_FOUND)) {
+                                            JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                            logout();
+                                        }else if(error.equals(ClientConnect.BANNED)) {
+                                            JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                            logout();
+                                        }else if(error.equals(ClientConnect.AUTH)) {
+                                            JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                            logout();
+                                        }else if(error.equals(ClientConnect.ERROR)) {
+                                            System.out.println("存在しないイベントです");
+                                        }else{
+                                            JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                        }
+
                                     }
                                 }else {
-                                    JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
-                                    account.removeEventGoing(ce.getEventId());
-                                    
-                                }       
-                                cancelDialog.dispose();
+                                    JOptionPane.showMessageDialog(Client.this, "理由を入力してください。");
+                                }
                             }
-                            
                         });
                         
                         
@@ -3130,7 +3148,62 @@ public class Client extends JFrame {
             g.setColor(new Color(255, 192, 0));
             Client.kadomaruRect(g, -100, 0, 280, 100, 100);
             g.setColor(Color.WHITE);
-            g.drawString(community.getName(), 0, 80);
+            g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 48));
+            
+            String name = community.getName(); 
+            int str_length = 0;
+            int ind = 0;
+            int ind10 = 0;
+            int ind12 = 0;
+            int ind18 = 0;
+            int ind24 = 0;
+            char[] chars = name.toCharArray();
+            
+            for(int i = 1; i < chars.length; i++) {
+                if(String.valueOf(chars[i]).getBytes().length < 2) {
+                    str_length += 1;
+                }
+                else {
+                    str_length += 2;
+                }
+                ind = i;
+                
+                if(ind24 == 0 && str_length >= 24) {
+                    ind24 = ind;
+                }
+                else if(ind18 == 0 && str_length >= 18) {
+                    ind18 = ind;
+                }
+                else if(ind12 == 0 && str_length >= 12) {
+                    ind12 = ind; 
+                }
+                else if(ind10 == 0 && str_length >= 10) {
+                    ind10 = ind;
+                }
+                
+            }
+            
+            g.drawString(name.substring(0,1), 0, 80);
+            
+            g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+            if(String.valueOf(chars[0]).getBytes().length < 2) {
+                g.drawString(name.substring(1, str_length >= 12 ? ind12 : name.length()), 36, 60);
+                if(str_length >= 12) {
+                    g.drawString(name.substring(ind12, str_length >= 24 ? ind24 : name.length()), 36, 80);
+                }
+                if(str_length >= 24) {
+                    g.drawString("…", 128, 80);
+                }
+            }
+            else {
+                g.drawString(name.substring(1, str_length >= 10 ? ind10 : name.length()), 48, 60);
+                if(str_length >= 10) {
+                    g.drawString(name.substring(ind10, str_length >= 18 ? ind18 : name.length()), 48, 80);
+                }
+                if(str_length >= 18) {
+                    g.drawString("…", 128, 80);
+                }
+            }
 
 
             JButton eventButton = new JButton();
