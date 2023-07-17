@@ -1726,6 +1726,11 @@ public class Client extends JFrame {
                  *
                  */
 
+                //編集前の日,時間を取得
+                String[] split1 = ce.getEventStart().split(":"); //split1[0]: 時間 [1]: 分
+                String[] split2 = ce.getEventStart().split(":"); //split1[0]: 時間 [1]: 分
+
+                
                 // 日のコンボボックス
                 dayComboBox = new JComboBox<>();
                 updateDayComboBox(currentYear,currentMonth,dayComboBox); // 初期の日の選択肢を設定
@@ -1741,7 +1746,9 @@ public class Client extends JFrame {
 
                 // 時間のコンボボックス
                 String[] hour = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+                
                 JComboBox<String> hourComboBox = new JComboBox<>(hour);
+                hourComboBox.setSelectedItem(split1[0]);
                 hourComboBox.setBounds(180, 60, 40, 30);
                 eventPanel.add(hourComboBox);
 
@@ -1753,6 +1760,7 @@ public class Client extends JFrame {
 
                 String[] minute = {"00","05","10","15","20","25","30","35","40","45","50","55"};
                 JComboBox<String> minuteComboBox = new JComboBox<>(minute);
+                minuteComboBox.setSelectedItem(split1[1]);
                 minuteComboBox.setBounds(240, 60, 40, 30);
                 eventPanel.add(minuteComboBox);
 
@@ -1819,6 +1827,7 @@ public class Client extends JFrame {
                 // 時間のコンボボックス
                 String[] hour2 = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
                 JComboBox<String> hourComboBox2 = new JComboBox<>(hour2);
+                hourComboBox2.setSelectedItem(split2[0]);
                 hourComboBox2.setBounds(180, 100, 40, 30);
                 eventPanel.add(hourComboBox2);
 
@@ -1830,6 +1839,7 @@ public class Client extends JFrame {
 
                 String[] minute2 = {"00","05","10","15","20","25","30","35","40","45","50","55"};
                 JComboBox<String> minuteComboBox2 = new JComboBox<>(minute2);
+                hourComboBox2.setSelectedItem(split2[1]);
                 minuteComboBox2.setBounds(240, 100, 40, 30);
                 eventPanel.add(minuteComboBox2);
 
