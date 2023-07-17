@@ -89,10 +89,12 @@ public class Account implements Serializable{
     //正しいとき(int)PASS_CORECT, 正しくないとき(int)PASS_FALSEを返す
     public int verifyPassword(String password)
     {
-        if(this.password.equals(password)) {
-            return PASS_CORRECT;
+        if(password==null) {
+            return PASS_FALSE;
         }
-        else {
+        else if(password.equals(this.password)) {
+            return PASS_CORRECT;
+        }{
             return PASS_FALSE;
         }
     }
