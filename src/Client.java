@@ -1730,7 +1730,7 @@ public class Client extends JFrame {
                 Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
                 g1.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 25));
                 g1.setColor(Color.BLACK);
-                g1.drawString("メッセージ追加", 25, 34);
+                g1.drawString("メッセージ追加", 10, 34);
                 JButton messageDialogButton = new JButton("1");
                 messageDialogButton.setBounds(150,200,button_width,button_height);
                 //gbc.anchor = GridBagConstraints.CENTER;
