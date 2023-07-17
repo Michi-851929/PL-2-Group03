@@ -32,6 +32,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -2267,7 +2268,9 @@ public class Client extends JFrame {
             eventPanel.add(eventOwnerMessageLabelTitle);
             message_y += 25;
             for(int i = 0; i < ce.getOwnerMessage().length;i++) {
-                eventOwnerMessageLabel[i] = new JTextArea(ce.getOwnerMessage()[i],18,1);
+                LocalDateTime time = ce.getMessageDateData(i);
+                String timeStr = time.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+                eventOwnerMessageLabel[i] = new JTextArea( timeStr+System.getProperty("line.separator")+ce.getOwnerMessage()[i],18,1);
                 eventOwnerMessageLabel[i].setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
                 eventOwnerMessageLabel[i].setLineWrap(true);
                 eventOwnerMessageLabel[i].setEditable(false);
