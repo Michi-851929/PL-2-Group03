@@ -2402,29 +2402,48 @@ public class Client extends JFrame {
                             public void actionPerformed(ActionEvent ae)
                             {
                                 Boolean tmp;
-                                try {
-                                    tmp = false;
-                                    tmp = cc.AbsentEvent(ce.getEventId(), "");
-                                } catch (Exception e) {
-                                    // TODO 自動生成された catch ブロック
-                                    e.printStackTrace();
-                                }//""に入力内容
-                                if(tmp == true) {
-                                    joinButton.setForeground(JOIN_COLOR);
-                                    joinButton_bg_false.setVisible(true);
-                                    joinButton_bg_true.setVisible(false);
-                                    System.out.println("参加解除しました");
-                                    if(atFirstJoin) {
-                                        joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
-                                    }
-                                    else {
-                                        joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                                if(reason.getText().length()!=0) {
+                                    try {
+                                        tmp = cc.AbsentEvent(ce.getEventId(), reason.getText());
+                                        if(tmp == true) {
+                                            joinButton.setForeground(JOIN_COLOR);
+                                            joinButton_bg_false.setVisible(true);
+                                            joinButton_bg_true.setVisible(false);
+                                            System.out.println("参加解除しました");
+                                            if(atFirstJoin) {
+                                                joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
+                                            }
+                                            else {
+                                                joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
+                                            }
+                                        }else {
+                                            JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
+                                            account.removeEventGoing(ce.getEventId());
+                                            //再描画
+                                        }        
+                                        getNewMessage();
+                                    } catch (Exception e) {
+                                        String error = e.getMessage();
+                                        if(error.equals(ClientConnect.NOT_FOUND)) {
+                                            JOptionPane.showMessageDialog(Client.this, "該当するユーザーがいません。");
+                                            logout();
+                                        }else if(error.equals(ClientConnect.BANNED)) {
+                                            JOptionPane.showMessageDialog(Client.this, "該当ユーザーは無効化されています。");
+                                            logout();
+                                        }else if(error.equals(ClientConnect.AUTH)) {
+                                            JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                            logout();
+                                        }else if(error.equals(ClientConnect.ERROR)) {
+                                            System.out.println("存在しないイベントです");
+                                        }else{
+                                            JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                        }
+
                                     }
                                 }else {
-                                    JOptionPane.showMessageDialog(Client.this, "参加していないイベントです");
-                                    account.removeEventGoing(ce.getEventId());
-                                    
-                                }                            }
+                                    JOptionPane.showMessageDialog(Client.this, "理由を入力してください。");
+                                }
+                            }
                         });
                         
                         
