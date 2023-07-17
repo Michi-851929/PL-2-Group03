@@ -1458,7 +1458,7 @@ public class Client extends JFrame {
             g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
             g1.drawString(s_time+"-"+f_time, 10, 90);
             g1.drawString(place, 170, 90);
-            g1.drawString(com_name, 400, 30);
+            g1.drawString(com_name, 350, 30);
             g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
 
 
