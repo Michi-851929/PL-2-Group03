@@ -178,7 +178,11 @@ public class ClientEvent implements Serializable{
 
     //キャンセル送信時間取得//
     public LocalDateTime[] getCancelTime() {
-        return (LocalDateTime[])eve_cancel_time.toArray(new LocalDateTime[eve_cancel_time.size()]);
+        ArrayList<LocalDateTime> list = new ArrayList<>();
+        for(int i = 0;i < eve_own_messagetime.size(); i++) {
+            list.add(getCancelDateData(i));
+        }
+        return (LocalDateTime[])list.toArray(new LocalDateTime[eve_cancel_time.size()]);
     }
 
     //いいね数取得//
@@ -216,24 +220,35 @@ public class ClientEvent implements Serializable{
 
     //通報数増加//
     public int increaseReport() {
-    	eve_rep++;
-    	return eve_rep;
+        eve_rep++;
+        return eve_rep;
     }
-   
+
+    public LocalDateTime getMessageDateData(int i)
+    {
+        int[] time = eve_own_messagetime.get(i);
+        return LocalDateTime.of(time[0], time[1], time[2], time[3], time[4], time[5], time[6]);
+    }
+
+    public LocalDateTime getCancelDateData(int i)
+    {
+        int[] time = eve_cancel_time.get(i);
+        return LocalDateTime.of(time[0], time[1], time[2], time[3], time[4], time[5], time[6]);
+    }
+
     //ある時刻以降のメッセージの数と最新のメッセージを返す
     public Message getNewOwnerMessage(int[] time) {
-    	int tmp = 0;
-    	Message ans = new Message("0","0",0);
-    	for(int i = 0;i < eve_own_messagetime.size(); i++) {
-    		int[] it= eve_own_messagetime.get(i);
-    		if(it[0]>=time[0]&&it[1]>=time[1]&&it[2]>=time[2]&&it[3]>=time[3]&&it[4]>=time[4]&&it[5]>time[5]) {
-    			tmp ++;
-    		}
-    	}
-    	ans.message = tmp;
-    	if(tmp > 0) {
-    		ans.message2 =eve_own_message.get(eve_own_message.size()-1);
-    	}
-    	return ans;
+        int tmp = 0;
+        Message ans = new Message("0","0",0);
+        for(int i = 0;i < eve_own_messagetime.size(); i++) {
+            if(getMessageDateData(i).isAfter(LocalDateTime.of(time[0], time[1], time[2], time[3], time[4], time[5], time[6]))) {
+                tmp++;
+            }
+        }
+        ans.message = tmp;
+        if(tmp > 0) {
+            ans.message2 =eve_own_message.get(eve_own_message.size()-1);
+        }
+        return ans;
     }
 }
