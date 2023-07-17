@@ -146,6 +146,8 @@ public class Client extends JFrame {
             public void windowClosing(WindowEvent e) {
                 if(login_flag == 1) {
                     PopupMenu popup = new PopupMenu();
+                    day_event.clear();
+                    addflag=0;
                     /*
                     Image img = createImage(20, 20);
                     Graphics g = img.getGraphics();
@@ -1456,7 +1458,7 @@ public class Client extends JFrame {
             g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
             g1.drawString(s_time+"-"+f_time, 10, 90);
             g1.drawString(place, 170, 90);
-            g1.drawString(com_name, 400, 30);
+            g1.drawString(com_name, 350, 30);
             g1.drawString("いいね数:"+Integer.toString(good_num), 400, 90);
 
 
@@ -1892,10 +1894,10 @@ public class Client extends JFrame {
                         goodButton.setIcon(blueIine);
                         System.out.println("いいね解除しました");
                         if(atFirstGood) {
-                            goodButton.setText("いいね "+ (ce.getGood()-1));
+                            goodButton.setText("いいね "+ Integer.toString(ce.getGood()-1));
                         }
                         else {
-                            goodButton.setText("いいね "+ ce.getGood());
+                            goodButton.setText("いいね "+ Integer.toString(ce.getGood()));
                         }
                     }
                     else {
@@ -1906,10 +1908,10 @@ public class Client extends JFrame {
                         goodButton.setIcon(whiteIine);
                         System.out.println("いいねしました");
                         if(atFirstGood) {
-                            goodButton.setText("いいね "+ (ce.getGood()));
+                            goodButton.setText("いいね "+ Integer.toString(ce.getGood()));
                         }
                         else {
-                            goodButton.setText("いいね "+ ce.getGood()+1);
+                            goodButton.setText("いいね "+ Integer.toString(ce.getGood()+1));
                         }                    }
                     getNewMessage();
                     //更新を呼ぶ
@@ -1985,24 +1987,23 @@ public class Client extends JFrame {
             joinButton_bg_false.setVisible(true);
             joinButton_bg_true.setVisible(false);
         }
-        boolean atFirstJoin = account.getAEventGoing(ce.getEventId());//画面を表示したとき参加をしていたか
+        boolean atFirstJoin = account.getEventGoing().contains(ce.getEventId());//画面を表示したとき参加をしていたか
 
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
                 try {
                     cc.joinEvent(ce.getEventId());
-                    int newJoin = ce.getJoin();
-                    if(account.getAEventGoing(ce.getEventId())) {
+                    if(account.getEventGoing().contains(ce.getEventId())) {
                         joinButton.setForeground(JOIN_COLOR);
                         joinButton_bg_false.setVisible(true);
                         joinButton_bg_true.setVisible(false);
                         System.out.println("参加解除しました");
                         if(atFirstJoin) {
-                            joinButton.setText("参加 "+ (ce.getJoin()-1));
+                            joinButton.setText("参加 "+ Integer.toString((ce.getJoin()-1)));
                         }
                         else {
-                            joinButton.setText("参加 "+ ce.getJoin());
+                            joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
                         }
                     }
                     else {
@@ -2011,12 +2012,12 @@ public class Client extends JFrame {
                         joinButton_bg_true.setVisible(true);
                         System.out.println("参加しました");
                         if(atFirstJoin) {
-                            joinButton.setText("参加 "+ (ce.getJoin()-1));
+                            joinButton.setText("参加 "+ Integer.toString(ce.getJoin()));
                         }
                         else {
-                            joinButton.setText("参加 "+ ce.getJoin());
-                        }                    }
-                    joinButton.setText("参加  "+newJoin);
+                            joinButton.setText("参加 "+ Integer.toString((ce.getJoin()+1)));
+                        }                    
+                    }
                     getNewMessage();
                 } catch (Exception e) {
                     String error = e.getMessage();

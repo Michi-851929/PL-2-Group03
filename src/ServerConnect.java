@@ -139,10 +139,10 @@ class ConnectThread extends Thread{
                         ans.mode = 4;
                     }else{
                         if(tmp.getAEventGoing((String)m.message)) {
-                            se.setPresentEvent(m.name, (String)m.message);
+                            se.setAbsentEvent(m.name, (String)m.message);
                             ans.message = false;
                         }else {
-                            se.setAbsentEvent(m.name, (String)m.message);
+                            se.setPresentEvent(m.name, (String)m.message);
                             ans.message = true;
                         }
                     }
