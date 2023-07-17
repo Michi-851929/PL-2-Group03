@@ -3953,7 +3953,6 @@ public class Client extends JFrame {
     ArrayList<String[]> out_list= new ArrayList<>();
     synchronized void inroop() {
         if(login_flag ==1) {
-            System.out.println(account.getLastCheckTime());
             update();
             ArrayList<String> go = account.getEventGoing();
             ArrayList<ClientEvent> go_event = new ArrayList<>();
