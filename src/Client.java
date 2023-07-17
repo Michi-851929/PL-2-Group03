@@ -609,7 +609,7 @@ public class Client extends JFrame {
         ui_jb_lastmonth.setOpaque(true);
         ui_jb_lastmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR || ui_ld_firstofmonth.getMonthValue() == 1)) {
+                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR && ui_ld_firstofmonth.getMonthValue() == 1)) {
                     ui_ld_firstofmonth = ui_ld_firstofmonth.minus(1, ChronoUnit.MONTHS);
                     calendarScreen();
                 }
@@ -623,7 +623,7 @@ public class Client extends JFrame {
         ui_jb_nextmonth.setOpaque(true);
         ui_jb_nextmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR + Community.CALENDAR_YEARS - 1 || ui_ld_firstofmonth.getMonthValue() == 12)) {
+                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR + Community.CALENDAR_YEARS - 1 && ui_ld_firstofmonth.getMonthValue() == 11)) {
                     ui_ld_firstofmonth = ui_ld_firstofmonth.plus(1, ChronoUnit.MONTHS);
                     calendarScreen();
                 }
@@ -903,7 +903,7 @@ public class Client extends JFrame {
                 addflag=0;
             }
 
-           
+
             System.out.println(day_event);
         } catch (Exception e3) {
             // TODO 自動生成された catch ブロック
@@ -1595,8 +1595,8 @@ public class Client extends JFrame {
         contentPane1.add(ui_panel_00);
         setVisible(true);
         repaint();
-        
-        
+
+
 
 
     }
