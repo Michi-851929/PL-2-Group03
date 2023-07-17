@@ -107,7 +107,9 @@ public class Client extends JFrame {
     private Account account;
     private ArrayList<Community> community_list = new ArrayList<>();
     private ArrayList<ClientEvent> event_list = new ArrayList<>();
+    private ArrayList<ClientEvent> day_event = new ArrayList<>();
 
+    
     private  int login_flag;
     private int register_flag;
     private String eve_id;
@@ -883,8 +885,9 @@ public class Client extends JFrame {
     void dateScreen() {
 
         try {
-            event_list.addAll(getADayEvents(ui_ld_looking));
-            System.out.println(event_list);
+        	day_event.clear();
+            day_event.addAll(getADayEvents(ui_ld_looking));
+            System.out.println(day_event);
         } catch (Exception e3) {
             // TODO 自動生成された catch ブロック
             e3.printStackTrace();
@@ -1234,11 +1237,12 @@ public class Client extends JFrame {
                             try {
                                 cc.makeEvent(event, currentYear, currentMonth, intday1, intday2);
                                 event_list.add(event);
+                                day_event.add(event);
 
                                 //確認
-                                int eve_size = event_list.size();
+                                int eve_size = day_event.size();
                                 for(int i=0;i<eve_size;i++) {
-                                    String eve_name =event_list.get(i).getEventName();
+                                    String eve_name =day_event.get(i).getEventName();
                                     System.out.println(eve_name);
                                 }
 
@@ -1332,7 +1336,7 @@ public class Client extends JFrame {
 
 
         // イベントリストをループして一番大きい値を見つける
-        for (ClientEvent event : event_list) {
+        for (ClientEvent event : day_event) {
             int sortValue = event.getGood();
             if (sortValue > maxgood) {
                 maxgood = sortValue;
@@ -1345,7 +1349,7 @@ public class Client extends JFrame {
 
             if(sortflag==0) {
                 sortValue = maxgood;
-                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                Collections.sort(day_event, new Comparator<ClientEvent>() {
                     @Override
                     public int compare(ClientEvent event1, ClientEvent event2) {
                         int diff1 = Math.abs(event1.getGood() - sortValue);
@@ -1355,7 +1359,7 @@ public class Client extends JFrame {
                 });
 
                 // イベントをいいねしたものを最初に持ってくる
-                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                Collections.sort(day_event, new Comparator<ClientEvent>() {
                     @Override
                     public int compare(ClientEvent e1, ClientEvent e2) {
                         if (account.getAEventPreferrd(e1.getEventId()) && !account.getAEventPreferrd(e2.getEventId())) {
@@ -1379,11 +1383,11 @@ public class Client extends JFrame {
             e1.printStackTrace();
         }
 
-        for (ClientEvent event : event_list) {
+        for (ClientEvent event : day_event) {
             System.out.println(event.getEventName());
         }
 
-        int events_num = event_list.size();
+        int events_num = day_event.size();
 
         int button_width = 525;
         int button_height = 96;
@@ -1416,16 +1420,16 @@ public class Client extends JFrame {
             Client.kadomaruRect(g1, 0, 0, button_width, button_height, r, Color.WHITE, THEME_COLOR);
             g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 24));
             g1.setColor(Color.BLACK);
-            ClientEvent event = event_list.get(i);
-            String name = event_list.get(i).getEventName();
-            String s_time = event_list.get(i).getEventStart();
-            String f_time = event_list.get(i).getEventFinish();
-            String place = event_list.get(i).getEventPlace();
-            String com_name = event_list.get(i).getEventCommunityName();
-            int good_num = event_list.get(i).getGood();
-            String id = event_list.get(i).getEventId();
+            ClientEvent event = day_event.get(i);
+            String name = day_event.get(i).getEventName();
+            String s_time = day_event.get(i).getEventStart();
+            String f_time = day_event.get(i).getEventFinish();
+            String place = day_event.get(i).getEventPlace();
+            String com_name = day_event.get(i).getEventCommunityName();
+            int good_num = day_event.get(i).getGood();
+            String id = day_event.get(i).getEventId();
 
-            if(account.getAEventPreferrd(event_list.get(i).getEventId())==true) {
+            if(account.getAEventPreferrd(day_event.get(i).getEventId())==true) {
                 g1.drawString(name+"(like)", 10, 30);
             }else {
                 g1.drawString(name, 10, 30);
@@ -1539,7 +1543,7 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 sortflag = 1;
                 // Comparatorを使用してソート
-                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                Collections.sort(day_event, new Comparator<ClientEvent>() {
                     @Override
                     public int compare(ClientEvent event1, ClientEvent event2) {
                         int diff1 = Math.abs(event1.getGood() - sortValue);
@@ -1548,7 +1552,7 @@ public class Client extends JFrame {
                     }
                 });
                 // イベントをいいねしたものを最初に持ってくる
-                Collections.sort(event_list, new Comparator<ClientEvent>() {
+                Collections.sort(day_event, new Comparator<ClientEvent>() {
                     @Override
                     public int compare(ClientEvent e1, ClientEvent e2) {
                         if (account.getAEventPreferrd(e1.getEventId()) && !account.getAEventPreferrd(e2.getEventId())) {
@@ -2754,7 +2758,7 @@ public class Client extends JFrame {
     }
 
     //通知画面
-    void notificationScreen() {
+    void notificationScreen(String community,String event,String number,String message) {
 
         final int WINDOW_WIDTH = 300;
         final int WINDOW_HEIGHT = 200;
@@ -2783,11 +2787,6 @@ public class Client extends JFrame {
         backgroundPanel.setBackground(THEME_COLOR);
 
         // 通知ラベルの設定
-        // ここに通知内容を入れてください
-        String number = ("2");
-        String community = ("コミュニティ名");
-        String event = ("イベント名");
-        String message = ("テストです。どのように表示されるか確認しています。自動改行は有効ですか？\n改行も問題ありませんね。\n文字数が枠を超えてもスクロールできるように設計したつもりです。\nテストーーーーーー");
 
         JLabel numberLabel = new JLabel(number+"件の通知が届いています。");
         numberLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 12));
