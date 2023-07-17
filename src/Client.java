@@ -144,7 +144,7 @@ public class Client extends JFrame {
 
             public void windowClosing(WindowEvent e) {
                 if(login_flag == 1) {
-                	PopupMenu popup = new PopupMenu();
+                    PopupMenu popup = new PopupMenu();
                     /*
                     Image img = createImage(20, 20);
                     Graphics g = img.getGraphics();
@@ -174,7 +174,7 @@ public class Client extends JFrame {
                 else {
                     System.exit(0);
                 }
-                
+
             }
 
             public void windowClosed(WindowEvent e) {
@@ -608,8 +608,10 @@ public class Client extends JFrame {
         ui_jb_lastmonth.setOpaque(true);
         ui_jb_lastmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                ui_ld_firstofmonth = ui_ld_firstofmonth.minus(1, ChronoUnit.MONTHS);
-                calendarScreen();
+                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR || ui_ld_firstofmonth.getMonthValue() == 1)) {
+                    ui_ld_firstofmonth = ui_ld_firstofmonth.minus(1, ChronoUnit.MONTHS);
+                    calendarScreen();
+                }
             }
         });
         ui_panel_02.add(ui_jb_lastmonth, "West");
@@ -620,8 +622,10 @@ public class Client extends JFrame {
         ui_jb_nextmonth.setOpaque(true);
         ui_jb_nextmonth.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                ui_ld_firstofmonth = ui_ld_firstofmonth.plus(1, ChronoUnit.MONTHS);
-                calendarScreen();
+                if(!(ui_ld_firstofmonth.getYear() == Community.FIRST_YEAR + Community.CALENDAR_YEARS - 1 || ui_ld_firstofmonth.getMonthValue() == 12)) {
+                    ui_ld_firstofmonth = ui_ld_firstofmonth.plus(1, ChronoUnit.MONTHS);
+                    calendarScreen();
+                }
             }
         });
         ui_panel_02.add(ui_jb_nextmonth, "East");
@@ -1860,7 +1864,7 @@ public class Client extends JFrame {
         }
 
         boolean atFirstGood = account.getEventPreferred().contains(ce.getEventId());//画面を表示したときいいねしていたか
-        
+
         goodButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae)
             {
