@@ -34,7 +34,6 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Timer;
@@ -315,6 +314,15 @@ public class Client extends JFrame {
             }
         });
 
+        // パスワードフィールドにキーリスナーを追加
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    loginButton.doClick(); // ログインボタンのクリックイベントをトリガーする
+                }
+            }
+        });
 
         // アカウント登録ボタン
         BufferedImage img2 = createBackgroundImage(button_width, button_height);
@@ -486,7 +494,7 @@ public class Client extends JFrame {
                         }else if(e1.getMessage().equals(ClientConnect.MAC)) {
                              JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。サーバー管理者にお問い合わせください" );
                         }else {
-                        	 JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
+                             JOptionPane.showMessageDialog(Client.this, "登録に失敗しました。もう一度お試しください。" );
                         }
                     }
                 }
@@ -1990,7 +1998,7 @@ public class Client extends JFrame {
         eventPanel.setOpaque(true);
         eventPanel.setBackground(Color.white);
         //scrollPane.setBackground(GOOD_COLOR);
-        
+
         scrollPane.setViewportView(eventPanel);
         //scrollPane.setOpaque(false);
 
@@ -1998,7 +2006,7 @@ public class Client extends JFrame {
 
         backgroundPanel.add(ui_jl_back);
         backgroundPanel.setOpaque(false);
-        
+
         contentPane1.add(backgroundPanel);
 
         // フッターなど
@@ -2278,7 +2286,7 @@ public class Client extends JFrame {
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                 }
                             }
-                            
+
                         }
                         else {
                             JOptionPane.showMessageDialog(Client.this, "新パスワードとパスワード確認欄に入力したパスワードが一致しません。");
@@ -2493,11 +2501,11 @@ public class Client extends JFrame {
 */
                             ArrayList<String> tmp = new ArrayList<>();
                             for(int i = 0;i < 5;i++) {
-                            	if(tagField[0].getText()!=null) {
-                            		tmp.add(tagField[0].getText());
-                            	}
+                                if(!tagField[i].getText().equals("")) {
+                                    tmp.add(tagField[i].getText());
+                                }
                             }
-                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray()));
+                            cc.makeCommunity(new Community(nameField.getText(),username,summaryArea.getText(),(String[]) tmp.toArray(new String[tmp.size()])));
                             getNewMessage();
                         }catch(Exception e){
                             String error = e.getMessage();
@@ -2513,7 +2521,7 @@ public class Client extends JFrame {
                             }else if(error.equals(ClientConnect.ERROR)) {
                                 JOptionPane.showMessageDialog(Client.this, "既存のコミュニティと名前が重複しています.変更して再度お試しください。");
                             }else{
-                                JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
+                                JOptionPane.showMessageDialog(Client.this,e.getMessage());
                             }
 
                         }
@@ -2667,7 +2675,7 @@ public class Client extends JFrame {
                     }
                     g.setColor(Color.BLACK);
                     g.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 24));
-                    g.drawString((Integer.toString(community.getPopulation()) + "人"), 56, 250);
+                    g.drawString((Integer.toString(community.getPopulation()) + "人"), 250, 56);
 
                     JButton ui_jb_scomm = new JButton(community.getName());
                     ui_jb_scomm.setSize(350, 150);
@@ -3071,10 +3079,15 @@ public class Client extends JFrame {
             e.printStackTrace();
         }
         try {
+/*
         	String[] n = {}; 
         	if(!account.getCommunity().equals(n)) { 
         		this.community_list = (ArrayList<Community>) Arrays.asList(cc.getCommunitys(account.getCommunity()));
         	}
+*/
+            if(!(account.getCommunity().length==0)) {
+                this.community_list = cc.getCommunitys(account.getCommunity());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3089,9 +3102,9 @@ public class Client extends JFrame {
             });
         });
         try {
-        	if(!community_list.isEmpty()) {
-        		this.event_list = (ArrayList<ClientEvent>) Arrays.asList(cc.getEvents((String[])ct.toArray()));
-        	}
+            if(!community_list.isEmpty()) {
+                this.event_list = cc.getEvents((String[])ct.toArray(new String[ct.size()]));
+            }
         } catch (Exception e1) {
             // TODO 自動生成された catch ブロック
             e1.printStackTrace();
@@ -3184,6 +3197,7 @@ public class Client extends JFrame {
     void getNewMessage() { //更新の時はこれを呼んでください
         timer.cancel();
         timer = new Timer(false);
+        inroop();
         TimerTask tt =new TimerTask() {
             public void run() {
                 if(login_flag ==1) {
@@ -3214,9 +3228,48 @@ public class Client extends JFrame {
                 }else {
                     timer.cancel();
                 }
+                inroop();
             }
         };
-        timer.schedule(tt,0,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
+        timer.schedule(tt,300000,300000); //第2引数=何ミリ後に開始するか,第3引数=何ミリ秒おきか,とりあえず5分おきにしました.
+    }
+    
+    void inroop() {
+    	if(login_flag ==1) {
+            update();
+            ArrayList<String> go = account.getEventGoing();
+            ArrayList<ClientEvent> go_event = new ArrayList<>();
+            ArrayList<String[]> out_list= new ArrayList<>();
+            try {
+                if(!go.isEmpty()) {
+                go_event = cc.getEvents((String[])go.toArray());
+                go_event.forEach(event->{
+                    String[] tmp = {"","","",""};
+                    Message m = event.getNewOwnerMessage(account.getLastCheckInt());
+                    if((int)m.message2>0) {
+                        tmp[0] = event.getEventCommunityName();//コミュニティ名
+                        tmp[1] = event.getEventName();//イベント名
+                        tmp[2] = String.valueOf((int) m.message);//メッセージ数
+                        tmp[3] = (String) m.message2;//最新のメッセージ
+                        out_list.add(tmp);
+                    }
+                });
+                out_list.forEach(data->{
+                //dataを出力してください
+                    String communityName = data[0];
+                    String eventName = data[1];
+                    String messageCount = data[2];
+                    String latestMessage = data[3];
+                    notificationScreen(communityName, eventName, messageCount, latestMessage);
+                });
+                }
+            } catch (Exception e) {
+            // TODO 自動生成された catch ブロック
+                e.printStackTrace();
+            }
+        }else {
+            timer.cancel();
+        }
     }
 
     public BasicScrollBarUI getScrollBarUI(){
