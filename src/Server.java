@@ -360,7 +360,11 @@ public class Server extends JFrame implements ActionListener{
             return LOGIN_BANNED;
         }
         else {
-            return account.verifyPassword(password);
+            int tmp = account.verifyPassword(password);
+            if(tmp ==Account.PASS_CORRECT) {
+                account.setLastCheckTime();
+            }
+            return tmp;
         }
     }
 
@@ -401,15 +405,17 @@ public class Server extends JFrame implements ActionListener{
                 }
                 String[] tags = community.getTag();
                 for(int i = 0; i < tags.length; i++) {
-                    if(tags[i].contains(word)) {
-                        result_list.add(community);
-                        break limit;
+                    if(tags[i] != null) {
+                        if(tags[i].contains(word)) {
+                            result_list.add(community);
+                            break limit;
+                        }
                     }
                 }
             }
         }
 
-        Community[] result_array = (Community[])(result_list.toArray());
+        Community[] result_array = (Community[])(result_list.toArray(new Community[result_list.size()]));
         return result_array;
     }
 
@@ -481,13 +487,13 @@ public class Server extends JFrame implements ActionListener{
         }
         Account owner=this.getAccount(event.getEventOwner());
         if(this.getEventMakeSig(owner)) {
-        	event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((event.getEventOwner() + calendar.getTime() + event.getEventName()).getBytes()))));
+            event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((event.getEventOwner() + calendar.getTime() + event.getEventName()).getBytes()))));
             event_list.add(event);
             getCommunity(event.getEventCommunityName()).getCalendarMonth(year, month).addEvent(event.getEventId(), day_start, day_end);
             stdout("createEvent: " + event.getEventName() + " in " + event.getEventCommunityName());
             return true;
         }else {
-        	return false;
+            return false;
         }
     }
 
@@ -528,25 +534,28 @@ public class Server extends JFrame implements ActionListener{
         return getEvent(event_id).increaseJoin();
     }
 
-    public int setAbsentEvent(String user_name, String event_id)
+    public int setAbsentEvent(String user_name, String event_id, String message)
     {
+        ClientEvent event = getEvent(event_id);
         getAccount(user_name).removeEventGoing(event_id);
-        return getEvent(event_id).decreaseJoin();
+        event.sendCancel(user_name, message);
+        return event.decreaseJoin();
     }
 
     public void reportEvent(String event_id,int year,int month)
     {
-    	ClientEvent report_event=getEvent(event_id);
-    	if(report_event.increaseReport()>10) {
-    		this.deleteEvent(event_id, year, month);
-    	}
-    	
+        ClientEvent report_event=getEvent(event_id);
+        if(report_event.increaseReport()>10) {
+            this.deleteEvent(event_id, year, month);
+        }
+
     }
 
     public void addHostMessage(String event_id, String message)
     {
         getEvent(event_id).setOwnerMessage(message);
     }
+
     
     public boolean getEventMakeSig(Account account) //いいね数からイベント作成できるかを判断
     {
@@ -584,6 +593,7 @@ public class Server extends JFrame implements ActionListener{
     		}
     	}
     }
+
     
     public Calendar getToday() {//その日の日付(時分秒切り捨て)を取得
     	Calendar calendar = Calendar.getInstance();
