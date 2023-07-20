@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -12,6 +15,8 @@ public class Account implements Serializable{
     private ArrayList<String> event_going = new ArrayList<>();
     private ArrayList<String> event_preferred = new ArrayList<>();
     private ArrayList<String> event_made = new ArrayList<>();
+    public final String SALT_FRONT = "f784ge8fiawurfheshrtawt8uwt8h4yd";
+    public final String SALT_BACK = "u8ofhaeioniqahriawrfjarfaifbdurg";
 
     //パスワード認証の戻り値を表す定数
     public final static int PASS_CORRECT = 1; //正しい
@@ -21,7 +26,14 @@ public class Account implements Serializable{
     public Account(String name, String password, String mac_adress)
     {
         this.name = name;
-        this.password = password;
+        MessageDigest sha256 = null;
+        try {
+            sha256 = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        this.password = String.format("%40x", new BigInteger(1, sha256.digest((SALT_FRONT + password + SALT_BACK).getBytes())));
         this.mac_adress = mac_adress;
         is_banned = false;
         lastcheck[0] = LocalDateTime.now().getYear();
@@ -69,9 +81,9 @@ public class Account implements Serializable{
 
         return time;
     }
-    
+
     public int[] getLastCheckInt(){
-    	return lastcheck;
+        return lastcheck;
     }
 
     public void setLastCheckTime()
@@ -89,10 +101,20 @@ public class Account implements Serializable{
     //正しいとき(int)PASS_CORECT, 正しくないとき(int)PASS_FALSEを返す
     public int verifyPassword(String password)
     {
+        if(password==null) {
+            return PASS_FALSE;
+        }
+        MessageDigest sha256 = null;
+        try {
+            sha256 = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        password = String.format("%40x", new BigInteger(1, sha256.digest((SALT_FRONT + password + SALT_BACK).getBytes())));
         if(password.equals(this.password)) {
             return PASS_CORRECT;
-        }
-        else {
+        }{
             return PASS_FALSE;
         }
     }
@@ -104,7 +126,14 @@ public class Account implements Serializable{
     {
         int pass_result = verifyPassword(old_password);
         if(pass_result == PASS_CORRECT) {
-            password = new_password;
+            MessageDigest sha256 = null;
+            try {
+                sha256 = MessageDigest.getInstance("SHA-256");
+            }
+            catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            password = String.format("%40x", new BigInteger(1, sha256.digest((SALT_FRONT + new_password + SALT_BACK).getBytes())));
         }
         return pass_result;
     }
@@ -124,7 +153,12 @@ public class Account implements Serializable{
     //所属コミュニティを取得
     public String[] getCommunity()
     {
-        return (String[])community_involved.toArray();
+        if(!community_involved.isEmpty()){
+            return (String[])community_involved.toArray(new String[community_involved.size()]);
+        }else {
+            String[] tmp = {};
+            return tmp;
+        }
     }
 
     //参加イベントを追加
@@ -162,39 +196,43 @@ public class Account implements Serializable{
     {
         return event_preferred;
     }
-    
+
     //あるイベントに参加しているか
     public boolean getAEventGoing(String s) {
-    	for(String str: event_going) {
-    		if(str.equals(s)) {
-    			return true;
-    		}
-    	}
-    	return false;
+        for(String str: event_going) {
+            if(str.equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     //あるイベントにいいねしているか
     public boolean getAEventPreferrd(String s) {
-    	for(String str: event_preferred) {
-    		if(str.equals(s)) {
-    			return true;
-    		}
-    	}
-    	return false;
+        for(String str: event_preferred) {
+            if(str.equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     //作成したイベントを追加
     public void addEventMade(String event) {
-    	event_made.add(event);
+        event_made.add(event);
     }
     //作成したイベントを取得
     public ArrayList<String> getEventMade()
     {
         return event_made;
     }
-    
+
     //作成したイベントの総数を取得
     public int getTotalEventMade() {
-    	return event_made.size();
+        if(event_made!=null) {
+            return event_made.size();
+        }else {
+            return 0;
+        }
     }
 }
