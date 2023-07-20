@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -60,6 +61,8 @@ public class ServerConnect{
 class ConnectThread extends Thread{
     private Socket s;
     Server se;
+    int flag = 0;
+    String name;
     public ConnectThread(Socket socket,Server server) {
         this.s = socket;
         this.se = server;
@@ -113,6 +116,8 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 3) {
                     ans.message = tmp;
+                    flag=1;
+                    name = m.name;
                 }else if(m.mode == 4) {
                     ClientEvent te=se.getEvent((String) m.message);
                     if(te.getEventName().equals("")) {
@@ -139,10 +144,9 @@ class ConnectThread extends Thread{
                         ans.mode = 4;
                     }else{
                         if(tmp.getAEventGoing((String)m.message)) {
-                            se.setPresentEvent(m.name, (String)m.message);
                             ans.message = false;
                         }else {
-                            se.setAbsentEvent(m.name, (String)m.message);
+                            se.setPresentEvent(m.name, (String)m.message);
                             ans.message = true;
                         }
                     }
@@ -156,9 +160,10 @@ class ConnectThread extends Thread{
                     }
                 }else if(m.mode == 8) {
                     ClientEvent te=se.getEvent((String) m.message);
-                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||!te.getEventOwner().equals(m.name)) {
                         ans.mode = 4;
                     }else{
+
                         se.addHostMessage((String)m.message,(String) m.message2);
                     }
                 }else if(m.mode == 9) {
@@ -167,14 +172,14 @@ class ConnectThread extends Thread{
                     ans.message=se.createEvent(te,it[0],it[1],it[2],it[3] );
                 }else if(m.mode == 10) {
                     ClientEvent te = (ClientEvent)m.message;
-                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||!te.getEventOwner().equals(m.name)) {
                         ans.mode = 4;
                     }else{
                         se.manageEvent(te);
                     }
                 }else if(m.mode == 11) {
                     ClientEvent te = (ClientEvent)m.message;
-                    if(te.getEventName().equals("")||te.getEventOwner()!=m.name) {
+                    if(te.getEventName().equals("")||!te.getEventOwner().equals(m.name)) {
                         ans.mode = 4;
                     }else{
                         int[] it = (int[])m.message2;
@@ -208,7 +213,7 @@ class ConnectThread extends Thread{
                         se.quitCommunity((String)m.message, m.name);
                     }
                 }else if(m.mode == 17) {
-                    se.changePassword(m.name, m.pass, (String)m.message);
+                    ans.message = se.changePassword(m.name, m.pass, (String)m.message);
                 }else if(m.mode == 18) {
                     String[] st=(String[]) m.message;
                     ArrayList<ClientEvent> at= new ArrayList<>();
@@ -224,7 +229,7 @@ class ConnectThread extends Thread{
                     if(flag == 0) {
                         ans.mode = 4;
                     }else {
-                        ans.message = (ClientEvent[])at.toArray();
+                        ans.message = at;
                     }
                 }else if(m.mode == 19) {
                     String[] st=(String[]) m.message;
@@ -241,13 +246,30 @@ class ConnectThread extends Thread{
                     if(flag == 0) {
                         ans.mode = 4;
                     }else {
-                        ans.message = (Community[])at.toArray();
+                        ans.message = at;
+                    }
+                }else if(m.mode == 20) {
+                    ClientEvent te=se.getEvent((String) m.message);
+                    if(te.getEventName().equals("")) {
+                        ans.mode = 4;
+                    }else{
+                        if(!tmp.getAEventGoing((String)m.message)) {
+                            ans.message = false;
+                        }else {
+                            se.setAbsentEvent(m.name, (String)m.message,(String)m.message2);
+                            ans.message = true;
+                        }
                     }
                 }else {
                     ans.mode = 5;
                 }
             }
+            if(m.mode==3) {
+            System.out.println(tmp.getLastCheckTime());
+            System.out.println(LocalDateTime.now());
+            }
         }
+
         oos.writeObject(ans);
         //ここまで各自処理
         }catch(Exception e) {
@@ -256,6 +278,9 @@ class ConnectThread extends Thread{
             try {
                 if(s != null) {
                     s.close();
+                }
+                if(flag ==1) {
+                    se.getAccount(name).setLastCheckTime();
                 }
             }catch(Exception e) {
                     e.printStackTrace();
