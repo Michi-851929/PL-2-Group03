@@ -3,6 +3,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -37,8 +38,8 @@ public class ClientConnect{
     }
     static Message post(Object o) throws Exception{
         try {
-            Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);//これをコメントアウト
-            ///Socket s = new Socket(ConnectName.name,ConnectName.port);
+            //Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);//これをコメントアウト
+            Socket s = new Socket(ConnectName.name,ConnectName.port);
             OutputStream os = s.getOutputStream();
             InputStream is = s.getInputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -66,7 +67,7 @@ public class ClientConnect{
         }
     }
 
-    void createAccount(String i,String p,String mac) throws Exception {	//アカウント作成
+    void createAccount(String i,String p,String mac) throws Exception { //アカウント作成
         Message tmp = new Message(i,p,0);
         Message ans = null;
         tmp.message = mac;
@@ -152,7 +153,7 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (Boolean)ans.message;
+        return (Boolean) ans.message;
     }
 
     int report(String event_id,int year,int month) throws Exception { //イベント通報
@@ -283,7 +284,7 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        if((int)ans.message == 0) {
+        if((int)ans.message == Account.PASS_CORRECT) {
             this.pass = new_password;
         }
     }
@@ -298,7 +299,7 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (ClientEvent[])ans.message;
+        return (ArrayList<ClientEvent>)ans.message;
     }
 
     @SuppressWarnings("unchecked")

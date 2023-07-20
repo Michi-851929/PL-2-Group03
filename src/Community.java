@@ -22,8 +22,10 @@ public class Community implements Serializable{
         com_name = name;
         com_owner = owner;
         com_info = info;
-        for(int i = 0; i<tag.length;i++) {
+        if(tag!=null) {
+            for(int i = 0; i<tag.length;i++) {
             com_tag[i] = tag[i];
+            }
         }
         com_member = new ArrayList<>();
         com_calendar = new ArrayList<>();
@@ -127,7 +129,7 @@ public class Community implements Serializable{
     {
         return com_calendar.get((year - FIRST_YEAR) * 12 + month - 1);
     }
-    
+
     public ArrayList<CalendarMonth> getCalendarArray()
     {
         return com_calendar;
