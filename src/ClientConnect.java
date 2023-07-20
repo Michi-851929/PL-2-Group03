@@ -38,7 +38,7 @@ public class ClientConnect{
     static Message post(Object o) throws Exception{
         try {
             Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);//これをコメントアウト
-            //Socket s = new Socket(ConnectName.name,ConnectName.port);
+            ///Socket s = new Socket(ConnectName.name,ConnectName.port);
             OutputStream os = s.getOutputStream();
             InputStream is = s.getInputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -142,7 +142,8 @@ public class ClientConnect{
         }
         return (Boolean)ans.message;
     }
-    Boolean joinEvent(String event_id) throws Exception { //イベント参加切り替え
+
+    Boolean joinEvent(String event_id) throws Exception { //イベント参加
         Message tmp = new Message(this.id,this.pass,6);
         tmp.message = event_id;
         Message ans =null;
@@ -287,7 +288,8 @@ public class ClientConnect{
         }
     }
 
-    ClientEvent[] getEvents(String[] event) throws Exception { //イベント(複数)取得
+    @SuppressWarnings("unchecked")
+    ArrayList<ClientEvent> getEvents(String[] event) throws Exception { //イベント(複数)取得
         Message tmp = new Message(this.id,this.pass,18);
         tmp.message = event;
         Message ans = null;
@@ -299,7 +301,8 @@ public class ClientConnect{
         return (ClientEvent[])ans.message;
     }
 
-    Community[] getCommunitys(String[] name) throws Exception { //コミュニティ取得
+    @SuppressWarnings("unchecked")
+    ArrayList<Community> getCommunitys(String[] name) throws Exception { //コミュニティ取得
         Message tmp = new Message(this.id,this.pass,19);
         tmp.message = name;
         Message ans = null;
@@ -308,6 +311,19 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (Community[])ans.message;
+        return (ArrayList<Community>)ans.message;
+    }
+
+    Boolean AbsentEvent(String event_id,String cause) throws Exception { //イベント参加
+        Message tmp = new Message(this.id,this.pass,20);
+        tmp.message = event_id;
+        tmp.message2 = cause;
+        Message ans = null;
+        try {
+           ans = post(tmp);
+        } catch (Exception e) {
+            throw e;
+        }
+        return (Boolean)ans.message;
     }
 }
