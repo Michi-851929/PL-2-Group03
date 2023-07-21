@@ -9,20 +9,17 @@
       7,
       21,
       22,
-      19,
-      44,
-      525038800
+      41,
+      0,
+      392368900
     ],
     "community_involved": [
-      "横浜国立大学 情報工学EP"
     ],
-    "event_going": [
-      
-    ],
-    "event_preferred": [
-      
-    ],
-    "event_made": []
+    "event_going": [],
+    "event_preferred": [],
+    "event_made": [
+
+    ]
   },
   {
     "name": "aoki",
@@ -39,14 +36,10 @@
       255332100
     ],
     "community_involved": [
-      "横浜国立大学 情報工学EP"
-    ],
-    "event_going": [
       
     ],
-    "event_preferred": [
-      
-    ],
+    "event_going": [],
+    "event_preferred": [],
     "event_made": []
   },
   {
@@ -64,7 +57,7 @@
       566338600
     ],
     "community_involved": [
-      "横浜国立大学 情報工学EP"
+      
     ],
     "event_going": [],
     "event_preferred": [],
