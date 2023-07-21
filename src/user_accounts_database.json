@@ -1,2 +1,73 @@
 [
+  {
+    "name": "ADMIN",
+    "password": "a",
+    "mac_adress": "",
+    "is_banned": false,
+    "lastcheck": [
+      2023,
+      7,
+      21,
+      22,
+      1,
+      30,
+      870488000
+    ],
+    "community_involved": [
+      "横浜国立大学 情報工学EP"
+    ],
+    "event_going": [
+      "dc65fd96f71d82d0a7dc3a501583f2303552cb6aa6dc0f615ad44ae7e7d14780"
+    ],
+    "event_preferred": [
+      "dc65fd96f71d82d0a7dc3a501583f2303552cb6aa6dc0f615ad44ae7e7d14780"
+    ],
+    "event_made": []
+  },
+  {
+    "name": "aoki",
+    "password": "1",
+    "mac_adress": "6C-A1-00-5C-40-46",
+    "is_banned": false,
+    "lastcheck": [
+      2023,
+      7,
+      21,
+      21,
+      57,
+      57,
+      255332100
+    ],
+    "community_involved": [
+      "横浜国立大学 情報工学EP"
+    ],
+    "event_going": [
+      "dc65fd96f71d82d0a7dc3a501583f2303552cb6aa6dc0f615ad44ae7e7d14780"
+    ],
+    "event_preferred": [
+      "dc65fd96f71d82d0a7dc3a501583f2303552cb6aa6dc0f615ad44ae7e7d14780"
+    ],
+    "event_made": []
+  },
+  {
+    "name": "zono",
+    "password": "123",
+    "mac_adress": "BC-17-B8-95-0C-1D",
+    "is_banned": false,
+    "lastcheck": [
+      2023,
+      7,
+      21,
+      21,
+      37,
+      43,
+      713368800
+    ],
+    "community_involved": [
+      "横浜国立大学 情報工学EP"
+    ],
+    "event_going": [],
+    "event_preferred": [],
+    "event_made": []
+  }
 ]
