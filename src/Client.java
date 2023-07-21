@@ -1769,16 +1769,16 @@ public class Client extends JFrame {
 
 
             if (account.getAEventPreferrd(day_event.get(i).getEventId()) == true) {
-                g1.drawString(formatText("♡ "+name, 10) , 10, 30);
+                g1.drawString(formatText("♡ "+name, 14) , 20, 30);
             } else {
-                g1.drawString(formatText(name, 10), 10, 30);
+                g1.drawString(formatText(name, 14), 20, 30);
             }
 
-            g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 14));
-            g1.drawString(formatText(s_time + "-" + f_time, 10), 10, 90);
-            g1.drawString(formatText(place, 10), 170, 90);
-            g1.drawString(formatText(com_name, 10), 350, 30);
-            g1.drawString("いいね数:" + Integer.toString(good_num), 350, 90);
+            g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
+            g1.drawString(formatText(s_time + "-" + f_time, 20), 40, 90);
+            g1.drawString(formatText(place, 8), 200, 90);
+            g1.drawString(formatText(com_name, 20), 40, 60);
+            g1.drawString("いいね数:" + Integer.toString(good_num), 400, 90);
 
 
 
