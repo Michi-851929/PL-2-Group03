@@ -61,6 +61,11 @@ public class ClientConnect{
             }else if(ans.mode == 7) {
                 throw  new Exception(MAC);//アカウント作成時のみ投げます(mac重複)
             }
+            oos.close();
+            ois.close();
+            os.close();
+            is.close();
+            s.close();
             return ans;
         }catch(Exception e) {
             throw e;

@@ -49,6 +49,7 @@ public class ServerConnect{
                 Socket s = ssss.accept();
                 new ConnectThread(s,se).start();
             }
+            ssss.close();
         }catch(Exception e) {
             throw e;
         }
