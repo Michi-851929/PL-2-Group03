@@ -1766,17 +1766,20 @@ public class Client extends JFrame {
             String com_name = day_event.get(i).getEventCommunityName();
             int good_num = day_event.get(i).getGood();
             String id = day_event.get(i).getEventId();
+            
 
-            if(account.getAEventPreferrd(day_event.get(i).getEventId())==true) {
-                g1.drawString(name+" ♡", 10, 30);
-            }else {
-                g1.drawString(name, 10, 30);
+            if (account.getAEventPreferrd(day_event.get(i).getEventId()) == true) {
+                g1.drawString(formatText("♡ "+name, 10) , 10, 30);
+            } else {
+                g1.drawString(formatText(name, 10), 10, 30);
             }
-            g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 18));
-            g1.drawString(s_time+"-"+f_time, 10, 90);
-            g1.drawString(place, 170, 90);
-            g1.drawString(com_name, 350, 30);
-            g1.drawString("いいね数:"+Integer.toString(good_num), 350, 90);
+
+            g1.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 14));
+            g1.drawString(formatText(s_time + "-" + f_time, 10), 10, 90);
+            g1.drawString(formatText(place, 10), 170, 90);
+            g1.drawString(formatText(com_name, 10), 350, 30);
+            g1.drawString("いいね数:" + Integer.toString(good_num), 350, 90);
+
 
 
             JButton eventButton = new JButton("");
@@ -2022,6 +2025,15 @@ public class Client extends JFrame {
  */
 
     }
+    
+    public String formatText(String text, int maxLength) {
+        if (text.length() <= maxLength) {
+            return text;
+        } else {
+            return text.substring(0, maxLength) + "...";
+        }
+    }
+
 
     private void updateDayComboBox(int year,int month,JComboBox<String> dayc) {
         int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
