@@ -2579,7 +2579,7 @@ public class Client extends JFrame {
         eventPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT+90);
 
         // タイトル
-        JLabel titleLabel = new JLabel(ce.getMonthValue() +" / "+day);
+        JLabel titleLabel = new JLabel(Integer.toString(ce.getMonthValue()) +" / "+Integer.toString(ui_ld_looking.getDayOfMonth()));
         titleLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setBounds(WINDOW_WIDTH/2-100, 10, 200, 50);
