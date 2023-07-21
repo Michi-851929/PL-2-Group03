@@ -1601,7 +1601,7 @@ public class Client extends JFrame {
                                     JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                                     logout();
                                 }else if(error.equals(ClientConnect.LIM)) {
-                                    JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
+                                    JOptionPane.showMessageDialog(Client.this, "イベント作成の上限に達しました。また明日お試しください。");
                                 }else{
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                 }

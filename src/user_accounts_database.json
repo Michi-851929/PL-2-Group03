@@ -9,17 +9,28 @@
       7,
       21,
       22,
-      41,
-      0,
-      392368900
+      57,
+      2,
+      537941100
     ],
     "community_involved": [
+      "DF"
     ],
     "event_going": [],
     "event_preferred": [],
     "event_made": [
-
-    ]
+      "5ea57ec7d304be785eab5cfb98d53924c44d6887d9eefb8cc19004655130f4e8",
+      "bb54f1ca89364b58eaf4aacb06b5db1d709b4f0f13cd73882e0a13ed51c6b5aa"
+    ],
+    "today_eventnum": 2,
+    "today": {
+      "year": 2023,
+      "month": 6,
+      "dayOfMonth": 21,
+      "hourOfDay": 0,
+      "minute": 0,
+      "second": 0
+    }
   },
   {
     "name": "aoki",
@@ -35,12 +46,11 @@
       57,
       255332100
     ],
-    "community_involved": [
-      
-    ],
+    "community_involved": [],
     "event_going": [],
     "event_preferred": [],
-    "event_made": []
+    "event_made": [],
+    "today_eventnum": 0
   },
   {
     "name": "zono",
@@ -56,11 +66,10 @@
       3,
       566338600
     ],
-    "community_involved": [
-      
-    ],
+    "community_involved": [],
     "event_going": [],
     "event_preferred": [],
-    "event_made": []
+    "event_made": [],
+    "today_eventnum": 0
   }
 ]
