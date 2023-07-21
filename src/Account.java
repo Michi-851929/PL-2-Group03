@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Account implements Serializable{
     private String name;
@@ -12,10 +13,12 @@ public class Account implements Serializable{
     private ArrayList<String> event_going = new ArrayList<>();
     private ArrayList<String> event_preferred = new ArrayList<>();
     private ArrayList<String> event_made = new ArrayList<>();
-
+    int today_eventnum=0;
     //パスワード認証の戻り値を表す定数
     public final static int PASS_CORRECT = 1; //正しい
     public final static int PASS_FALSE = 0; //正しくない
+    
+    private Calendar today = Calendar.getInstance();
 
     //コンストラクタ
     public Account(String name, String password, String mac_adress)
@@ -197,4 +200,52 @@ public class Account implements Serializable{
     public int getTotalEventMade() {
     	return event_made.size();
     }
+    
+    public boolean getEventMakeSig(Server se) //いいね数からイベント作成できるかを判断
+    {
+        int total_good=0;
+        int limit_eventnum;
+        for(String event_id : this.event_made) {
+            total_good+=se.getEvent(event_id).getGood();
+        }
+        if(total_good<10) {
+            limit_eventnum=2;
+        }else if(total_good<50) {
+            limit_eventnum=5;
+        }else if(total_good<100) {
+            limit_eventnum=10;
+        }else if(total_good<500) {
+            limit_eventnum=20;
+        }else {
+            limit_eventnum=30;
+        }
+        se.stdout("limit_eventnum : " + Integer.toString(limit_eventnum));
+        se.stdout("total_good : " + Integer.toString(total_good));
+
+        if(today_eventnum<limit_eventnum) {
+            today_eventnum++;
+            today=this.getToday();
+            return true;
+        }else {
+            if(this.getToday().compareTo(today) == 0) {
+                return false;
+            }else {
+                today_eventnum=1;
+                today=this.getToday();
+                return true;
+            }
+        }
+    }
+
+
+    public Calendar getToday() {//その日の日付(時分秒切り捨て)を取得
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+
+        return calendar;
+    }
+
 }

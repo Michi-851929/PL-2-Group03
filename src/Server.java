@@ -483,7 +483,7 @@ public class Server extends JFrame implements ActionListener{
             e.printStackTrace();
         }
         Account owner=this.getAccount(event.getEventOwner());
-        if(this.getEventMakeSig(owner)) {
+        if(owner.getEventMakeSig(this)) {
             event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((event.getEventOwner() + calendar.getTime() + event.getEventName()).getBytes()))));
             event_list.add(event);
             getCommunity(event.getEventCommunityName()).getCalendarMonth(year, month).addEvent(event.getEventId(), day_start, day_end);
@@ -555,55 +555,7 @@ public class Server extends JFrame implements ActionListener{
     }
 
 
-    public boolean getEventMakeSig(Account account) //いいね数からイベント作成できるかを判断
-    {
-        int total_good=0;
-        int limit_eventnum;
-        int today_eventnum=0;
-        Calendar today = Calendar.getInstance();
-        for(String event_id : account.getEventMade()) {
-            total_good+=this.getEvent(event_id).getGood();
-        }
-        if(total_good<10) {
-            limit_eventnum=2;
-        }else if(total_good<50) {
-            limit_eventnum=5;
-        }else if(total_good<100) {
-            limit_eventnum=10;
-        }else if(total_good<500) {
-            limit_eventnum=20;
-        }else {
-            limit_eventnum=30;
-        }
-        stdout("limit_eventnum : " + Integer.toString(limit_eventnum));
-        stdout("total_good : " + Integer.toString(total_good));
-
-        if(today_eventnum<limit_eventnum) {
-            today_eventnum++;
-            today=this.getToday();
-            return true;
-        }else {
-            if(this.getToday().compareTo(today) == 0) {
-                return false;
-            }else {
-                today_eventnum=1;
-                today=this.getToday();
-                return true;
-            }
-        }
-    }
-
-
-    public Calendar getToday() {//その日の日付(時分秒切り捨て)を取得
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear(Calendar.MINUTE);
-        calendar.clear(Calendar.SECOND);
-        calendar.clear(Calendar.MILLISECOND);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-
-        return calendar;
-    }
-
+    
     public void actionPerformed(ActionEvent ae)
     {
         String s = ae.getActionCommand();
