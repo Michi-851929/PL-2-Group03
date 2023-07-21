@@ -574,8 +574,8 @@ public class Server extends JFrame implements ActionListener{
         }else {
             limit_eventnum=30;
         }
-        System.out.println("limit_eventnum : " + limit_eventnum);
-        System.out.println("total_good : " + total_good);
+        stdout("limit_eventnum : " + Integer.toString(limit_eventnum));
+        stdout("total_good : " + Integer.toString(total_good));
 
         if(today_eventnum<limit_eventnum) {
             today_eventnum++;
