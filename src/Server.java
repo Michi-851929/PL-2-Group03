@@ -484,6 +484,7 @@ public class Server extends JFrame implements ActionListener{
         }
         Account owner=this.getAccount(event.getEventOwner());
         if(this.getEventMakeSig(owner)) {
+            owner.addEventMade(event.getEventId());
             event.setEventId(String.format("%40x", new BigInteger(1, sha256.digest((event.getEventOwner() + calendar.getTime() + event.getEventName()).getBytes()))));
             event_list.add(event);
             getCommunity(event.getEventCommunityName()).getCalendarMonth(year, month).addEvent(event.getEventId(), day_start, day_end);
