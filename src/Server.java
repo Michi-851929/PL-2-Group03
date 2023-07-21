@@ -361,9 +361,6 @@ public class Server extends JFrame implements ActionListener{
         }
         else {
             int tmp = account.verifyPassword(password);
-            if(tmp ==Account.PASS_CORRECT) {
-                account.setLastCheckTime();
-            }
             return tmp;
         }
     }
