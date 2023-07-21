@@ -561,7 +561,7 @@ public class Server extends JFrame implements ActionListener{
         int today_eventnum=0;
         Calendar today = Calendar.getInstance();
         for(String event_id : account.getEventMade()) {
-            total_good+=this.getEvent(event_id).getJoin();
+            total_good+=this.getEvent(event_id).getGood();
         }
         if(total_good<10) {
             limit_eventnum=2;
