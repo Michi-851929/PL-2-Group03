@@ -1,20 +1,2 @@
 [
-  {
-    "name": "ADMIN",
-    "password": "8a323adfc0df5c57819306dd6ba5651552437a8186968b06bd28f12a28f4f1ab",
-    "mac_adress": "",
-    "is_banned": false,
-    "lastcheck": [
-      2023,
-      7,
-      9,
-      17,
-      31,
-      1,
-      154141700
-    ],
-    "community_involved": [],
-    "event_going": [],
-    "event_preferred": []
-  }
 ]
