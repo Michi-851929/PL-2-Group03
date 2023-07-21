@@ -866,7 +866,7 @@ public class Client extends JFrame {
                                     public void actionPerformed(ActionEvent ae) {
                                         ui_ld_looking = LocalDate.of(ui_ld_firstofmonth.getYear(), ui_ld_firstofmonth.getMonthValue(), date_list.get(day));
                                         eventDialog.setVisible(false);
-                                        eventScreen(event, day);
+                                        eventScreen(event, date_list.get(day));
                                     }
                                 });
 
@@ -1766,7 +1766,7 @@ public class Client extends JFrame {
             String com_name = day_event.get(i).getEventCommunityName();
             int good_num = day_event.get(i).getGood();
             String id = day_event.get(i).getEventId();
-            
+
 
             if (account.getAEventPreferrd(day_event.get(i).getEventId()) == true) {
                 g1.drawString(formatText("♡ "+name, 10) , 10, 30);
@@ -2025,7 +2025,7 @@ public class Client extends JFrame {
  */
 
     }
-    
+
     public String formatText(String text, int maxLength) {
         if (text.length() <= maxLength) {
             return text;
