@@ -1600,6 +1600,8 @@ public class Client extends JFrame {
                                 }else if(error.equals(ClientConnect.AUTH)) {
                                     JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                                     logout();
+                                }else if(error.equals(ClientConnect.LIM)) {
+                                    JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                                 }else{
                                     JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                 }
@@ -2863,7 +2865,7 @@ public class Client extends JFrame {
                         JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                         logout();
                     }else if(error.equals(ClientConnect.ERROR)) {
-                        //System.out.println("存在しないイベントです");
+                        JOptionPane.showMessageDialog(Client.this, "存在しないイベントです。");
                     }else{
                         JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                         e.printStackTrace();
@@ -3013,7 +3015,7 @@ public class Client extends JFrame {
                                             JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                                             logout();
                                         }else if(error.equals(ClientConnect.ERROR)) {
-                                            //System.out.println("存在しないイベントです");
+                                            JOptionPane.showMessageDialog(Client.this, "存在しないイベントです。");
                                         }else{
                                             JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                                             e.printStackTrace();
@@ -3066,7 +3068,7 @@ public class Client extends JFrame {
                         JOptionPane.showMessageDialog(Client.this, "パスワードが別端末で変更されました。再ログインをお願いします。");
                         logout();
                     }else if(error.equals(ClientConnect.ERROR)) {
-                        //System.out.println("存在しないイベントです");
+                        System.out.println("存在しないイベントです");
                     }else{
                         JOptionPane.showMessageDialog(Client.this, "不明なエラーが発生しました。再度お試しください。");
                         e.printStackTrace();

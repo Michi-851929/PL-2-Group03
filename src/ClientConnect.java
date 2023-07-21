@@ -22,6 +22,8 @@ public class ClientConnect{
     public final static String REQ_FAILED = "Not Found(Request)";//該当するリクエストがないとき(呼ばれることはないはず)
     public final static String USER = "Duplication(user)";//アカウント作成時のみ投げます(user重複)
     public final static String MAC = "Dupilicaion(mac)";//アカウント作成時のみ投げます(mac重複)
+    public final static String LIM = "limit";//アカウント作成時のみ投げます(mac重複)
+
 
 
     ClientConnect() throws Exception{
@@ -184,7 +186,7 @@ public class ClientConnect{
         }
     }
 
-    Boolean makeEvent(ClientEvent event,int day,int month,int start, int end) throws Exception { //イベント作成(返り値変更)
+    void makeEvent(ClientEvent event,int day,int month,int start, int end) throws Exception { //イベント作成(返り値変更)
         Message tmp = new Message(this.id,this.pass,9);
         tmp.message = event;
         int[] it = {day,month,start,end};
@@ -195,7 +197,9 @@ public class ClientConnect{
         } catch (Exception e) {
             throw e;
         }
-        return (Boolean)ans.message;
+        if((Boolean)ans.message==false) {
+            throw  new Exception(LIM);
+        }
     }
 
     void editEvent(ClientEvent event) throws Exception { //イベント編集
