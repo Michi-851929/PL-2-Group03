@@ -81,7 +81,7 @@ public class Community implements Serializable{
             retval = RETURN_TAG_FULL; //tagに空きがないときは2が返り値になる
             //タグを追加する枠を探す
             for(int i = 0; i<TAG_MAXNUM;i++) {
-                if(com_tag[i].equals(null)) {
+                if(com_tag[i]== null) {
                     //タグに空きがあったら
                     com_tag[i] = new_tag;//タグを設定
                     retval = RETURN_OK; //正常に処理が出来たことを示す返り値0に設定
