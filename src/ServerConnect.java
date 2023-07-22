@@ -5,7 +5,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -266,10 +265,6 @@ class ConnectThread extends Thread{
                 }else {
                     ans.mode = 5;
                 }
-            }
-            if(m.mode==3) {
-            System.out.println(tmp.getLastCheckTime());
-            System.out.println(LocalDateTime.now());
             }
         }
 
