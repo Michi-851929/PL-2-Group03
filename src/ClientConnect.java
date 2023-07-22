@@ -115,9 +115,8 @@ public class ClientConnect{
         return (Community)ans.message;
     }
 
-   Account getAccount(String name) throws Exception { //アカウント取得
+   Account getOwnAccount() throws Exception { //アカウント取得
         Message tmp = new Message(this.id,this.pass,3);
-        tmp.message = name;
         Message ans = null;
         try {
             ans = post(tmp);
