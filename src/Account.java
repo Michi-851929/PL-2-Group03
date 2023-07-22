@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
 public class Account implements Serializable{
     private String name;
@@ -203,21 +204,22 @@ public class Account implements Serializable{
     
     public boolean getEventMakeSig(Server se) //いいね数からイベント作成できるかを判断
     {
+        ResourceBundle rb = ResourceBundle.getBundle("Border");
         int total_good=0;
         int limit_eventnum;
         for(String event_id : this.event_made) {
             total_good+=se.getEvent(event_id).getGood();
         }
-        if(total_good<10) {
-            limit_eventnum=2;
-        }else if(total_good<50) {
-            limit_eventnum=5;
-        }else if(total_good<100) {
-            limit_eventnum=10;
-        }else if(total_good<500) {
-            limit_eventnum=20;
+        if(total_good<Integer.parseInt(rb.getString("line1"))) {
+            limit_eventnum=Integer.parseInt(rb.getString("limit1"));
+        }else if(total_good<Integer.parseInt(rb.getString("line2"))) {
+            limit_eventnum=Integer.parseInt(rb.getString("limit2"));
+        }else if(total_good<Integer.parseInt(rb.getString("line3"))) {
+            limit_eventnum=Integer.parseInt(rb.getString("limit3"));
+        }else if(total_good<Integer.parseInt(rb.getString("line4"))) {
+            limit_eventnum=Integer.parseInt(rb.getString("limit4"));
         }else {
-            limit_eventnum=30;
+            limit_eventnum=Integer.parseInt(rb.getString("limit5"));
         }
         se.stdout("limit_eventnum : " + Integer.toString(limit_eventnum));
         se.stdout("total_good : " + Integer.toString(total_good));
