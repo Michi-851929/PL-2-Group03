@@ -8,6 +8,7 @@ import java.security.KeyStore;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -19,15 +20,15 @@ public class ServerConnect{
     SSLServerSocketFactory sf;
     Server se;
     ServerConnect(Server server) throws Exception{
-
-
-        try (FileInputStream fis = new FileInputStream(Certificate.name);){
+        ResourceBundle rb = ResourceBundle.getBundle("Certificate");
+        
+        try (FileInputStream fis = new FileInputStream(rb.getString("path"));){
             KeyStore ks;
             KeyManagerFactory kmf;
             ks = KeyStore.getInstance("pkcs12");
-            ks.load(fis,Certificate.pass.toCharArray());
+            ks.load(fis,rb.getString("pass").toCharArray());
             kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            kmf.init(ks,Certificate.pass.toCharArray());
+            kmf.init(ks,rb.getString("pass").toCharArray());
             SSLContext tls  = SSLContext.getInstance("TLSv1.3");
             tls.init(kmf.getKeyManagers(),null,null);
             sf = tls.getServerSocketFactory();
@@ -42,7 +43,8 @@ public class ServerConnect{
 
     void run() throws Exception {
         this.mode = 1;
-        SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(ConnectName.port);//これをコメントアウト
+        ResourceBundle rb = ResourceBundle.getBundle("Connect");
+        SSLServerSocket ssss = (SSLServerSocket)sf.createServerSocket(Integer.parseInt(rb.getString("port")));//これをコメントアウト
         //ServerSocket ssss = new ServerSocket(ConnectName.port);
         try {
             while(this.mode == 1) {

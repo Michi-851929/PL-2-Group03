@@ -4,6 +4,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -39,8 +40,9 @@ public class ClientConnect{
         pass = null;
     }
     static Message post(Object o) throws Exception{
+        ResourceBundle rb = ResourceBundle.getBundle("Connect");
         try {
-            Socket s = sslf.createSocket(ConnectName.name,ConnectName.port);//これをコメントアウト
+            Socket s = sslf.createSocket(rb.getString("name"),Integer.parseInt(rb.getString("port")));//これをコメントアウト
             //Socket s = new Socket(ConnectName.name,ConnectName.port);
             OutputStream os = s.getOutputStream();
             InputStream is = s.getInputStream();
