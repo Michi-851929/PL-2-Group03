@@ -18,7 +18,7 @@ public class Account implements Serializable{
     //パスワード認証の戻り値を表す定数
     public final static int PASS_CORRECT = 1; //正しい
     public final static int PASS_FALSE = 0; //正しくない
-    
+
     private Calendar today = Calendar.getInstance();
 
     //コンストラクタ
@@ -73,9 +73,9 @@ public class Account implements Serializable{
 
         return time;
     }
-    
+
     public int[] getLastCheckInt(){
-    	return lastcheck;
+        return lastcheck;
     }
 
     public void setLastCheckTime()
@@ -166,42 +166,42 @@ public class Account implements Serializable{
     {
         return event_preferred;
     }
-    
+
     //あるイベントに参加しているか
     public boolean getAEventGoing(String s) {
-    	for(String str: event_going) {
-    		if(str.equals(s)) {
-    			return true;
-    		}
-    	}
-    	return false;
+        for(String str: event_going) {
+            if(str.equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     //あるイベントにいいねしているか
     public boolean getAEventPreferrd(String s) {
-    	for(String str: event_preferred) {
-    		if(str.equals(s)) {
-    			return true;
-    		}
-    	}
-    	return false;
+        for(String str: event_preferred) {
+            if(str.equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     //作成したイベントを追加
     public void addEventMade(String event) {
-    	event_made.add(event);
+        event_made.add(event);
     }
     //作成したイベントを取得
     public ArrayList<String> getEventMade()
     {
         return event_made;
     }
-    
+
     //作成したイベントの総数を取得
     public int getTotalEventMade() {
-    	return event_made.size();
+        return event_made.size();
     }
-    
+
     public boolean getEventMakeSig(Server se) //いいね数からイベント作成できるかを判断
     {
         ResourceBundle rb = ResourceBundle.getBundle("Border");
@@ -221,8 +221,6 @@ public class Account implements Serializable{
         }else {
             limit_eventnum=Integer.parseInt(rb.getString("limit5"));
         }
-        se.stdout("limit_eventnum : " + Integer.toString(limit_eventnum));
-        se.stdout("total_good : " + Integer.toString(total_good));
 
         if(today_eventnum<limit_eventnum) {
             today_eventnum++;
