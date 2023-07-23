@@ -56,9 +56,9 @@ public class ServerDriver {
         System.out.println();
         System.out.println("///コミュニティ加入脱退テスト///");
         server.joinCommunity("PL-2-Group03", "ADMIN");
-        System.out.println("コミュニティ加入                     :" + (server.getAccount("ADMIN").getCommunity()[0] == "PL-2-Group03"));
+        System.out.println("コミュニティ加入                     :" + (server.getAccount("ADMIN").getCommunity()[1] == "PL-2-Group03"));
         server.quitCommunity("PL-2-Group03", "ADMIN");
-        System.out.println("コミュニティ脱退                     :" + (server.getAccount("ADMIN").getCommunity().length == 0));
+        System.out.println("コミュニティ脱退                     :" + (server.getAccount("ADMIN").getCommunity().length == 1));
 
         //イベント作成テスト
         System.out.println();
