@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class CommunityDriver {
 
@@ -90,7 +91,15 @@ public class CommunityDriver {
         comd.remMember("user");
         System.out.println("getPopulation出力: "+comd.getPopulation());
         System.out.println();
+        
+        System.out.println("getCalendarMonthで2023年7月のCalendarMonthを取得できることを確認します");
+        CalendarMonth clm = comd.getCalendarMonth(2023,7);
+        System.out.println("取得したCalendarMonthの月: "+clm.getMonth()+", 年: "+clm.getYear());;
+        System.out.println();
 
+        System.out.println("getCalendarArrayでCalendarMonthのArrayListを取得できることを確認します");
+        ArrayList<CalendarMonth> aclm = comd.getCalendarArray();
+        System.out.println("CalenderMonthのArrayListのサイズ: "+aclm.size());
 
     }
 
