@@ -28,10 +28,10 @@ public class ServerDriver {
         System.out.println("既存コミュニティの作成可否           :" + (server.isCreatableCommunity("PL-2-Group03") == Server.DUPLICATE_NAME));
         //コミュニティオブジェクト
         String[] tags = {"横浜国立大学", "情報"};
-        Community community = new Community("PL-2-Group03", "ADMIN", "プロジェクトラーニングのチーム", tags);
+        Community community = new Community("NewCommunity", "ADMIN", "プロジェクトラーニングのチーム", tags);
         if(server.isCreatableCommunity(community.getName()) == Server.DUPLICATE_NOT) {
             server.createCommunity(community);
-            System.out.println("コミュニティを作成しました");
+            System.out.println("コミュニティの作成                   :" + (server.isCreatableCommunity("NewCommunity") == Server.DUPLICATE_NAME));
         }
 
         //コミュニティ検索テスト
@@ -41,12 +41,16 @@ public class ServerDriver {
         for(Community c : server.searchCommunity("PL")) {
             System.out.println("    ・" + c.getName());
         }
+        System.out.println("\"PL New\"の検索結果");
+        for(Community c : server.searchCommunity("PL New")) {
+            System.out.println("    ・" + c.getName());
+        }
 
         //コミュニティ削除テスト
         System.out.println();
         System.out.println("///コミュニティ削除テスト///");
-        server.removeCommunity("DELETE_COMMUNITY");
-        System.out.println("コミュニティ削除                     :" + server.getCommunity("DELETE_COMMUNITY").getName().equals(""));
+        server.removeCommunity("NewCommunity");
+        System.out.println("コミュニティ削除                     :" + server.getCommunity("NewCommunity").getName().equals(""));
 
         //コミュニティ加入脱退テスト
         System.out.println();
