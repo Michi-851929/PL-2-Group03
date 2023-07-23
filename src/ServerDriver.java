@@ -45,7 +45,8 @@ public class ServerDriver {
         //コミュニティ削除テスト
         System.out.println();
         System.out.println("///コミュニティ削除テスト///");
-        //server.removeCommunity("DF");
+        server.removeCommunity("DELETE_COMMUNITY");
+        System.out.println("コミュニティ削除                     :" + server.getCommunity("DELETE_COMMUNITY").getName().equals(""));
 
         //コミュニティ加入脱退テスト
         System.out.println();
@@ -68,6 +69,10 @@ public class ServerDriver {
             else {
                 System.out.println("イベントの作成                       :" + server.createEvent(event, 2023, 1, 1, 3));
                 id[i] = event.getEventId();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                }
             }
         }
 
@@ -98,8 +103,8 @@ public class ServerDriver {
         System.out.println();
         System.out.println("///イベント削除テスト///");
         server.deleteEvent(id[1], 2023, 1);
-        System.out.println("イベントの削除                       :" + (server.getCommunity("PL-2-Group03").getCalendarMonth(2023, 1).getEventList().get(0).size() == 0));
-        for(int i = 0; i < 10; i++) {
+        System.out.println("イベントの削除                       :" + (server.getCommunity("PL-2-Group03").getCalendarMonth(2023, 1).getEventList().get(0).size() == 1));
+        for(int i = 0; i < 11; i++) {
             server.reportEvent(id[0], 2023, 1);
         }
         System.out.println("イベントの削除(イベント通報)         :" + (server.getCommunity("PL-2-Group03").getCalendarMonth(2023, 1).getEventList().get(0).size() == 0));
