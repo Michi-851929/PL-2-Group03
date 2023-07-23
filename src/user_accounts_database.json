@@ -1,75 +1,32 @@
 [
   {
     "name": "ADMIN",
-    "password": "a",
+    "password": "665b96d2f2f2e5e198bd3165924f8fdff6611fa9166a32ad942c9f00a936ac37",
     "mac_adress": "",
     "is_banned": false,
     "lastcheck": [
       2023,
       7,
+      23,
       22,
+      19,
       21,
-      55,
-      30,
-      183062800
+      287008500
     ],
-    "community_involved": [
-      "DF"
-    ],
+    "community_involved": [],
     "event_going": [],
     "event_preferred": [],
-    "event_made": [
-      "5ea57ec7d304be785eab5cfb98d53924c44d6887d9eefb8cc19004655130f4e8",
-      "bb54f1ca89364b58eaf4aacb06b5db1d709b4f0f13cd73882e0a13ed51c6b5aa"
-    ],
-    "today_eventnum": 2,
+    "event_made": [],
+    "SALT_FRONT": "f784ge8fiawurfheshrtawt8uwt8h4yd",
+    "SALT_BACK": "u8ofhaeioniqahriawrfjarfaifbdurg",
+    "today_eventnum": 0,
     "today": {
       "year": 2023,
       "month": 6,
-      "dayOfMonth": 21,
-      "hourOfDay": 0,
-      "minute": 0,
-      "second": 0
+      "dayOfMonth": 23,
+      "hourOfDay": 22,
+      "minute": 19,
+      "second": 3
     }
-  },
-  {
-    "name": "aoki",
-    "password": "1",
-    "mac_adress": "6C-A1-00-5C-40-46",
-    "is_banned": false,
-    "lastcheck": [
-      2023,
-      7,
-      21,
-      21,
-      57,
-      57,
-      255332100
-    ],
-    "community_involved": [],
-    "event_going": [],
-    "event_preferred": [],
-    "event_made": [],
-    "today_eventnum": 0
-  },
-  {
-    "name": "zono",
-    "password": "123",
-    "mac_adress": "BC-17-B8-95-0C-1D",
-    "is_banned": false,
-    "lastcheck": [
-      2023,
-      7,
-      21,
-      22,
-      21,
-      3,
-      566338600
-    ],
-    "community_involved": [],
-    "event_going": [],
-    "event_preferred": [],
-    "event_made": [],
-    "today_eventnum": 0
   }
 ]
