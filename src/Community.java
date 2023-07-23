@@ -31,7 +31,7 @@ public class Community implements Serializable{
         com_calendar = new ArrayList<>();
         //CALENDAR_YEARS年分のCalendarMonthを生成
         for(int i = 1; i<=12*CALENDAR_YEARS;i++) {
-            com_calendar.add(new CalendarMonth(FIRST_YEAR+(i/12), i%12));
+            com_calendar.add(new CalendarMonth(FIRST_YEAR+(i/12), (i-1)%12+1));
         }
     }
 
