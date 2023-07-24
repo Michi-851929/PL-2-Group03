@@ -164,16 +164,16 @@ public class ClientConnect{
         return (Boolean) ans.message;
     }
 
-    int report(String event_id,int year,int month) throws Exception { //イベント通報
+    void report(String event_id,int year,int month) throws Exception { //イベント通報
         Message tmp = new Message(this.id,this.pass,7);
+        int[] i = {year,month};
         tmp.message = event_id;
-        Message ans = null;
+        tmp.message2 = i;
         try {
-            ans = post(tmp);
+           post(tmp);
         } catch (Exception e) {
             throw e;
         }
-        return (int) ans.message;
     }
 
     void sendMessage(String event_id,String message) throws Exception{ //メッセージ送信

@@ -2721,7 +2721,7 @@ public class Client extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 ce.increaseReport();
                 try {
-                    cc.editEvent(ce);
+                    cc.report(ce.getEventId(),ui_ld_looking.getYear(),ui_ld_looking.getMonthValue());
                 } catch (Exception e) {
                     String error = e.getMessage();
                     if(error.equals(ClientConnect.NOT_FOUND)) {

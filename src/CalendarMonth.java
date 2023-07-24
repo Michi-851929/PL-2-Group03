@@ -50,7 +50,7 @@ public class CalendarMonth implements Serializable{
     //イベントを削除する
     public void removeEvent(String rem_event_id) {
         for(int i = 0; i<31;i++) {
-            ArrayList<String> tmp_eventlist=  cm_events.get(1);
+            ArrayList<String> tmp_eventlist=  cm_events.get(i);
             for(int j = 0; j < tmp_eventlist.size(); j++) {
                 if(tmp_eventlist.get(j).equals(rem_event_id)){ //ClientEventクラスのeve_idの取得メソッドができたら書き換える
                     tmp_eventlist.remove(j);
