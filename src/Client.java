@@ -593,6 +593,22 @@ public class Client extends JFrame {
 
         ui_panel_00.add(ui_panel_01);
 
+        JButton ui_jb_reload = new JButton("");
+        ui_jb_reload.setBounds(30, 13, 50, 50);
+        ui_jb_reload.setBackground(THEME_COLOR);
+        ui_jb_reload.setForeground(THEME_COLOR);
+        ui_jb_reload.setOpaque(true);
+        ui_jb_reload.setMargin(new Insets(0,0,0,0));
+        ui_jb_reload.setBorderPainted(false);
+        ui_jb_reload.setIcon(new ImageIcon("src/reload.png"));
+        ui_jb_reload.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                getNewMessage();
+                calendarScreen();
+            }
+        });
+        ui_panel_01.add(ui_jb_reload);
+
         JButton ui_jb_search = new JButton("");
         ui_jb_search.setBounds(520, 13, 50, 50);
         ui_jb_search.setBackground(THEME_COLOR);
