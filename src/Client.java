@@ -3530,7 +3530,7 @@ public class Client extends JFrame {
         ui_jb_make.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JDialog eventDialog = new JDialog();
-                eventDialog.setTitle("イベント作成");
+                eventDialog.setTitle("コミュニティ作成");
                 eventDialog.setModal(true); // モーダルダイアログとして設定
                 eventDialog.setSize(500, 500);
                 eventDialog.setLocationRelativeTo(null); // 中央に配置
