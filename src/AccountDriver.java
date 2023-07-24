@@ -3,6 +3,7 @@ import java.util.Arrays;
 public class AccountDriver {
 
     public static void main(String[] args) {
+        Server server = new Server();
         Account account = new Account("名前", "パスワード", "MACアドレス");
         System.out.println("テスト用のAccountを作成しました");
         System.out.println("getUserName出力：" + account.getUserName());
@@ -64,11 +65,19 @@ public class AccountDriver {
         System.out.println("getAEventPreferrd出力(引数「イベント名」)：" + account.getAEventPreferrd("イベント名"));
         System.out.println();
         
+        System.out.println("getEventMakeSigでイベント作成ができることを確認します");
+        System.out.println("getEventMakeSig出力：" + account.getEventMakeSig(server));
         System.out.println("addEventMadeで「イベント名」を入力します");
         account.addEventMade("イベント名");
         System.out.println("getEventMade出力：" + account.getEventMade());
         System.out.println("getTotalEventMadeで1が返ってくることを確認します");
         System.out.println("getTotalEventMade出力：" + account.getTotalEventMade());
+        System.out.println("もう一つイベントを作成しました");
+        account.getEventMakeSig(server);
+        account.addEventMade("イベント名");
+        System.out.println("getTotalEventMade出力：" + account.getTotalEventMade());
+        System.out.println("getEventMakeSigでイベント作成ができないことを確認します");
+        System.out.println("getEventMakeSig出力：" + account.getEventMakeSig(server));
         System.out.println();
         
         System.out.println("getTodayで日付（時分秒切り捨て）を取得します");
