@@ -432,6 +432,7 @@ public class Server extends JFrame implements ActionListener{
     {
         community_list.add(community);
         getAccount(community.getOwner()).addCommunity(community.getName());
+        community.addMember(community.getOwner());
         stdout("createCommunity: " + community.getName() + " by " + community.getOwner());
     }
 
