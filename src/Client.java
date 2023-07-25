@@ -101,6 +101,12 @@ public class Client extends JFrame {
     public final static int FRIDAY = 5;
     public final static int SATURDAY = 6;
     public final static int SUNDAY = 7;
+    public final static String BACK = "src/back.png";
+    public final static String BLUEIINE = "src/blueiine.png";
+    public final static String MINILOGO = "src/minilogo.png";
+    public final static String RELOAD = "src/reload.png";
+    public final static String SEARCH = "src/search.png";
+    public final static String WHITEIINE = "src/whiteiine.png";
 
     private String username;
     private String password;
@@ -158,7 +164,7 @@ public class Client extends JFrame {
                     g.setColor(Color.WHITE);
                     g.fillRect(0, 10, 20, 10);
                     */
-                    ui_ticon = new TrayIcon(new ImageIcon("src/minilogo.png").getImage(), "Communi+I", popup);
+                    ui_ticon = new TrayIcon(new ImageIcon(MINILOGO).getImage(), "Communi+I", popup);
                     MenuItem ui_mi_open = new MenuItem("開く");
                     ui_mi_open.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ae)
@@ -600,7 +606,7 @@ public class Client extends JFrame {
         ui_jb_reload.setOpaque(true);
         ui_jb_reload.setMargin(new Insets(0,0,0,0));
         ui_jb_reload.setBorderPainted(false);
-        ui_jb_reload.setIcon(new ImageIcon("src/reload.png"));
+        ui_jb_reload.setIcon(new ImageIcon(RELOAD));
         ui_jb_reload.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 getNewMessage();
@@ -616,7 +622,7 @@ public class Client extends JFrame {
         ui_jb_search.setOpaque(true);
         ui_jb_search.setMargin(new Insets(0,0,0,0));
         ui_jb_search.setBorderPainted(false);
-        ui_jb_search.setIcon(new ImageIcon("src/search.png"));
+        ui_jb_search.setIcon(new ImageIcon(SEARCH));
         ui_jb_search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JDialog searchDialog = new JDialog();
@@ -1283,7 +1289,7 @@ public class Client extends JFrame {
                 addflag=0;
             }
         });
-        ui_jb_back.setIcon(new ImageIcon("src/back.png"));
+        ui_jb_back.setIcon(new ImageIcon(BACK));
         ui_panel_01.add(ui_jb_back);
 
         // ボタン追加：右上に追加するボタン
@@ -2102,7 +2108,7 @@ public class Client extends JFrame {
                 dateScreen();
             }
         });
-        ui_jb_back.setIcon(new ImageIcon("src/back.png"));
+        ui_jb_back.setIcon(new ImageIcon(BACK));
         // ボタンの余白を調整
         ui_jb_back.setMargin(new Insets(0, 0, 0, 0));
 
@@ -2774,9 +2780,9 @@ public class Client extends JFrame {
 
         // いいねボタン
         ImageIcon iine;
-        ImageIcon blueIine = new ImageIcon("src/blueiine.png");
-        ImageIcon whiteIine = new ImageIcon("src/whiteiine.png");
-        //Image blueIineImg = Toolkit.getDefaultToolkit().getImage("blueiine.png");
+        ImageIcon blueIine = new ImageIcon(BLUEIINE);
+        ImageIcon whiteIine = new ImageIcon(WHITEIINE);
+        //Image blueIineImg = Toolkit.getDefaultToolkit().getImage(BLUEIINE);
         JButton goodButton = new JButton("いいね "+ce.getGood());
         goodButton.setContentAreaFilled(false);
         goodButton.setBorderPainted(false);
@@ -3323,7 +3329,7 @@ public class Client extends JFrame {
                 userScreen();
             }
         });
-        ImageIcon icon = new ImageIcon("src/back.png");
+        ImageIcon icon = new ImageIcon(BACK);
         backButton.setIcon(icon);
 
         // ボタンの余白を調整
@@ -3501,7 +3507,7 @@ public class Client extends JFrame {
                 userScreen();
             }
         });
-        ui_jb_back.setIcon(new ImageIcon("src/back.png"));
+        ui_jb_back.setIcon(new ImageIcon(BACK));
         ui_panel_00.add(ui_jb_back);
 
         //検索ボタン
@@ -3512,7 +3518,7 @@ public class Client extends JFrame {
         ui_jb_search.setOpaque(true);
         ui_jb_search.setMargin(new Insets(0,0,0,0));
         ui_jb_search.setBorderPainted(false);
-        ui_jb_search.setIcon(new ImageIcon("src/search.png"));
+        ui_jb_search.setIcon(new ImageIcon(SEARCH));
         ui_panel_00.add(ui_jb_search);
 
 
