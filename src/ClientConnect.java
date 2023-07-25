@@ -39,7 +39,7 @@ public class ClientConnect{
         id = null;
         pass = null;
     }
-    static Message post(Object o) throws Exception{
+    static synchronized Message post(Object o) throws Exception{
         ResourceBundle rb = ResourceBundle.getBundle("Connect");
         try {
             Socket s = sslf.createSocket(rb.getString("name"),Integer.parseInt(rb.getString("port")));//これをコメントアウト
